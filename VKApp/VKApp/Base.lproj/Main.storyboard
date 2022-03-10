@@ -4,14 +4,13 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="AutoLayout" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -19,48 +18,60 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4U0-Ex-DQb">
                                 <rect key="frame" x="0.0" y="44" width="428" height="848"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fjF-1M-NbM">
-                                        <rect key="frame" x="190" y="10" width="48" height="32"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vk_id_icon" translatesAutoresizingMaskIntoConstraints="NO" id="fjF-1M-NbM">
+                                        <rect key="frame" x="198" y="10" width="32" height="24"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="48" id="e5M-U6-AAu"/>
-                                            <constraint firstAttribute="height" constant="32" id="o32-6y-etR"/>
+                                            <constraint firstAttribute="width" constant="32" id="e5M-U6-AAu"/>
+                                            <constraint firstAttribute="height" constant="24" id="o32-6y-etR"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GvP-SU-but">
-                                        <rect key="frame" x="182" y="171" width="64" height="64"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vk_auth_icon" translatesAutoresizingMaskIntoConstraints="NO" id="GvP-SU-but">
+                                        <rect key="frame" x="182" y="206" width="64" height="64"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="64" id="J3J-RU-mw2"/>
                                             <constraint firstAttribute="width" constant="64" id="z3m-AJ-v46"/>
                                         </constraints>
                                     </imageView>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email или телефон" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zqd-FQ-LZv">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email или телефон" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="zqd-FQ-LZv">
                                         <rect key="frame" x="20" y="390" width="388" height="34"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <color key="backgroundColor" red="0.94509803920000002" green="0.95294117649999999" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" textContentType="email"/>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Пароль" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hXq-lU-ml0">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Пароль" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="hXq-lU-ml0">
                                         <rect key="frame" x="20" y="424" width="388" height="34"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <color key="backgroundColor" red="0.94509803920000002" green="0.95294117649999999" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" textContentType="password"/>
+                                        <connections>
+                                            <action selector="enableLoginButton:" destination="BYZ-38-t0r" eventType="editingChanged" id="ywz-hX-hxB"/>
+                                        </connections>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Miw-kq-ohz">
-                                        <rect key="frame" x="20" y="478" width="388" height="31"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Войти"/>
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Miw-kq-ohz">
+                                        <rect key="frame" x="20" y="478" width="388" height="34.333333333333371"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Войти">
+                                            <fontDescription key="titleFontDescription" type="system" pointSize="17"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="loginButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ABg-bg-R1A"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="zqd-FQ-LZv" firstAttribute="leading" secondItem="4U0-Ex-DQb" secondAttribute="leading" constant="20" id="48q-Km-Tdv"/>
+                                    <constraint firstItem="zqd-FQ-LZv" firstAttribute="top" secondItem="GvP-SU-but" secondAttribute="bottom" priority="750" constant="30" id="55m-cu-Yuf"/>
                                     <constraint firstItem="fjF-1M-NbM" firstAttribute="top" secondItem="4U0-Ex-DQb" secondAttribute="top" constant="10" id="5UO-yI-gz6"/>
                                     <constraint firstItem="hXq-lU-ml0" firstAttribute="top" secondItem="zqd-FQ-LZv" secondAttribute="bottom" priority="750" id="7XU-QP-xvd"/>
                                     <constraint firstAttribute="trailing" secondItem="zqd-FQ-LZv" secondAttribute="trailing" constant="20" id="7ck-gY-76t"/>
-                                    <constraint firstItem="zqd-FQ-LZv" firstAttribute="top" secondItem="GvP-SU-but" secondAttribute="bottom" priority="750" constant="136" id="E7E-yl-SUc"/>
+                                    <constraint firstItem="zqd-FQ-LZv" firstAttribute="top" secondItem="GvP-SU-but" secondAttribute="bottom" priority="750" constant="120" id="E7E-yl-SUc"/>
                                     <constraint firstItem="hXq-lU-ml0" firstAttribute="leading" secondItem="4U0-Ex-DQb" secondAttribute="leading" constant="20" symbolic="YES" id="EFY-7K-gtp"/>
                                     <constraint firstItem="GvP-SU-but" firstAttribute="centerX" secondItem="4U0-Ex-DQb" secondAttribute="centerX" id="GtO-UF-iMW"/>
                                     <constraint firstItem="hXq-lU-ml0" firstAttribute="width" secondItem="zqd-FQ-LZv" secondAttribute="width" id="IIO-DS-Wol"/>
                                     <constraint firstAttribute="bottom" secondItem="Miw-kq-ohz" secondAttribute="bottom" constant="20" id="LKx-9C-J63"/>
+                                    <constraint firstItem="GvP-SU-but" firstAttribute="top" relation="greaterThanOrEqual" secondItem="fjF-1M-NbM" secondAttribute="bottom" constant="10" id="UaE-4f-fQM"/>
                                     <constraint firstItem="Miw-kq-ohz" firstAttribute="leading" secondItem="4U0-Ex-DQb" secondAttribute="leading" constant="20" id="VED-g6-9JT"/>
                                     <constraint firstItem="hXq-lU-ml0" firstAttribute="centerY" secondItem="4U0-Ex-DQb" secondAttribute="centerY" constant="17" id="VTH-dQ-YDf"/>
-                                    <constraint firstItem="GvP-SU-but" firstAttribute="top" secondItem="fjF-1M-NbM" secondAttribute="bottom" multiplier="0.5" constant="150" id="YfT-mS-k5b" userLabel="Image View.top = 0.4 * Image View.bottom + 247"/>
+                                    <constraint firstItem="GvP-SU-but" firstAttribute="top" relation="greaterThanOrEqual" secondItem="fjF-1M-NbM" secondAttribute="bottom" constant="50" id="YfT-mS-k5b" userLabel="Image View.top = Image View.bottom + 50"/>
                                     <constraint firstItem="zqd-FQ-LZv" firstAttribute="centerY" secondItem="4U0-Ex-DQb" secondAttribute="centerY" constant="-17" id="c9W-cu-uMx"/>
                                     <constraint firstAttribute="trailing" secondItem="Miw-kq-ohz" secondAttribute="trailing" constant="20" id="nnE-iQ-Ne0"/>
                                     <constraint firstItem="fjF-1M-NbM" firstAttribute="centerX" secondItem="4U0-Ex-DQb" secondAttribute="centerX" id="u2d-Ms-qNm"/>
@@ -73,10 +84,24 @@
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="jVQ-Xw-Zqw"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="NDL-78-9vY"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="UaE-4f-fQM"/>
+                                        <exclude reference="55m-cu-Yuf"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="UaE-4f-fQM"/>
+                                        <exclude reference="YfT-mS-k5b"/>
+                                        <include reference="55m-cu-Yuf"/>
+                                        <exclude reference="E7E-yl-SUc"/>
+                                    </mask>
+                                </variation>
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                        <color key="backgroundColor" red="0.99607843139999996" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="4U0-Ex-DQb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="0EU-Ym-ygm"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="4U0-Ex-DQb" secondAttribute="bottom" id="GUE-06-EfQ"/>
@@ -84,15 +109,20 @@
                             <constraint firstItem="4U0-Ex-DQb" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="cPA-Gt-KsY"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="loginButton" destination="Miw-kq-ohz" id="XNr-ih-9hj"/>
+                        <outlet property="loginTF" destination="zqd-FQ-LZv" id="4qn-4u-K6o"/>
+                        <outlet property="passwordTF" destination="hXq-lU-ml0" id="fxL-eb-ETh"/>
+                        <outlet property="uiScrollView" destination="4U0-Ex-DQb" id="URk-1b-rCl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="18.840579710144929" y="83.705357142857139"/>
+            <point key="canvasLocation" x="300" y="89"/>
         </scene>
     </scenes>
     <resources>
-        <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
+        <image name="vk_auth_icon" width="341.33334350585938" height="341.33334350585938"/>
+        <image name="vk_id_icon" width="60.333332061767578" height="29.333333969116211"/>
     </resources>
 </document>

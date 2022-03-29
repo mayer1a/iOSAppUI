@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -180,43 +180,46 @@
         <!--Друзья-->
         <scene sceneID="yB2-2J-l4N">
             <objects>
-                <tableViewController id="R4i-1D-Dgb" sceneMemberID="viewController">
+                <tableViewController id="R4i-1D-Dgb" customClass="FriendsTableViewController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="yyB-Dy-Buj">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FriendsCell" rowHeight="72" id="91H-Rk-Uaw">
-                                <rect key="frame" x="0.0" y="44.5" width="414" height="72"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FriendCell" rowHeight="92" id="91H-Rk-Uaw" customClass="FriendsTableViewCell" customModule="VKApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="92"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="91H-Rk-Uaw" id="4oG-mT-wOs">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="72"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="92"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hgp-a5-dy5" customClass="PreviewImageView" customModule="VKApp">
-                                            <rect key="frame" x="10" y="0.0" width="72" height="72"/>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hgp-a5-dy5" customClass="CircularPreviewImageView" customModule="VKApp">
+                                            <rect key="frame" x="10" y="10" width="72" height="72"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="72" id="IwS-69-XBy"/>
                                                 <constraint firstAttribute="height" constant="72" id="f1s-48-Icw"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k3e-Df-2Af">
-                                            <rect key="frame" x="102" y="25.5" width="272" height="21"/>
+                                            <rect key="frame" x="102" y="35.5" width="272" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="hgp-a5-dy5" secondAttribute="bottom" constant="10" id="2rw-Kd-7Dp"/>
                                         <constraint firstItem="hgp-a5-dy5" firstAttribute="leading" secondItem="4oG-mT-wOs" secondAttribute="leading" constant="10" id="WNg-Kt-QGc"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="k3e-Df-2Af" secondAttribute="trailing" constant="20" id="cQU-OG-CaN"/>
                                         <constraint firstItem="k3e-Df-2Af" firstAttribute="leading" secondItem="hgp-a5-dy5" secondAttribute="trailing" constant="20" id="mmq-hN-81G"/>
                                         <constraint firstItem="k3e-Df-2Af" firstAttribute="centerY" secondItem="4oG-mT-wOs" secondAttribute="centerY" id="tTY-OR-tCr"/>
-                                        <constraint firstItem="hgp-a5-dy5" firstAttribute="top" secondItem="4oG-mT-wOs" secondAttribute="top" id="zMg-FN-4TL"/>
+                                        <constraint firstItem="hgp-a5-dy5" firstAttribute="top" secondItem="4oG-mT-wOs" secondAttribute="top" constant="10" id="zMg-FN-4TL"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="3wC-E3-Dca" kind="show" id="hdZ-1x-AWE"/>
+                                    <outlet property="friendImage" destination="hgp-a5-dy5" id="e5r-vv-NVH"/>
+                                    <outlet property="friendName" destination="k3e-Df-2Af" id="D3d-nH-7gu"/>
+                                    <segue destination="3wC-E3-Dca" kind="show" identifier="ShowFriendPhotos" id="hdZ-1x-AWE"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -247,7 +250,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="72"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BGv-Ct-x8W" customClass="PreviewImageView" customModule="VKApp">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BGv-Ct-x8W" customClass="CircularPreviewImageView" customModule="VKApp">
                                             <rect key="frame" x="10" y="0.0" width="72" height="72"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="72" id="Xs3-kl-fry"/>
@@ -304,7 +307,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="72"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VpU-DD-4M7" customClass="PreviewImageView" customModule="VKApp">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VpU-DD-4M7" customClass="CircularPreviewImageView" customModule="VKApp">
                                             <rect key="frame" x="10" y="0.0" width="72" height="72"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="72" id="Kv5-w0-xR6"/>
@@ -356,29 +359,29 @@
             </objects>
             <point key="canvasLocation" x="1990" y="414"/>
         </scene>
-        <!--Collection View Controller-->
+        <!--Friend Photos Collection View Controller-->
         <scene sceneID="jzj-z2-tGc">
             <objects>
-                <collectionViewController id="3wC-E3-Dca" sceneMemberID="viewController">
+                <collectionViewController id="3wC-E3-Dca" customClass="FriendPhotosCollectionViewController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Pbd-Ml-3b7">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="7tV-IU-KoE">
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="h73-N4-Zi0">
                             <size key="itemSize" width="128" height="128"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FriendsPhotosViewCell" id="5Nk-02-ZLk">
-                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FriendPhotoViewCell" id="5Nk-02-ZLk" customClass="FriendPhotoCollectionViewCell" customModule="VKApp">
+                                <rect key="frame" x="10" y="10" width="128" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="sRO-SO-0Fh">
                                     <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="end-1I-j1W">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="end-1I-j1W">
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="128" id="Zky-bw-Fg7"/>
@@ -390,6 +393,25 @@
                                         <constraint firstItem="end-1I-j1W" firstAttribute="leading" secondItem="sRO-SO-0Fh" secondAttribute="leading" id="3jd-eh-9o9"/>
                                         <constraint firstItem="end-1I-j1W" firstAttribute="top" secondItem="sRO-SO-0Fh" secondAttribute="top" id="yXZ-2R-Mj4"/>
                                     </constraints>
+                                </collectionViewCellContentView>
+                                <connections>
+                                    <outlet property="friendPhoto" destination="end-1I-j1W" id="Aqy-Si-8Vi"/>
+                                </connections>
+                            </collectionViewCell>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="isb-OU-cbz">
+                                <rect key="frame" x="276" y="10" width="128" height="128"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Cff-GA-wv9">
+                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </collectionViewCellContentView>
+                            </collectionViewCell>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="5XI-0a-3T2">
+                                <rect key="frame" x="10" y="148" width="128" height="128"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="wq2-1M-kNP">
+                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                    <autoresizingMask key="autoresizingMask"/>
                                 </collectionViewCellContentView>
                             </collectionViewCell>
                         </cells>

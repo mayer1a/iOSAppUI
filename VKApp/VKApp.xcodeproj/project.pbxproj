@@ -7,21 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		49B4237927F1C2EB0038EABE /* PreviewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4237827F1C2EB0038EABE /* PreviewImageView.swift */; };
+		498C292027F333160058EAE7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498C291F27F333160058EAE7 /* User.swift */; };
+		498C292227F3340E0058EAE7 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498C292127F3340E0058EAE7 /* Group.swift */; };
+		498C292427F3358F0058EAE7 /* FriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498C292327F3358F0058EAE7 /* FriendsTableViewCell.swift */; };
+		498C292627F34F130058EAE7 /* FriendPhotosCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498C292527F34F130058EAE7 /* FriendPhotosCollectionViewController.swift */; };
+		498C292A27F353970058EAE7 /* FriendPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498C292927F353970058EAE7 /* FriendPhotoCollectionViewCell.swift */; };
+		498F321F27F32E1400FE7EC9 /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498F321E27F32E1400FE7EC9 /* FriendsTableViewController.swift */; };
+		49B4237927F1C2EB0038EABE /* CircularPreviewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4237827F1C2EB0038EABE /* CircularPreviewImageView.swift */; };
 		49D90B7627DA65BE0048866B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7527DA65BE0048866B /* AppDelegate.swift */; };
 		49D90B7827DA65BE0048866B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7727DA65BE0048866B /* SceneDelegate.swift */; };
-		49D90B7A27DA65BE0048866B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7927DA65BE0048866B /* ViewController.swift */; };
+		49D90B7A27DA65BE0048866B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7927DA65BE0048866B /* LoginViewController.swift */; };
 		49D90B7D27DA65BE0048866B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49D90B7B27DA65BE0048866B /* Main.storyboard */; };
 		49D90B7F27DA65C00048866B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49D90B7E27DA65C00048866B /* Assets.xcassets */; };
 		49D90B8227DA65C00048866B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49D90B8027DA65C00048866B /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		49B4237827F1C2EB0038EABE /* PreviewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageView.swift; sourceTree = "<group>"; };
+		498C291F27F333160058EAE7 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		498C292127F3340E0058EAE7 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		498C292327F3358F0058EAE7 /* FriendsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewCell.swift; sourceTree = "<group>"; };
+		498C292527F34F130058EAE7 /* FriendPhotosCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendPhotosCollectionViewController.swift; sourceTree = "<group>"; };
+		498C292927F353970058EAE7 /* FriendPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		498F321E27F32E1400FE7EC9 /* FriendsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
+		49B4237827F1C2EB0038EABE /* CircularPreviewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularPreviewImageView.swift; sourceTree = "<group>"; };
 		49D90B7227DA65BE0048866B /* VKApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49D90B7527DA65BE0048866B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49D90B7727DA65BE0048866B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		49D90B7927DA65BE0048866B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		49D90B7927DA65BE0048866B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		49D90B7C27DA65BE0048866B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		49D90B7E27DA65C00048866B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		49D90B8127DA65C00048866B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -39,6 +51,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		498F321A27F32B0100FE7EC9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				498C291F27F333160058EAE7 /* User.swift */,
+				498C292127F3340E0058EAE7 /* Group.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		498F321B27F32B0E00FE7EC9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				49D90B7B27DA65BE0048866B /* Main.storyboard */,
+				49D90B8027DA65C00048866B /* LaunchScreen.storyboard */,
+				49B4237827F1C2EB0038EABE /* CircularPreviewImageView.swift */,
+				498C292327F3358F0058EAE7 /* FriendsTableViewCell.swift */,
+				498C292927F353970058EAE7 /* FriendPhotoCollectionViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		498F321C27F32B1600FE7EC9 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				49D90B7927DA65BE0048866B /* LoginViewController.swift */,
+				498F321E27F32E1400FE7EC9 /* FriendsTableViewController.swift */,
+				498C292527F34F130058EAE7 /* FriendPhotosCollectionViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		498F321D27F32B3F00FE7EC9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				49D90B7E27DA65C00048866B /* Assets.xcassets */,
+				49D90B8327DA65C00048866B /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		49D90B6927DA65BE0048866B = {
 			isa = PBXGroup;
 			children = (
@@ -60,12 +112,10 @@
 			children = (
 				49D90B7527DA65BE0048866B /* AppDelegate.swift */,
 				49D90B7727DA65BE0048866B /* SceneDelegate.swift */,
-				49D90B7927DA65BE0048866B /* ViewController.swift */,
-				49D90B7B27DA65BE0048866B /* Main.storyboard */,
-				49D90B7E27DA65C00048866B /* Assets.xcassets */,
-				49D90B8027DA65C00048866B /* LaunchScreen.storyboard */,
-				49D90B8327DA65C00048866B /* Info.plist */,
-				49B4237827F1C2EB0038EABE /* PreviewImageView.swift */,
+				498F321C27F32B1600FE7EC9 /* Controllers */,
+				498F321B27F32B0E00FE7EC9 /* Views */,
+				498F321A27F32B0100FE7EC9 /* Models */,
+				498F321D27F32B3F00FE7EC9 /* Resources */,
 			);
 			path = VKApp;
 			sourceTree = "<group>";
@@ -141,10 +191,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49D90B7A27DA65BE0048866B /* ViewController.swift in Sources */,
-				49B4237927F1C2EB0038EABE /* PreviewImageView.swift in Sources */,
+				498C292227F3340E0058EAE7 /* Group.swift in Sources */,
+				49D90B7A27DA65BE0048866B /* LoginViewController.swift in Sources */,
+				49B4237927F1C2EB0038EABE /* CircularPreviewImageView.swift in Sources */,
+				498C292427F3358F0058EAE7 /* FriendsTableViewCell.swift in Sources */,
+				498C292027F333160058EAE7 /* User.swift in Sources */,
 				49D90B7627DA65BE0048866B /* AppDelegate.swift in Sources */,
 				49D90B7827DA65BE0048866B /* SceneDelegate.swift in Sources */,
+				498C292A27F353970058EAE7 /* FriendPhotoCollectionViewCell.swift in Sources */,
+				498C292627F34F130058EAE7 /* FriendPhotosCollectionViewController.swift in Sources */,
+				498F321F27F32E1400FE7EC9 /* FriendsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,7 +351,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 277JX9R2RP;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = VKApp/Info.plist;
+				INFOPLIST_FILE = VKApp/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -324,7 +380,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 277JX9R2RP;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = VKApp/Info.plist;
+				INFOPLIST_FILE = VKApp/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

@@ -154,7 +154,7 @@
 				491A1C7B27F4BEF7009287E2 /* RaftingOnRivers.jpg */,
 				491A1C7A27F4BEF7009287E2 /* RingsToOrder.jpg */,
 			);
-			path = Groups;
+			name = Groups;
 			sourceTree = "<group>";
 		};
 		498F321A27F32B0100FE7EC9 /* Models */ = {

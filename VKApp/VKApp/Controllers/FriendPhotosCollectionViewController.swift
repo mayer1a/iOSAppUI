@@ -18,6 +18,10 @@ class FriendPhotosCollectionViewController: UICollectionViewController {
         layout?.estimatedItemSize = .zero
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+
     // MARK: - UICollectionViewDataSource
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -26,12 +30,21 @@ class FriendPhotosCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
+        
         let photo = userPhotos[indexPath.item]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendPhotoViewCell",
                                                       for: indexPath) as? FriendPhotoCollectionViewCell
 
-        cell?.friendPhoto?.image = UIImage(named: photo)
+        let scaleFactor = UIScreen.main.scale
+        let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
+        let size = view.bounds.size.applying(scale)
+
+        guard let path = Bundle.main.path(forResource: photo, ofType: "jpg"),
+              let userPhoto = cell?.friendPhoto?.resizedImage(at: path, for: size) else {
+            return UICollectionViewCell()
+        }
+
+        cell?.friendPhoto?.image = userPhoto
 
         return cell ?? UICollectionViewCell()
     }
@@ -42,7 +55,10 @@ class FriendPhotosCollectionViewController: UICollectionViewController {
 extension FriendPhotosCollectionViewController: UICollectionViewDelegateFlowLayout {
 
     // Change cell size by ui screen width
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         let screenWidth = UIScreen.main.bounds.width
         let itemSize = (screenWidth / 3) - 15
 

@@ -66,8 +66,13 @@ extension FriendsTableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell",
                                                  for: indexPath) as? FriendsTableViewCell
 
+        let scaleFactor = UIScreen.main.scale
+        let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
+        let size = view.bounds.size.applying(scale)
+
         guard let avatarName = users[indexPath.row].avatar,
-              let userAvatar = UIImage(named: avatarName)
+              let path = Bundle.main.path(forResource: avatarName, ofType: "jpg"),
+              let userAvatar = cell?.friendImage?.resizedImage(at: path, for: size)
         else {
             return UITableViewCell()
         }

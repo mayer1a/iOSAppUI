@@ -18,10 +18,6 @@ class FriendPhotosCollectionViewController: UICollectionViewController {
         layout?.estimatedItemSize = .zero
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-
     // MARK: - UICollectionViewDataSource
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

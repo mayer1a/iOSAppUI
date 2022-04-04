@@ -52,7 +52,7 @@ extension GroupsTableViewController {
     override func tableView(_ tableView: UITableView,
                             trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        let action = UIContextualAction(style: .normal,
+        let action = UIContextualAction(style: .destructive,
                                         title: "Отписаться",
                                         handler: { [weak self] _, _, block in
 

@@ -15,12 +15,7 @@ class CircularPreviewImageView: UIImageView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        self.contentMode = UIView.ContentMode.scaleAspectFill
-        self.layer.borderWidth = 0
-        self.layer.masksToBounds = true
-        self.layer.borderColor = UIColor.white.cgColor
         self.layer.cornerRadius = self.frame.width / 2
-        self.clipsToBounds = true
     }
 
     // Resized large images to preview

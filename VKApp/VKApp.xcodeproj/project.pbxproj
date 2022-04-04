@@ -35,6 +35,7 @@
 		491A1C8C27F4BEF7009287E2 /* NewWorldArtists.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 491A1C8127F4BEF7009287E2 /* NewWorldArtists.jpg */; };
 		491A1C8D27F4BEF7009287E2 /* GeekComputerClub.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 491A1C8227F4BEF7009287E2 /* GeekComputerClub.jpg */; };
 		491A1C9327F4CAF0009287E2 /* SquarePreviewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A1C9227F4CAF0009287E2 /* SquarePreviewImageView.swift */; };
+		49793EB227FAFCBB0091478A /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49793EB127FAFCBB0091478A /* PhotoView.swift */; };
 		4984269527F5F4700078A50C /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4984269427F5F4700078A50C /* GroupsTableViewController.swift */; };
 		4984269727F5F4B70078A50C /* SearchGroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4984269627F5F4B70078A50C /* SearchGroupTableViewController.swift */; };
 		4984269927F5FAF30078A50C /* GroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4984269827F5FAF30078A50C /* GroupTableViewCell.swift */; };
@@ -52,6 +53,7 @@
 		49D90B7D27DA65BE0048866B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49D90B7B27DA65BE0048866B /* Main.storyboard */; };
 		49D90B7F27DA65C00048866B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49D90B7E27DA65C00048866B /* Assets.xcassets */; };
 		49D90B8227DA65C00048866B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49D90B8027DA65C00048866B /* LaunchScreen.storyboard */; };
+		49E3C50927FB0968001CFED4 /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C50827FB0968001CFED4 /* ShadowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,6 +85,7 @@
 		491A1C8127F4BEF7009287E2 /* NewWorldArtists.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = NewWorldArtists.jpg; path = VKApp/Resources/Photos/NewWorldArtists.jpg; sourceTree = SOURCE_ROOT; };
 		491A1C8227F4BEF7009287E2 /* GeekComputerClub.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = GeekComputerClub.jpg; path = VKApp/Resources/Photos/GeekComputerClub.jpg; sourceTree = SOURCE_ROOT; };
 		491A1C9227F4CAF0009287E2 /* SquarePreviewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquarePreviewImageView.swift; sourceTree = "<group>"; };
+		49793EB127FAFCBB0091478A /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		4984269427F5F4700078A50C /* GroupsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
 		4984269627F5F4B70078A50C /* SearchGroupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupTableViewController.swift; sourceTree = "<group>"; };
 		4984269827F5FAF30078A50C /* GroupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupTableViewCell.swift; sourceTree = "<group>"; };
@@ -102,6 +105,7 @@
 		49D90B7E27DA65C00048866B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		49D90B8127DA65C00048866B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		49D90B8327DA65C00048866B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		49E3C50827FB0968001CFED4 /* ShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +189,8 @@
 				491A1C9227F4CAF0009287E2 /* SquarePreviewImageView.swift */,
 				4984269827F5FAF30078A50C /* GroupTableViewCell.swift */,
 				4984269A27F5FC070078A50C /* SearchGroupTableViewCell.swift */,
+				49793EB127FAFCBB0091478A /* PhotoView.swift */,
+				49E3C50827FB0968001CFED4 /* ShadowView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -353,6 +359,8 @@
 				498C292A27F353970058EAE7 /* FriendPhotoCollectionViewCell.swift in Sources */,
 				498C292627F34F130058EAE7 /* FriendPhotosCollectionViewController.swift in Sources */,
 				498F321F27F32E1400FE7EC9 /* FriendsTableViewController.swift in Sources */,
+				49E3C50927FB0968001CFED4 /* ShadowView.swift in Sources */,
+				49793EB227FAFCBB0091478A /* PhotoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

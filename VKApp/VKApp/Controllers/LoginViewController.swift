@@ -59,7 +59,12 @@ class LoginViewController: UIViewController {
         guard let loginButton = loginButton else { return }
 
         let info = notification.userInfo! as NSDictionary
-        let keyboardSize = (info.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue).cgRectValue.size
+        let keyboardSize = (info.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue)
+
+        guard let keyboardSize = keyboardSize?.cgRectValue.size else {
+            return
+        }
+
         let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardSize.height, right: 0.0)
 
         self.uiScrollView?.contentInset = contentInsets
@@ -70,7 +75,10 @@ class LoginViewController: UIViewController {
         viewRectangle.size.height -= keyboardSize.height + 40
 
         if !viewRectangle.contains(loginButton.frame.origin) {
-            let rectangleWithIndent =  CGRect(x: loginButton.frame.origin.x, y: loginButton.frame.origin.y, width: loginButton.frame.width, height: loginButton.frame.height + 20)
+            let rectangleWithIndent =  CGRect(x: loginButton.frame.origin.x,
+                                              y: loginButton.frame.origin.y,
+                                              width: loginButton.frame.width,
+                                              height: loginButton.frame.height + 20)
 
             uiScrollView?.scrollRectToVisible(rectangleWithIndent, animated: true)
         }
@@ -79,8 +87,7 @@ class LoginViewController: UIViewController {
     @objc func keyboardWillBeHidden(notification: Notification) {
 
         // Устанавливаем отступ внизу UIScrollView, равный 0
-        let contentInsets = UIEdgeInsets.zero
-        uiScrollView?.contentInset = contentInsets
+        uiScrollView?.contentInset = UIEdgeInsets.zero
     }
 
     @objc func hideKeyboard() {
@@ -96,16 +103,14 @@ class LoginViewController: UIViewController {
     }
 
     func isCorrectUserData() -> Bool {
-        guard let loginTF = loginTF, let passwordTF = passwordTF else { return false }
 
-        if loginTF.text == "1" && passwordTF.text == "1" {
+        if loginTF?.text == "1" && passwordTF?.text == "1" {
             return true
         }
-        else {
-            return false
-        }
-    }
 
+        return false
+    }
+    
     func showError() {
         let alter = UIAlertController(title: "Ошибка",
                                       message: "Введены не верные данные пользователя",

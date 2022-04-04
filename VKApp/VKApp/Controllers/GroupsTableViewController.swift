@@ -15,15 +15,10 @@ class GroupsTableViewController: UITableViewController {
         tableView.reloadData()
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        Group.subscribedGroups.append(contentsOf: [Group.nonSubscribedGroups.removeFirst(),
-                                                   Group.nonSubscribedGroups.removeFirst()])
-    }
 }
 
 extension GroupsTableViewController {
+
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -34,13 +29,9 @@ extension GroupsTableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell",
                                                  for: indexPath) as? GroupTableViewCell
 
-        let scaleFactor = UIScreen.main.scale
-        let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
-        let size = view.bounds.size.applying(scale)
-
         guard let groupAvatarName = Group.subscribedGroups[indexPath.row].avatar,
               let path = Bundle.main.path(forResource: groupAvatarName, ofType: "jpg"),
-              let groupAvatar = cell?.groupImage?.resizedImage(at: path, for: size)
+              let groupAvatar = cell?.groupImage?.resizedImage(at: path, for: imageSize())
         else {
             return UITableViewCell()
         }
@@ -51,27 +42,29 @@ extension GroupsTableViewController {
         return cell ?? UITableViewCell()
     }
 
+    func imageSize() -> CGSize {
+        let scaleFactor = UIScreen.main.scale
+        let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
+
+        return view.bounds.size.applying(scale)
+    }
+
     override func tableView(_ tableView: UITableView,
                             trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-
+        
         let action = UIContextualAction(style: .normal,
-                                       title: "Отписаться",
-                                       handler: { [weak self] action, view, block in
-
-            guard let self = self else { return }
-
-            self.tableView.beginUpdates()
+                                        title: "Отписаться",
+                                        handler: { [weak self] _, _, block in
 
             let groupToUnSubscribe = Group.subscribedGroups.remove(at: indexPath.row)
             Group.nonSubscribedGroups.append(groupToUnSubscribe)
 
-            self.tableView.deleteRows(at: [indexPath], with: .left)
-
-            self.tableView.endUpdates()
+            self?.tableView.deleteRows(at: [indexPath], with: .left)
 
             block(true)
 
         })
+        
         return UISwipeActionsConfiguration(actions: [action])
     }
 

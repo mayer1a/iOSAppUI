@@ -31,12 +31,8 @@ class FriendPhotosCollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendPhotoViewCell",
                                                       for: indexPath) as? FriendPhotoCollectionViewCell
 
-        let scaleFactor = UIScreen.main.scale
-        let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
-        let size = view.bounds.size.applying(scale)
-
         guard let path = Bundle.main.path(forResource: photo, ofType: "jpg"),
-              let userPhoto = cell?.friendPhoto?.resizedImage(at: path, for: size) else {
+              let userPhoto = cell?.friendPhoto?.resizedImage(at: path, for: imageSize()) else {
             return UICollectionViewCell()
         }
 
@@ -45,12 +41,20 @@ class FriendPhotosCollectionViewController: UICollectionViewController {
         return cell ?? UICollectionViewCell()
     }
 
+    func imageSize() -> CGSize {
+        let scaleFactor = UIScreen.main.scale
+        let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
+
+        return view.bounds.size.applying(scale)
+    }
+
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
+
 extension FriendPhotosCollectionViewController: UICollectionViewDelegateFlowLayout {
 
-    // Change cell size by ui screen width
+    // Change cell size by ui screen width - three cells per row
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {

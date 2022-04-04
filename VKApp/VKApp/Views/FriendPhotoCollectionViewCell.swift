@@ -10,5 +10,5 @@ import UIKit
 class FriendPhotoCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var friendPhoto: SquarePreviewImageView?
-
+    
 }

@@ -14,8 +14,6 @@ struct Group {
     var isSubscribed: Bool = false
 
     static var nonSubscribedGroups = [
-        Group(id: 687352, name: "Парк Развлечений \"Андромед\"", avatar: "AmusementParkAndromedia"),
-        Group(id: 736463, name: "\"Black Hawks\" Basketball Team", avatar: "BlackHawksBasketBallTeam"),
         Group(id: 736252, name: "Работа с глиной", avatar: "ClayCrafting"),
         Group(id: 983746, name: "Сделай сам или домашний уют ☺️", avatar: "DIYOrCozyHome"),
         Group(id: 123343, name: "Флористика для начинающих", avatar: "FloristyForBeginners"),
@@ -27,5 +25,7 @@ struct Group {
         Group(id: 809283, name: "Кольца на заказ", avatar: "RingsToOrder"),
         Group(id: 330948, name: "Мысли души")]
 
-    static var subscribedGroups: [Group] = []
+    static var subscribedGroups = [
+        Group(id: 687352, name: "Парк Развлечений \"Андромед\"", avatar: "AmusementParkAndromedia"),
+        Group(id: 736463, name: "\"Black Hawks\" Basketball Team", avatar: "BlackHawksBasketBallTeam")]
 }

@@ -14,7 +14,6 @@ class GroupsTableViewController: UITableViewController {
 
         tableView.reloadData()
     }
-
 }
 
 extension GroupsTableViewController {

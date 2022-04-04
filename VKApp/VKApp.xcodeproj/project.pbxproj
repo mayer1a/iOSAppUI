@@ -54,6 +54,7 @@
 		49D90B7F27DA65C00048866B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49D90B7E27DA65C00048866B /* Assets.xcassets */; };
 		49D90B8227DA65C00048866B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49D90B8027DA65C00048866B /* LaunchScreen.storyboard */; };
 		49E3C50927FB0968001CFED4 /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C50827FB0968001CFED4 /* ShadowView.swift */; };
+		49E3C50B27FB27B3001CFED4 /* LikeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C50A27FB27B3001CFED4 /* LikeControl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +107,7 @@
 		49D90B8127DA65C00048866B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		49D90B8327DA65C00048866B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49E3C50827FB0968001CFED4 /* ShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
+		49E3C50A27FB27B3001CFED4 /* LikeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +193,7 @@
 				4984269A27F5FC070078A50C /* SearchGroupTableViewCell.swift */,
 				49793EB127FAFCBB0091478A /* PhotoView.swift */,
 				49E3C50827FB0968001CFED4 /* ShadowView.swift */,
+				49E3C50A27FB27B3001CFED4 /* LikeControl.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 				498C292627F34F130058EAE7 /* FriendPhotosCollectionViewController.swift in Sources */,
 				498F321F27F32E1400FE7EC9 /* FriendsTableViewController.swift in Sources */,
 				49E3C50927FB0968001CFED4 /* ShadowView.swift in Sources */,
+				49E3C50B27FB27B3001CFED4 /* LikeControl.swift in Sources */,
 				49793EB227FAFCBB0091478A /* PhotoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

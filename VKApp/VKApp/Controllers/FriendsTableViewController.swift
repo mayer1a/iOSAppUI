@@ -10,7 +10,7 @@ import UIKit
 // MARK: - UITableViewController
 class FriendsTableViewController: UITableViewController {
 
-    let users: [User] = User.friends
+    private let users: [User] = User.friends
 
     // MARK: - DataSource
 

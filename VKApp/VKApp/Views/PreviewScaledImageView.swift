@@ -8,7 +8,7 @@
 import UIKit
 import func AVFoundation.AVMakeRect
 
-class SquarePreviewImageView: UIImageView {
+class PreviewScaledImageView: UIImageView {
 
     // Resized large images to preview
     func resizedImage(at path: String, for size: CGSize) -> UIImage? {

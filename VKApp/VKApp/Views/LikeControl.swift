@@ -21,6 +21,9 @@ class LikeControl: UIControl {
 
     override var isSelected: Bool {
         didSet {
+
+            guard oldValue != isSelected else { return }
+            
             hearImage?.image = isSelected ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
 
             hearImage?.tintColor = isSelected ? .systemRed : .white

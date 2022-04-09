@@ -7,9 +7,22 @@
 
 import UIKit
 
+
+// MARK: - FriendPhotosCollectionViewControllerDelegate
+
+protocol FriendPhotosCollectionViewControllerDelegate {
+    func photoDidLiked(userIndexPath: IndexPath, photoIndexPath: IndexPath, isLiked: Bool)
+}
+
+
 class FriendPhotosCollectionViewController: UICollectionViewController {
 
-    var userPhotos: [String] = []
+    var userPhotos: [Photo] = []
+    var tableViewIndexPath = IndexPath()
+    var delegate: FriendPhotosCollectionViewControllerDelegate?
+
+
+    // MARK: - viewDidLoad
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,11 +31,15 @@ class FriendPhotosCollectionViewController: UICollectionViewController {
         layout?.estimatedItemSize = .zero
     }
 
-    // MARK: - UICollectionViewDataSource
+
+    // MARK: - numberOfItemsInSection
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return userPhotos.count
     }
+
+
+    // MARK: - cellForItemAt
 
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -31,15 +48,28 @@ class FriendPhotosCollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendPhotoViewCell",
                                                       for: indexPath) as? FriendPhotoCollectionViewCell
 
-        guard let path = Bundle.main.path(forResource: photo, ofType: "jpg"),
+        guard let path = Bundle.main.path(forResource: photo.name, ofType: "jpg"),
               let userPhoto = cell?.friendPhoto?.resizedImage(at: path, for: imageSize()) else {
             return UICollectionViewCell()
         }
 
         cell?.friendPhoto?.image = userPhoto
+        cell?.likeControl?.isSelected = photo.isLiked
 
+        cell?.photoDidLiked = { [weak self] isLiked in
+
+            guard let self = self else { return }
+
+            self.delegate?.photoDidLiked(userIndexPath: self.tableViewIndexPath,
+                                         photoIndexPath: indexPath,
+                                         isLiked: isLiked)
+        }
+        
         return cell ?? UICollectionViewCell()
     }
+
+
+    // MARK: - imageSize
 
     func imageSize() -> CGSize {
         let scaleFactor = UIScreen.main.scale
@@ -50,9 +80,12 @@ class FriendPhotosCollectionViewController: UICollectionViewController {
 
 }
 
+
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension FriendPhotosCollectionViewController: UICollectionViewDelegateFlowLayout {
+
+    // MARK: - sizeForItemAt
 
     // Change cell size by ui screen width - three cells per row
     func collectionView(_ collectionView: UICollectionView,

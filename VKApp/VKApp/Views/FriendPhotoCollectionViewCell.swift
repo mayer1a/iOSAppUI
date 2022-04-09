@@ -9,8 +9,10 @@ import UIKit
 
 class FriendPhotoCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var friendPhoto: SquarePreviewImageView?
+    @IBOutlet weak var friendPhoto: PreviewScaledImageView?
     @IBOutlet weak var likeControl: LikeControl?
+
+    var photoDidLiked: ((Bool) -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,5 +25,7 @@ class FriendPhotoCollectionViewCell: UICollectionViewCell {
         guard let likeControl = likeControl else { return }
 
         likeControl.isSelected.toggle()
+        
+        photoDidLiked?(likeControl.isSelected)
     }
 }

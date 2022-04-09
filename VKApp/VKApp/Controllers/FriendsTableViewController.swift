@@ -7,24 +7,33 @@
 
 import UIKit
 
-// MARK: - GrouppedFriends
-
-struct GrouppedFriends {
-    let character: Character
-    var users: [User]
-}
 
 // MARK: - UITableViewController
+
 class FriendsTableViewController: UITableViewController {
 
     private let users: [User] = User.friends
 
     // Group friends by first letter of last name
-    var grouppedFriends: [GrouppedFriends] {
+    var grouppedFriends: [GrouppedFriends] = []
+
+
+    // MARK: - viewDidLoad
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        grouppedFriends = groupFriends()
+    }
+
+
+    // MARK: - groupFriends
+
+    func groupFriends() -> [GrouppedFriends] {
         var result = [GrouppedFriends]()
 
         for user in users {
-            guard let character = user.surname.first else { continue }
+            guard let character: Character = user.surname.first else { continue }
 
             if let currentCharacter = result.firstIndex(where: { $0.character == character }) {
                 result[currentCharacter].users.append(user)
@@ -33,37 +42,56 @@ class FriendsTableViewController: UITableViewController {
             }
         }
 
-        return result.sorted(by: { $0.character < $1.character })
+        // Sorted by ascending localized case insensitive letter
+        result = result.sorted {
+            (String($0.character)).localizedCaseInsensitiveCompare(String($1.character)) == .orderedAscending
+        }
+
+        GrouppedFriends.list = result
+
+        return result
     }
 
-    // MARK: - DataSource
+
+    // MARK: - numberOfRowsInSection
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return grouppedFriends[section].users.count
     }
 
+
+    // MARK: - numberOfSections
+
     override func numberOfSections(in tableView: UITableView) -> Int {
         return grouppedFriends.count
     }
 
+
+    // MARK: - titleForHeaderInSection
+
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return String(grouppedFriends[section].character)
     }
+
+
+    // MARK: - viewForHeaderInSection
 
     // Adding custom header view
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
         // Adding a label for the first letter of the last name
         let myLabel = UILabel()
+        let headerView = UIView()
+
         myLabel.frame = CGRect(x: 0, y: 0, width: 320, height: 20)
         myLabel.font = UIFont.boldSystemFont(ofSize: 18)
         myLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
 
-        let headerView = UIView()
-        headerView.backgroundColor = .systemGray6
         headerView.addSubview(myLabel)
 
-        // Setting label constraints
+        // Setting label constraints and background color
+        headerView.backgroundColor = .systemGray6
+        headerView.alpha = 0.5
         myLabel.translatesAutoresizingMaskIntoConstraints = false
         myLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
         myLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: CGFloat(20)).isActive = true
@@ -72,6 +100,9 @@ class FriendsTableViewController: UITableViewController {
 
         return headerView
     }
+
+
+    // MARK: - tableViewWillDisplayForRowAt
 
     // Remove top header padding
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -85,13 +116,16 @@ class FriendsTableViewController: UITableViewController {
         }
     }
 
+
+    // MARK: - cellForRowAt
+
     // Configure cell by section
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell",
                                                  for: indexPath) as? FriendsTableViewCell
 
-        let grouppedFriend = grouppedFriends[indexPath.section]
-        let friend = grouppedFriend.users[indexPath.row]
+        let friend = grouppedFriends[indexPath.section].users[indexPath.row]
 
         guard let avatarName = friend.avatar,
               let path = Bundle.main.path(forResource: avatarName, ofType: "jpg"),
@@ -106,6 +140,9 @@ class FriendsTableViewController: UITableViewController {
         return cell ?? UITableViewCell()
     }
 
+
+    // MARK: - imageSize
+
     // Scale based on screen size
     func imageSize() -> CGSize {
         let scaleFactor = UIScreen.main.scale
@@ -113,6 +150,9 @@ class FriendsTableViewController: UITableViewController {
 
         return view.bounds.size.applying(scale)
     }
+
+
+    // MARK: - prepareForSender
 
     // Prepare data to transfer at next ViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -123,12 +163,28 @@ class FriendsTableViewController: UITableViewController {
         }
 
         if segue.identifier == "ShowFriendPhotos" {
-            friendPhotoVC.userPhotos = users[indexPath.row].photos ?? [String]()
+            friendPhotoVC.userPhotos =  grouppedFriends[indexPath.section].users[indexPath.row].photos ?? [Photo]()
+            friendPhotoVC.tableViewIndexPath = indexPath
+            friendPhotoVC.delegate = self
         }
     }
+
+
+    // MARK: - heightForRowAt
 
     // Automatic cell height calculation
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+}
+
+
+// MARK: - FriendPhotosCollectionViewControllerDelegate
+
+extension FriendsTableViewController: FriendPhotosCollectionViewControllerDelegate {
+
+    func photoDidLiked(userIndexPath: IndexPath, photoIndexPath: IndexPath, isLiked: Bool) {
+        grouppedFriends[userIndexPath.section].users[userIndexPath.row].photos?[photoIndexPath.item].isLiked = isLiked
+    }
+    
 }

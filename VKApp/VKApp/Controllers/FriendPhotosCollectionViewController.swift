@@ -63,6 +63,9 @@ class FriendPhotosCollectionViewController: UICollectionViewController {
             self.delegate?.photoDidLiked(userIndexPath: self.tableViewIndexPath,
                                          photoIndexPath: indexPath,
                                          isLiked: isLiked)
+
+            self.userPhotos[indexPath.item].isLiked = isLiked
+
         }
         
         return cell ?? UICollectionViewCell()

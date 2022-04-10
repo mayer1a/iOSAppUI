@@ -79,24 +79,16 @@ class FriendsTableViewController: UITableViewController {
     // Adding custom header view
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
-        // Adding a label for the first letter of the last name
-        let myLabel = UILabel()
-        let headerView = UIView()
+        // Adding and configurating reusable header
+        let headerView = UITableViewHeaderFooterView()
+        var contentConfiguration = headerView.defaultContentConfiguration()
 
-        myLabel.frame = CGRect(x: 0, y: 0, width: 320, height: 20)
-        myLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        myLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
+        contentConfiguration.text = self.tableView(tableView, titleForHeaderInSection: section)
+        contentConfiguration.textProperties.alignment = .natural
 
-        headerView.addSubview(myLabel)
-
-        // Setting label constraints and background color
-        headerView.backgroundColor = .systemGray6
+        headerView.contentConfiguration = contentConfiguration
+        headerView.contentView.backgroundColor = .systemGray6
         headerView.alpha = 0.5
-        myLabel.translatesAutoresizingMaskIntoConstraints = false
-        myLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
-        myLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: CGFloat(20)).isActive = true
-        myLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: CGFloat(5)).isActive = true
-        myLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: CGFloat(-5)).isActive = true
 
         return headerView
     }

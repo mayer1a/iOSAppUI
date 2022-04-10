@@ -15,6 +15,8 @@ class NewsTableViewController: UITableViewController {
         super.viewDidLoad()
 
         displayedNews = News.list
+
+        tableView.sectionHeaderTopPadding = CGFloat(0)
     }
 
 
@@ -89,14 +91,6 @@ class NewsTableViewController: UITableViewController {
         cell?.newsNumberOfViews?.text = String(news.numberOfViews)
 
         return cell ?? UITableViewCell()
-    }
-
-
-    // MARK: - tableViewWillDisplayForRowAt
-
-    // Remove top header padding
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        tableView.sectionHeaderTopPadding = CGFloat(0)
     }
 
 

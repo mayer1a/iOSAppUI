@@ -40,7 +40,6 @@ class GroupsTableViewController: UITableViewController {
 
     @objc func tapOutKeyboard() {
         groupSearchBar?.resignFirstResponder()
-        groupSearchBar?.endEditing(true)
     }
 
 
@@ -156,7 +155,6 @@ extension GroupsTableViewController: UISearchBarDelegate {
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        searchBar.endEditing(true)
     }
 
 

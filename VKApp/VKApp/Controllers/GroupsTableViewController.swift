@@ -7,9 +7,10 @@
 
 import UIKit
 
-class GroupsTableViewController: UITableViewController {
+final class GroupsTableViewController: UITableViewController {
 
-    @IBOutlet weak var groupSearchBar: UISearchBar?
+    //@IBOutlet weak var groupSearchBar: UISearchBar?
+    private let customSearchView = CustomSearchBarView().loadView() as? CustomSearchBarView
 
     var myGroups: [Group] = []
     var displayedGroups: [Group] = []
@@ -20,7 +21,10 @@ class GroupsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        groupSearchBar?.delegate = self
+        //groupSearchBar?.delegate = self
+
+        tableView.tableHeaderView = customSearchView
+
 
         myGroups = Group.subscribedGroups
         displayedGroups = myGroups
@@ -38,8 +42,8 @@ class GroupsTableViewController: UITableViewController {
 
     // MARK: - @objc tapOutKeyboard
 
-    @objc func tapOutKeyboard() {
-        groupSearchBar?.resignFirstResponder()
+    @objc private func tapOutKeyboard() {
+        //groupSearchBar?.resignFirstResponder()
     }
 
 
@@ -81,7 +85,7 @@ class GroupsTableViewController: UITableViewController {
 
     // MARK: - imageSize
 
-    func imageSize() -> CGSize {
+    private func imageSize() -> CGSize {
         let scaleFactor = UIScreen.main.scale
         let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
 
@@ -102,7 +106,7 @@ class GroupsTableViewController: UITableViewController {
 
             Group.nonSubscribedGroups.append(groupToUnsubscribe)
 
-            self?.updateDisplayedGroups(searchText: self?.groupSearchBar?.text ?? "")
+//            self?.updateDisplayedGroups(searchText: self?.groupSearchBar?.text ?? "")
 
             block(true)
 
@@ -137,7 +141,7 @@ extension GroupsTableViewController: SearchGroupTableViewControllerDelegate {
         myGroups.append(group)
 
         Group.nonSubscribedGroups.remove(at: removeGroupIndex)
-        updateDisplayedGroups(searchText: groupSearchBar?.text ?? "")
+//        updateDisplayedGroups(searchText: groupSearchBar?.text ?? "")
     }
 
 }
@@ -160,7 +164,7 @@ extension GroupsTableViewController: UISearchBarDelegate {
 
     // MARK: - updateDisplayedGroups
 
-    func updateDisplayedGroups(searchText: String) {
+    private func updateDisplayedGroups(searchText: String) {
 
         guard !searchText.isEmpty else {
             displayedGroups = myGroups

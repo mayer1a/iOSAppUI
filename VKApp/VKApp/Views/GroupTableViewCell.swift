@@ -7,13 +7,9 @@
 
 import UIKit
 
-class GroupTableViewCell: UITableViewCell {
+final class GroupTableViewCell: UITableViewCell {
     
     @IBOutlet weak var groupImage: CircularPreviewImageView?
     @IBOutlet weak var groupName: UILabel?
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
     
 }

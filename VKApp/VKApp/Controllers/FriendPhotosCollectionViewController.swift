@@ -15,7 +15,7 @@ protocol FriendPhotosCollectionViewControllerDelegate {
 }
 
 
-class FriendPhotosCollectionViewController: UICollectionViewController {
+final class FriendPhotosCollectionViewController: UICollectionViewController {
 
     var userPhotos: [Photo] = []
     var tableViewIndexPath = IndexPath()

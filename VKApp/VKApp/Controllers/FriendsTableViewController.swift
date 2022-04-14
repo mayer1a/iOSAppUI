@@ -10,9 +10,10 @@ import UIKit
 
 // MARK: - UITableViewController
 
-class FriendsTableViewController: UITableViewController {
+final class FriendsTableViewController: UITableViewController {
 
     private let users: [User] = User.friends
+    private let downloadIndicatorView = DownloadIndicatorView().loadView() as? DownloadIndicatorView
 
     // Group friends by first letter of last name
     var grouppedFriends: [GrouppedFriends] = []
@@ -23,11 +24,92 @@ class FriendsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.tableView.sectionHeaderTopPadding = 0
-        self.tableView.register(FriendsSectionHeaderView.self,
-                                forHeaderFooterViewReuseIdentifier: FriendsSectionHeaderView.reuseIdentifier)
+        tableView.sectionHeaderTopPadding = CGFloat(0)
 
         grouppedFriends = groupFriends()
+
+        configureDownloadIndicatorView()
+    }
+
+
+    // MARK: - didSelectRowAt
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        // At the end of the timer, the animation ends and perform segue to the next controller
+        Timer.scheduledTimer(timeInterval: 2,
+                             target: self,
+                             selector: #selector(stopAnimation),
+                             userInfo: nil,
+                             repeats: false)
+
+        downloadIndicatorView?.isHidden = false
+
+        UIView.animate(withDuration: 0.7, delay: 0, options: [ .repeat, .autoreverse ]) {
+            self.downloadIndicatorView?.firstIndicatorDot?.alpha = 0
+        }
+        UIView.animate(withDuration: 0.7, delay: 0.25, options: [ .repeat, .autoreverse ]) { [weak self] in
+            self?.downloadIndicatorView?.secondIndicatorDot?.alpha = 0
+        }
+        UIView.animate(withDuration: 0.7, delay: 0.5, options: [ .repeat, .autoreverse,  ]) { [weak self] in
+            self?.downloadIndicatorView?.thirdIndicatorDot?.alpha = 0
+        } completion: { [weak self] _ in
+            self?.performSegue(withIdentifier: "ShowFriendPhotos", sender: indexPath)
+        }
+
+    }
+
+
+    // MARK: - willSelectRowAt
+
+    // Exclusion of re-transition when loading the original segue while the animation is being displayed
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        return self.tableView.indexPathForSelectedRow == nil ? indexPath : nil
+    }
+
+
+    // MARK: - configureDownloadIndicatorView
+
+    private func configureDownloadIndicatorView() {
+        guard let downloadIndicatorView = downloadIndicatorView,
+              let tabBarView = tabBarController?.view else {
+            return
+        }
+
+        downloadIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        downloadIndicatorView.isHidden = true
+
+        // Add an indicatorView to the tabbar so that the indicatorView is above the tableView
+        tabBarView.addSubview(downloadIndicatorView)
+
+        NSLayoutConstraint.activate([
+            tabBarView.centerXAnchor.constraint(equalTo: downloadIndicatorView.centerXAnchor),
+            tabBarView.centerYAnchor.constraint(equalTo: downloadIndicatorView.centerYAnchor)
+        ])
+    }
+
+
+    // MARK: - @objc stopAnimation
+
+    @objc func stopAnimation() {
+
+        guard let downloadIndicatorView = downloadIndicatorView else { return }
+
+        // Smoothly hide the indicatorView and complete the rest of the animation
+        UIView.transition(with: downloadIndicatorView,
+                          duration: 0.2,
+                          options: [.transitionCrossDissolve]) {
+            self.downloadIndicatorView?.isHidden = true
+        } completion: { _ in
+            self.downloadIndicatorView?.firstIndicatorDot?.layer.removeAllAnimations()
+            self.downloadIndicatorView?.secondIndicatorDot?.layer.removeAllAnimations()
+            self.downloadIndicatorView?.thirdIndicatorDot?.layer.removeAllAnimations()
+
+            // Return properties to original
+            self.downloadIndicatorView?.firstIndicatorDot?.alpha = 1
+            self.downloadIndicatorView?.secondIndicatorDot?.alpha = 1
+            self.downloadIndicatorView?.thirdIndicatorDot?.alpha = 1
+        }
     }
 
 
@@ -84,15 +166,17 @@ class FriendsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
         // Adding and configurating reusable header
-        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: FriendsSectionHeaderView.reuseIdentifier) as? FriendsSectionHeaderView
+        let headerView = UITableViewHeaderFooterView()
+        var contentConfiguration = headerView.defaultContentConfiguration()
 
-        var contentConfiguration = view?.defaultContentConfiguration()
-        contentConfiguration?.text = self.tableView(tableView, titleForHeaderInSection: section)
-        contentConfiguration?.textProperties.alignment = .natural
+        contentConfiguration.text = self.tableView(tableView, titleForHeaderInSection: section)
+        contentConfiguration.textProperties.alignment = .natural
 
-        view?.contentConfiguration = contentConfiguration
+        headerView.contentConfiguration = contentConfiguration
+        headerView.contentView.backgroundColor = .systemGray6
+        headerView.alpha = 0.5
 
-        return view
+        return headerView
     }
 
 
@@ -129,6 +213,7 @@ class FriendsTableViewController: UITableViewController {
 
         cell?.friendImage?.image = userAvatar
         cell?.friendName?.text = "\(friend.name) \(friend.surname)"
+        //cell?.friendPhotoView?.layer.add(animateFriendPhoto(), forKey: nil)
 
         return cell ?? UITableViewCell()
     }
@@ -144,13 +229,11 @@ class FriendsTableViewController: UITableViewController {
         return view.bounds.size.applying(scale)
     }
 
-
     // MARK: - prepareForSender
 
     // Prepare data to transfer at next ViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let cell = sender as? UITableViewCell,
-              let indexPath = tableView.indexPath(for: cell),
+        guard let indexPath = sender as? IndexPath,
               let friendPhotoVC = segue.destination as? FriendPhotosCollectionViewController else {
             return
         }
@@ -162,7 +245,7 @@ class FriendsTableViewController: UITableViewController {
         }
     }
 
-    
+
     // MARK: - heightForRowAt
 
     // Automatic cell height calculation

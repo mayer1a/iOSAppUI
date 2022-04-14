@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FriendsTableViewCell: UITableViewCell {
+final class FriendsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var friendImage: CircularPreviewImageView?
     @IBOutlet weak var friendName: UILabel?

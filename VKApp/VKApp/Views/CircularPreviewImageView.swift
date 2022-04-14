@@ -23,9 +23,9 @@ class CircularPreviewImageView: UIImageView {
         guard let image = UIImage(contentsOfFile: path) else { return nil }
 
         let rect = AVMakeRect(aspectRatio: image.size, insideRect: super.bounds)
-        let renderer = UIGraphicsImageRenderer(size: rect.size)
+        let rendered = UIGraphicsImageRenderer(size: rect.size)
 
-        let rendredImage = renderer.image { (context) in
+        let rendredImage = rendered.image { (context) in
             image.draw(in: CGRect(origin: .zero, size: rect.size))
         }
 

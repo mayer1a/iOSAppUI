@@ -23,6 +23,10 @@ class FriendsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.tableView.sectionHeaderTopPadding = 0
+        self.tableView.register(FriendsSectionHeaderView.self,
+                                forHeaderFooterViewReuseIdentifier: FriendsSectionHeaderView.reuseIdentifier)
+
         grouppedFriends = groupFriends()
     }
 
@@ -80,17 +84,15 @@ class FriendsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
         // Adding and configurating reusable header
-        let headerView = UITableViewHeaderFooterView()
-        var contentConfiguration = headerView.defaultContentConfiguration()
+        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: FriendsSectionHeaderView.reuseIdentifier) as? FriendsSectionHeaderView
 
-        contentConfiguration.text = self.tableView(tableView, titleForHeaderInSection: section)
-        contentConfiguration.textProperties.alignment = .natural
+        var contentConfiguration = view?.defaultContentConfiguration()
+        contentConfiguration?.text = self.tableView(tableView, titleForHeaderInSection: section)
+        contentConfiguration?.textProperties.alignment = .natural
 
-        headerView.contentConfiguration = contentConfiguration
-        headerView.contentView.backgroundColor = .systemGray6
-        headerView.alpha = 0.5
+        view?.contentConfiguration = contentConfiguration
 
-        return headerView
+        return view
     }
 
 
@@ -98,7 +100,6 @@ class FriendsTableViewController: UITableViewController {
 
     // Remove top header padding
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        tableView.sectionHeaderTopPadding = CGFloat(0)
 
         // Removing the bottom separator from the last cell of a section
         if indexPath.row == grouppedFriends[indexPath.section].users.count - 1 {
@@ -161,7 +162,7 @@ class FriendsTableViewController: UITableViewController {
         }
     }
 
-
+    
     // MARK: - heightForRowAt
 
     // Automatic cell height calculation

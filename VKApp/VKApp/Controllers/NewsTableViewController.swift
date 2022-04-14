@@ -16,7 +16,7 @@ class NewsTableViewController: UITableViewController {
 
         displayedNews = News.list
 
-        tableView.sectionHeaderTopPadding = CGFloat(0)
+        tableView.sectionHeaderTopPadding = 0
     }
 
 
@@ -44,7 +44,7 @@ class NewsTableViewController: UITableViewController {
     // MARK: - heightForHeaderInSection
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? CGFloat(0) : CGFloat(10)
+        return section == 0 ? 0 : 10
     }
 
 

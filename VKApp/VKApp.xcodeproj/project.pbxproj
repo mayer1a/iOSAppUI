@@ -60,6 +60,7 @@
 		49D90B8227DA65C00048866B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49D90B8027DA65C00048866B /* LaunchScreen.storyboard */; };
 		49E3C50927FB0968001CFED4 /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C50827FB0968001CFED4 /* ShadowView.swift */; };
 		49E3C50B27FB27B3001CFED4 /* LikeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C50A27FB27B3001CFED4 /* LikeControl.swift */; };
+		49FF922D28087C7300ED648A /* FriendsSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF922C28087C7300ED648A /* FriendsSectionHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +119,7 @@
 		49D90B8327DA65C00048866B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49E3C50827FB0968001CFED4 /* ShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
 		49E3C50A27FB27B3001CFED4 /* LikeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeControl.swift; sourceTree = "<group>"; };
+		49FF922C28087C7300ED648A /* FriendsSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsSectionHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +210,7 @@
 				49E3C50827FB0968001CFED4 /* ShadowView.swift */,
 				49E3C50A27FB27B3001CFED4 /* LikeControl.swift */,
 				492A94BA2801AE850059C9BE /* NewsTableViewCell.swift */,
+				49FF922C28087C7300ED648A /* FriendsSectionHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -383,6 +386,7 @@
 				498C292627F34F130058EAE7 /* FriendPhotosCollectionViewController.swift in Sources */,
 				498F321F27F32E1400FE7EC9 /* FriendsTableViewController.swift in Sources */,
 				49E3C50927FB0968001CFED4 /* ShadowView.swift in Sources */,
+				49FF922D28087C7300ED648A /* FriendsSectionHeaderView.swift in Sources */,
 				49E3C50B27FB27B3001CFED4 /* LikeControl.swift in Sources */,
 				49793EB227FAFCBB0091478A /* PhotoView.swift in Sources */,
 			);

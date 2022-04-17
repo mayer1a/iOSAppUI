@@ -7,10 +7,10 @@
 
 import UIKit
 
+
 final class GroupsTableViewController: UITableViewController {
 
-    //@IBOutlet weak var groupSearchBar: UISearchBar?
-    private let customSearchView = CustomSearchBarView().loadView() as? CustomSearchBarView
+    private let customSearchView = CustomSearchBarView().loadView()
 
     var myGroups: [Group] = []
     var displayedGroups: [Group] = []
@@ -21,29 +21,18 @@ final class GroupsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //groupSearchBar?.delegate = self
-
-        tableView.tableHeaderView = customSearchView
-
-
-        myGroups = Group.subscribedGroups
-        displayedGroups = myGroups
-
-        // Hide the keyboard when tapping out
-        let hideKeyboardTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOutKeyboard))
-        hideKeyboardTapGestureRecognizer.numberOfTapsRequired = 1
-        hideKeyboardTapGestureRecognizer.isEnabled = true
-        hideKeyboardTapGestureRecognizer.cancelsTouchesInView = false
-
-        self.view.addGestureRecognizer(hideKeyboardTapGestureRecognizer)
+        customSearchViewConfiguration()
+        setupData()
 
     }
 
 
-    // MARK: - @objc tapOutKeyboard
+    // MARK: - viewWillTransition
 
-    @objc private func tapOutKeyboard() {
-        //groupSearchBar?.resignFirstResponder()
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animate { _ in
+            self.sizeHeaderToFit()
+        }
     }
 
 
@@ -83,16 +72,6 @@ final class GroupsTableViewController: UITableViewController {
     }
 
 
-    // MARK: - imageSize
-
-    private func imageSize() -> CGSize {
-        let scaleFactor = UIScreen.main.scale
-        let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
-
-        return view.bounds.size.applying(scale)
-    }
-
-
     // MARK: - trailingSwipeActionsConfigurationForRowAt
 
     override func tableView(_ tableView: UITableView,
@@ -105,8 +84,6 @@ final class GroupsTableViewController: UITableViewController {
             guard let groupToUnsubscribe = self?.myGroups.remove(at: indexPath.row) else { return }
 
             Group.nonSubscribedGroups.append(groupToUnsubscribe)
-
-//            self?.updateDisplayedGroups(searchText: self?.groupSearchBar?.text ?? "")
 
             block(true)
 
@@ -123,42 +100,141 @@ final class GroupsTableViewController: UITableViewController {
         }
     }
 
-}
 
+    // MARK: - customSearchBarDidTapped
 
-// MARK: - SearchGroupTableViewControllerDelegate
+    @objc func customSearchBarDidTapped() {
+        guard let customSearchView = customSearchView else { return }
 
-extension GroupsTableViewController: SearchGroupTableViewControllerDelegate {
+        UIView.animate(withDuration: 1,
+                       delay: 0,
+                       usingSpringWithDamping: 0.6,
+                       initialSpringVelocity: 0.6,
+                       options: [.curveEaseInOut]) {
 
-    func subscribeGroup(group: Group) {
+            customSearchView.closeButtonTrailingConstraint?.isActive = true
+            customSearchView.searchTextFieldLeadingAnchor?.isActive = true
+            customSearchView.searchIconCenterXConstraint?.isActive = false
+            customSearchView.searchTextFieldTrailingConstraint?.isActive = false
 
-        guard let removeGroupIndex = Group.nonSubscribedGroups.enumerated().first(where: {
-            $0.element.id == group.id
-        })?.offset else {
-            return
+            self.tableView.layoutIfNeeded()
         }
 
-        myGroups.append(group)
-
-        Group.nonSubscribedGroups.remove(at: removeGroupIndex)
-//        updateDisplayedGroups(searchText: groupSearchBar?.text ?? "")
     }
 
-}
 
+    // MARK: - cancelButtonDidTapped
 
-// MARK: - UISearchBarDelegate
+    @objc private func cancelButtonDidTapped() {
+        guard let customSearchView = customSearchView else { return }
 
-extension GroupsTableViewController: UISearchBarDelegate {
+        UIView.animate(withDuration: 1,
+                       delay: 0,
+                       usingSpringWithDamping: 0.6,
+                       initialSpringVelocity: 0.6,
+                       options: [.curveEaseInOut]) {
 
-    // MARK: - searchBarTextDidChange
+            customSearchView.searchIconCenterXConstraint?.isActive = true
+            customSearchView.searchTextFieldTrailingConstraint?.isActive = true
+            customSearchView.closeButtonTrailingConstraint?.isActive = false
+            customSearchView.searchTextFieldLeadingAnchor?.isActive = false
 
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        updateDisplayedGroups(searchText: searchText)
+            self.tableView.layoutIfNeeded()
+        }
+
+        customSearchView.searchTextField?.text = ""
+        updateDisplayedGroups(searchText: "")
+
+        customSearchView.searchTextField?.resignFirstResponder()
+
     }
 
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
+
+    // MARK: - customSearchTextDidChange
+
+    @objc func customSearchTextDidChange(_ sender: Any) {
+        guard let sender = sender as? UITextField, let inputText = sender.text else { return }
+
+        updateDisplayedGroups(searchText: inputText)
+    }
+
+
+    // MARK: - @objc tapOutKeyboard
+
+    @objc private func tapOutKeyboard() {
+        customSearchView?.searchTextField?.resignFirstResponder()
+    }
+
+
+    // MARK: - searchBarDidTapped
+
+    @objc private func searchBarDidTapped() {
+        customSearchView?.searchTextField?.resignFirstResponder()
+    }
+
+
+    // MARK: - setupData
+
+    private func setupData() {
+        myGroups = Group.subscribedGroups
+        displayedGroups = myGroups
+    }
+
+
+    // MARK: - imageSize
+
+    private func imageSize() -> CGSize {
+        let scaleFactor = UIScreen.main.scale
+        let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
+
+        return view.bounds.size.applying(scale)
+    }
+
+
+    // MARK: - configurateCustomSearchView
+
+    private func customSearchViewConfiguration() {
+
+        tableView.tableHeaderView = customSearchView
+
+        customSearchView?.searchTextField?.addTarget(self,
+                                                     action: #selector(customSearchBarDidTapped),
+                                                     for: .editingDidBegin)
+
+        customSearchView?.searchTextField?.addTarget(self,
+                                                     action: #selector(customSearchTextDidChange(_:)),
+                                                     for: .editingChanged)
+
+        customSearchView?.searchTextField?.addTarget(self,
+                                                     action: #selector(searchBarDidTapped),
+                                                     for: .editingDidEndOnExit)
+
+        customSearchView?.searchCloseButton?.addTarget(self,
+                                                       action: #selector(cancelButtonDidTapped),
+                                                       for: .touchUpInside)
+
+        sizeHeaderToFit()
+    }
+
+
+    // MARK: - sizeHeaderToFit
+
+    private func sizeHeaderToFit() {
+        guard let headerView = tableView.tableHeaderView else { return }
+
+        headerView.setNeedsLayout()
+        headerView.layoutIfNeeded()
+
+        let height = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
+        let width = tableView.safeAreaLayoutGuide.layoutFrame.size.width
+        var frame = headerView.frame
+
+        frame.size.height = height
+        frame.size.width = width
+        frame.origin = tableView.safeAreaLayoutGuide.layoutFrame.origin
+        headerView.frame = frame
+
+        tableView.tableHeaderView = headerView
     }
 
 
@@ -176,6 +252,32 @@ extension GroupsTableViewController: UISearchBarDelegate {
         displayedGroups = myGroups.filter { $0.name.lowercased().contains(searchText.lowercased()) }
 
         tableView.reloadData()
+    }
+
+}
+
+
+// MARK: - SearchGroupTableViewControllerDelegate
+
+extension GroupsTableViewController: SearchGroupTableViewControllerDelegate {
+
+
+    // MARK: - subscribeGroup
+
+    func subscribeGroup(group: Group) {
+
+        guard
+            let removeGroupIndex = Group.nonSubscribedGroups.enumerated().first(where: {
+                $0.element.id == group.id
+            })?.offset
+        else {
+            return
+        }
+
+        myGroups.append(group)
+
+        Group.nonSubscribedGroups.remove(at: removeGroupIndex)
+        updateDisplayedGroups(searchText: customSearchView?.searchTextField?.text ?? "")
     }
 
 }

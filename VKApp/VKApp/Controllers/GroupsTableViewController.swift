@@ -30,6 +30,8 @@ final class GroupsTableViewController: UITableViewController {
     // MARK: - viewWillTransition
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+
         coordinator.animate { _ in
             self.sizeHeaderToFit()
         }
@@ -197,6 +199,8 @@ final class GroupsTableViewController: UITableViewController {
 
         tableView.tableHeaderView = customSearchView
 
+        customSearchView?.insetsLayoutMarginsFromSafeArea = true
+
         customSearchView?.searchTextField?.addTarget(self,
                                                      action: #selector(customSearchBarDidTapped),
                                                      for: .editingDidBegin)
@@ -215,6 +219,7 @@ final class GroupsTableViewController: UITableViewController {
 
         sizeHeaderToFit()
     }
+
 
 
     // MARK: - sizeHeaderToFit

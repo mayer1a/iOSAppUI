@@ -616,10 +616,10 @@
             </objects>
             <point key="canvasLocation" x="1990" y="1072"/>
         </scene>
-        <!--Friend Photos Collection View Controller-->
+        <!--Фотографии-->
         <scene sceneID="jzj-z2-tGc">
             <objects>
-                <collectionViewController id="3wC-E3-Dca" customClass="FriendPhotosCollectionViewController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController title="Фотографии" id="3wC-E3-Dca" customClass="FriendPhotosCollectionViewController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Pbd-Ml-3b7">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -693,6 +693,7 @@
                                 <connections>
                                     <outlet property="friendPhoto" destination="end-1I-j1W" id="Aqy-Si-8Vi"/>
                                     <outlet property="likeControl" destination="Bf1-hv-ydP" id="bBP-nb-2Pc"/>
+                                    <segue destination="4Tz-e1-2qi" kind="show" identifier="FullShowUserPhoto" id="Ar2-yi-quq"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -701,11 +702,41 @@
                             <outlet property="delegate" destination="3wC-E3-Dca" id="Ll9-J5-OFl"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="UaJ-j9-OTY"/>
+                    <navigationItem key="navigationItem" title="Фотографии" id="UaJ-j9-OTY"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0OK-Vg-SSP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3732" y="-237"/>
+        </scene>
+        <!--Full Screen User Photo-->
+        <scene sceneID="BiZ-sC-i61">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="4Tz-e1-2qi" customClass="FullScreenUserPhoto" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gZA-Qf-Rcf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VPY-tt-TUO">
+                                <rect key="frame" x="0.0" y="88" width="414" height="720"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D6v-IA-n6q">
+                                <rect key="frame" x="0.0" y="88" width="414" height="720"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="X7k-eq-596"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="LRb-6B-UGf"/>
+                    <connections>
+                        <outlet property="displayedUserPhoto" destination="D6v-IA-n6q" id="hCr-cd-ToW"/>
+                        <outlet property="nextUserPhoto" destination="VPY-tt-TUO" id="qzu-ew-AtZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X4L-jA-1By" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4523.188405797102" y="-237.05357142857142"/>
         </scene>
         <!--Друзья-->
         <scene sceneID="VPA-g0-e3h">

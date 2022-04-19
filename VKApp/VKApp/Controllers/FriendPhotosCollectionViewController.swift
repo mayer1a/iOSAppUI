@@ -48,6 +48,9 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendPhotoViewCell",
                                                       for: indexPath) as? FriendPhotoCollectionViewCell
 
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(cellImageDidTapped(_:)))
+        cell?.friendPhoto?.addGestureRecognizer(gesture)
+
         guard let path = Bundle.main.path(forResource: photo.name, ofType: "jpg"),
               let userPhoto = cell?.friendPhoto?.resizedImage(at: path, for: imageSize()) else {
             return UICollectionViewCell()
@@ -72,6 +75,18 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     }
 
 
+    // MARK: - cellDidTapped
+
+    @objc private func cellImageDidTapped(_ sender: Any) {
+//        guard
+//            let selectedImage = ((sender as? UITapGestureRecognizer)?.view as? PreviewScaledImageView)?.image
+//        else {
+//            return
+//        }
+
+    }
+
+
     // MARK: - imageSize
 
     func imageSize() -> CGSize {
@@ -79,6 +94,24 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
 
         return view.bounds.size.applying(scale)
+    }
+
+    
+    // MARK: - prepareForSender
+
+    // Prepare data to transfer at next ViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let _ = sender as? FriendPhotoCollectionViewCell,
+              let fullScreenPhotoVC = segue.destination as? FullScreenUserPhoto,
+              let item = collectionView.indexPathsForSelectedItems?.first?.item
+        else {
+            return
+        }
+
+        if segue.identifier == "FullShowUserPhoto" {
+            fullScreenPhotoVC.userPhotos = userPhotos
+            fullScreenPhotoVC.showPhotoIndex = item
+        }
     }
 
 }

@@ -37,7 +37,7 @@ final class FriendsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         // At the end of the timer, the animation ends and perform segue to the next controller
-        Timer.scheduledTimer(timeInterval: 2,
+        Timer.scheduledTimer(timeInterval: 1,
                              target: self,
                              selector: #selector(stopAnimation),
                              userInfo: nil,

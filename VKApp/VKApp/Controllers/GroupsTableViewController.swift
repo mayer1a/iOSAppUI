@@ -112,14 +112,14 @@ final class GroupsTableViewController: UITableViewController {
                        delay: 0,
                        usingSpringWithDamping: 0.6,
                        initialSpringVelocity: 0.6,
-                       options: [.curveEaseInOut]) {
+                       options: [.curveEaseInOut]) { [weak self] in
 
             customSearchView.closeButtonTrailingConstraint?.isActive = true
             customSearchView.searchTextFieldLeadingAnchor?.isActive = true
             customSearchView.searchIconCenterXConstraint?.isActive = false
             customSearchView.searchTextFieldTrailingConstraint?.isActive = false
 
-            self.tableView.layoutIfNeeded()
+            self?.tableView.layoutIfNeeded()
         }
 
     }
@@ -134,14 +134,14 @@ final class GroupsTableViewController: UITableViewController {
                        delay: 0,
                        usingSpringWithDamping: 0.6,
                        initialSpringVelocity: 0.6,
-                       options: [.curveEaseInOut]) {
+                       options: [.curveEaseInOut]) { [weak self] in
 
             customSearchView.searchIconCenterXConstraint?.isActive = true
             customSearchView.searchTextFieldTrailingConstraint?.isActive = true
             customSearchView.closeButtonTrailingConstraint?.isActive = false
             customSearchView.searchTextFieldLeadingAnchor?.isActive = false
 
-            self.tableView.layoutIfNeeded()
+            self?.tableView.layoutIfNeeded()
         }
 
         customSearchView.searchTextField?.text = ""

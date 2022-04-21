@@ -45,8 +45,8 @@ final class FriendsTableViewController: UITableViewController {
 
         downloadIndicatorView?.isHidden = false
 
-        UIView.animate(withDuration: 0.7, delay: 0, options: [ .repeat, .autoreverse ]) {
-            self.downloadIndicatorView?.firstIndicatorDot?.alpha = 0
+        UIView.animate(withDuration: 0.7, delay: 0, options: [ .repeat, .autoreverse ]) { [weak self] in
+            self?.downloadIndicatorView?.firstIndicatorDot?.alpha = 0
         }
         UIView.animate(withDuration: 0.7, delay: 0.25, options: [ .repeat, .autoreverse ]) { [weak self] in
             self?.downloadIndicatorView?.secondIndicatorDot?.alpha = 0
@@ -98,17 +98,17 @@ final class FriendsTableViewController: UITableViewController {
         // Smoothly hide the indicatorView and complete the rest of the animation
         UIView.transition(with: downloadIndicatorView,
                           duration: 0.2,
-                          options: [.transitionCrossDissolve]) {
-            self.downloadIndicatorView?.isHidden = true
-        } completion: { _ in
-            self.downloadIndicatorView?.firstIndicatorDot?.layer.removeAllAnimations()
-            self.downloadIndicatorView?.secondIndicatorDot?.layer.removeAllAnimations()
-            self.downloadIndicatorView?.thirdIndicatorDot?.layer.removeAllAnimations()
+                          options: [.transitionCrossDissolve]) { [weak self] in
+            self?.downloadIndicatorView?.isHidden = true
+        } completion: { [weak self] _ in
+            self?.downloadIndicatorView?.firstIndicatorDot?.layer.removeAllAnimations()
+            self?.downloadIndicatorView?.secondIndicatorDot?.layer.removeAllAnimations()
+            self?.downloadIndicatorView?.thirdIndicatorDot?.layer.removeAllAnimations()
 
             // Return properties to original
-            self.downloadIndicatorView?.firstIndicatorDot?.alpha = 1
-            self.downloadIndicatorView?.secondIndicatorDot?.alpha = 1
-            self.downloadIndicatorView?.thirdIndicatorDot?.alpha = 1
+            self?.downloadIndicatorView?.firstIndicatorDot?.alpha = 1
+            self?.downloadIndicatorView?.secondIndicatorDot?.alpha = 1
+            self?.downloadIndicatorView?.thirdIndicatorDot?.alpha = 1
         }
     }
 

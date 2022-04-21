@@ -7,16 +7,16 @@
 
 import UIKit
 
-class LikeControl: UIControl {
+final class LikeControl: UIControl {
 
     @IBOutlet weak var likeLabel: UILabel?
-    @IBOutlet weak var hearImage: UIImageView?
+    @IBOutlet weak var heartImage: UIImageView?
 
     private var likeCounter: Int = 0
 
     override func awakeFromNib() {
         likeLabel?.textColor = .white
-        hearImage?.tintColor = .white
+        heartImage?.tintColor = .white
     }
 
     override var isSelected: Bool {
@@ -24,9 +24,9 @@ class LikeControl: UIControl {
 
             guard oldValue != isSelected else { return }
             
-            hearImage?.image = isSelected ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
+            heartImage?.image = isSelected ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
 
-            hearImage?.tintColor = isSelected ? .systemRed : .white
+            heartImage?.tintColor = isSelected ? .systemRed : .white
             likeLabel?.textColor = isSelected ? .systemRed : .white
 
             likeCounter = isSelected ? likeCounter + 1 : likeCounter - 1
@@ -34,5 +34,4 @@ class LikeControl: UIControl {
             likeLabel?.text = String(likeCounter)
         }
     }
-
 }

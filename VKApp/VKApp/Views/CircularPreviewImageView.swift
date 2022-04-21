@@ -8,7 +8,7 @@
 import UIKit
 import func AVFoundation.AVMakeRect
 
-class CircularPreviewImageView: UIImageView {
+final class CircularPreviewImageView: UIImageView {
 
     // MARK: layoutSubviews
     

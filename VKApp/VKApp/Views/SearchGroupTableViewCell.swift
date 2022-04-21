@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchGroupTableViewCell: UITableViewCell {
+final class SearchGroupTableViewCell: UITableViewCell {
 
     @IBOutlet weak var groupImage: CircularPreviewImageView?
     @IBOutlet weak var groupName: UILabel?

@@ -7,21 +7,21 @@
 
 import UIKit
 
-@IBDesignable class ShadowView: UIView {
+@IBDesignable final class ShadowView: UIView {
 
-    @IBInspectable var shadowColor: UIColor = .black {
+    @IBInspectable private var shadowColor: UIColor = .black {
         didSet {
             setNeedsDisplay()
         }
     }
 
-    @IBInspectable var shadowWidth: CGFloat = 4.0 {
+    @IBInspectable private var shadowWidth: CGFloat = 4.0 {
         didSet {
             setNeedsDisplay()
         }
     }
 
-    @IBInspectable var shadowOpacity: Float = 0.75 {
+    @IBInspectable private var shadowOpacity: Float = 0.75 {
         didSet {
             setNeedsDisplay()
         }

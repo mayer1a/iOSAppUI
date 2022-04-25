@@ -78,11 +78,11 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     // MARK: - cellDidTapped
 
     @objc private func cellImageDidTapped(_ sender: Any) {
-//        guard
-//            let selectedImage = ((sender as? UITapGestureRecognizer)?.view as? PreviewScaledImageView)?.image
-//        else {
-//            return
-//        }
+        //        guard
+        //            let selectedImage = ((sender as? UITapGestureRecognizer)?.view as? PreviewScaledImageView)?.image
+        //        else {
+        //            return
+        //        }
 
     }
 

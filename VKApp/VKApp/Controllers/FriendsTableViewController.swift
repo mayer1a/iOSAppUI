@@ -13,7 +13,10 @@ import UIKit
 final class FriendsTableViewController: UITableViewController {
 
     private let users: [User] = User.friends
-    private let downloadIndicatorView = DownloadIndicatorView().loadView() as? DownloadIndicatorView
+
+    private lazy var cloudView: CloudView? = {
+        return CloudView(frame: CGRect(origin: .zero, size: CGSize(width: 150, height: 100)))
+    }()
 
     // Group friends by first letter of last name
     var grouppedFriends: [GrouppedFriends] = []
@@ -25,10 +28,9 @@ final class FriendsTableViewController: UITableViewController {
         super.viewDidLoad()
 
         tableView.sectionHeaderTopPadding = CGFloat(0)
-
+        cloudView?.translatesAutoresizingMaskIntoConstraints = false
+        
         grouppedFriends = groupFriends()
-
-        configureDownloadIndicatorView()
     }
 
 
@@ -37,24 +39,17 @@ final class FriendsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         // At the end of the timer, the animation ends and perform segue to the next controller
-        Timer.scheduledTimer(timeInterval: 1,
+        Timer.scheduledTimer(timeInterval: 4,
                              target: self,
                              selector: #selector(stopAnimation),
                              userInfo: nil,
                              repeats: false)
 
-        downloadIndicatorView?.isHidden = false
+        setupAnimation()
+        cloudView?.startAnimation()
 
-        UIView.animate(withDuration: 0.7, delay: 0, options: [ .repeat, .autoreverse ]) { [weak self] in
-            self?.downloadIndicatorView?.firstIndicatorDot?.alpha = 0
-        }
-        UIView.animate(withDuration: 0.7, delay: 0.25, options: [ .repeat, .autoreverse ]) { [weak self] in
-            self?.downloadIndicatorView?.secondIndicatorDot?.alpha = 0
-        }
-        UIView.animate(withDuration: 0.7, delay: 0.5, options: [ .repeat, .autoreverse,  ]) { [weak self] in
-            self?.downloadIndicatorView?.thirdIndicatorDot?.alpha = 0
-        } completion: { [weak self] _ in
-            self?.performSegue(withIdentifier: "ShowFriendPhotos", sender: indexPath)
+        UIView.animate(withDuration: 1, delay: 0) { [weak self] in
+            self?.cloudView?.alpha = 0.75
         }
 
     }
@@ -70,21 +65,20 @@ final class FriendsTableViewController: UITableViewController {
 
     // MARK: - configureDownloadIndicatorView
 
-    private func configureDownloadIndicatorView() {
-        guard let downloadIndicatorView = downloadIndicatorView,
-              let tabBarView = tabBarController?.view else {
+    private func setupAnimation() {
+        guard
+            let cloudView = cloudView,
+            let tabBarView = tabBarController?.view
+        else {
             return
         }
 
-        downloadIndicatorView.translatesAutoresizingMaskIntoConstraints = false
-        downloadIndicatorView.isHidden = true
-
         // Add an indicatorView to the tabbar so that the indicatorView is above the tableView
-        tabBarView.addSubview(downloadIndicatorView)
+        tabBarView.addSubview(cloudView)
 
         NSLayoutConstraint.activate([
-            tabBarView.centerXAnchor.constraint(equalTo: downloadIndicatorView.centerXAnchor),
-            tabBarView.centerYAnchor.constraint(equalTo: downloadIndicatorView.centerYAnchor)
+            tabBarView.centerXAnchor.constraint(equalTo: cloudView.centerXAnchor),
+            tabBarView.centerYAnchor.constraint(equalTo: cloudView.centerYAnchor)
         ])
     }
 
@@ -93,23 +87,17 @@ final class FriendsTableViewController: UITableViewController {
 
     @objc func stopAnimation() {
 
-        guard let downloadIndicatorView = downloadIndicatorView else { return }
+        guard let tableView = self.tableView else { return }
 
-        // Smoothly hide the indicatorView and complete the rest of the animation
-        UIView.transition(with: downloadIndicatorView,
-                          duration: 0.2,
-                          options: [.transitionCrossDissolve]) { [weak self] in
-            self?.downloadIndicatorView?.isHidden = true
-        } completion: { [weak self] _ in
-            self?.downloadIndicatorView?.firstIndicatorDot?.layer.removeAllAnimations()
-            self?.downloadIndicatorView?.secondIndicatorDot?.layer.removeAllAnimations()
-            self?.downloadIndicatorView?.thirdIndicatorDot?.layer.removeAllAnimations()
-
-            // Return properties to original
-            self?.downloadIndicatorView?.firstIndicatorDot?.alpha = 1
-            self?.downloadIndicatorView?.secondIndicatorDot?.alpha = 1
-            self?.downloadIndicatorView?.thirdIndicatorDot?.alpha = 1
+        UIView.animate(withDuration: 1, delay: 0) { [weak self] in
+            self?.cloudView?.alpha = 0.1
         }
+        
+        self.cloudView?.removeAnimation()
+        self.cloudView?.removeFromSuperview()
+
+        self.performSegue(withIdentifier: "ShowFriendPhotos",
+                          sender: tableView.indexPathForSelectedRow)
     }
 
 

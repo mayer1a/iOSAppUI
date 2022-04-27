@@ -14,7 +14,6 @@ final class LoginViewController: UIViewController {
     @IBOutlet weak var uiScrollView: UIScrollView?
     @IBOutlet weak var loginButton: UIButton?
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
 

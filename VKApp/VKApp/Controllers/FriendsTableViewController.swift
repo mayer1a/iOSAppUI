@@ -31,6 +31,7 @@ final class FriendsTableViewController: UITableViewController {
         cloudView?.translatesAutoresizingMaskIntoConstraints = false
         
         grouppedFriends = groupFriends()
+
     }
 
 
@@ -96,8 +97,26 @@ final class FriendsTableViewController: UITableViewController {
         self.cloudView?.removeAnimation()
         self.cloudView?.removeFromSuperview()
 
-        self.performSegue(withIdentifier: "ShowFriendPhotos",
-                          sender: tableView.indexPathForSelectedRow)
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        let friendsPhotoCollectionVC = storyboard.instantiateViewController(withIdentifier: "FriendsPhotoCollectionVC")
+
+        prepare(for: friendsPhotoCollectionVC, at: tableView.indexPathForSelectedRow)
+
+        navigationController?.pushViewController(friendsPhotoCollectionVC, animated: true)
+    }
+
+
+    // MARK: - prepareForPushViewControllerAtSender
+
+    private func prepare(for pushViewController: UIViewController, at sender: IndexPath?) {
+        guard let indexPath = sender,
+              let friendPhotoVC = pushViewController as? FriendPhotosCollectionViewController else {
+            return
+        }
+
+        friendPhotoVC.userPhotos =  grouppedFriends[indexPath.section].users[indexPath.row].photos ?? [Photo]()
+        friendPhotoVC.tableViewIndexPath = indexPath
+        friendPhotoVC.delegate = self
     }
 
 
@@ -217,22 +236,6 @@ final class FriendsTableViewController: UITableViewController {
         return view.bounds.size.applying(scale)
     }
 
-    // MARK: - prepareForSender
-
-    // Prepare data to transfer at next ViewController
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let indexPath = sender as? IndexPath,
-              let friendPhotoVC = segue.destination as? FriendPhotosCollectionViewController else {
-            return
-        }
-
-        if segue.identifier == "ShowFriendPhotos" {
-            friendPhotoVC.userPhotos =  grouppedFriends[indexPath.section].users[indexPath.row].photos ?? [Photo]()
-            friendPhotoVC.tableViewIndexPath = indexPath
-            friendPhotoVC.delegate = self
-        }
-    }
-
 
     // MARK: - heightForRowAt
 
@@ -252,3 +255,4 @@ extension FriendsTableViewController: FriendPhotosCollectionViewControllerDelega
     }
     
 }
+

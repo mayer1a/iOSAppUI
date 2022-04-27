@@ -244,9 +244,6 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Друзья" id="Lue-Cw-CzC"/>
-                    <connections>
-                        <segue destination="3wC-E3-Dca" kind="show" identifier="ShowFriendPhotos" id="4vK-T0-rek"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rU9-fB-WRC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -619,7 +616,7 @@
         <!--Фотографии-->
         <scene sceneID="jzj-z2-tGc">
             <objects>
-                <collectionViewController title="Фотографии" id="3wC-E3-Dca" customClass="FriendPhotosCollectionViewController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="FriendsPhotoCollectionVC" title="Фотографии" id="3wC-E3-Dca" customClass="FriendPhotosCollectionViewController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Pbd-Ml-3b7">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -693,7 +690,6 @@
                                 <connections>
                                     <outlet property="friendPhoto" destination="end-1I-j1W" id="Aqy-Si-8Vi"/>
                                     <outlet property="likeControl" destination="Bf1-hv-ydP" id="bBP-nb-2Pc"/>
-                                    <segue destination="4Tz-e1-2qi" kind="show" identifier="FullShowUserPhoto" id="Ar2-yi-quq"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -711,7 +707,7 @@
         <!--Full Screen User Photo-->
         <scene sceneID="BiZ-sC-i61">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="4Tz-e1-2qi" customClass="FullScreenUserPhoto" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FullScreenUserPhoto" hidesBottomBarWhenPushed="YES" id="4Tz-e1-2qi" customClass="FullScreenUserPhoto" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gZA-Qf-Rcf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -741,7 +737,7 @@
         <!--Друзья-->
         <scene sceneID="VPA-g0-e3h">
             <objects>
-                <navigationController id="f6n-GI-Ghf" sceneMemberID="viewController">
+                <navigationController id="f6n-GI-Ghf" customClass="AnimationNavigationController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Друзья" image="friendsIconsSet" id="lSL-gJ-X11"/>
                     <navigationItem key="navigationItem" id="soS-Xh-vPA"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="poz-KC-MHn">

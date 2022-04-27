@@ -9,20 +9,16 @@ import UIKit
 
 class InteractiveTransitionDriven: UIPercentDrivenInteractiveTransition {
 
-    var viewControllerWillPopped: UIViewController
-
     var hasStarted: Bool = false
     var shouldFinish: Bool = false
 
-    init(viewControllerWillPopped: UIViewController) {
-        self.viewControllerWillPopped = viewControllerWillPopped
+    var viewControllerWillPopped: UIViewController? {
+        didSet {
+            let panRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeDidPan(_:)))
+            panRecognizer.edges = .left
 
-        super.init()
-
-        let panRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeDidPan(_:)))
-        panRecognizer.edges = .left
-
-        viewControllerWillPopped.view.addGestureRecognizer(panRecognizer)
+            viewControllerWillPopped?.view.addGestureRecognizer(panRecognizer)
+        }
     }
 
 
@@ -33,11 +29,13 @@ class InteractiveTransitionDriven: UIPercentDrivenInteractiveTransition {
         switch panRecognizer.state {
         case .began:
             hasStarted = true
-            viewControllerWillPopped.navigationController?.popViewController(animated: true)
+            viewControllerWillPopped?.navigationController?.popViewController(animated: true)
 
         case .changed:
-            let transition = panRecognizer.translation(in: viewControllerWillPopped.view)
-            let relativeTransition = transition.y / viewControllerWillPopped.view.bounds.width
+            guard let viewWillPopped = viewControllerWillPopped?.view else { return }
+
+            let transition = panRecognizer.translation(in: viewWillPopped)
+            let relativeTransition = transition.y / viewWillPopped.bounds.width
             let progress = max(0, min(1, relativeTransition))
 
             shouldFinish = progress > 0.5

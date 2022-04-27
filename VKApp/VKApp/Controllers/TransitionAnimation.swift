@@ -66,7 +66,7 @@ extension TransitionAnimation: UIViewControllerAnimatedTransitioning {
 
             UIView.addKeyframe(withRelativeStartTime: 0,
                                relativeDuration: 0.65) {
-                toViewController.view.transform = CGAffineTransform(rotationAngle: 0)
+                toViewController.view.transform = .identity
             }
 
             UIView.addKeyframe(withRelativeStartTime: 0.65,
@@ -123,7 +123,11 @@ extension TransitionAnimation: UIViewControllerAnimatedTransitioning {
 
         } completion: { isComplete in
 
-            if transitionContext.transitionWasCancelled {
+            if isComplete && !transitionContext.transitionWasCancelled {
+
+                fromViewController.removeFromParent()
+
+            } else if transitionContext.transitionWasCancelled {
 
                 fromViewController.view.layer.masksToBounds = false
                 fromViewController.view.layer.borderWidth = 0

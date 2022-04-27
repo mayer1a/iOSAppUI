@@ -182,7 +182,7 @@ class FullScreenUserPhoto: UIViewController {
         animator.stopAnimation(true)
         animator.finishAnimation(at: .current)
 
-        if recognizer.velocity(in: self.view).x < 0 {
+        if recognizer.translation(in: self.view).x < 0 {
             swipeToLeft()
         } else {
             swipeToRight()
@@ -332,7 +332,7 @@ class FullScreenUserPhoto: UIViewController {
         guard let animator = animator else { return }
 
         let translationX = recognizer.translation(in: self.view).x
-        var fraction = translationX / (self.view.frame.size.width / 2)
+        var fraction = translationX / (self.view.frame.size.width)
 
         switch direction {
         case .left where translationX < 0: fraction *= -1

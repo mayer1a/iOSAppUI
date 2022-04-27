@@ -12,7 +12,7 @@ import UIKit
 
 class AnimationNavigationController: UINavigationController {
 
-    var interactiveTransition: InteractiveTransitionDriven?
+    var interactiveTransition = InteractiveTransitionDriven()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,11 +36,15 @@ extension AnimationNavigationController: UINavigationControllerDelegate {
 
         switch operation {
         case .push:
-            interactiveTransition = InteractiveTransitionDriven(viewControllerWillPopped: toVC)
+            interactiveTransition.viewControllerWillPopped = toVC
 
             return TransitionAnimation(isPresenting: true)
 
         case .pop:
+            if navigationController.viewControllers.first != toVC {
+                interactiveTransition.viewControllerWillPopped = toVC
+            }
+            
             return TransitionAnimation(isPresenting: false)
 
         default:
@@ -54,8 +58,6 @@ extension AnimationNavigationController: UINavigationControllerDelegate {
 
     func navigationController(_ navigationController: UINavigationController,
                               interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-
-        guard let interactiveTransition = interactiveTransition else { return nil }
 
         return interactiveTransition.hasStarted ? interactiveTransition : nil
 

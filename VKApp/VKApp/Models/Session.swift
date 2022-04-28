@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+
+struct Session {
+    var token: String?
+    var userID: Int?
+
+    private init() {}
+
+    static var shared: Session = Session()
+
+}

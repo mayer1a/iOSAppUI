@@ -15,7 +15,7 @@ struct Group {
 
     static var nonSubscribedGroups = [
         Group(id: 736252, name: "Работа с глиной", avatar: "ClayCrafting"),
-        Group(id: 983746, name: "Сделай сам или домашний уют ☺️", avatar: "DIYOrCozyHome"),
+        Group(id: 983746, name: "Сделай сам или домашний уют", avatar: "DIYOrCozyHome"),
         Group(id: 123343, name: "Флористика для начинающих", avatar: "FloristyForBeginners"),
         Group(id: 229384, name: "Компьютерный клуб \"Geek\"", avatar: "GeekComputerClub"),
         Group(id: 993847, name: "Hand Made Stories", avatar: "HandMadeStories"),

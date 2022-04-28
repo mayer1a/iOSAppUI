@@ -30,6 +30,8 @@ final class GroupsTableViewController: UITableViewController {
     // MARK: - viewWillTransition
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+
         coordinator.animate { _ in
             self.sizeHeaderToFit()
         }
@@ -110,14 +112,14 @@ final class GroupsTableViewController: UITableViewController {
                        delay: 0,
                        usingSpringWithDamping: 0.6,
                        initialSpringVelocity: 0.6,
-                       options: [.curveEaseInOut]) {
+                       options: [.curveEaseInOut]) { [weak self] in
 
             customSearchView.closeButtonTrailingConstraint?.isActive = true
             customSearchView.searchTextFieldLeadingAnchor?.isActive = true
             customSearchView.searchIconCenterXConstraint?.isActive = false
             customSearchView.searchTextFieldTrailingConstraint?.isActive = false
 
-            self.tableView.layoutIfNeeded()
+            self?.tableView.layoutIfNeeded()
         }
 
     }
@@ -132,14 +134,14 @@ final class GroupsTableViewController: UITableViewController {
                        delay: 0,
                        usingSpringWithDamping: 0.6,
                        initialSpringVelocity: 0.6,
-                       options: [.curveEaseInOut]) {
+                       options: [.curveEaseInOut]) { [weak self] in
 
             customSearchView.searchIconCenterXConstraint?.isActive = true
             customSearchView.searchTextFieldTrailingConstraint?.isActive = true
             customSearchView.closeButtonTrailingConstraint?.isActive = false
             customSearchView.searchTextFieldLeadingAnchor?.isActive = false
 
-            self.tableView.layoutIfNeeded()
+            self?.tableView.layoutIfNeeded()
         }
 
         customSearchView.searchTextField?.text = ""
@@ -197,6 +199,8 @@ final class GroupsTableViewController: UITableViewController {
 
         tableView.tableHeaderView = customSearchView
 
+        customSearchView?.insetsLayoutMarginsFromSafeArea = true
+
         customSearchView?.searchTextField?.addTarget(self,
                                                      action: #selector(customSearchBarDidTapped),
                                                      for: .editingDidBegin)
@@ -215,6 +219,7 @@ final class GroupsTableViewController: UITableViewController {
 
         sizeHeaderToFit()
     }
+
 
 
     // MARK: - sizeHeaderToFit

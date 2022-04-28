@@ -21,8 +21,10 @@ final class FriendPhotoCollectionViewCell: UICollectionViewCell {
 
     }
 
-    @objc
-    private func likeControlTapped() {
+
+    // MARK: - likeControlTapped
+
+    @objc private func likeControlTapped() {
         guard let likeControl = likeControl else { return }
 
         likeControl.isSelected.toggle()
@@ -31,6 +33,9 @@ final class FriendPhotoCollectionViewCell: UICollectionViewCell {
 
         likeControlAnimation(by: likeControl.isSelected)
     }
+
+
+    // MARK: - likeControlAnimation
 
     // Setting up and running animation
     private func likeControlAnimation(by isLiked: Bool) {
@@ -99,7 +104,6 @@ final class FriendPhotoCollectionViewCell: UICollectionViewCell {
             likeControl?.heartImage?.layer.add(heartImageAnimation, forKey: nil)
             likeControl?.likeLabel?.layer.add(likeLabelScaleAnimation, forKey: nil)
         }
-
 
     }
 }

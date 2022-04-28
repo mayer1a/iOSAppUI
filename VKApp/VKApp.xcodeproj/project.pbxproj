@@ -42,6 +42,7 @@
 		492A94BF2801C6D10059C9BE /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492A94BE2801C6D10059C9BE /* News.swift */; };
 		492C372A280345D400BEA637 /* DownloadIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 492C3728280345D400BEA637 /* DownloadIndicatorView.xib */; };
 		492C372C2803476400BEA637 /* DownloadIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C372B2803476400BEA637 /* DownloadIndicatorView.swift */; };
+		494CD6B828154CAF00250A56 /* CloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494CD6B728154CAF00250A56 /* CloudView.swift */; };
 		49793EB227FAFCBB0091478A /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49793EB127FAFCBB0091478A /* PhotoView.swift */; };
 		4984269527F5F4700078A50C /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4984269427F5F4700078A50C /* GroupsTableViewController.swift */; };
 		4984269727F5F4B70078A50C /* SearchGroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4984269627F5F4B70078A50C /* SearchGroupTableViewController.swift */; };
@@ -54,6 +55,7 @@
 		498C292A27F353970058EAE7 /* FriendPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498C292927F353970058EAE7 /* FriendPhotoCollectionViewCell.swift */; };
 		498F321F27F32E1400FE7EC9 /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498F321E27F32E1400FE7EC9 /* FriendsTableViewController.swift */; };
 		49B4237927F1C2EB0038EABE /* CircularPreviewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4237827F1C2EB0038EABE /* CircularPreviewImageView.swift */; };
+		49BC8FF2280D76EB005469EA /* FullScreenUserPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC8FF1280D76EB005469EA /* FullScreenUserPhoto.swift */; };
 		49D90B7627DA65BE0048866B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7527DA65BE0048866B /* AppDelegate.swift */; };
 		49D90B7827DA65BE0048866B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7727DA65BE0048866B /* SceneDelegate.swift */; };
 		49D90B7A27DA65BE0048866B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7927DA65BE0048866B /* LoginViewController.swift */; };
@@ -102,6 +104,7 @@
 		492A94BE2801C6D10059C9BE /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		492C3728280345D400BEA637 /* DownloadIndicatorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DownloadIndicatorView.xib; sourceTree = "<group>"; };
 		492C372B2803476400BEA637 /* DownloadIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadIndicatorView.swift; sourceTree = "<group>"; };
+		494CD6B728154CAF00250A56 /* CloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudView.swift; sourceTree = "<group>"; };
 		49793EB127FAFCBB0091478A /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		4984269427F5F4700078A50C /* GroupsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
 		4984269627F5F4B70078A50C /* SearchGroupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupTableViewController.swift; sourceTree = "<group>"; };
@@ -114,6 +117,7 @@
 		498C292927F353970058EAE7 /* FriendPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		498F321E27F32E1400FE7EC9 /* FriendsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
 		49B4237827F1C2EB0038EABE /* CircularPreviewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularPreviewImageView.swift; sourceTree = "<group>"; };
+		49BC8FF1280D76EB005469EA /* FullScreenUserPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenUserPhoto.swift; sourceTree = "<group>"; };
 		49D90B7227DA65BE0048866B /* VKApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49D90B7527DA65BE0048866B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49D90B7727DA65BE0048866B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -189,14 +193,25 @@
 			name = Groups;
 			sourceTree = "<group>";
 		};
+		494CD6B628154A9E00250A56 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				49FF922928072D8300ED648A /* CustomSearchBarView.xib */,
+				492C3728280345D400BEA637 /* DownloadIndicatorView.xib */,
+				49D90B8027DA65C00048866B /* LaunchScreen.storyboard */,
+				49D90B7B27DA65BE0048866B /* Main.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
 		498F321A27F32B0100FE7EC9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				498C291F27F333160058EAE7 /* User.swift */,
 				498C292127F3340E0058EAE7 /* Group.swift */,
-				492A94B628007CB30059C9BE /* Photo.swift */,
 				492A94B828008DEE0059C9BE /* GrouppedFriends.swift */,
 				492A94BE2801C6D10059C9BE /* News.swift */,
+				492A94B628007CB30059C9BE /* Photo.swift */,
+				498C291F27F333160058EAE7 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -204,22 +219,20 @@
 		498F321B27F32B0E00FE7EC9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				49D90B7B27DA65BE0048866B /* Main.storyboard */,
-				49D90B8027DA65C00048866B /* LaunchScreen.storyboard */,
-				492C3728280345D400BEA637 /* DownloadIndicatorView.xib */,
-				49FF922928072D8300ED648A /* CustomSearchBarView.xib */,
-				498C292327F3358F0058EAE7 /* FriendsTableViewCell.swift */,
-				498C292927F353970058EAE7 /* FriendPhotoCollectionViewCell.swift */,
-				4984269827F5FAF30078A50C /* GroupTableViewCell.swift */,
-				4984269A27F5FC070078A50C /* SearchGroupTableViewCell.swift */,
-				49FF92262807263400ED648A /* CustomSearchBarView.swift */,
+				494CD6B628154A9E00250A56 /* Storyboards */,
 				49B4237827F1C2EB0038EABE /* CircularPreviewImageView.swift */,
-				491A1C9227F4CAF0009287E2 /* PreviewScaledImageView.swift */,
-				49793EB127FAFCBB0091478A /* PhotoView.swift */,
-				49E3C50827FB0968001CFED4 /* ShadowView.swift */,
+				49FF92262807263400ED648A /* CustomSearchBarView.swift */,
+				492C372B2803476400BEA637 /* DownloadIndicatorView.swift */,
+				498C292927F353970058EAE7 /* FriendPhotoCollectionViewCell.swift */,
+				498C292327F3358F0058EAE7 /* FriendsTableViewCell.swift */,
+				4984269827F5FAF30078A50C /* GroupTableViewCell.swift */,
 				49E3C50A27FB27B3001CFED4 /* LikeControl.swift */,
 				492A94BA2801AE850059C9BE /* NewsTableViewCell.swift */,
-				492C372B2803476400BEA637 /* DownloadIndicatorView.swift */,
+				49793EB127FAFCBB0091478A /* PhotoView.swift */,
+				491A1C9227F4CAF0009287E2 /* PreviewScaledImageView.swift */,
+				4984269A27F5FC070078A50C /* SearchGroupTableViewCell.swift */,
+				49E3C50827FB0968001CFED4 /* ShadowView.swift */,
+				494CD6B728154CAF00250A56 /* CloudView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -227,12 +240,13 @@
 		498F321C27F32B1600FE7EC9 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				49D90B7927DA65BE0048866B /* LoginViewController.swift */,
-				498F321E27F32E1400FE7EC9 /* FriendsTableViewController.swift */,
 				498C292527F34F130058EAE7 /* FriendPhotosCollectionViewController.swift */,
+				498F321E27F32E1400FE7EC9 /* FriendsTableViewController.swift */,
+				49BC8FF1280D76EB005469EA /* FullScreenUserPhoto.swift */,
 				4984269427F5F4700078A50C /* GroupsTableViewController.swift */,
-				4984269627F5F4B70078A50C /* SearchGroupTableViewController.swift */,
+				49D90B7927DA65BE0048866B /* LoginViewController.swift */,
 				492A94BC2801AEB40059C9BE /* NewsTableViewController.swift */,
+				4984269627F5F4B70078A50C /* SearchGroupTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -390,12 +404,14 @@
 				4984269727F5F4B70078A50C /* SearchGroupTableViewController.swift in Sources */,
 				4984269927F5FAF30078A50C /* GroupTableViewCell.swift in Sources */,
 				491A1C9327F4CAF0009287E2 /* PreviewScaledImageView.swift in Sources */,
+				49BC8FF2280D76EB005469EA /* FullScreenUserPhoto.swift in Sources */,
 				49D90B7627DA65BE0048866B /* AppDelegate.swift in Sources */,
 				49D90B7827DA65BE0048866B /* SceneDelegate.swift in Sources */,
 				49FF92272807263400ED648A /* CustomSearchBarView.swift in Sources */,
 				492A94B728007CB30059C9BE /* Photo.swift in Sources */,
 				498C292A27F353970058EAE7 /* FriendPhotoCollectionViewCell.swift in Sources */,
 				498C292627F34F130058EAE7 /* FriendPhotosCollectionViewController.swift in Sources */,
+				494CD6B828154CAF00250A56 /* CloudView.swift in Sources */,
 				498F321F27F32E1400FE7EC9 /* FriendsTableViewController.swift in Sources */,
 				492C372C2803476400BEA637 /* DownloadIndicatorView.swift in Sources */,
 				49E3C50927FB0968001CFED4 /* ShadowView.swift in Sources */,

@@ -14,7 +14,6 @@ protocol SearchGroupTableViewControllerDelegate {
 class SearchGroupTableViewController: UITableViewController {
 
     var nonSubscribedGroups: [Group] = []
-//    var subscribedGroups: [Group] = []
     var delegate: SearchGroupTableViewControllerDelegate?
 
     // MARK: - viewDidLoad

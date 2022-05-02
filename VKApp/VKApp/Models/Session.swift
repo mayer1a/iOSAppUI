@@ -9,11 +9,15 @@ import Foundation
 
 
 struct Session {
-    var token: String?
-    var userID: Int?
 
-    private init() {}
+    private init() {
+        self.token = String()
+        self.userID = Int()
+    }
 
-    static var shared: Session = Session()
+    var token: String
+    var userID: Int
+
+    static var shared = Session()
 
 }

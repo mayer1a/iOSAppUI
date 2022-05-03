@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		490AE8DB28218DF60062480F /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490AE8DA28218DF60062480F /* SessionManager.swift */; };
 		491A1C2027F4B734009287E2 /* LevFedorov.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 491A1C1127F4B734009287E2 /* LevFedorov.jpg */; };
 		491A1C2127F4B734009287E2 /* JohnSmith.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 491A1C1227F4B734009287E2 /* JohnSmith.jpg */; };
 		491A1C2227F4B734009287E2 /* Mom.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 491A1C1327F4B734009287E2 /* Mom.jpg */; };
@@ -68,6 +69,7 @@
 		49D9AAF8281A862600C6A4B7 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D9AAF7281A862600C6A4B7 /* Session.swift */; };
 		49E3C50927FB0968001CFED4 /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C50827FB0968001CFED4 /* ShadowView.swift */; };
 		49E3C50B27FB27B3001CFED4 /* LikeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C50A27FB27B3001CFED4 /* LikeControl.swift */; };
+		49E474F92820476B009B519E /* LoginWebKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E474F82820476B009B519E /* LoginWebKitViewController.swift */; };
 		49FF92272807263400ED648A /* CustomSearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF92262807263400ED648A /* CustomSearchBarView.swift */; };
 		49FF922B28072D8300ED648A /* CustomSearchBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49FF922928072D8300ED648A /* CustomSearchBarView.xib */; };
 		54E6C53814325595994158B7 /* Pods_VKApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D166F0789A96ABC7D75F1DB /* Pods_VKApp.framework */; };
@@ -76,6 +78,7 @@
 /* Begin PBXFileReference section */
 		0BF30E29578E494AC9DF68D0 /* Pods-VKApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VKApp.debug.xcconfig"; path = "Target Support Files/Pods-VKApp/Pods-VKApp.debug.xcconfig"; sourceTree = "<group>"; };
 		0D166F0789A96ABC7D75F1DB /* Pods_VKApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VKApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		490AE8DA28218DF60062480F /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		491A1C1127F4B734009287E2 /* LevFedorov.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = LevFedorov.jpg; sourceTree = "<group>"; };
 		491A1C1227F4B734009287E2 /* JohnSmith.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = JohnSmith.jpg; sourceTree = "<group>"; };
 		491A1C1327F4B734009287E2 /* Mom.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Mom.jpg; sourceTree = "<group>"; };
@@ -139,6 +142,7 @@
 		49D9AAF7281A862600C6A4B7 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		49E3C50827FB0968001CFED4 /* ShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
 		49E3C50A27FB27B3001CFED4 /* LikeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeControl.swift; sourceTree = "<group>"; };
+		49E474F82820476B009B519E /* LoginWebKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWebKitViewController.swift; sourceTree = "<group>"; };
 		49FF92262807263400ED648A /* CustomSearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomSearchBarView.swift; path = VKApp/Views/CustomSearchBarView.swift; sourceTree = SOURCE_ROOT; };
 		49FF922928072D8300ED648A /* CustomSearchBarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomSearchBarView.xib; sourceTree = "<group>"; };
 		5C11E822E5CA2AEAF4597E55 /* Pods-VKApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VKApp.release.xcconfig"; path = "Target Support Files/Pods-VKApp/Pods-VKApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -162,7 +166,6 @@
 				0BF30E29578E494AC9DF68D0 /* Pods-VKApp.debug.xcconfig */,
 				5C11E822E5CA2AEAF4597E55 /* Pods-VKApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -274,6 +277,7 @@
 				497A2CE6281822990009AA9A /* TransitionAnimation.swift */,
 				497A2CEA28195D0C0009AA9A /* AnimationNavigationController.swift */,
 				497A2CEC28195DBF0009AA9A /* InteractiveTransitionDriven.swift */,
+				49E474F82820476B009B519E /* LoginWebKitViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -312,11 +316,20 @@
 				49D90B7527DA65BE0048866B /* AppDelegate.swift */,
 				49D90B7727DA65BE0048866B /* SceneDelegate.swift */,
 				498F321C27F32B1600FE7EC9 /* Controllers */,
-				498F321B27F32B0E00FE7EC9 /* Views */,
 				498F321A27F32B0100FE7EC9 /* Models */,
 				498F321D27F32B3F00FE7EC9 /* Resources */,
+				49E474FA2820613A009B519E /* Services */,
+				498F321B27F32B0E00FE7EC9 /* Views */,
 			);
 			path = VKApp;
+			sourceTree = "<group>";
+		};
+		49E474FA2820613A009B519E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				490AE8DA28218DF60062480F /* SessionManager.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		A87103B156C79884E06820E0 /* Frameworks */ = {
@@ -495,6 +508,7 @@
 				492A94B728007CB30059C9BE /* Photo.swift in Sources */,
 				497A2CE7281822990009AA9A /* TransitionAnimation.swift in Sources */,
 				498C292A27F353970058EAE7 /* FriendPhotoCollectionViewCell.swift in Sources */,
+				49E474F92820476B009B519E /* LoginWebKitViewController.swift in Sources */,
 				498C292627F34F130058EAE7 /* FriendPhotosCollectionViewController.swift in Sources */,
 				494CD6B828154CAF00250A56 /* CloudView.swift in Sources */,
 				498F321F27F32E1400FE7EC9 /* FriendsTableViewController.swift in Sources */,
@@ -502,6 +516,7 @@
 				49E3C50927FB0968001CFED4 /* ShadowView.swift in Sources */,
 				49E3C50B27FB27B3001CFED4 /* LikeControl.swift in Sources */,
 				49793EB227FAFCBB0091478A /* PhotoView.swift in Sources */,
+				490AE8DB28218DF60062480F /* SessionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

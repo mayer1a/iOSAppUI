@@ -21,8 +21,8 @@ class FullScreenUserPhoto: UIViewController {
 
     @IBOutlet weak var nextUserPhoto: UIImageView?
     @IBOutlet weak var displayedUserPhoto: UIImageView?
-
-    var userPhotos: [Photo] = []
+    
+    var photos = [Photo]()
     var showPhotoIndex = Int()
 
     private var direction: Direction? = .nonDirection
@@ -34,7 +34,7 @@ class FullScreenUserPhoto: UIViewController {
     private var nextPhotoIndex: Int? {
         let nextIndex = showPhotoIndex + 1
 
-        return nextIndex < userPhotos.count ? nextIndex : nil
+        return nextIndex < photos.count ? nextIndex : nil
     }
 
     private var previousPhotoIndex: Int? {
@@ -385,10 +385,10 @@ class FullScreenUserPhoto: UIViewController {
 
     private func setupDisplayedImage(by displayedIndex: Int) -> UIImage {
 
-        let diplayedPhotoName = userPhotos[displayedIndex].name
-
-        guard let path = Bundle.main.path(forResource: diplayedPhotoName, ofType: "jpg"),
-              let displayedPhoto = resizedImage(at: path)
+        guard
+            let displayedPhotoUrl = photos[displayedIndex].originalSizeUrl,
+            let path = URL(string: displayedPhotoUrl),
+            let displayedPhoto = resizedImage(at: path)
         else {
             return UIImage()
         }
@@ -400,14 +400,19 @@ class FullScreenUserPhoto: UIViewController {
     // MARK: - resizedImage
 
     // Resize photo image
-    private func resizedImage(at path: String) -> UIImage? {
+    private func resizedImage(at imageUrl: URL) -> UIImage? {
 
-        guard let image = UIImage(contentsOfFile: path) else { return nil }
+        guard
+            let imageData = try? Data(contentsOf: imageUrl),
+            let image = UIImage(data: imageData)
+        else {
+            return nil
+        }
 
         var rect = AVMakeRect(aspectRatio: image.size, insideRect: self.view.bounds)
 
-        let height = rect.height * 0.75
-        let width = rect.width * 0.75
+        let height = rect.height
+        let width = rect.width
         let size = CGSize(width: width, height: height)
 
         rect = CGRect(origin: rect.origin, size: size)

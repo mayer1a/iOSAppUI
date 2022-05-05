@@ -12,14 +12,14 @@ import UIKit
 
 final class FriendsTableViewController: UITableViewController {
 
-    private let users: [User] = User.friends
+    private var friends: [User] = [User]()
 
     private lazy var cloudView: CloudView? = {
         return CloudView(frame: CGRect(origin: .zero, size: CGSize(width: 150, height: 100)))
     }()
 
     // Group friends by first letter of last name
-    var grouppedFriends: [GrouppedFriends] = []
+    var grouppedFriends = [GrouppedFriends]()
 
 
     // MARK: - viewDidLoad
@@ -29,8 +29,13 @@ final class FriendsTableViewController: UITableViewController {
 
         tableView.sectionHeaderTopPadding = CGFloat(0)
         cloudView?.translatesAutoresizingMaskIntoConstraints = false
-        
-        grouppedFriends = groupFriends()
+
+        SessionManager.shared.loadFriendsList { [weak self] users in
+            guard let self = self else { return }
+            self.friends = users
+            self.grouppedFriends = self.groupFriends()
+            self.tableView.reloadData()
+        }
 
     }
 
@@ -109,14 +114,14 @@ final class FriendsTableViewController: UITableViewController {
     // MARK: - prepareForPushViewControllerAtSender
 
     private func prepare(for pushViewController: UIViewController, at sender: IndexPath?) {
-        guard let indexPath = sender,
-              let friendPhotoVC = pushViewController as? FriendPhotosCollectionViewController else {
+        guard
+            let indexPath = sender,
+            let friendPhotoVC = pushViewController as? FriendPhotosCollectionViewController
+        else {
             return
         }
 
-        friendPhotoVC.userPhotos =  grouppedFriends[indexPath.section].users[indexPath.row].photos ?? [Photo]()
-        friendPhotoVC.tableViewIndexPath = indexPath
-        friendPhotoVC.delegate = self
+        friendPhotoVC.userId = grouppedFriends[indexPath.section].users[indexPath.row].id
     }
 
 
@@ -125,13 +130,13 @@ final class FriendsTableViewController: UITableViewController {
     func groupFriends() -> [GrouppedFriends] {
         var result = [GrouppedFriends]()
 
-        for user in users {
-            guard let character: Character = user.surname.first else { continue }
+        for friend in friends {
+            guard let character: Character = friend.lastName.first else { continue }
 
             if let currentCharacter = result.firstIndex(where: { $0.character == character }) {
-                result[currentCharacter].users.append(user)
+                result[currentCharacter].users.append(friend)
             } else {
-                result.append(GrouppedFriends(character: character, users: [user]))
+                result.append(GrouppedFriends(character: character, users: [friend]))
             }
         }
 
@@ -139,8 +144,6 @@ final class FriendsTableViewController: UITableViewController {
         result = result.sorted {
             (String($0.character)).localizedCaseInsensitiveCompare(String($1.character)) == .orderedAscending
         }
-
-        GrouppedFriends.list = result
 
         return result
     }
@@ -211,15 +214,15 @@ final class FriendsTableViewController: UITableViewController {
 
         let friend = grouppedFriends[indexPath.section].users[indexPath.row]
 
-        guard let avatarName = friend.avatar,
-              let path = Bundle.main.path(forResource: avatarName, ofType: "jpg"),
-              let userAvatar = cell?.friendImage?.resizedImage(at: path, for: imageSize())
+        guard
+            let path = URL(string: friend.avatar),
+            let userAvatar = cell?.friendImage?.resizedImage(at: path, for: imageSize())
         else {
             return UITableViewCell()
         }
 
         cell?.friendImage?.image = userAvatar
-        cell?.friendName?.text = "\(friend.name) \(friend.surname)"
+        cell?.friendName?.text = "\(friend.firstName) \(friend.lastName)"
         //cell?.friendPhotoView?.layer.add(animateFriendPhoto(), forKey: nil)
 
         return cell ?? UITableViewCell()
@@ -243,16 +246,5 @@ final class FriendsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
-}
-
-
-// MARK: - FriendPhotosCollectionViewControllerDelegate
-
-extension FriendsTableViewController: FriendPhotosCollectionViewControllerDelegate {
-
-    func photoDidLiked(userIndexPath: IndexPath, photoIndexPath: IndexPath, isLiked: Bool) {
-        grouppedFriends[userIndexPath.section].users[userIndexPath.row].photos?[photoIndexPath.item].isLiked = isLiked
-    }
-    
 }
 

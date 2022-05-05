@@ -12,8 +12,8 @@ final class GroupsTableViewController: UITableViewController {
 
     private let customSearchView = CustomSearchBarView().loadView()
 
-    var myGroups: [Group] = []
-    var displayedGroups: [Group] = []
+    var myGroups = [Group]()
+    var displayedGroups = [Group]()
 
 
     // MARK: - viewDidLoad
@@ -22,8 +22,6 @@ final class GroupsTableViewController: UITableViewController {
         super.viewDidLoad()
 
         customSearchViewConfiguration()
-        setupData()
-
     }
 
 
@@ -43,7 +41,7 @@ final class GroupsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        tableView.reloadData()
+        setupData()
     }
 
 
@@ -60,9 +58,11 @@ final class GroupsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell",
                                                  for: indexPath) as? GroupTableViewCell
 
-        guard let groupAvatarName = displayedGroups[indexPath.row].avatar,
-              let path = Bundle.main.path(forResource: groupAvatarName, ofType: "jpg"),
-              let groupAvatar = cell?.groupImage?.resizedImage(at: path, for: imageSize())
+        let groupAvatarName = displayedGroups[indexPath.row].avatar
+
+        guard
+            let path = URL(string: groupAvatarName),
+            let groupAvatar = cell?.groupImage?.resizedImage(at: path, for: imageSize())
         else {
             return UITableViewCell()
         }
@@ -83,9 +83,10 @@ final class GroupsTableViewController: UITableViewController {
                                         title: "Отписаться",
                                         handler: { [weak self] _, _, block in
 
-            guard let groupToUnsubscribe = self?.myGroups.remove(at: indexPath.row) else { return }
+//            guard let groupToUnsubscribe = self?.myGroups.remove(at: indexPath.row) else { return }
 
-            Group.nonSubscribedGroups.append(groupToUnsubscribe)
+//            GroupTestData.nonSubscribedGroups.append(groupToUnsubscribe)
+            // TODO: метод отписки от группы
 
             block(true)
 
@@ -178,8 +179,15 @@ final class GroupsTableViewController: UITableViewController {
     // MARK: - setupData
 
     private func setupData() {
-        myGroups = Group.subscribedGroups
-        displayedGroups = myGroups
+
+        SessionManager.shared.loadMyGroups(completion: { [weak self] groups in
+            guard let self = self else { return }
+
+            self.myGroups = groups
+            self.displayedGroups = self.myGroups
+            self.tableView.reloadData()
+        })
+
     }
 
 
@@ -248,15 +256,18 @@ final class GroupsTableViewController: UITableViewController {
     private func updateDisplayedGroups(searchText: String) {
 
         guard !searchText.isEmpty else {
-            displayedGroups = myGroups
-            tableView.reloadData()
+            setupData()
 
             return
         }
 
-        displayedGroups = myGroups.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+        SessionManager.shared.loadSearchedGroups(searchText: searchText) { [weak self] groups in
+            guard let self = self else { return }
 
-        tableView.reloadData()
+            self.displayedGroups = groups.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+            self.tableView.reloadData()
+        }
+
     }
 
 }
@@ -269,19 +280,19 @@ extension GroupsTableViewController: SearchGroupTableViewControllerDelegate {
 
     // MARK: - subscribeGroup
 
-    func subscribeGroup(group: Group) {
+    func subscribeGroup(group: GroupTestData) {
 
         guard
-            let removeGroupIndex = Group.nonSubscribedGroups.enumerated().first(where: {
+            let removeGroupIndex = GroupTestData.nonSubscribedGroups.enumerated().first(where: {
                 $0.element.id == group.id
             })?.offset
         else {
             return
         }
 
-        myGroups.append(group)
+//        myGroups.append(group)
 
-        Group.nonSubscribedGroups.remove(at: removeGroupIndex)
+//        GroupTestData.nonSubscribedGroups.remove(at: removeGroupIndex)
         updateDisplayedGroups(searchText: customSearchView?.searchTextField?.text ?? "")
     }
 

@@ -8,46 +8,46 @@
 import Foundation
 
 struct News {
-    let user: User
+    let user: UserTestData
     let postingDate: String
     var text: String?
-    var photos: [Photo]?
+    var photos: [PhotoTestData]?
     var numberOfViews: Int = 0
     var numberOfLikes: Int = 0
     var numbersOfComments: Int = 0
     var numbersOfShares: Int = 0
 
     static var list = [
-        News(user: User(id: 645353,
-                        name: "Александр",
-                        surname: "Кузнецов",
-                        photos: [Photo(name: "AlexandrKuznetsov"),
-                                 Photo(name: "AlexandrKuznetsov")],
+        News(user: UserTestData(id: 645353,
+                        firstName: "Александр",
+                        lastName: "Кузнецов",
+                        photos: [PhotoTestData(name: "AlexandrKuznetsov"),
+                                 PhotoTestData(name: "AlexandrKuznetsov")],
                         avatar: "AlexandrKuznetsov"),
              postingDate: "09.04.2022 20:38",
              text: "Some text ...",
-             photos: [Photo(name: "ClayCrafting")]),
-        News(user: User(id: 738473,
-                        name: "Лев",
-                        surname: "Фёдоров",
-                        photos: [Photo(name:"LevFedorov"),
-                                 Photo(name:"photoSecond"),
-                                 Photo(name:"photoThird"),
-                                 Photo(name:"photoFourth"),
-                                 Photo(name:"photoWoman"),
-                                 Photo(name:"Mom")],
+             photos: [PhotoTestData(name: "ClayCrafting")]),
+        News(user: UserTestData(id: 738473,
+                        firstName: "Лев",
+                        lastName: "Фёдоров",
+                        photos: [PhotoTestData(name:"LevFedorov"),
+                                 PhotoTestData(name:"photoSecond"),
+                                 PhotoTestData(name:"photoThird"),
+                                 PhotoTestData(name:"photoFourth"),
+                                 PhotoTestData(name:"photoWoman"),
+                                 PhotoTestData(name:"Mom")],
                         avatar: "LevFedorov"),
              postingDate: "09.04.2022 21:47",
              text: "Some text ...",
-             photos: [Photo(name: "DIYOrCozyHome")]),
-        News(user: User(id: 938263,
-                        name: "Лилия",
-                        surname: "Зимина",
-                        photos: [Photo(name:"LiliaZimina"),
-                                 Photo(name:"photoWomanSecond")],
+             photos: [PhotoTestData(name: "DIYOrCozyHome")]),
+        News(user: UserTestData(id: 938263,
+                        firstName: "Лилия",
+                        lastName: "Зимина",
+                        photos: [PhotoTestData(name:"LiliaZimina"),
+                                 PhotoTestData(name:"photoWomanSecond")],
                         avatar: "LiliaZimina"),
              postingDate: "09.04.2022 22:01",
              text: "Some text ...",
-             photos: [Photo(name: "GeekComputerClub")])]
+             photos: [PhotoTestData(name: "GeekComputerClub")])]
     
 }

@@ -8,18 +8,10 @@
 import UIKit
 
 
-// MARK: - FriendPhotosCollectionViewControllerDelegate
-
-protocol FriendPhotosCollectionViewControllerDelegate {
-    func photoDidLiked(userIndexPath: IndexPath, photoIndexPath: IndexPath, isLiked: Bool)
-}
-
-
 final class FriendPhotosCollectionViewController: UICollectionViewController {
 
-    var userPhotos: [Photo] = []
-    var tableViewIndexPath = IndexPath()
-    var delegate: FriendPhotosCollectionViewControllerDelegate?
+    var photos = [Photo]()
+    var userId = Int()
 
 
     // MARK: - viewDidLoad
@@ -29,13 +21,18 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
 
         let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
         layout?.estimatedItemSize = .zero
+
+        SessionManager.shared.loadUserPhotos(id: userId) { [weak self] photos in
+            self?.photos = photos
+            self?.collectionView.reloadData()
+        }
     }
 
 
     // MARK: - numberOfItemsInSection
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return userPhotos.count
+        return photos.count
     }
 
 
@@ -44,36 +41,37 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let photo = userPhotos[indexPath.item]
+        let photo = photos[indexPath.item]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendPhotoViewCell",
                                                       for: indexPath) as? FriendPhotoCollectionViewCell
 
 //        let gesture = UITapGestureRecognizer(target: self, action: #selector(cellImageDidTapped(_:)))
 //        cell?.friendPhoto?.addGestureRecognizer(gesture)
 
-        guard let path = Bundle.main.path(forResource: photo.name, ofType: "jpg"),
-              let userPhoto = cell?.friendPhoto?.resizedImage(at: path, for: imageSize()) else {
+        guard
+            let path = URL(string: photo.smallSizeUrl),
+            let userPhoto = cell?.friendPhoto?.resizedImage(at: path, for: imageSize())
+        else {
             return UICollectionViewCell()
         }
 
         cell?.friendPhoto?.image = userPhoto
-        cell?.likeControl?.isSelected = photo.isLiked
+        cell?.likeControl?.isSelected = photo.isLiked == 1 ? true : false
+        cell?.likeControl?.likeLabel?.text = String(photo.likesCounter)
+        cell?.likeControl?.setupLikesCounter(equal: photo.likesCounter)
+
+        // TODO: метод "отправки лайка" на бек
 
         cell?.photoDidLiked = { [weak self] isLiked in
 
-            guard let self = self else { return }
-
-            self.delegate?.photoDidLiked(userIndexPath: self.tableViewIndexPath,
-                                         photoIndexPath: indexPath,
-                                         isLiked: isLiked)
-
-            self.userPhotos[indexPath.item].isLiked = isLiked
-
+            self?.photos[indexPath.item].isLiked = isLiked ? 1 : 0
         }
         
         return cell ?? UICollectionViewCell()
     }
 
+
+    // MARK: - didSelectItemAt
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -81,21 +79,22 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         let fullScreenUserPhoto = storyboard.instantiateViewController(withIdentifier: "FullScreenUserPhoto")
 
         prepare(for: fullScreenUserPhoto, at: indexPath)
-
+        
         navigationController?.pushViewController(fullScreenUserPhoto, animated: true)
-
     }
 
 
     // MARK: - prepareForPushViewControllerAtSender
 
     private func prepare(for pushViewController: UIViewController, at sender: IndexPath?) {
-        guard let indexPath = sender,
-              let fullScreenPhotoVC = pushViewController as? FullScreenUserPhoto else {
+        guard
+            let indexPath = sender,
+            let fullScreenPhotoVC = pushViewController as? FullScreenUserPhoto
+        else {
             return
         }
-
-        fullScreenPhotoVC.userPhotos = userPhotos
+        
+        fullScreenPhotoVC.photos = photos
         fullScreenPhotoVC.showPhotoIndex = indexPath.item
     }
 
@@ -121,30 +120,13 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         return view.bounds.size.applying(scale)
     }
 
-    
-    // MARK: - prepareForSender
-
-    // Prepare data to transfer at next ViewController
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        guard let _ = sender as? FriendPhotoCollectionViewCell,
-//              let fullScreenPhotoVC = segue.destination as? FullScreenUserPhoto,
-//              let item = collectionView.indexPathsForSelectedItems?.first?.item
-//        else {
-//            return
-//        }
-//
-//        if segue.identifier == "FullShowUserPhoto" {
-//            fullScreenPhotoVC.userPhotos = userPhotos
-//            fullScreenPhotoVC.showPhotoIndex = item
-//        }
-//    }
-
 }
 
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension FriendPhotosCollectionViewController: UICollectionViewDelegateFlowLayout {
+
 
     // MARK: - sizeForItemAt
 

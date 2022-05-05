@@ -18,7 +18,6 @@ final class FriendPhotoCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
 
         likeControl?.addTarget(self, action: #selector(likeControlTapped), for: .touchUpInside)
-
     }
 
 

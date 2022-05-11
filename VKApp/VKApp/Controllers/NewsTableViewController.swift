@@ -70,12 +70,13 @@ class NewsTableViewController: UITableViewController {
 
         let news = displayedNews[indexPath.section]
 
-        guard let userAvatarName = news.user.avatar,
-              let userAvatarPath = Bundle.main.path(forResource: userAvatarName, ofType: "jpg"),
+        guard //let userAvatarName = news.user.avatar,
+//              let userAvatarPath = Bundle.main.path(forResource: userAvatarName, ofType: "jpg"),
 //              let userAvatar = cell?.newsAuthorAvatar?.resizedImage(at: userAvatarPath, for: imageSize()),
-              let newsText = news.text,
-              let newsPhotoName = news.photos?.first?.name,
-              let newsPhotoPath = Bundle.main.path(forResource: newsPhotoName, ofType: "jpg") else {
+              let newsText = news.text
+//              let newsPhotoName = news.photos?.first?.name,
+//              let newsPhotoPath = Bundle.main.path(forResource: newsPhotoName, ofType: "jpg")
+               else {
 //              let newsPhoto = cell?.newsPhotoImageView?.resizedImage(at: newsPhotoPath, for: imageSize()) else {
             return UITableViewCell()
         }

@@ -18,6 +18,8 @@ final class FriendsTableViewController: UITableViewController {
         return CloudView(frame: CGRect(origin: .zero, size: CGSize(width: 150, height: 100)))
     }()
 
+    private var alphabetControl: FriendsAlphabetView? = nil
+
     // Group friends by first letter of last name
     var grouppedFriends = [GrouppedFriends]()
 
@@ -30,11 +32,37 @@ final class FriendsTableViewController: UITableViewController {
         tableView.sectionHeaderTopPadding = CGFloat(0)
         cloudView?.translatesAutoresizingMaskIntoConstraints = false
 
-        SessionManager.shared.loadFriendsList { [weak self] users in
-            guard let self = self else { return }
-            self.friends = users
-            self.grouppedFriends = self.groupFriends()
-            self.tableView.reloadData()
+        loadFriends()
+
+    }
+
+
+    // MARK: - viewWillAppear
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        setupAlphabetView()
+    }
+
+
+    // MARK: - viewWillDisappear
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        alphabetControl?.removeFromSuperview()
+    }
+
+
+    // MARK: - viewWillTransition
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+
+        coordinator.animate { _ in
+            self.alphabetControl?.removeFromSuperview()
+            self.setupAlphabetView()
         }
 
     }
@@ -89,6 +117,55 @@ final class FriendsTableViewController: UITableViewController {
     }
 
 
+    // MARK: - loadFriends
+
+    private func loadFriends() {
+
+        SessionManager.shared.loadFriendsList { [weak self] users in
+            guard let self = self else { return }
+
+            DispatchQueue.main.async {
+                self.friends = users
+                self.grouppedFriends = self.groupFriends()
+
+                self.tableView.reloadData()
+                self.setupAlphabetView()
+            }
+        }
+
+    }
+
+
+    // MARK: - setupAlphabetView
+
+    private func setupAlphabetView() {
+
+        if grouppedFriends.count == 0 { return }
+
+        guard let safeArea = tabBarController?.view.safeAreaLayoutGuide.layoutFrame else { return }
+
+        let customFrame = CGRect(origin: CGPoint(x: safeArea.size.width - 25, y: safeArea.origin.y),
+                                 size: CGSize(width: 25.0, height: 500))
+
+        alphabetControl = FriendsAlphabetView(frame: customFrame)
+        alphabetControl?.addTarget(self, action: #selector(characterChanged), for: .valueChanged)
+
+        self.grouppedFriends.forEach {
+            self.alphabetControl?.characters.append($0.character)
+        }
+
+        guard let alphabetView = alphabetControl, let tabBarView = tabBarController?.view else { return }
+
+        tabBarView.addSubview(alphabetView)
+
+        NSLayoutConstraint.activate([
+            tabBarView.centerYAnchor.constraint(equalTo: alphabetView.centerYAnchor, constant: 0),
+            tabBarView.trailingAnchor.constraint(equalTo: alphabetView.trailingAnchor, constant: 0)
+        ])
+
+    }
+
+
     // MARK: - @objc stopAnimation
 
     @objc func stopAnimation() {
@@ -108,6 +185,22 @@ final class FriendsTableViewController: UITableViewController {
         prepare(for: friendsPhotoCollectionVC, at: tableView.indexPathForSelectedRow)
 
         navigationController?.pushViewController(friendsPhotoCollectionVC, animated: true)
+    }
+
+
+    // MARK: - characterChanged
+
+    @objc func characterChanged() {
+
+        guard
+            let section = grouppedFriends.firstIndex(where: { $0.character == alphabetControl?.selectedCharacter })
+        else {
+            return
+        }
+
+        let indexPath = IndexPath(row: 0, section: section)
+
+        tableView.scrollToRow(at: indexPath, at: .top, animated: false)
     }
 
 

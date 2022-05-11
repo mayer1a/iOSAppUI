@@ -34,7 +34,7 @@ class LoginWebKitViewController: UIViewController {
             URLQueryItem(name: "client_id", value: "8155664"),
             URLQueryItem(name: "redirect_uri", value: "https://oauth.vk.com/blank.html"),
             URLQueryItem(name: "display", value: "mobile"),
-            URLQueryItem(name: "scope", value: "262150"),
+            URLQueryItem(name: "scope", value: "327686"),
             URLQueryItem(name: "response_type", value: "token"),
             URLQueryItem(name: "v", value: "5.131")
         ]
@@ -62,7 +62,8 @@ extension LoginWebKitViewController: WKNavigationDelegate {
         guard
             let url = navigationResponse.response.url,
             let fragment = url.fragment,
-            url.path == "/blank.html"
+            url.path == "/blank.html",
+            url.fragment?.contains("error") == nil
         else {
             decisionHandler(.allow)
 
@@ -84,17 +85,17 @@ extension LoginWebKitViewController: WKNavigationDelegate {
 
         guard
             let token = parameters["access_token"],
-            let userIDString = parameters["user_id"],
-            let userID = Int(userIDString)
+            let userIdString = parameters["user_id"],
+            let userId = Int(userIdString)
         else {
             return
         }
 
         Session.shared.token = token
-        Session.shared.userID = userID
+        Session.shared.userID = userId
 
         print(token)
-        print(userID)
+        print(userId)
 
         decisionHandler(.cancel)
 

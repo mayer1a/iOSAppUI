@@ -34,12 +34,12 @@ class SearchGroupTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell",
                                                  for: indexPath) as? SearchGroupTableViewCell
         
-        guard let groupAvatarName = nonSubscribedGroups[indexPath.row].avatar,
-              let path = Bundle.main.path(forResource: groupAvatarName, ofType: "jpg")
+//        guard let groupAvatarName = nonSubscribedGroups[indexPath.row].avatar,
+//              let path = Bundle.main.path(forResource: groupAvatarName, ofType: "jpg")
 //              let groupAvatar = cell?.groupImage?.resizedImage(at: path, for: imageSize())
-        else {
-            return UITableViewCell()
-        }
+//        else {
+//            return UITableViewCell()
+//        }
         
 //        cell?.groupImage?.image = groupAvatar
         cell?.groupName?.text = nonSubscribedGroups[indexPath.row].name

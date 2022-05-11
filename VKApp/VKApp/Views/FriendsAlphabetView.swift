@@ -7,14 +7,120 @@
 
 import UIKit
 
-class FriendsAlphabetView: UIView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+final class FriendsAlphabetView: UIControl {
+
+    @IBOutlet var alphabetView: UIView?
+    @IBOutlet weak var alphabetStackView: UIStackView?
+
+    
+    var characters = [Character]() {
+        didSet {
+            setupStackView()
+        }
     }
-    */
+
+    var selectedCharacter: Character?
+
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        setupView()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+
+        setupView()
+    }
+
+}
+
+
+extension FriendsAlphabetView {
+
+    private func setupView() {
+
+        Bundle.main.loadNibNamed("FriendsAlphabetView", owner: self, options: nil)
+
+        guard let alphabetView = alphabetView else { return }
+
+        self.addSubview(alphabetView)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
+        alphabetView.frame = self.bounds
+    }
+
+    override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        updateSelectedLabel(using: touch)
+
+        return super.beginTracking(touch, with: event)
+    }
+
+    override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        updateSelectedLabel(using: touch)
+
+        return super.beginTracking(touch, with: event)
+    }
+
+    override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
+        guard let touch = touch else { return }
+
+        updateSelectedLabel(using: touch)
+
+        super.endTracking(touch, with: event)
+    }
+
+    override func cancelTracking(with event: UIEvent?) {
+        guard let stackview = alphabetStackView?.arrangedSubviews as? [UILabel] else { return }
+
+        stackview.forEach { $0.textColor = .systemBlue }
+
+        super.cancelTracking(with: event)
+    }
+
+    private func setupStackView() {
+
+        alphabetStackView?.arrangedSubviews.forEach {
+            $0.removeFromSuperview()
+        }
+
+        characters.forEach { character in
+            let label = UILabel()
+
+            label.textAlignment = .center
+            label.text = String(character)
+            label.textColor = .systemBlue
+            label.font = label.font.withSize(12.0)
+
+            alphabetStackView?.addArrangedSubview(label)
+        }
+
+    }
+
+    private func updateSelectedLabel(using touch: UITouch) {
+        let views = alphabetStackView?.arrangedSubviews as? [UILabel]
+        let location = touch.location(in: self)
+
+        views?.forEach {
+            if $0.frame.contains(location) {
+
+                guard
+                    let labelText = $0.text?.first,
+                    selectedCharacter != labelText
+                else {
+                    return
+                }
+
+                selectedCharacter = labelText
+                sendActions(for: .valueChanged)
+                
+                $0.textColor = .systemRed
+            } else {
+                $0.textColor = .systemBlue
+            }
+        }
+    }
 
 }

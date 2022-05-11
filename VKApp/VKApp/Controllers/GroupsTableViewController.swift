@@ -81,7 +81,7 @@ final class GroupsTableViewController: UITableViewController {
 
         let action = UIContextualAction(style: .destructive,
                                         title: "Отписаться",
-                                        handler: { [weak self] _, _, block in
+                                        handler: { _, _, block in
 
 //            guard let groupToUnsubscribe = self?.myGroups.remove(at: indexPath.row) else { return }
 
@@ -282,13 +282,13 @@ extension GroupsTableViewController: SearchGroupTableViewControllerDelegate {
 
     func subscribeGroup(group: GroupTestData) {
 
-        guard
-            let removeGroupIndex = GroupTestData.nonSubscribedGroups.enumerated().first(where: {
-                $0.element.id == group.id
-            })?.offset
-        else {
-            return
-        }
+//        guard
+//            let removeGroupIndex = GroupTestData.nonSubscribedGroups.enumerated().first(where: {
+//                $0.element.id == group.id
+//            })?.offset
+//        else {
+//            return
+//        }
 
 //        myGroups.append(group)
 

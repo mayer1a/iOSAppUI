@@ -43,6 +43,8 @@
 		492A94BF2801C6D10059C9BE /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492A94BE2801C6D10059C9BE /* News.swift */; };
 		492C372A280345D400BEA637 /* DownloadIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 492C3728280345D400BEA637 /* DownloadIndicatorView.xib */; };
 		492C372C2803476400BEA637 /* DownloadIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C372B2803476400BEA637 /* DownloadIndicatorView.swift */; };
+		494692182829577F00C3F06D /* FriendsAlphabetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 494692162829577F00C3F06D /* FriendsAlphabetView.xib */; };
+		4946921C28295D8500C3F06D /* FriendsAlphabetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4946921B28295D8500C3F06D /* FriendsAlphabetView.swift */; };
 		494CD6B828154CAF00250A56 /* CloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494CD6B728154CAF00250A56 /* CloudView.swift */; };
 		49793EB227FAFCBB0091478A /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49793EB127FAFCBB0091478A /* PhotoView.swift */; };
 		497A2CE7281822990009AA9A /* TransitionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497A2CE6281822990009AA9A /* TransitionAnimation.swift */; };
@@ -117,6 +119,8 @@
 		492A94BE2801C6D10059C9BE /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		492C3728280345D400BEA637 /* DownloadIndicatorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DownloadIndicatorView.xib; sourceTree = "<group>"; };
 		492C372B2803476400BEA637 /* DownloadIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadIndicatorView.swift; sourceTree = "<group>"; };
+		494692162829577F00C3F06D /* FriendsAlphabetView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendsAlphabetView.xib; sourceTree = "<group>"; };
+		4946921B28295D8500C3F06D /* FriendsAlphabetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsAlphabetView.swift; sourceTree = "<group>"; };
 		494CD6B728154CAF00250A56 /* CloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudView.swift; sourceTree = "<group>"; };
 		49793EB127FAFCBB0091478A /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		497A2CE6281822990009AA9A /* TransitionAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionAnimation.swift; sourceTree = "<group>"; };
@@ -230,6 +234,7 @@
 			children = (
 				49FF922928072D8300ED648A /* CustomSearchBarView.xib */,
 				492C3728280345D400BEA637 /* DownloadIndicatorView.xib */,
+				494692162829577F00C3F06D /* FriendsAlphabetView.xib */,
 				49D90B8027DA65C00048866B /* LaunchScreen.storyboard */,
 				49D90B7B27DA65BE0048866B /* Main.storyboard */,
 			);
@@ -256,9 +261,11 @@
 			isa = PBXGroup;
 			children = (
 				494CD6B628154A9E00250A56 /* Storyboards */,
+				494CD6B728154CAF00250A56 /* CloudView.swift */,
 				49B4237827F1C2EB0038EABE /* CircularPreviewImageView.swift */,
 				49FF92262807263400ED648A /* CustomSearchBarView.swift */,
 				492C372B2803476400BEA637 /* DownloadIndicatorView.swift */,
+				4946921B28295D8500C3F06D /* FriendsAlphabetView.swift */,
 				498C292927F353970058EAE7 /* FriendPhotoCollectionViewCell.swift */,
 				498C292327F3358F0058EAE7 /* FriendsTableViewCell.swift */,
 				4984269827F5FAF30078A50C /* GroupTableViewCell.swift */,
@@ -268,7 +275,6 @@
 				491A1C9227F4CAF0009287E2 /* PreviewScaledImageView.swift */,
 				4984269A27F5FC070078A50C /* SearchGroupTableViewCell.swift */,
 				49E3C50827FB0968001CFED4 /* ShadowView.swift */,
-				494CD6B728154CAF00250A56 /* CloudView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -410,6 +416,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				491A1C2B27F4B734009287E2 /* AndyHopkins.jpg in Resources */,
+				494692182829577F00C3F06D /* FriendsAlphabetView.xib in Resources */,
 				49D90B8227DA65C00048866B /* LaunchScreen.storyboard in Resources */,
 				491A1C8A27F4BEF7009287E2 /* DIYOrCozyHome.jpg in Resources */,
 				491A1C2A27F4B734009287E2 /* LiliaZimina.jpg in Resources */,
@@ -496,6 +503,7 @@
 				498C292227F3340E0058EAE7 /* GroupTestData.swift in Sources */,
 				492A94BF2801C6D10059C9BE /* News.swift in Sources */,
 				49D90B7A27DA65BE0048866B /* LoginViewController.swift in Sources */,
+				4946921C28295D8500C3F06D /* FriendsAlphabetView.swift in Sources */,
 				49B4237927F1C2EB0038EABE /* CircularPreviewImageView.swift in Sources */,
 				498C292427F3358F0058EAE7 /* FriendsTableViewCell.swift in Sources */,
 				492A94BD2801AEB40059C9BE /* NewsTableViewController.swift in Sources */,

@@ -134,9 +134,19 @@ extension FriendPhotosCollectionViewController: UICollectionViewDelegateFlowLayo
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let screenWidth = UIScreen.main.bounds.width
-        let itemSize = (screenWidth / 3) - 15
+
+        let photosPerRow: CGFloat = UIDevice.current.orientation.isPortrait ? 3.0 : 6.0
+
+        guard
+            let minimumInteritemSpacing = (collectionViewLayout as? UICollectionViewFlowLayout)?.minimumInteritemSpacing
+        else {
+            return CGSize()
+        }
+
+        let width = collectionView.frame.width
+        let itemSize = (width - minimumInteritemSpacing * (photosPerRow - 1.0)) / photosPerRow
+//        let screenWidth = UIScreen.main.bounds.width
+//        let itemSize = (screenWidth / 3) - 15
 
         return CGSize(width: itemSize, height: itemSize)
     }

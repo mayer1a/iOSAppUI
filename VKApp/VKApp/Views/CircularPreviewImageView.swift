@@ -8,6 +8,7 @@
 import UIKit
 import func AVFoundation.AVMakeRect
 
+
 final class CircularPreviewImageView: UIImageView {
 
     // MARK: layoutSubviews
@@ -18,8 +19,9 @@ final class CircularPreviewImageView: UIImageView {
         self.layer.cornerRadius = self.frame.width / 2
     }
 
+
     // Resized large images to preview
-    func resizedImage(at imageUrl: URL, for size: CGSize) -> UIImage? {
+    func resizedImage(at imageUrl: URL) -> UIImage? {
         
         guard
             let imageData = try? Data(contentsOf: imageUrl, options: .uncached),
@@ -28,21 +30,23 @@ final class CircularPreviewImageView: UIImageView {
             return nil
         }
 
-        var rect = AVMakeRect(aspectRatio: image.size, insideRect: super.bounds)
+        return image
 
-        let height = rect.height
-        let width = rect.width
-        let size = CGSize(width: width, height: height)
-
-        rect = CGRect(origin: rect.origin, size: size)
-
-        let rendered = UIGraphicsImageRenderer(size: rect.size)
-
-        let renderedImage = rendered.image { (context) in
-            image.draw(in: CGRect(origin: .zero, size: rect.size))
-        }
-        
-        return renderedImage
+//        var rect = AVMakeRect(aspectRatio: image.size, insideRect: super.bounds)
+//
+//        let height = rect.height
+//        let width = rect.width
+//        let size = CGSize(width: width, height: height)
+//
+//        rect = CGRect(origin: rect.origin, size: size)
+//
+//        let rendered = UIGraphicsImageRenderer(size: rect.size)
+//
+//        let renderedImage = rendered.image { (context) in
+//            image.draw(in: CGRect(origin: .zero, size: rect.size))
+//        }
+//
+//        return renderedImage
     }
 
 }

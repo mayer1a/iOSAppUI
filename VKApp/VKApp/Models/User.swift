@@ -43,6 +43,26 @@ class User: Decodable {
         self.isFriend = try? container.decode(Int.self, forKey: .isFriend)
         self.blacklisted = try? container.decode(Int.self, forKey: .blacklisted)
     }
+
+    required init(
+        id: Int,
+        firstName: String,
+        lastName: String,
+        isClosed: Bool,
+        canAccessClosed: Bool,
+        avatar: String,
+        blacklisted: Int?,
+        isFriend: Int?
+    ) {
+        self.id = id
+        self.firstName = firstName
+        self.lastName = lastName
+        self.isClosed = isClosed
+        self.canAccessClosed = canAccessClosed
+        self.avatar = avatar
+        self.blacklisted = blacklisted
+        self.isFriend = isFriend
+    }
 }
 
 

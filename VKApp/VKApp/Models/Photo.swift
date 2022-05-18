@@ -8,6 +8,8 @@
 import Foundation
 
 
+// MARK: - Photo
+
 class Photo: Decodable {
     let id: Int
     var albumId: Int
@@ -85,8 +87,28 @@ class Photo: Decodable {
         self.likesCounter = try likesValues.decode(Int.self, forKey: .likesCounter)
         self.isLiked = try likesValues.decode(Int.self, forKey: .isLiked)
     }
+
+    required init(
+        id: Int,
+        albumId: Int,
+        ownerId: Int,
+        smallSizeUrl: String,
+        originalSizeUrl: String?,
+        likesCounter: Int,
+        isLiked: Int
+    ) {
+        self.id = id
+        self.albumId = albumId
+        self.ownerId = ownerId
+        self.smallSizeUrl = smallSizeUrl
+        self.originalSizeUrl = originalSizeUrl
+        self.likesCounter = likesCounter
+        self.isLiked = isLiked
+    }
 }
 
+
+// MARK: - PhotoResponse
 
 class PhotoResponse: Decodable {
     var count: Int

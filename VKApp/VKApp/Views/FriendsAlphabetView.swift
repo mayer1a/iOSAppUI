@@ -40,6 +40,8 @@ final class FriendsAlphabetView: UIControl {
 
 extension FriendsAlphabetView {
 
+    // MARK: - setupView
+
     private func setupView() {
 
         Bundle.main.loadNibNamed("FriendsAlphabetView", owner: self, options: nil)
@@ -52,17 +54,26 @@ extension FriendsAlphabetView {
         alphabetView.frame = self.bounds
     }
 
+
+    // MARK: - beginTracking
+
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         updateSelectedLabel(using: touch)
 
         return super.beginTracking(touch, with: event)
     }
 
+
+    // MARK: - continueTracking
+
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         updateSelectedLabel(using: touch)
 
         return super.beginTracking(touch, with: event)
     }
+
+
+    // MARK: - endTracking
 
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         guard let touch = touch else { return }
@@ -72,6 +83,9 @@ extension FriendsAlphabetView {
         super.endTracking(touch, with: event)
     }
 
+
+    // MARK: - cancelTracking
+
     override func cancelTracking(with event: UIEvent?) {
         guard let stackview = alphabetStackView?.arrangedSubviews as? [UILabel] else { return }
 
@@ -79,6 +93,9 @@ extension FriendsAlphabetView {
 
         super.cancelTracking(with: event)
     }
+
+
+    // MARK: - setupStackView
 
     private func setupStackView() {
 
@@ -98,6 +115,9 @@ extension FriendsAlphabetView {
         }
 
     }
+
+
+    // MARK: - updateSelectedLabel
 
     private func updateSelectedLabel(using touch: UITouch) {
         let views = alphabetStackView?.arrangedSubviews as? [UILabel]

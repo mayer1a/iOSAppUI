@@ -62,7 +62,7 @@ final class GroupsTableViewController: UITableViewController {
 
         guard
             let path = URL(string: groupAvatarName),
-            let groupAvatar = cell?.groupImage?.resizedImage(at: path, for: imageSize())
+            let groupAvatar = cell?.groupImage?.resizedImage(at: path)
         else {
             return UITableViewCell()
         }
@@ -83,9 +83,9 @@ final class GroupsTableViewController: UITableViewController {
                                         title: "Отписаться",
                                         handler: { _, _, block in
 
-//            guard let groupToUnsubscribe = self?.myGroups.remove(at: indexPath.row) else { return }
+            //            guard let groupToUnsubscribe = self?.myGroups.remove(at: indexPath.row) else { return }
 
-//            GroupTestData.nonSubscribedGroups.append(groupToUnsubscribe)
+            //            GroupTestData.nonSubscribedGroups.append(groupToUnsubscribe)
             // TODO: метод отписки от группы
 
             block(true)
@@ -180,24 +180,44 @@ final class GroupsTableViewController: UITableViewController {
 
     private func setupData() {
 
-        SessionManager.shared.loadMyGroups(completion: { [weak self] groups in
-            guard let self = self else { return }
+        do {
+            let groups = try RealmGroup.restoreData()
+            let userDefaults = UserDefaults.standard
+            let currentTime = Int(Date().timeIntervalSince1970)
 
-            self.myGroups = groups
-            self.displayedGroups = self.myGroups
-            self.tableView.reloadData()
-        })
+            if currentTime - userDefaults.integer(forKey: "groupsLastLoad") > 10_000 || groups.isEmpty {
+                loadGroups()
+
+                userDefaults.set(currentTime, forKey: "groupsLastLoad")
+            } else {
+                self.myGroups = groups
+                self.displayedGroups = myGroups
+
+                self.tableView.reloadData()
+            }
+        } catch {
+            print(error)
+        }
 
     }
 
 
-    // MARK: - imageSize
+    // MARK: - loadGroups
 
-    private func imageSize() -> CGSize {
-        let scaleFactor = UIScreen.main.scale
-        let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
+    private func loadGroups() {
 
-        return view.bounds.size.applying(scale)
+        SessionManager.shared.loadMyGroups(completion: { groups in
+            DispatchQueue.main.async { [weak self] in
+                
+                guard let self = self else { return }
+
+                self.myGroups = groups
+                self.displayedGroups = self.myGroups
+
+                self.tableView.reloadData()
+            }
+
+        })
     }
 
 
@@ -282,17 +302,17 @@ extension GroupsTableViewController: SearchGroupTableViewControllerDelegate {
 
     func subscribeGroup(group: GroupTestData) {
 
-//        guard
-//            let removeGroupIndex = GroupTestData.nonSubscribedGroups.enumerated().first(where: {
-//                $0.element.id == group.id
-//            })?.offset
-//        else {
-//            return
-//        }
+        //        guard
+        //            let removeGroupIndex = GroupTestData.nonSubscribedGroups.enumerated().first(where: {
+        //                $0.element.id == group.id
+        //            })?.offset
+        //        else {
+        //            return
+        //        }
 
-//        myGroups.append(group)
+        //        myGroups.append(group)
 
-//        GroupTestData.nonSubscribedGroups.remove(at: removeGroupIndex)
+        //        GroupTestData.nonSubscribedGroups.remove(at: removeGroupIndex)
         updateDisplayedGroups(searchText: customSearchView?.searchTextField?.text ?? "")
     }
 

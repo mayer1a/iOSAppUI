@@ -187,37 +187,39 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <inset key="separatorInset" minX="100" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FriendCell" id="91H-Rk-Uaw" customClass="FriendsTableViewCell" customModule="VKApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44.5" width="414" height="92.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FriendCell" rowHeight="92" id="91H-Rk-Uaw" customClass="FriendsTableViewCell" customModule="VKApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="92"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="91H-Rk-Uaw" id="4oG-mT-wOs">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="92.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="92"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tnk-YS-N7r" customClass="PhotoView" customModule="VKApp" customModuleProvider="target">
-                                            <rect key="frame" x="10" y="10" width="72" height="72.5"/>
+                                            <rect key="frame" x="10" y="10" width="72" height="72"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="naz-fG-lJm" customClass="ShadowView" customModule="VKApp" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="-0.5" width="72" height="72"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 </view>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hgp-a5-dy5" customClass="CircularPreviewImageView" customModule="VKApp">
-                                                    <rect key="frame" x="0.0" y="0.0" width="72" height="72.5"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="hgp-a5-dy5" customClass="CircularPreviewImageView" customModule="VKApp">
+                                                    <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="72" id="acg-Eo-iVX"/>
+                                                        <constraint firstAttribute="width" constant="72" id="j4O-fT-45x"/>
+                                                    </constraints>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="hgp-a5-dy5" secondAttribute="trailing" id="2UE-UZ-prW"/>
                                                 <constraint firstItem="hgp-a5-dy5" firstAttribute="leading" secondItem="Tnk-YS-N7r" secondAttribute="leading" id="Lgx-yY-qzM"/>
-                                                <constraint firstAttribute="width" constant="72" id="MHh-PY-2Cd"/>
                                                 <constraint firstAttribute="bottom" secondItem="hgp-a5-dy5" secondAttribute="bottom" id="m4T-Pb-69s"/>
-                                                <constraint firstAttribute="height" constant="72" id="tha-Sv-hSF"/>
                                                 <constraint firstItem="hgp-a5-dy5" firstAttribute="top" secondItem="Tnk-YS-N7r" secondAttribute="top" id="wGq-uG-BN4"/>
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k3e-Df-2Af">
-                                            <rect key="frame" x="102" y="36" width="272" height="21"/>
+                                            <rect key="frame" x="102" y="35.5" width="272" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -265,27 +267,29 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="92"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Pw-yc-Ac2" userLabel="PhotoView" customClass="PhotoView" customModule="VKApp" customModuleProvider="target">
+                                        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Pw-yc-Ac2" userLabel="PhotoView" customClass="PhotoView" customModule="VKApp" customModuleProvider="target">
                                             <rect key="frame" x="10" y="10" width="72" height="72"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jGE-vm-9au" customClass="ShadowView" customModule="VKApp" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jGE-vm-9au" customClass="ShadowView" customModule="VKApp" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 </view>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BGv-Ct-x8W" customClass="CircularPreviewImageView" customModule="VKApp">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BGv-Ct-x8W" customClass="CircularPreviewImageView" customModule="VKApp">
                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="72" id="6ZW-3y-DT1"/>
+                                                        <constraint firstAttribute="width" constant="72" id="ga1-Ui-0Jf"/>
+                                                    </constraints>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="jGE-vm-9au" secondAttribute="trailing" id="1we-tM-lqB"/>
-                                                <constraint firstAttribute="width" constant="72" id="XTK-Oa-AjV"/>
                                                 <constraint firstAttribute="trailing" secondItem="BGv-Ct-x8W" secondAttribute="trailing" id="aVv-WM-Dnt"/>
                                                 <constraint firstItem="BGv-Ct-x8W" firstAttribute="leading" secondItem="8Pw-yc-Ac2" secondAttribute="leading" id="bYG-PG-nYy"/>
                                                 <constraint firstAttribute="bottom" secondItem="jGE-vm-9au" secondAttribute="bottom" id="hP8-TU-zkh"/>
                                                 <constraint firstAttribute="bottom" secondItem="BGv-Ct-x8W" secondAttribute="bottom" id="jpq-Ok-VJj"/>
                                                 <constraint firstItem="BGv-Ct-x8W" firstAttribute="top" secondItem="8Pw-yc-Ac2" secondAttribute="top" id="k8f-Jz-g8i"/>
-                                                <constraint firstAttribute="height" constant="72" id="oT2-eN-COI"/>
                                                 <constraint firstItem="jGE-vm-9au" firstAttribute="leading" secondItem="8Pw-yc-Ac2" secondAttribute="leading" id="pMf-mO-DJh"/>
                                                 <constraint firstItem="jGE-vm-9au" firstAttribute="top" secondItem="8Pw-yc-Ac2" secondAttribute="top" id="uXq-4O-AM9"/>
                                             </constraints>
@@ -354,14 +358,16 @@
                                                 </view>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VpU-DD-4M7" customClass="CircularPreviewImageView" customModule="VKApp" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="72" id="LCA-J2-dge"/>
+                                                        <constraint firstAttribute="height" constant="72" id="OVU-gD-561"/>
+                                                    </constraints>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstItem="PMz-fi-84R" firstAttribute="top" secondItem="l1x-IM-y1e" secondAttribute="top" id="AC0-a1-MD9"/>
-                                                <constraint firstAttribute="width" constant="72" id="LyA-vw-KqU"/>
                                                 <constraint firstItem="PMz-fi-84R" firstAttribute="leading" secondItem="l1x-IM-y1e" secondAttribute="leading" id="MQ2-d5-OpU"/>
-                                                <constraint firstAttribute="height" constant="72" id="Xk6-tP-Gwb"/>
                                                 <constraint firstItem="VpU-DD-4M7" firstAttribute="top" secondItem="l1x-IM-y1e" secondAttribute="top" id="Y0b-Ho-lc5"/>
                                                 <constraint firstAttribute="bottom" secondItem="PMz-fi-84R" secondAttribute="bottom" id="cQi-ZI-NoM"/>
                                                 <constraint firstItem="VpU-DD-4M7" firstAttribute="leading" secondItem="l1x-IM-y1e" secondAttribute="leading" id="ipU-RR-qgy"/>
@@ -449,10 +455,8 @@
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="72" id="4jL-tl-TKr"/>
                                                 <constraint firstItem="W0m-J7-9VH" firstAttribute="leading" secondItem="ATB-yK-XTq" secondAttribute="leading" id="DgR-qe-p1Y"/>
                                                 <constraint firstAttribute="bottom" secondItem="W0m-J7-9VH" secondAttribute="bottom" id="GeI-QN-Coe"/>
-                                                <constraint firstAttribute="width" constant="72" id="gxt-6g-VqV"/>
                                                 <constraint firstAttribute="trailing" secondItem="W0m-J7-9VH" secondAttribute="trailing" id="hjg-w2-qev"/>
                                                 <constraint firstItem="W0m-J7-9VH" firstAttribute="top" secondItem="ATB-yK-XTq" secondAttribute="top" id="tQh-kT-GhC"/>
                                             </constraints>
@@ -621,15 +625,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="h73-N4-Zi0">
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="5" sectionInsetReference="safeArea" id="h73-N4-Zi0">
                             <size key="itemSize" width="128" height="128"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FriendPhotoViewCell" id="5Nk-02-ZLk" customClass="FriendPhotoCollectionViewCell" customModule="VKApp">
-                                <rect key="frame" x="10" y="10" width="128" height="128"/>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" reuseIdentifier="FriendPhotoViewCell" id="5Nk-02-ZLk" customClass="FriendPhotoCollectionViewCell" customModule="VKApp">
+                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="sRO-SO-0Fh">
                                     <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>

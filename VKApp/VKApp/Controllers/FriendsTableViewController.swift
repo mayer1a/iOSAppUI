@@ -13,15 +13,12 @@ import UIKit
 final class FriendsTableViewController: UITableViewController {
 
     private var friends: [User] = [User]()
+    private var alphabetControl: FriendsAlphabetView?
+    var grouppedFriends = [GrouppedFriends]()
 
     private lazy var cloudView: CloudView? = {
         return CloudView(frame: CGRect(origin: .zero, size: CGSize(width: 150, height: 100)))
     }()
-
-    private var alphabetControl: FriendsAlphabetView? = nil
-
-    // Group friends by first letter of last name
-    var grouppedFriends = [GrouppedFriends]()
 
 
     // MARK: - viewDidLoad
@@ -32,8 +29,7 @@ final class FriendsTableViewController: UITableViewController {
         tableView.sectionHeaderTopPadding = CGFloat(0)
         cloudView?.translatesAutoresizingMaskIntoConstraints = false
 
-        loadFriends()
-
+        setupData()
     }
 
 
@@ -61,10 +57,11 @@ final class FriendsTableViewController: UITableViewController {
         super.viewWillTransition(to: size, with: coordinator)
 
         coordinator.animate { _ in
-            self.alphabetControl?.removeFromSuperview()
-            self.setupAlphabetView()
+            if self.view.window != nil {
+                self.alphabetControl?.removeFromSuperview()
+                self.setupAlphabetView()
+            }
         }
-
     }
 
 
@@ -117,14 +114,43 @@ final class FriendsTableViewController: UITableViewController {
     }
 
 
+    // MARK: - setupData
+
+    private func setupData() {
+
+        do {
+            let friends = try RealmUser.restoreData()
+            let userDefaults = UserDefaults.standard
+            let currentTime = Int(Date().timeIntervalSince1970)
+
+            if currentTime - userDefaults.integer(forKey: "friendsLastLoad") > 10_000 || friends.isEmpty {
+                loadFriends()
+                
+                userDefaults.set(currentTime, forKey: "friendsLastLoad")
+            } else {
+                self.friends = friends
+                self.grouppedFriends = groupFriends()
+                
+                self.tableView.reloadData()
+            }
+
+        } catch {
+            print(error)
+        }
+
+    }
+
+
     // MARK: - loadFriends
 
     private func loadFriends() {
 
-        SessionManager.shared.loadFriendsList { [weak self] users in
-            guard let self = self else { return }
+        SessionManager.shared.loadFriendsList { users in
 
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
+
+                guard let self = self else { return }
+
                 self.friends = users
                 self.grouppedFriends = self.groupFriends()
 
@@ -132,7 +158,6 @@ final class FriendsTableViewController: UITableViewController {
                 self.setupAlphabetView()
             }
         }
-
     }
 
 
@@ -142,10 +167,7 @@ final class FriendsTableViewController: UITableViewController {
 
         if grouppedFriends.count == 0 { return }
 
-        guard let safeArea = tabBarController?.view.safeAreaLayoutGuide.layoutFrame else { return }
-
-        let customFrame = CGRect(origin: CGPoint(x: safeArea.size.width - 25, y: safeArea.origin.y),
-                                 size: CGSize(width: 25.0, height: 500))
+        let customFrame = CGRect.zero
 
         alphabetControl = FriendsAlphabetView(frame: customFrame)
         alphabetControl?.addTarget(self, action: #selector(characterChanged), for: .valueChanged)
@@ -160,7 +182,7 @@ final class FriendsTableViewController: UITableViewController {
 
         NSLayoutConstraint.activate([
             tabBarView.centerYAnchor.constraint(equalTo: alphabetView.centerYAnchor, constant: 0),
-            tabBarView.trailingAnchor.constraint(equalTo: alphabetView.trailingAnchor, constant: 0)
+            tabBarView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: alphabetView.trailingAnchor, constant: 0)
         ])
 
     }
@@ -184,6 +206,8 @@ final class FriendsTableViewController: UITableViewController {
 
         prepare(for: friendsPhotoCollectionVC, at: tableView.indexPathForSelectedRow)
 
+        alphabetControl?.removeFromSuperview()
+        
         navigationController?.pushViewController(friendsPhotoCollectionVC, animated: true)
     }
 
@@ -223,6 +247,9 @@ final class FriendsTableViewController: UITableViewController {
     func groupFriends() -> [GrouppedFriends] {
         var result = [GrouppedFriends]()
 
+        // Sorted by ascending localized case insensitive name
+        friends = friends.sorted { $0.lastName.localizedCaseInsensitiveCompare($1.lastName) == .orderedAscending }
+
         for friend in friends {
             guard let character: Character = friend.lastName.first else { continue }
 
@@ -231,11 +258,6 @@ final class FriendsTableViewController: UITableViewController {
             } else {
                 result.append(GrouppedFriends(character: character, users: [friend]))
             }
-        }
-
-        // Sorted by ascending localized case insensitive letter
-        result = result.sorted {
-            (String($0.character)).localizedCaseInsensitiveCompare(String($1.character)) == .orderedAscending
         }
 
         return result
@@ -285,7 +307,6 @@ final class FriendsTableViewController: UITableViewController {
 
     // MARK: - tableViewWillDisplayForRowAt
 
-    // Remove top header padding
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
         // Removing the bottom separator from the last cell of a section
@@ -305,31 +326,14 @@ final class FriendsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell",
                                                  for: indexPath) as? FriendsTableViewCell
 
-        let friend = grouppedFriends[indexPath.section].users[indexPath.row]
+        let friend = self.grouppedFriends[indexPath.section].users[indexPath.row]
 
-        guard
-            let path = URL(string: friend.avatar),
-            let userAvatar = cell?.friendImage?.resizedImage(at: path, for: imageSize())
-        else {
-            return UITableViewCell()
-        }
+        guard let path = URL(string: friend.avatar) else { return UITableViewCell() }
 
-        cell?.friendImage?.image = userAvatar
+        cell?.friendImage?.image = cell?.friendImage?.resizedImage(at: path)
         cell?.friendName?.text = "\(friend.firstName) \(friend.lastName)"
-        //cell?.friendPhotoView?.layer.add(animateFriendPhoto(), forKey: nil)
 
         return cell ?? UITableViewCell()
-    }
-
-
-    // MARK: - imageSize
-
-    // Scale based on screen size
-    func imageSize() -> CGSize {
-        let scaleFactor = UIScreen.main.scale
-        let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
-
-        return view.bounds.size.applying(scale)
     }
 
 

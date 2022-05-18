@@ -14,9 +14,7 @@ class NewsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        displayedNews = News.list
-
-        tableView.sectionHeaderTopPadding = CGFloat(0)
+        setupData()
     }
 
 
@@ -95,14 +93,12 @@ class NewsTableViewController: UITableViewController {
     }
 
 
-    // MARK: - imageSize
+    // MARK: - setupData
 
-    // Scale based on screen size
-    func imageSize() -> CGSize {
-        let scaleFactor = UIScreen.main.scale
-        let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
+    private func setupData() {
+        displayedNews = News.list
 
-        return view.bounds.size.applying(scale)
+        tableView.sectionHeaderTopPadding = CGFloat(0)
     }
 
 }

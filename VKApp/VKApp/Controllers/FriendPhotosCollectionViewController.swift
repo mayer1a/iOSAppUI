@@ -22,9 +22,18 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
         layout?.estimatedItemSize = .zero
 
-        SessionManager.shared.loadUserPhotos(id: userId) { [weak self] photos in
-            self?.photos = photos
-            self?.collectionView.reloadData()
+        setupData()
+    }
+
+
+    // MARK: - viewWillTransition
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+
+        coordinator.animate { [weak self] _ in
+
+            self?.setupImageCellSize()
         }
     }
 
@@ -50,7 +59,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
 
         guard
             let path = URL(string: photo.smallSizeUrl),
-            let userPhoto = cell?.friendPhoto?.resizedImage(at: path, for: imageSize())
+            let userPhoto = cell?.friendPhoto?.resizedImage(at: path)
         else {
             return UICollectionViewCell()
         }
@@ -84,6 +93,44 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     }
 
 
+    // MARK: - setupData
+
+    private func setupData() {
+
+        do {
+            let photos = try RealmPhoto.restoreData(userId: userId)
+            let userDefaults = UserDefaults.standard
+            let currentTime = Int(Date().timeIntervalSince1970)
+
+            if currentTime - userDefaults.integer(forKey: "photosLastLoad") > 1800 || photos.isEmpty {
+                loadPhotos()
+                
+                userDefaults.set(currentTime, forKey: "photosLastLoad")
+            } else {
+                self.photos = photos
+
+                self.collectionView.reloadData()
+            }
+        } catch {
+            print(error)
+        }
+        
+    }
+
+
+    // MARK: - loadData()
+
+    private func loadPhotos() {
+
+        SessionManager.shared.loadUserPhotos(id: userId) { photos in
+            DispatchQueue.main.async {  [weak self] in
+                self?.photos = photos
+                self?.collectionView.reloadData()
+            }
+        }
+    }
+
+
     // MARK: - prepareForPushViewControllerAtSender
 
     private func prepare(for pushViewController: UIViewController, at sender: IndexPath?) {
@@ -110,16 +157,6 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
 //
 //    }
 
-
-    // MARK: - imageSize
-
-    func imageSize() -> CGSize {
-        let scaleFactor = UIScreen.main.scale
-        let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
-
-        return view.bounds.size.applying(scale)
-    }
-
 }
 
 
@@ -131,24 +168,16 @@ extension FriendPhotosCollectionViewController: UICollectionViewDelegateFlowLayo
     // MARK: - sizeForItemAt
 
     // Change cell size by ui screen width - three cells per row
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+    private func setupImageCellSize() {
 
-        let photosPerRow: CGFloat = UIDevice.current.orientation.isPortrait ? 3.0 : 6.0
+        guard let layout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return }
 
-        guard
-            let minimumInteritemSpacing = (collectionViewLayout as? UICollectionViewFlowLayout)?.minimumInteritemSpacing
-        else {
-            return CGSize()
-        }
+        let photosPerRow: CGFloat = UIDevice.current.orientation.isPortrait ? 3.0 : 5.0
+        let minimumSpacing = layout.minimumInteritemSpacing
+        let width = self.collectionView.safeAreaLayoutGuide.layoutFrame.width
+        let itemSize = ((width - minimumSpacing * (photosPerRow - 1.0)) / photosPerRow)
 
-        let width = collectionView.frame.width
-        let itemSize = (width - minimumInteritemSpacing * (photosPerRow - 1.0)) / photosPerRow
-//        let screenWidth = UIScreen.main.bounds.width
-//        let itemSize = (screenWidth / 3) - 15
-
-        return CGSize(width: itemSize, height: itemSize)
+        layout.itemSize = CGSize(width: itemSize, height: itemSize)
     }
 
 }

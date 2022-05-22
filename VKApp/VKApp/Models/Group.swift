@@ -2,30 +2,61 @@
 //  Group.swift
 //  VKApp
 //
-//  Created by Artem Mayer on 29.03.2022.
+//  Created by Artem Mayer on 04.05.2022.
 //
 
 import Foundation
 
-struct Group {
+
+class Group: Decodable {
     let id: Int
     var name: String
-    var avatar: String? = "NonAvatar"
-    var isSubscribed: Bool = false
+    var isMember: Int?
+    var avatar: String
+    var isClosed: Int
 
-    static var nonSubscribedGroups = [
-        Group(id: 736252, name: "Работа с глиной", avatar: "ClayCrafting"),
-        Group(id: 983746, name: "Сделай сам или домашний уют", avatar: "DIYOrCozyHome"),
-        Group(id: 123343, name: "Флористика для начинающих", avatar: "FloristyForBeginners"),
-        Group(id: 229384, name: "Компьютерный клуб \"Geek\"", avatar: "GeekComputerClub"),
-        Group(id: 993847, name: "Hand Made Stories", avatar: "HandMadeStories"),
-        Group(id: 377627, name: "Фотографы Москвы", avatar: "MoscowPhotographers"),
-        Group(id: 993846, name: "Художники нового света", avatar: "NewWorldArtists"),
-        Group(id: 545463, name: "Сплавы по рекам", avatar: "RaftingOnRivers"),
-        Group(id: 809283, name: "Кольца на заказ", avatar: "RingsToOrder"),
-        Group(id: 330948, name: "Мысли души")]
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case isMember = "is_member"
+        case avatar = "photo_100"
+        case isClosed = "is_closed"
+    }
 
-    static var subscribedGroups = [
-        Group(id: 687352, name: "Парк Развлечений \"Андромед\"", avatar: "AmusementParkAndromedia"),
-        Group(id: 736463, name: "\"Black Hawks\" Basketball Team", avatar: "BlackHawksBasketBallTeam")]
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.id = try container.decode(Int.self, forKey: .id)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.isMember = try? container.decode(Int.self, forKey: .isMember)
+        self.avatar = try container.decode(String.self, forKey: .avatar)
+        self.isClosed = try container.decode(Int.self, forKey: .isClosed)
+
+        if isMember == nil {
+            self.name += " (BANNED)"
+        }
+    }
+}
+
+
+class GroupResponse: Decodable {
+    var count: Int
+    var items: [Group]
+
+    enum CodingKeys: String, CodingKey {
+        case response
+    }
+
+    enum RequestKeys: String, CodingKey {
+        case count
+        case items
+    }
+
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let responseValue = try container.nestedContainer(keyedBy: RequestKeys.self, forKey: .response)
+
+        self.count = try responseValue.decode(Int.self, forKey: .count)
+        self.items = try responseValue.decode([Group].self, forKey: .items)
+    }
 }

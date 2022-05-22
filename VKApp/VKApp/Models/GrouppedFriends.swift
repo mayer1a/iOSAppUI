@@ -10,7 +10,4 @@ import Foundation
 struct GrouppedFriends {
     var character: Character
     var users: [User]
-
-    static var list: [GrouppedFriends] = [GrouppedFriends(character: Character(" "),
-                                                          users: User.friends)]
 }

@@ -13,10 +13,20 @@ class LoginWebKitViewController: UIViewController {
     
     @IBOutlet weak var loginWebView: WKWebView?
 
+    private var friends = [User]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        loginWebView?.navigationDelegate = self
+        signIn()
+    }
+
+
+    // MARK: - authorization
+
+    private func signIn() {
+
+        self.loginWebView?.navigationDelegate = self
 
         var urlComponents = URLComponents(string: "https://oauth.vk.com/authorize")
 
@@ -33,8 +43,7 @@ class LoginWebKitViewController: UIViewController {
 
         let request = URLRequest(url: url)
 
-        loginWebView?.load(request)
-
+        self.loginWebView?.load(request)
     }
 
 }
@@ -43,6 +52,8 @@ class LoginWebKitViewController: UIViewController {
 // MARK: - WKNavigationDelegate
 
 extension LoginWebKitViewController: WKNavigationDelegate {
+
+    // MARK: - webviewDecidePolicyDecisionHandler
 
     func webView(_ webView: WKWebView,
                  decidePolicyFor navigationResponse: WKNavigationResponse,
@@ -87,21 +98,7 @@ extension LoginWebKitViewController: WKNavigationDelegate {
 
         decisionHandler(.cancel)
 
-        callDataLoadMethods()
-
         performSegue(withIdentifier: "PresentTabBarAfterLogin", sender: self)
-    }
-
-
-    // MARK: - callDataLoadMethods
-
-    private func callDataLoadMethods() {
-        let sessionManager = SessionManager()
-
-        sessionManager.loadFriendsList()
-        sessionManager.loadUserPhotos(id: 1)
-        sessionManager.loadMyGroups()
-        sessionManager.loadSearchedGroups(searchText: "Music")
     }
 
 }

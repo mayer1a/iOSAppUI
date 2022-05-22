@@ -8,12 +8,12 @@
 import UIKit
 
 protocol SearchGroupTableViewControllerDelegate {
-    func subscribeGroup(group: Group)
+    func subscribeGroup(group: GroupTestData)
 }
 
 class SearchGroupTableViewController: UITableViewController {
 
-    var nonSubscribedGroups: [Group] = []
+    var nonSubscribedGroups: [GroupTestData] = []
     var delegate: SearchGroupTableViewControllerDelegate?
 
     // MARK: - viewDidLoad
@@ -21,7 +21,7 @@ class SearchGroupTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        nonSubscribedGroups = Group.nonSubscribedGroups
+        nonSubscribedGroups = GroupTestData.nonSubscribedGroups
     }
     
     // MARK: - Table view data source
@@ -35,13 +35,13 @@ class SearchGroupTableViewController: UITableViewController {
                                                  for: indexPath) as? SearchGroupTableViewCell
         
         guard let groupAvatarName = nonSubscribedGroups[indexPath.row].avatar,
-              let path = Bundle.main.path(forResource: groupAvatarName, ofType: "jpg"),
-              let groupAvatar = cell?.groupImage?.resizedImage(at: path, for: imageSize())
+              let path = Bundle.main.path(forResource: groupAvatarName, ofType: "jpg")
+//              let groupAvatar = cell?.groupImage?.resizedImage(at: path, for: imageSize())
         else {
             return UITableViewCell()
         }
         
-        cell?.groupImage?.image = groupAvatar
+//        cell?.groupImage?.image = groupAvatar
         cell?.groupName?.text = nonSubscribedGroups[indexPath.row].name
         
         return cell ?? UITableViewCell()

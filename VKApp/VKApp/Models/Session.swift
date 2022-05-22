@@ -14,7 +14,7 @@ struct Session {
         self.token = String()
         self.userID = Int()
     }
-
+    
     var token: String
     var userID: Int
 

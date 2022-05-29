@@ -319,7 +319,7 @@ final class FriendsTableViewController: UITableViewController {
 
 
     // MARK: - cellForRowAt
-
+    
     // Configure cell by section
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 

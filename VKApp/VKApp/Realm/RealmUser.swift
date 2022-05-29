@@ -66,6 +66,21 @@ class RealmUser: Object {
     }
 
 
+    // MARK: - deleteOutdatedData
+
+    static func deleteData(by id: Int) throws {
+
+        guard
+            let realm = try? Realm(),
+            let objectForDelete = realm.objects(RealmUser.self).first(where: { $0.id == id })
+        else {
+            return
+        }
+
+        realm.delete(objectForDelete)
+    }
+
+
     // MARK: - restoreData
 
     static func restoreData() throws -> [User] {

@@ -6,14 +6,16 @@
 //
 
 import UIKit
+import RealmSwift
 
 
 // MARK: - UITableViewController
 
 final class FriendsTableViewController: UITableViewController {
 
-    private var friends: [User] = [User]()
+    private var friends: Results<RealmUser>?
     private var alphabetControl: FriendsAlphabetView?
+    private var realmNotification: NotificationToken?
     var grouppedFriends = [GrouppedFriends]()
 
     private lazy var cloudView: CloudView? = {
@@ -29,6 +31,11 @@ final class FriendsTableViewController: UITableViewController {
         tableView.sectionHeaderTopPadding = CGFloat(0)
         cloudView?.translatesAutoresizingMaskIntoConstraints = false
 
+
+        RealmObserver.shared.makeObserver(RealmUser.self) { token, users, changes in
+            print(token)
+        }
+        
         setupData()
     }
 

@@ -13,7 +13,7 @@ import RealmSwift
 
 final class FriendsTableViewController: UITableViewController {
 
-    private var friends: Results<RealmUser>?
+    private var friends: [User]?
     private var alphabetControl: FriendsAlphabetView?
     private var realmNotification: NotificationToken?
     var grouppedFriends = [GrouppedFriends]()
@@ -31,12 +31,8 @@ final class FriendsTableViewController: UITableViewController {
         tableView.sectionHeaderTopPadding = CGFloat(0)
         cloudView?.translatesAutoresizingMaskIntoConstraints = false
 
-
-        RealmObserver.shared.makeObserver(RealmUser.self) { token, users, changes in
-            print(token)
-        }
-        
-        setupData()
+        makeObserver()
+        dataValidityCheck()
     }
 
 
@@ -65,7 +61,6 @@ final class FriendsTableViewController: UITableViewController {
 
         coordinator.animate { _ in
             if self.view.window != nil {
-                self.alphabetControl?.removeFromSuperview()
                 self.setupAlphabetView()
             }
         }
@@ -101,6 +96,18 @@ final class FriendsTableViewController: UITableViewController {
     }
 
 
+    // MARK: - makeObserver
+
+    private func makeObserver() {
+        
+        self.realmNotification = RealmObserver.shared.makeObserver(RealmUser.self) {
+            DispatchQueue.main.async { [weak self] in
+                self?.setupData()
+            }
+        }
+    }
+
+
     // MARK: - configureDownloadIndicatorView
 
     private func setupAnimation() {
@@ -123,17 +130,18 @@ final class FriendsTableViewController: UITableViewController {
 
     // MARK: - setupData
 
-    private func setupData() {
+    private func dataValidityCheck() {
 
         do {
             let friends = try RealmUser.restoreData()
             let userDefaults = UserDefaults.standard
             let currentTime = Int(Date().timeIntervalSince1970)
 
-            if currentTime - userDefaults.integer(forKey: "friendsLastLoad") > 10_000 || friends.isEmpty {
-                loadFriends()
+            if currentTime - userDefaults.integer(forKey: "friendsLastLoad") > 10 || friends.isEmpty {
+                SessionManager.shared.loadFriendsList()
                 
                 userDefaults.set(currentTime, forKey: "friendsLastLoad")
+
             } else {
                 self.friends = friends
                 self.grouppedFriends = groupFriends()
@@ -148,29 +156,23 @@ final class FriendsTableViewController: UITableViewController {
     }
 
 
-    // MARK: - loadFriends
+    // MARK: - setupData
 
-    private func loadFriends() {
+    private func setupData() {
+        self.friends = try? RealmUser.restoreData()
+        self.grouppedFriends = self.groupFriends()
 
-        SessionManager.shared.loadFriendsList { users in
+        self.tableView.reloadData()
 
-            DispatchQueue.main.async { [weak self] in
-
-                guard let self = self else { return }
-
-                self.friends = users
-                self.grouppedFriends = self.groupFriends()
-
-                self.tableView.reloadData()
-                self.setupAlphabetView()
-            }
-        }
+        self.setupAlphabetView()
     }
 
 
     // MARK: - setupAlphabetView
 
     private func setupAlphabetView() {
+
+        alphabetControl?.removeFromSuperview()
 
         if grouppedFriends.count == 0 { return }
 
@@ -255,7 +257,9 @@ final class FriendsTableViewController: UITableViewController {
         var result = [GrouppedFriends]()
 
         // Sorted by ascending localized case insensitive name
-        friends = friends.sorted { $0.lastName.localizedCaseInsensitiveCompare($1.lastName) == .orderedAscending }
+        //        friends = friends?.sorted { $0.lastName.localizedCaseInsensitiveCompare($1.lastName) == .orderedAscending }
+
+        guard let friends = friends else { return [GrouppedFriends]() }
 
         for friend in friends {
             guard let character: Character = friend.lastName.first else { continue }

@@ -39,25 +39,27 @@ class RealmUser: Object {
 
     static func saveData(data users: [User]) {
 
-        let realmUsers: [RealmUser] = users.map { user in
-            let realmUser = RealmUser()
+        let realmUsers: [RealmUser] = users
+            .map { user in
+                let realmUser = RealmUser()
 
-            realmUser.id = user.id
-            realmUser.firstName = user.firstName
-            realmUser.lastName = user.lastName
-            realmUser.isClosed = user.isClosed
-            realmUser.canAccessClosed = user.canAccessClosed
-            realmUser.avatar = user.avatar
-            realmUser.blacklisted = user.blacklisted
-            realmUser.isFriend = user.isFriend
+                realmUser.id = user.id
+                realmUser.firstName = user.firstName
+                realmUser.lastName = user.lastName
+                realmUser.isClosed = user.isClosed
+                realmUser.canAccessClosed = user.canAccessClosed
+                realmUser.avatar = user.avatar
+                realmUser.blacklisted = user.blacklisted
+                realmUser.isFriend = user.isFriend
 
-            return realmUser
-        }
+                return realmUser }
+            .sorted { $0.lastName.localizedCaseInsensitiveCompare($1.lastName) == .orderedAscending }
 
         do {
             let realm = try Realm()
 
             try realm.write {
+                realm.delete(realm.objects(RealmUser.self))
                 realmUsers.forEach { realm.add($0) }
             }
         } catch {
@@ -76,8 +78,10 @@ class RealmUser: Object {
         else {
             return
         }
-
-        realm.delete(objectForDelete)
+        
+        try realm.write {
+            realm.delete(objectForDelete)
+        }
     }
 
 

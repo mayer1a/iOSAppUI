@@ -12,8 +12,8 @@ class User: Decodable {
     let id: Int
     var firstName: String
     var lastName: String
-    var isClosed: Bool
-    var canAccessClosed: Bool
+    var isClosed: Bool?
+    var canAccessClosed: Bool?
     var avatar: String
 
     var blacklisted: Int?
@@ -37,8 +37,8 @@ class User: Decodable {
         self.id = try container.decode(Int.self, forKey: .id)
         self.firstName = try container.decode(String.self, forKey: .firstName)
         self.lastName = try container.decode(String.self, forKey: .lastName)
-        self.isClosed = try container.decode(Bool.self, forKey: .isClosed)
-        self.canAccessClosed = try container.decode(Bool.self, forKey: .canAccessClosed)
+        self.isClosed = try? container.decode(Bool.self, forKey: .isClosed)
+        self.canAccessClosed = try? container.decode(Bool.self, forKey: .canAccessClosed)
         self.avatar = try container.decode(String.self, forKey: .avatar)
         self.isFriend = try? container.decode(Int.self, forKey: .isFriend)
         self.blacklisted = try? container.decode(Int.self, forKey: .blacklisted)
@@ -48,8 +48,8 @@ class User: Decodable {
         id: Int,
         firstName: String,
         lastName: String,
-        isClosed: Bool,
-        canAccessClosed: Bool,
+        isClosed: Bool?,
+        canAccessClosed: Bool?,
         avatar: String,
         blacklisted: Int?,
         isFriend: Int?

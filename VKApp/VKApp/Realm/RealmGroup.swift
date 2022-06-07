@@ -46,10 +46,28 @@ class RealmGroup: Object {
             let realm = try Realm()
 
             try realm.write {
+                realm.delete(realm.objects(RealmGroup.self))
                 realmGroups.forEach { realm.add($0) }
             }
         } catch {
             print(error)
+        }
+    }
+
+
+    // MARK: - deleteOutdatedData
+
+    static func deleteData(by id: Int) throws {
+
+        guard
+            let realm = try? Realm(),
+            let objectForDelete = realm.objects(RealmGroup.self).first(where: { $0.id == id })
+        else {
+            return
+        }
+
+        try realm.write {
+            realm.delete(objectForDelete)
         }
     }
 
@@ -62,10 +80,10 @@ class RealmGroup: Object {
 
         let group = Array(objects.map {
             Group(id: $0.id,
-                 name: $0.name,
-                 isMember: $0.isMember,
-                 avatar: $0.avatar,
-                 isClosed: $0.isClosed)
+                  name: $0.name,
+                  isMember: $0.isMember,
+                  avatar: $0.avatar,
+                  isClosed: $0.isClosed)
         })
 
         return group

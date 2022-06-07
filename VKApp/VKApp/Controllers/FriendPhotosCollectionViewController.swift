@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import RealmSwift
 
 
 final class FriendPhotosCollectionViewController: UICollectionViewController {
 
-    var photos = [Photo]()
+    private var realmNotification: NotificationToken?
+    var photos : [Photo]?
     var userId = Int()
 
 
@@ -22,7 +24,8 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
         layout?.estimatedItemSize = .zero
 
-        setupData()
+        makeObserver()
+        dataValidityCheck()
     }
 
 
@@ -41,7 +44,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     // MARK: - numberOfItemsInSection
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.count
+        return photos?.count ?? 0
     }
 
 
@@ -50,30 +53,32 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let photo = photos[indexPath.item]
+        let photo = photos?[indexPath.item]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendPhotoViewCell",
                                                       for: indexPath) as? FriendPhotoCollectionViewCell
 
-//        let gesture = UITapGestureRecognizer(target: self, action: #selector(cellImageDidTapped(_:)))
-//        cell?.friendPhoto?.addGestureRecognizer(gesture)
+        //        let gesture = UITapGestureRecognizer(target: self, action: #selector(cellImageDidTapped(_:)))
+        //        cell?.friendPhoto?.addGestureRecognizer(gesture)
 
         guard
-            let path = URL(string: photo.smallSizeUrl),
-            let userPhoto = cell?.friendPhoto?.resizedImage(at: path)
+            let url = photo?.smallSizeUrl,
+            let path = URL(string: url),
+            let userPhoto = cell?.friendPhoto?.resizedImage(at: path),
+            let likesCounter = photo?.likesCounter
         else {
             return UICollectionViewCell()
         }
 
         cell?.friendPhoto?.image = userPhoto
-        cell?.likeControl?.isSelected = photo.isLiked == 1 ? true : false
-        cell?.likeControl?.likeLabel?.text = String(photo.likesCounter)
-        cell?.likeControl?.setupLikesCounter(equal: photo.likesCounter)
+        cell?.likeControl?.isSelected = photo?.isLiked == 1 ? true : false
+        cell?.likeControl?.likeLabel?.text = String(likesCounter)
+        cell?.likeControl?.setupLikesCounter(equal: likesCounter)
 
         // TODO: метод "отправки лайка" на бек
 
         cell?.photoDidLiked = { [weak self] isLiked in
 
-            self?.photos[indexPath.item].isLiked = isLiked ? 1 : 0
+            self?.photos?[indexPath.item].isLiked = isLiked ? 1 : 0
         }
         
         return cell ?? UICollectionViewCell()
@@ -93,9 +98,20 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     }
 
 
-    // MARK: - setupData
+    // MARK: - makeObserver
 
-    private func setupData() {
+    private func makeObserver() {
+        self.realmNotification = RealmObserver.shared.makeObserver(RealmPhoto.self, completion: {
+            DispatchQueue.main.async { [weak self] in
+                self?.setupData()
+            }
+        })
+    }
+
+
+    // MARK: - dataValidityCheck
+
+    private func dataValidityCheck() {
 
         do {
             let photos = try RealmPhoto.restoreData(userId: userId)
@@ -103,7 +119,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
             let currentTime = Int(Date().timeIntervalSince1970)
 
             if currentTime - userDefaults.integer(forKey: "photosLastLoad") > 1800 || photos.isEmpty {
-                loadPhotos()
+                SessionManager.shared.loadUserPhotos(id: userId)
                 
                 userDefaults.set(currentTime, forKey: "photosLastLoad")
             } else {
@@ -118,16 +134,11 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     }
 
 
-    // MARK: - loadData()
+    // MARK: - setupData()
 
-    private func loadPhotos() {
-
-        SessionManager.shared.loadUserPhotos(id: userId) { photos in
-            DispatchQueue.main.async {  [weak self] in
-                self?.photos = photos
-                self?.collectionView.reloadData()
-            }
-        }
+    private func setupData() {
+        self.photos = try? RealmPhoto.restoreData(userId: userId)
+        self.collectionView.reloadData()
     }
 
 
@@ -135,6 +146,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
 
     private func prepare(for pushViewController: UIViewController, at sender: IndexPath?) {
         guard
+            let photos = photos,
             let indexPath = sender,
             let fullScreenPhotoVC = pushViewController as? FullScreenUserPhoto
         else {
@@ -148,14 +160,14 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
 
     // MARK: - cellDidTapped
 
-//    @objc private func cellImageDidTapped(_ sender: Any) {
-//        //        guard
-//        //            let selectedImage = ((sender as? UITapGestureRecognizer)?.view as? PreviewScaledImageView)?.image
-//        //        else {
-//        //            return
-//        //        }
-//
-//    }
+    //    @objc private func cellImageDidTapped(_ sender: Any) {
+    //        //        guard
+    //        //            let selectedImage = ((sender as? UITapGestureRecognizer)?.view as? PreviewScaledImageView)?.image
+    //        //        else {
+    //        //            return
+    //        //        }
+    //
+    //    }
 
 }
 

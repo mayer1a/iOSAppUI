@@ -6,14 +6,15 @@
 //
 
 import UIKit
+import RealmSwift
 
 
 final class GroupsTableViewController: UITableViewController {
 
     private let customSearchView = CustomSearchBarView().loadView()
-
-    var myGroups = [Group]()
-    var displayedGroups = [Group]()
+    private var realmNotification: NotificationToken?
+    var myGroups: [Group]?
+    var displayedGroups: [Group]?
 
 
     // MARK: - viewDidLoad
@@ -22,6 +23,8 @@ final class GroupsTableViewController: UITableViewController {
         super.viewDidLoad()
 
         customSearchViewConfiguration()
+        makeObserver()
+        dataValidityCheck()
     }
 
 
@@ -36,19 +39,10 @@ final class GroupsTableViewController: UITableViewController {
     }
 
 
-    // MARK: - viewWillAppear
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        setupData()
-    }
-
-
     // MARK: - numberOfRowsInSection
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return displayedGroups.count
+        return displayedGroups?.count ?? 0
     }
 
 
@@ -58,9 +52,8 @@ final class GroupsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell",
                                                  for: indexPath) as? GroupTableViewCell
 
-        let groupAvatarName = displayedGroups[indexPath.row].avatar
-
         guard
+            let groupAvatarName = displayedGroups?[indexPath.row].avatar,
             let path = URL(string: groupAvatarName),
             let groupAvatar = cell?.groupImage?.resizedImage(at: path)
         else {
@@ -68,7 +61,7 @@ final class GroupsTableViewController: UITableViewController {
         }
 
         cell?.groupImage?.image = groupAvatar
-        cell?.groupName?.text = displayedGroups[indexPath.row].name
+        cell?.groupName?.text = displayedGroups?[indexPath.row].name
 
         return cell ?? UITableViewCell()
     }
@@ -176,9 +169,21 @@ final class GroupsTableViewController: UITableViewController {
     }
 
 
-    // MARK: - setupData
+    // MARK: - makeObserver
 
-    private func setupData() {
+    private func makeObserver() {
+        
+        self.realmNotification = RealmObserver.shared.makeObserver(RealmGroup.self) {
+            DispatchQueue.main.async { [weak self] in
+                self?.setupData()
+            }
+        }
+    }
+
+
+    // MARK: - dataValidityCheck
+
+    private func dataValidityCheck() {
 
         do {
             let groups = try RealmGroup.restoreData()
@@ -186,7 +191,7 @@ final class GroupsTableViewController: UITableViewController {
             let currentTime = Int(Date().timeIntervalSince1970)
 
             if currentTime - userDefaults.integer(forKey: "groupsLastLoad") > 10_000 || groups.isEmpty {
-                loadGroups()
+                SessionManager.shared.loadMyGroups()
 
                 userDefaults.set(currentTime, forKey: "groupsLastLoad")
             } else {
@@ -198,26 +203,16 @@ final class GroupsTableViewController: UITableViewController {
         } catch {
             print(error)
         }
-
     }
 
 
-    // MARK: - loadGroups
+    // MARK: - setupData
 
-    private func loadGroups() {
+    private func setupData() {
+        self.myGroups = try? RealmGroup.restoreData()
+        self.displayedGroups = self.myGroups
 
-        SessionManager.shared.loadMyGroups(completion: { groups in
-            DispatchQueue.main.async { [weak self] in
-                
-                guard let self = self else { return }
-
-                self.myGroups = groups
-                self.displayedGroups = self.myGroups
-
-                self.tableView.reloadData()
-            }
-
-        })
+        self.tableView.reloadData()
     }
 
 

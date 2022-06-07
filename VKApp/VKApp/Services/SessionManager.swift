@@ -21,7 +21,7 @@ class SessionManager {
 
     // MARK: - loadFriendsList
     
-    func loadFriendsList(completion: @escaping ([User]) -> Void) {
+    func loadFriendsList() {
 
         let baseUrl = "https://api.vk.com/method/friends.get"
 
@@ -47,8 +47,7 @@ class SessionManager {
                 let friends = try JSONDecoder().decode(UserResponse.self, from: data).items
 
                 RealmUser.saveData(data: friends)
-
-                completion(friends)
+                
             } catch {
                 print(error)
             }
@@ -59,7 +58,7 @@ class SessionManager {
 
     // MARK: - loadUserPhotos
 
-    func loadUserPhotos(id: Int, completion: @escaping ([Photo]) -> Void) {
+    func loadUserPhotos(id: Int) {
 
         let baseUrl = "https://api.vk.com/method/photos.getAll"
 
@@ -84,9 +83,8 @@ class SessionManager {
             do {
                 let photos = try JSONDecoder().decode(PhotoResponse.self, from: data).items
 
-                RealmPhoto.saveData(data: photos)
+                RealmPhoto.saveData(data: photos, for: id)
 
-                completion(photos)
             } catch {
                 print(error)
             }
@@ -97,7 +95,7 @@ class SessionManager {
 
     // MARK: - loadMyGroups
 
-    func loadMyGroups(completion: @escaping ([Group]) -> Void) {
+    func loadMyGroups() {
 
         let baseUrl = "https://api.vk.com/method/groups.get"
 
@@ -122,8 +120,6 @@ class SessionManager {
                 let myGroups = try JSONDecoder().decode(GroupResponse.self, from: data).items
 
                 RealmGroup.saveData(data: myGroups)
-
-                completion(myGroups)
             } catch {
                 print(error)
             }
@@ -157,7 +153,6 @@ class SessionManager {
 
             do {
                 let searchedGroups = try JSONDecoder().decode(GroupResponse.self, from: data).items
-                // .filter({ group in group.isMember != 1 })
 
                 completion(searchedGroups)
             } catch {

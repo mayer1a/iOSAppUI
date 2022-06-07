@@ -38,7 +38,6 @@ class SessionManager {
             URLQueryItem(name: "v", value: currentApiVersion)
         ]
 
-
         AF.request(urlComponents).response { response in
 
             guard let data = response.data else { return }
@@ -52,7 +51,6 @@ class SessionManager {
                 print(error)
             }
         }
-        
     }
 
 

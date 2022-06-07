@@ -8,6 +8,7 @@
 import UIKit
 import WebKit
 import SwiftKeychainWrapper
+import RealmSwift
 
 
 class LoginWebKitViewController: UIViewController {
@@ -154,6 +155,52 @@ extension LoginWebKitViewController: WKNavigationDelegate {
         decisionHandler(.cancel)
 
         performSegue(withIdentifier: "PresentTabBarAfterLogin", sender: self)
+    }
+
+
+    // MARK: - logout
+
+    private func logout() {
+        try? Realm().write({
+            try? Realm().deleteAll()
+        })
+
+        KeychainWrapper.standard.removeAllKeys()
+
+        Session.shared.token = nil
+        Session.shared.userID = nil
+
+        UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier ?? "")
+        UserDefaults.standard.synchronize()
+
+        loginWebView?.cleanAllCookies()
+        loginWebView?.refreshCookies()
+    }
+
+}
+
+
+extension WKWebView {
+
+    // MARK: - cleanAllCookies
+
+    func cleanAllCookies() {
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        
+        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+            records.forEach { record in
+                WKWebsiteDataStore
+                    .default()
+                    .removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+            }
+        }
+    }
+
+
+    // MARK: - refreshCookies
+
+    func refreshCookies() {
+        self.configuration.processPool = WKProcessPool()
     }
 
 }

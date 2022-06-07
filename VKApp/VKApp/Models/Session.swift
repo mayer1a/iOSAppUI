@@ -15,8 +15,8 @@ struct Session {
         self.userID = Int()
     }
     
-    var token: String
-    var userID: Int
+    var token: String?
+    var userID: Int?
 
     static var shared = Session()
 

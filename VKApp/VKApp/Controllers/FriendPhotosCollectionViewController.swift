@@ -123,9 +123,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
                 
                 userDefaults.set(currentTime, forKey: "photosLastLoad")
             } else {
-                self.photos = photos
-
-                self.collectionView.reloadData()
+                setupData()
             }
         } catch {
             print(error)

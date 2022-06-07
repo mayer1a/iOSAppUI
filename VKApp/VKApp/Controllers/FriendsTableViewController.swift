@@ -137,18 +137,14 @@ final class FriendsTableViewController: UITableViewController {
             let userDefaults = UserDefaults.standard
             let currentTime = Int(Date().timeIntervalSince1970)
 
-            if currentTime - userDefaults.integer(forKey: "friendsLastLoad") > 10 || friends.isEmpty {
+            if currentTime - userDefaults.integer(forKey: "friendsLastLoad") > 10_000 || friends.isEmpty {
                 SessionManager.shared.loadFriendsList()
                 
                 userDefaults.set(currentTime, forKey: "friendsLastLoad")
 
             } else {
-                self.friends = friends
-                self.grouppedFriends = groupFriends()
-                
-                self.tableView.reloadData()
+                setupData()
             }
-
         } catch {
             print(error)
         }

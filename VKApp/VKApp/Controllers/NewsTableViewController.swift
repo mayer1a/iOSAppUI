@@ -14,9 +14,7 @@ class NewsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        displayedNews = News.list
-
-        tableView.sectionHeaderTopPadding = CGFloat(0)
+        setupData()
     }
 
 
@@ -70,21 +68,22 @@ class NewsTableViewController: UITableViewController {
 
         let news = displayedNews[indexPath.section]
 
-        guard let userAvatarName = news.user.avatar,
-              let userAvatarPath = Bundle.main.path(forResource: userAvatarName, ofType: "jpg"),
-//              let userAvatar = cell?.newsAuthorAvatar?.resizedImage(at: userAvatarPath, for: imageSize()),
-              let newsText = news.text,
-              let newsPhotoName = news.photos?.first?.name,
-              let newsPhotoPath = Bundle.main.path(forResource: newsPhotoName, ofType: "jpg") else {
-//              let newsPhoto = cell?.newsPhotoImageView?.resizedImage(at: newsPhotoPath, for: imageSize()) else {
+        guard //let userAvatarName = news.user.avatar,
+            //              let userAvatarPath = Bundle.main.path(forResource: userAvatarName, ofType: "jpg"),
+            //              let userAvatar = cell?.newsAuthorAvatar?.resizedImage(at: userAvatarPath, for: imageSize()),
+            let newsText = news.text
+                //              let newsPhotoName = news.photos?.first?.name,
+                //              let newsPhotoPath = Bundle.main.path(forResource: newsPhotoName, ofType: "jpg")
+        else {
+            //              let newsPhoto = cell?.newsPhotoImageView?.resizedImage(at: newsPhotoPath, for: imageSize()) else {
             return UITableViewCell()
         }
 
-//        cell?.newsAuthorAvatar?.image = userAvatar
+        //        cell?.newsAuthorAvatar?.image = userAvatar
         cell?.newsAuthorFullName?.text = "\(news.user.firstName) \(news.user.lastName)"
         cell?.newsPostingDate?.text = news.postingDate
         cell?.newsText?.text = newsText
-//        cell?.newsPhotoImageView?.image = newsPhoto
+        //        cell?.newsPhotoImageView?.image = newsPhoto
         cell?.newLikeButton?.titleLabel?.text = String(news.numberOfLikes)
         cell?.newsCommentButton?.titleLabel?.text = String(news.numbersOfComments)
         cell?.newsShareButton?.titleLabel?.text = String(news.numbersOfShares)
@@ -94,14 +93,12 @@ class NewsTableViewController: UITableViewController {
     }
 
 
-    // MARK: - imageSize
+    // MARK: - setupData
 
-    // Scale based on screen size
-    func imageSize() -> CGSize {
-        let scaleFactor = UIScreen.main.scale
-        let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
+    private func setupData() {
+        displayedNews = News.list
 
-        return view.bounds.size.applying(scale)
+        tableView.sectionHeaderTopPadding = CGFloat(0)
     }
 
 }

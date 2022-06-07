@@ -17,11 +17,17 @@ final class CustomSearchBarView: UIView {
     @IBOutlet weak var searchTextFieldLeadingAnchor: NSLayoutConstraint?
     @IBOutlet weak var searchTextFieldTrailingConstraint: NSLayoutConstraint?
 
+
+    // MARK: - layoutSubviews
+    
     override func layoutSubviews() {
         super.layoutSubviews()
 
         setupComponents()
     }
+
+
+    // MARK: - loadView
 
     func loadView() -> CustomSearchBarView? {
         let nib = UINib(nibName: "CustomSearchBarView", bundle: Bundle.main)

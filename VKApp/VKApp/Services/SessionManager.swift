@@ -12,8 +12,9 @@ import Alamofire
 class SessionManager {
 
     private init() {}
-
+    
     private let currentApiVersion = "5.131"
+    private let friendFields = "first_name,photo_100,is_friend,blacklisted"
 
     static let shared = SessionManager()
 
@@ -25,15 +26,14 @@ class SessionManager {
         let baseUrl = "https://api.vk.com/method/friends.get"
 
         guard
-            var urlComponents = URLComponents(string: baseUrl),
-            Session.shared.token != ""
+            var urlComponents = URLComponents(string: baseUrl)
         else {
             return
         }
 
         urlComponents.queryItems = [
             URLQueryItem(name: "order", value: "hints"),
-            URLQueryItem(name: "fields", value: "first_name,photo_100,is_friend,blacklisted"),
+            URLQueryItem(name: "fields", value: friendFields),
             URLQueryItem(name: "access_token", value: Session.shared.token),
             URLQueryItem(name: "v", value: currentApiVersion)
         ]
@@ -45,7 +45,9 @@ class SessionManager {
 
             do {
                 let friends = try JSONDecoder().decode(UserResponse.self, from: data).items
-                
+
+                RealmUser.saveData(data: friends)
+
                 completion(friends)
             } catch {
                 print(error)
@@ -62,8 +64,7 @@ class SessionManager {
         let baseUrl = "https://api.vk.com/method/photos.getAll"
 
         guard
-            var urlComponents = URLComponents(string: baseUrl),
-            Session.shared.token != ""
+            var urlComponents = URLComponents(string: baseUrl)
         else {
             return
         }
@@ -77,10 +78,13 @@ class SessionManager {
         ]
 
         AF.request(urlComponents).response { response in
+
             guard let data = response.data else { return }
 
             do {
                 let photos = try JSONDecoder().decode(PhotoResponse.self, from: data).items
+
+                RealmPhoto.saveData(data: photos)
 
                 completion(photos)
             } catch {
@@ -98,8 +102,7 @@ class SessionManager {
         let baseUrl = "https://api.vk.com/method/groups.get"
 
         guard
-            var urlComponents = URLComponents(string: baseUrl),
-            Session.shared.token != ""
+            var urlComponents = URLComponents(string: baseUrl)
         else {
             return
         }
@@ -112,10 +115,14 @@ class SessionManager {
         ]
 
         AF.request(urlComponents).response { response in
+
             guard let data = response.data else { return }
 
             do {
                 let myGroups = try JSONDecoder().decode(GroupResponse.self, from: data).items
+
+                RealmGroup.saveData(data: myGroups)
+
                 completion(myGroups)
             } catch {
                 print(error)
@@ -132,8 +139,7 @@ class SessionManager {
         let baseUrl = "https://api.vk.com/method/groups.search"
 
         guard
-            var urlComponents = URLComponents(string: baseUrl),
-            Session.shared.token != ""
+            var urlComponents = URLComponents(string: baseUrl)
         else {
             return
         }

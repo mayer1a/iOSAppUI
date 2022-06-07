@@ -36,6 +36,20 @@ class Group: Decodable {
             self.name += " (BANNED)"
         }
     }
+
+    required init(
+        id: Int,
+        name: String,
+        isMember: Int?,
+        avatar: String,
+        isClosed: Int
+    ) {
+        self.id = id
+        self.name = name
+        self.isMember = isMember
+        self.avatar = avatar
+        self.isClosed = isClosed
+    }
 }
 
 

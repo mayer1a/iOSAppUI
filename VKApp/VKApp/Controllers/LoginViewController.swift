@@ -29,7 +29,7 @@ final class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        // Подписываемся на два уведомления: одно приходит при появлении клавиатуры
+        // Подписываемся на два уведомления: первое приходит при появлении клавиатуры
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.keyboardWasShown),
                                                name: UIResponder.keyboardWillShowNotification,
@@ -41,6 +41,7 @@ final class LoginViewController: UIViewController {
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
     }
+
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)

@@ -7,20 +7,71 @@
 
 import UIKit
 import WebKit
+import SwiftKeychainWrapper
 
 
 class LoginWebKitViewController: UIViewController {
     
     @IBOutlet weak var loginWebView: WKWebView?
 
-    private var friends = [User]()
+    private var isTokenValid: Bool {
+
+        let currentTime = Int(Date().timeIntervalSince1970)
+
+        guard
+            KeychainWrapper.standard.string(forKey: .token) != nil,
+            let tokenReceiptTime = KeychainWrapper.standard.integer(forKey: .tokenReceiptTime),
+            let tokenExpiresIn = KeychainWrapper.standard.integer(forKey: .tokenExpiresIn),
+            KeychainWrapper.standard.integer(forKey: .userId) != nil,
+            currentTime - tokenReceiptTime < tokenExpiresIn
+        else {
+            return false
+        }
+
+        return true
+    }
+
+
+    // MARK: - viewDidLoad
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        signIn()
+        checkAuthorization()
     }
 
+
+    // MARK: - checkAuthorization
+
+    private func checkAuthorization() {
+        if isTokenValid {
+            guard
+                let token = KeychainWrapper.standard.string(forKey: .token),
+                let userId = KeychainWrapper.standard.integer(forKey: .userId)
+            else {
+                return
+            }
+
+            Session.shared.token = token
+            Session.shared.userID = userId
+
+            self.loadView()
+        } else {
+            signIn()
+        }
+    }
+
+
+    // MARK: - viewDidAppear
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if isTokenValid {
+            performSegue(withIdentifier: "PresentTabBarAfterLogin", sender: self)
+        }
+    }
+    
 
     // MARK: - authorization
 
@@ -34,7 +85,7 @@ class LoginWebKitViewController: UIViewController {
             URLQueryItem(name: "client_id", value: "8155664"),
             URLQueryItem(name: "redirect_uri", value: "https://oauth.vk.com/blank.html"),
             URLQueryItem(name: "display", value: "mobile"),
-            URLQueryItem(name: "scope", value: "262150"),
+            URLQueryItem(name: "scope", value: "270342"),
             URLQueryItem(name: "response_type", value: "token"),
             URLQueryItem(name: "v", value: "5.131")
         ]
@@ -62,7 +113,8 @@ extension LoginWebKitViewController: WKNavigationDelegate {
         guard
             let url = navigationResponse.response.url,
             let fragment = url.fragment,
-            url.path == "/blank.html"
+            url.path == "/blank.html",
+            url.fragment?.contains("error") != true
         else {
             decisionHandler(.allow)
 
@@ -78,23 +130,26 @@ extension LoginWebKitViewController: WKNavigationDelegate {
                 let value = parameter[1]
 
                 dictionary[key] = value
-
+                
                 return dictionary
             }
 
         guard
             let token = parameters["access_token"],
-            let userIDString = parameters["user_id"],
-            let userID = Int(userIDString)
+            let userIdString = parameters["user_id"],
+            let userId = Int(userIdString),
+            let expiresIn = parameters["expires_in"]
         else {
             return
         }
 
-        Session.shared.token = token
-        Session.shared.userID = userID
+        KeychainWrapper.standard[.token] = token
+        KeychainWrapper.standard[.tokenReceiptTime] = Int(Date().timeIntervalSince1970)
+        KeychainWrapper.standard[.tokenExpiresIn] = Int(expiresIn)
+        KeychainWrapper.standard[.userId] = userId
 
-        print(token)
-        print(userID)
+        Session.shared.token = token
+        Session.shared.userID = userId
 
         decisionHandler(.cancel)
 

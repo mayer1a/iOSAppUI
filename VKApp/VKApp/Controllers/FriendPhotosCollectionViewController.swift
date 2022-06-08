@@ -63,13 +63,19 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         guard
             let url = photo?.smallSizeUrl,
             let path = URL(string: url),
-            let userPhoto = cell?.friendPhoto?.resizedImage(at: path),
             let likesCounter = photo?.likesCounter
         else {
             return UICollectionViewCell()
         }
 
-        cell?.friendPhoto?.image = userPhoto
+        DispatchQueue.global().async {
+            let image = cell?.friendPhoto?.resizedImage(at: path)
+
+            DispatchQueue.main.async {
+                cell?.friendPhoto?.image = image
+            }
+        }
+
         cell?.likeControl?.isSelected = photo?.isLiked == 1 ? true : false
         cell?.likeControl?.likeLabel?.text = String(likesCounter)
         cell?.likeControl?.setupLikesCounter(equal: likesCounter)
@@ -101,7 +107,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     // MARK: - makeObserver
 
     private func makeObserver() {
-        self.realmNotification = RealmObserver.shared.makeObserver(RealmPhoto.self, completion: {
+        self.realmNotification = RealmObserver.shared.makeObserver(RealmPhoto.self, completion: { photos, changes in
             DispatchQueue.main.async { [weak self] in
                 self?.setupData()
             }

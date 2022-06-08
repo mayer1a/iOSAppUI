@@ -100,23 +100,18 @@ final class FriendsTableViewController: UITableViewController {
 
     private func makeObserver() {
         
-        self.realmNotification = RealmObserver.shared.makeObserver(RealmUser.self) {
+        self.realmNotification = RealmObserver.shared.makeObserver(RealmUser.self) { friends, changes in
             DispatchQueue.main.async { [weak self] in
-                self?.setupData()
+                self?.setupData(from: friends, with: changes)
             }
         }
     }
 
 
-    // MARK: - configureDownloadIndicatorView
+    // MARK: - setupAnimation
 
     private func setupAnimation() {
-        guard
-            let cloudView = cloudView,
-            let tabBarView = tabBarController?.view
-        else {
-            return
-        }
+        guard let cloudView = cloudView, let tabBarView = tabBarController?.view else { return }
 
         // Add an indicatorView to the tabbar so that the indicatorView is above the tableView
         tabBarView.addSubview(cloudView)
@@ -128,7 +123,7 @@ final class FriendsTableViewController: UITableViewController {
     }
 
 
-    // MARK: - setupData
+    // MARK: - dataValidityCheck
 
     private func dataValidityCheck() {
 
@@ -137,16 +132,13 @@ final class FriendsTableViewController: UITableViewController {
             let userDefaults = UserDefaults.standard
             let currentTime = Int(Date().timeIntervalSince1970)
 
-            if currentTime - userDefaults.integer(forKey: "friendsLastLoad") > 10 || friends.isEmpty {
+            if currentTime - userDefaults.integer(forKey: "friendsLastLoad") > 10_000 || friends.isEmpty {
                 SessionManager.shared.loadFriendsList()
-                
+
                 userDefaults.set(currentTime, forKey: "friendsLastLoad")
 
             } else {
-                self.friends = friends
-                self.grouppedFriends = groupFriends()
-                
-                self.tableView.reloadData()
+                setupData(from: friends)
             }
 
         } catch {
@@ -158,13 +150,96 @@ final class FriendsTableViewController: UITableViewController {
 
     // MARK: - setupData
 
-    private func setupData() {
-        self.friends = try? RealmUser.restoreData()
+    private func setupData(from friends: [RealmUser], with changes: ([Int], [Int], [Int])? = nil) {
+
+        let oldFriends = self.friends
+        let oldGrouppedFriends = self.grouppedFriends
+        let friends = realmToUser(from: friends)
+
+        self.friends = friends
         self.grouppedFriends = self.groupFriends()
 
-        self.tableView.reloadData()
+        if let changes = changes {
+            let deletionsIndexPaths = searchIndexPaths(from: oldFriends, in: oldGrouppedFriends, with: changes.0)
+            let insertionsIndexPaths = searchIndexPaths(from: friends, in: self.grouppedFriends, with: changes.1)
+            let modificationsIndexPaths = searchIndexPaths(from: oldFriends, in: oldGrouppedFriends, with: changes.2)
+
+            if oldGrouppedFriends.count != self.grouppedFriends.count {
+                let deletionsIndexSet = deletionsIndexPaths.reduce(into: IndexSet(), { $0.insert($1.section) })
+                let insertionsIndexSet = insertionsIndexPaths.reduce(into: IndexSet(), { $0.insert($1.section) })
+
+                self.tableView.beginUpdates()
+
+                self.tableView.deleteSections(deletionsIndexSet, with: .none)
+                self.tableView.insertSections(insertionsIndexSet, with: .none)
+                self.tableView.reloadRows(at: modificationsIndexPaths, with: .none)
+
+                self.tableView.endUpdates()
+
+            } else {
+                self.tableView.beginUpdates()
+
+                self.tableView.deleteRows(at: deletionsIndexPaths, with: .none)
+                self.tableView.insertRows(at: insertionsIndexPaths, with: .none)
+                self.tableView.reloadRows(at: modificationsIndexPaths, with: .none)
+
+                self.tableView.endUpdates()
+            }
+        } else {
+            self.tableView.reloadData()
+        }
 
         self.setupAlphabetView()
+    }
+
+
+    // MARK: - realmToUser
+
+    private func realmToUser(from friends: [RealmUser]) -> [User] {
+        let friends = Array(friends.map { User(id: $0.id,
+                                               firstName: $0.firstName,
+                                               lastName: $0.lastName,
+                                               isClosed: $0.isClosed,
+                                               canAccessClosed: $0.canAccessClosed,
+                                               avatar: $0.avatar,
+                                               blacklisted: $0.blacklisted,
+                                               isFriend: $0.isFriend)})
+        return friends
+    }
+
+
+    // MARK: - searchChangedResult
+
+    private func searchIndexPaths(from: [User]?,
+                                     in objects: [GrouppedFriends],
+                                     with changes: [Int]) -> [IndexPath] {
+
+        guard let from = from else { return [IndexPath]() }
+
+        var indexPaths = [IndexPath]()
+
+        changes.forEach { element in
+
+            guard let firstLastNameChar = from[element].lastName.first else { return }
+
+            let section = objects
+                .enumerated()
+                .first { $0.element.character == Character(firstLastNameChar.uppercased()) }?
+                .offset
+
+            guard let section = section else { return }
+
+            let row = objects[section]
+                .users
+                .enumerated()
+                .first { $0.element.id == from[element].id }?
+                .offset
+
+            guard let row = row else { return }
+
+            indexPaths.append(IndexPath(row: row, section: section))
+        }
+        return indexPaths
     }
 
 
@@ -256,9 +331,6 @@ final class FriendsTableViewController: UITableViewController {
     func groupFriends() -> [GrouppedFriends] {
         var result = [GrouppedFriends]()
 
-        // Sorted by ascending localized case insensitive name
-        //        friends = friends?.sorted { $0.lastName.localizedCaseInsensitiveCompare($1.lastName) == .orderedAscending }
-
         guard let friends = friends else { return [GrouppedFriends]() }
 
         for friend in friends {
@@ -324,7 +396,9 @@ final class FriendsTableViewController: UITableViewController {
         if indexPath.row == grouppedFriends[indexPath.section].users.count - 1 {
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)
         } else {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 100, bottom: 0, right: tableView.bounds.minX)
+            guard let width = alphabetControl?.bounds.width else { return }
+
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 100, bottom: 0, right: tableView.bounds.minX + width)
         }
     }
 
@@ -341,7 +415,15 @@ final class FriendsTableViewController: UITableViewController {
 
         guard let path = URL(string: friend.avatar) else { return UITableViewCell() }
 
-        cell?.friendImage?.image = cell?.friendImage?.resizedImage(at: path)
+        DispatchQueue.global().async { [weak cell] in
+            let image = cell?.friendImage?.resizedImage(at: path)
+
+            DispatchQueue.main.async { [weak cell] in
+                cell?.friendImage?.image = image
+            }
+        }
+
+
         cell?.friendName?.text = "\(friend.firstName) \(friend.lastName)"
 
         return cell ?? UITableViewCell()

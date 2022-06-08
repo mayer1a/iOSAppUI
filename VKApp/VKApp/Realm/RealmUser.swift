@@ -39,6 +39,8 @@ class RealmUser: Object {
 
     static func saveData(data users: [User]) {
 
+        // Write sorted by ascending localized case insensitive name data
+
         let realmUsers: [RealmUser] = users
             .map { user in
                 let realmUser = RealmUser()
@@ -87,22 +89,23 @@ class RealmUser: Object {
 
     // MARK: - restoreData
 
-    static func restoreData() throws -> [User] {
+    static func restoreData() throws -> [RealmUser] {
         let realm = try Realm()
         let objects = realm.objects(RealmUser.self)
 
-        let users = Array(objects.map {
-            User(id: $0.id,
-                 firstName: $0.firstName,
-                 lastName: $0.lastName,
-                 isClosed: $0.isClosed,
-                 canAccessClosed: $0.canAccessClosed,
-                 avatar: $0.avatar,
-                 blacklisted: $0.blacklisted,
-                 isFriend: $0.isFriend)
-        })
+        return Array(objects)
+//        let users = Array(objects.map {
+//            User(id: $0.id,
+//                 firstName: $0.firstName,
+//                 lastName: $0.lastName,
+//                 isClosed: $0.isClosed,
+//                 canAccessClosed: $0.canAccessClosed,
+//                 avatar: $0.avatar,
+//                 blacklisted: $0.blacklisted,
+//                 isFriend: $0.isFriend)
+//        })
 
-        return users
+//        return users
     }
     
 }

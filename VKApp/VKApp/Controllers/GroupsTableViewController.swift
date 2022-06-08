@@ -54,13 +54,19 @@ final class GroupsTableViewController: UITableViewController {
 
         guard
             let groupAvatarName = displayedGroups?[indexPath.row].avatar,
-            let path = URL(string: groupAvatarName),
-            let groupAvatar = cell?.groupImage?.resizedImage(at: path)
+            let path = URL(string: groupAvatarName)
         else {
             return UITableViewCell()
         }
 
-        cell?.groupImage?.image = groupAvatar
+        DispatchQueue.global().async {
+            let image = cell?.groupImage?.resizedImage(at: path)
+
+            DispatchQueue.main.async {
+                cell?.groupImage?.image = image
+            }
+        }
+
         cell?.groupName?.text = displayedGroups?[indexPath.row].name
 
         return cell ?? UITableViewCell()
@@ -173,7 +179,7 @@ final class GroupsTableViewController: UITableViewController {
 
     private func makeObserver() {
         
-        self.realmNotification = RealmObserver.shared.makeObserver(RealmGroup.self) {
+        self.realmNotification = RealmObserver.shared.makeObserver(RealmGroup.self) { groups, changes in
             DispatchQueue.main.async { [weak self] in
                 self?.setupData()
             }

@@ -74,18 +74,23 @@ class RealmGroup: Object {
 
     // MARK: - restoreData
 
-    static func restoreData() throws -> [Group] {
+    static func restoreData() throws -> [RealmGroup] {
         let realm = try Realm()
         let objects = realm.objects(RealmGroup.self)
 
-        let group = Array(objects.map {
-            Group(id: $0.id,
-                  name: $0.name,
-                  isMember: $0.isMember,
-                  avatar: $0.avatar,
-                  isClosed: $0.isClosed)
-        })
+        return Array(objects)
+    }
 
-        return group
+
+    // MARK: - realmToGroup
+
+    static func realmToGroup(from objects: [RealmGroup]) -> [Group] {
+        let group = objects.map { Group(id: $0.id,
+                                        name: $0.name,
+                                        isMember: $0.isMember,
+                                        avatar: $0.avatar,
+                                        isClosed: $0.isClosed) }
+
+        return Array(group)
     }
 }

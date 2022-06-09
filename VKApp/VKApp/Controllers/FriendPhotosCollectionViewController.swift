@@ -52,8 +52,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let photo = photos?[indexPath.item]
+
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendPhotoViewCell",
                                                       for: indexPath) as? FriendPhotoCollectionViewCell
 
@@ -61,9 +60,8 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         //        cell?.friendPhoto?.addGestureRecognizer(gesture)
 
         guard
-            let url = photo?.smallSizeUrl,
-            let path = URL(string: url),
-            let likesCounter = photo?.likesCounter
+            let photo = photos?[indexPath.item],
+            let path = URL(string: photo.smallSizeUrl)
         else {
             return UICollectionViewCell()
         }
@@ -76,14 +74,13 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
             }
         }
 
-        cell?.likeControl?.isSelected = photo?.isLiked == 1 ? true : false
-        cell?.likeControl?.likeLabel?.text = String(likesCounter)
-        cell?.likeControl?.setupLikesCounter(equal: likesCounter)
+        cell?.likeControl?.isSelected = photo.isLiked == 1 ? true : false
+        cell?.likeControl?.likeLabel?.text = String(photo.likesCounter)
+        cell?.likeControl?.setupLikesCounter(equal: photo.likesCounter)
 
         // TODO: метод "отправки лайка" на бек
 
         cell?.photoDidLiked = { [weak self] isLiked in
-
             self?.photos?[indexPath.item].isLiked = isLiked ? 1 : 0
         }
         
@@ -109,7 +106,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     private func makeObserver() {
         self.realmNotification = RealmObserver.shared.makeObserver(RealmPhoto.self, completion: { photos, changes in
             DispatchQueue.main.async { [weak self] in
-                self?.setupData()
+                self?.setupData(from: photos, with: changes)
             }
         })
     }
@@ -121,30 +118,49 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
 
         do {
             let photos = try RealmPhoto.restoreData(userId: userId)
-            let userDefaults = UserDefaults.standard
-            let currentTime = Int(Date().timeIntervalSince1970)
 
-            if currentTime - userDefaults.integer(forKey: "photosLastLoad") > 1800 || photos.isEmpty {
+            if photos.isEmpty {
                 SessionManager.shared.loadUserPhotos(id: userId)
-                
-                userDefaults.set(currentTime, forKey: "photosLastLoad")
             } else {
-                self.photos = photos
-
-                self.collectionView.reloadData()
+                self.setupData(from: photos)
             }
         } catch {
             print(error)
         }
-        
     }
 
 
     // MARK: - setupData()
 
-    private func setupData() {
-        self.photos = try? RealmPhoto.restoreData(userId: userId)
-        self.collectionView.reloadData()
+    private func setupData(from photos: [RealmPhoto], with changes: ([Int], [Int], [Int])? = nil) {
+        let userPhotos = RealmPhoto.realmToPhoto(from: photos, by: userId)
+        self.photos = userPhotos
+
+        if let changes = changes {
+            DispatchQueue.global().async {
+                let deletionIndexes = changes.0.reduce(into: [IndexPath]()) {
+                    $0.append(IndexPath(item: $1, section: 0))
+                }
+
+                let insertionIndexes = changes.1.reduce(into: [IndexPath]()) {
+                    $0.append(IndexPath(item: $1, section: 0))
+                }
+
+                let reloadIndexes = changes.2.reduce(into: [IndexPath]()) {
+                    $0.append(IndexPath(item: $1, section: 0))
+                }
+
+                DispatchQueue.main.async { [weak self] in
+                    self?.collectionView.performBatchUpdates {
+                        self?.collectionView.deleteItems(at: deletionIndexes)
+                        self?.collectionView.insertItems(at: insertionIndexes)
+                        self?.collectionView.reloadItems(at: reloadIndexes)
+                    }
+                }
+            }
+        } else {
+            self.collectionView.reloadData()
+        }
     }
 
 

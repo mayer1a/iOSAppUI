@@ -94,18 +94,21 @@ class RealmUser: Object {
         let objects = realm.objects(RealmUser.self)
 
         return Array(objects)
-//        let users = Array(objects.map {
-//            User(id: $0.id,
-//                 firstName: $0.firstName,
-//                 lastName: $0.lastName,
-//                 isClosed: $0.isClosed,
-//                 canAccessClosed: $0.canAccessClosed,
-//                 avatar: $0.avatar,
-//                 blacklisted: $0.blacklisted,
-//                 isFriend: $0.isFriend)
-//        })
+    }
 
-//        return users
+
+    // MARK: - realmToUser
+
+    static func realmToUser(from friends: [RealmUser]) -> [User] {
+        let friends = friends.map { User(id: $0.id,
+                                         firstName: $0.firstName,
+                                         lastName: $0.lastName,
+                                         isClosed: $0.isClosed,
+                                         canAccessClosed: $0.canAccessClosed,
+                                         avatar: $0.avatar,
+                                         blacklisted: $0.blacklisted,
+                                         isFriend: $0.isFriend)}
+        return Array(friends)
     }
     
 }

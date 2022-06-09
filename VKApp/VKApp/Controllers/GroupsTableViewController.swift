@@ -181,7 +181,7 @@ final class GroupsTableViewController: UITableViewController {
         
         self.realmNotification = RealmObserver.shared.makeObserver(RealmGroup.self) { groups, changes in
             DispatchQueue.main.async { [weak self] in
-                self?.setupData()
+                self?.setupData(from: groups, with: changes)
             }
         }
     }
@@ -201,10 +201,7 @@ final class GroupsTableViewController: UITableViewController {
 
                 userDefaults.set(currentTime, forKey: "groupsLastLoad")
             } else {
-                self.myGroups = groups
-                self.displayedGroups = myGroups
-
-                self.tableView.reloadData()
+                self.setupData(from: groups)
             }
         } catch {
             print(error)
@@ -214,11 +211,38 @@ final class GroupsTableViewController: UITableViewController {
 
     // MARK: - setupData
 
-    private func setupData() {
-        self.myGroups = try? RealmGroup.restoreData()
-        self.displayedGroups = self.myGroups
+    private func setupData(from groups: [RealmGroup], with changes: ([Int], [Int], [Int])? = nil) {
+        let myGroups = RealmGroup.realmToGroup(from: groups)
+        self.myGroups = myGroups
+        self.displayedGroups = myGroups
 
-        self.tableView.reloadData()
+        if let changes = changes {
+            DispatchQueue.global().async {
+                let deletionIndexes = changes.0.reduce(into: [IndexPath]()) {
+                    $0.append(IndexPath(row: $1, section: 0))
+                }
+
+                let insertionIndexes = changes.1.reduce(into: [IndexPath]()) {
+                    $0.append(IndexPath(row: $1, section: 0))
+                }
+
+                let reloadIndexes = changes.2.reduce(into: [IndexPath]()) {
+                    $0.append(IndexPath(row: $1, section: 0))
+                }
+
+                DispatchQueue.main.async {
+                    self.tableView.beginUpdates()
+
+                    self.tableView.deleteRows(at: deletionIndexes, with: .none)
+                    self.tableView.insertRows(at: insertionIndexes, with: .none)
+                    self.tableView.reloadRows(at: reloadIndexes, with: .none)
+
+                    self.tableView.endUpdates()
+                }
+            }
+        } else {
+            self.tableView.reloadData()
+        }
     }
 
 
@@ -226,7 +250,7 @@ final class GroupsTableViewController: UITableViewController {
 
     private func customSearchViewConfiguration() {
 
-        tableView.tableHeaderView = customSearchView
+        self.tableView.tableHeaderView = customSearchView
 
         customSearchView?.insetsLayoutMarginsFromSafeArea = true
 
@@ -250,25 +274,24 @@ final class GroupsTableViewController: UITableViewController {
     }
 
 
-
     // MARK: - sizeHeaderToFit
 
     private func sizeHeaderToFit() {
-        guard let headerView = tableView.tableHeaderView else { return }
+        guard let headerView = self.tableView.tableHeaderView else { return }
 
         headerView.setNeedsLayout()
         headerView.layoutIfNeeded()
 
         let height = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
-        let width = tableView.safeAreaLayoutGuide.layoutFrame.size.width
+        let width = self.tableView.safeAreaLayoutGuide.layoutFrame.size.width
         var frame = headerView.frame
 
         frame.size.height = height
         frame.size.width = width
-        frame.origin = tableView.safeAreaLayoutGuide.layoutFrame.origin
+        frame.origin = self.tableView.safeAreaLayoutGuide.layoutFrame.origin
         headerView.frame = frame
 
-        tableView.tableHeaderView = headerView
+        self.tableView.tableHeaderView = headerView
     }
 
 
@@ -276,21 +299,18 @@ final class GroupsTableViewController: UITableViewController {
 
     private func updateDisplayedGroups(searchText: String) {
 
-        guard !searchText.isEmpty else {
-            setupData()
+        if searchText.isEmpty, let myGroups = try? RealmGroup.restoreData() {
 
-            return
+            setupData(from: myGroups)
+        } else {
+            SessionManager.shared.loadSearchedGroups(searchText: searchText) { [weak self] groups in
+                guard let self = self else { return }
+
+                self.displayedGroups = groups.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+                self.tableView.reloadData()
+            }
         }
-
-        SessionManager.shared.loadSearchedGroups(searchText: searchText) { [weak self] groups in
-            guard let self = self else { return }
-
-            self.displayedGroups = groups.filter { $0.name.lowercased().contains(searchText.lowercased()) }
-            self.tableView.reloadData()
-        }
-
     }
-
 }
 
 

@@ -30,7 +30,7 @@ final class FriendsTableViewController: UITableViewController {
 
         tableView.sectionHeaderTopPadding = CGFloat(0)
         cloudView?.translatesAutoresizingMaskIntoConstraints = false
-
+        
         makeObserver()
         dataValidityCheck()
     }
@@ -154,92 +154,49 @@ final class FriendsTableViewController: UITableViewController {
 
         let oldFriends = self.friends
         let oldGrouppedFriends = self.grouppedFriends
-        let friends = realmToUser(from: friends)
+        let friends = RealmUser.realmToUser(from: friends)
 
         self.friends = friends
         self.grouppedFriends = self.groupFriends()
 
+        let grouppedFriends = self.grouppedFriends
+
         if let changes = changes {
-            let deletionsIndexPaths = searchIndexPaths(from: oldFriends, in: oldGrouppedFriends, with: changes.0)
-            let insertionsIndexPaths = searchIndexPaths(from: friends, in: self.grouppedFriends, with: changes.1)
-            let modificationsIndexPaths = searchIndexPaths(from: oldFriends, in: oldGrouppedFriends, with: changes.2)
+            DispatchQueue.global().async {
+                let deletions = IndexCalculator.getIndexes(from: oldFriends, in: oldGrouppedFriends, with: changes.0)
+                let insertions = IndexCalculator.getIndexes(from: friends, in: grouppedFriends, with: changes.1)
+                let reloads = IndexCalculator.getIndexes(from: oldFriends, in: oldGrouppedFriends, with: changes.2)
 
-            if oldGrouppedFriends.count != self.grouppedFriends.count {
-                let deletionsIndexSet = deletionsIndexPaths.reduce(into: IndexSet(), { $0.insert($1.section) })
-                let insertionsIndexSet = insertionsIndexPaths.reduce(into: IndexSet(), { $0.insert($1.section) })
+                if oldGrouppedFriends.count != self.grouppedFriends.count {
+                    let deletionIndexSet = deletions.reduce(into: IndexSet(), { $0.insert($1.section) })
+                    let insertionIndexSet = insertions.reduce(into: IndexSet(), { $0.insert($1.section) })
 
-                self.tableView.beginUpdates()
+                    DispatchQueue.main.async {
+                        self.tableView.beginUpdates()
 
-                self.tableView.deleteSections(deletionsIndexSet, with: .none)
-                self.tableView.insertSections(insertionsIndexSet, with: .none)
-                self.tableView.reloadRows(at: modificationsIndexPaths, with: .none)
+                        self.tableView.deleteSections(deletionIndexSet, with: .none)
+                        self.tableView.insertSections(insertionIndexSet, with: .none)
+                        self.tableView.reloadRows(at: reloads, with: .none)
 
-                self.tableView.endUpdates()
+                        self.tableView.endUpdates()
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.tableView.beginUpdates()
 
-            } else {
-                self.tableView.beginUpdates()
+                        self.tableView.deleteRows(at: deletions, with: .none)
+                        self.tableView.insertRows(at: insertions, with: .none)
+                        self.tableView.reloadRows(at: reloads, with: .none)
 
-                self.tableView.deleteRows(at: deletionsIndexPaths, with: .none)
-                self.tableView.insertRows(at: insertionsIndexPaths, with: .none)
-                self.tableView.reloadRows(at: modificationsIndexPaths, with: .none)
-
-                self.tableView.endUpdates()
+                        self.tableView.endUpdates()
+                    }
+                }
             }
         } else {
             self.tableView.reloadData()
         }
 
         self.setupAlphabetView()
-    }
-
-
-    // MARK: - realmToUser
-
-    private func realmToUser(from friends: [RealmUser]) -> [User] {
-        let friends = Array(friends.map { User(id: $0.id,
-                                               firstName: $0.firstName,
-                                               lastName: $0.lastName,
-                                               isClosed: $0.isClosed,
-                                               canAccessClosed: $0.canAccessClosed,
-                                               avatar: $0.avatar,
-                                               blacklisted: $0.blacklisted,
-                                               isFriend: $0.isFriend)})
-        return friends
-    }
-
-
-    // MARK: - searchChangedResult
-
-    private func searchIndexPaths(from: [User]?,
-                                     in objects: [GrouppedFriends],
-                                     with changes: [Int]) -> [IndexPath] {
-
-        guard let from = from else { return [IndexPath]() }
-
-        var indexPaths = [IndexPath]()
-
-        changes.forEach { element in
-
-            guard let firstLastNameChar = from[element].lastName.first else { return }
-
-            let section = objects
-                .enumerated()
-                .first { $0.element.character == Character(firstLastNameChar.uppercased()) }?
-                .offset
-
-            guard let section = section else { return }
-
-            let row = objects[section]
-                .users
-                .enumerated()
-                .first { $0.element.id == from[element].id }?
-                .offset
-
-            guard let row = row else { return }
-
-            indexPaths.append(IndexPath(row: row, section: section))
-        }
-        return indexPaths
     }
 
 
@@ -323,6 +280,7 @@ final class FriendsTableViewController: UITableViewController {
         }
 
         friendPhotoVC.userId = grouppedFriends[indexPath.section].users[indexPath.row].id
+        try? RealmPhoto.deleteData(by: friendPhotoVC.userId)
     }
 
 
@@ -422,7 +380,6 @@ final class FriendsTableViewController: UITableViewController {
                 cell?.friendImage?.image = image
             }
         }
-
 
         cell?.friendName?.text = "\(friend.firstName) \(friend.lastName)"
 

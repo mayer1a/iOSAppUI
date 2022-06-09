@@ -54,7 +54,6 @@ class RealmPhoto: Object {
             let realm = try Realm()
 
             try realm.write {
-                realm.delete(realm.objects(RealmPhoto.self).filter { $0.id == ownerId } )
                 realmPhotos.forEach { realm.add($0) }
             }
         } catch {
@@ -65,14 +64,15 @@ class RealmPhoto: Object {
 
     // MARK: - deleteOutdatedData
 
-    static func deleteData(by id: Int) throws {
+    static func deleteData(by userId: Int) throws {
 
         guard
-            let realm = try? Realm(),
-            let objectForDelete = realm.objects(RealmPhoto.self).first(where: { $0.id == id })
+            let realm = try? Realm()
         else {
             return
         }
+
+        let objectForDelete = realm.objects(RealmPhoto.self).filter { $0.ownerId == userId }
 
         try realm.write {
             realm.delete(objectForDelete)
@@ -82,20 +82,26 @@ class RealmPhoto: Object {
 
     // MARK: - restoreData
 
-    static func restoreData(userId: Int) throws -> [Photo] {
+    static func restoreData(userId: Int) throws -> [RealmPhoto] {
         let realm = try Realm()
-        let objects = realm.objects(RealmPhoto.self).filter { $0.ownerId == userId }
+        let objects = realm
+            .objects(RealmPhoto.self)
+            .filter { $0.ownerId == userId }
 
-        let photo = Array(objects
-            .map {
-                Photo(id: $0.id,
-                      albumId: $0.albumId,
-                      ownerId: $0.ownerId,
-                      smallSizeUrl: $0.smallSizeUrl,
-                      originalSizeUrl: $0.originalSizeUrl,
-                      likesCounter: $0.likesCounter,
-                      isLiked: $0.isLiked)
-            })
+        return Array(objects)
+    }
+
+
+    // MARK: - realmToPhoto
+
+    static func realmToPhoto(from objects: [RealmPhoto], by ownerId: Int? = nil) -> [Photo] {
+        let photo = objects.map { Photo(id: $0.id,
+                                        albumId: $0.albumId,
+                                        ownerId: $0.ownerId,
+                                        smallSizeUrl: $0.smallSizeUrl,
+                                        originalSizeUrl: $0.originalSizeUrl,
+                                        likesCounter: $0.likesCounter,
+                                        isLiked: $0.isLiked) }
 
         return photo
     }

@@ -78,9 +78,11 @@
 		49D90B7F27DA65C00048866B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49D90B7E27DA65C00048866B /* Assets.xcassets */; };
 		49D90B8227DA65C00048866B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49D90B8027DA65C00048866B /* LaunchScreen.storyboard */; };
 		49D9AAF8281A862600C6A4B7 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D9AAF7281A862600C6A4B7 /* Session.swift */; };
+		49DA9FEF2848A4B400930B9F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 49DA9FEE2848A4B400930B9F /* GoogleService-Info.plist */; };
 		49E3C50927FB0968001CFED4 /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C50827FB0968001CFED4 /* ShadowView.swift */; };
 		49E3C50B27FB27B3001CFED4 /* LikeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C50A27FB27B3001CFED4 /* LikeControl.swift */; };
 		49E474F92820476B009B519E /* LoginWebKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E474F82820476B009B519E /* LoginWebKitViewController.swift */; };
+		49E893712848B8F30027363E /* FirestoreCollections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E893702848B8F30027363E /* FirestoreCollections.swift */; };
 		49FF92272807263400ED648A /* CustomSearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF92262807263400ED648A /* CustomSearchBarView.swift */; };
 		49FF922B28072D8300ED648A /* CustomSearchBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49FF922928072D8300ED648A /* CustomSearchBarView.xib */; };
 		54E6C53814325595994158B7 /* Pods_VKApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D166F0789A96ABC7D75F1DB /* Pods_VKApp.framework */; };
@@ -162,9 +164,11 @@
 		49D90B8127DA65C00048866B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		49D90B8327DA65C00048866B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49D9AAF7281A862600C6A4B7 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		49DA9FEE2848A4B400930B9F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		49E3C50827FB0968001CFED4 /* ShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
 		49E3C50A27FB27B3001CFED4 /* LikeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeControl.swift; sourceTree = "<group>"; };
 		49E474F82820476B009B519E /* LoginWebKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWebKitViewController.swift; sourceTree = "<group>"; };
+		49E893702848B8F30027363E /* FirestoreCollections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreCollections.swift; sourceTree = "<group>"; };
 		49FF92262807263400ED648A /* CustomSearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomSearchBarView.swift; path = VKApp/Views/CustomSearchBarView.swift; sourceTree = SOURCE_ROOT; };
 		49FF922928072D8300ED648A /* CustomSearchBarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomSearchBarView.xib; sourceTree = "<group>"; };
 		5C11E822E5CA2AEAF4597E55 /* Pods-VKApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VKApp.release.xcconfig"; path = "Target Support Files/Pods-VKApp/Pods-VKApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -312,17 +316,17 @@
 		498F321C27F32B1600FE7EC9 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				497A2CEA28195D0C0009AA9A /* AnimationNavigationController.swift */,
 				498C292527F34F130058EAE7 /* FriendPhotosCollectionViewController.swift */,
 				498F321E27F32E1400FE7EC9 /* FriendsTableViewController.swift */,
 				49BC8FF1280D76EB005469EA /* FullScreenUserPhoto.swift */,
 				4984269427F5F4700078A50C /* GroupsTableViewController.swift */,
+				497A2CEC28195DBF0009AA9A /* InteractiveTransitionDriven.swift */,
 				49D90B7927DA65BE0048866B /* LoginViewController.swift */,
+				49E474F82820476B009B519E /* LoginWebKitViewController.swift */,
 				492A94BC2801AEB40059C9BE /* NewsTableViewController.swift */,
 				4984269627F5F4B70078A50C /* SearchGroupTableViewController.swift */,
 				497A2CE6281822990009AA9A /* TransitionAnimation.swift */,
-				497A2CEA28195D0C0009AA9A /* AnimationNavigationController.swift */,
-				497A2CEC28195DBF0009AA9A /* InteractiveTransitionDriven.swift */,
-				49E474F82820476B009B519E /* LoginWebKitViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -361,6 +365,7 @@
 				49D90B7527DA65BE0048866B /* AppDelegate.swift */,
 				49D90B7727DA65BE0048866B /* SceneDelegate.swift */,
 				498F321C27F32B1600FE7EC9 /* Controllers */,
+				49DA9FEB2848A2D300930B9F /* Firebase */,
 				491BE6602831691600AED18B /* KeychainWrapper */,
 				498F321A27F32B0100FE7EC9 /* Models */,
 				491BE65728311AFC00AED18B /* Realm */,
@@ -369,6 +374,15 @@
 				498F321B27F32B0E00FE7EC9 /* Views */,
 			);
 			path = VKApp;
+			sourceTree = "<group>";
+		};
+		49DA9FEB2848A2D300930B9F /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				49DA9FEE2848A4B400930B9F /* GoogleService-Info.plist */,
+				49E893702848B8F30027363E /* FirestoreCollections.swift */,
+			);
+			path = Firebase;
 			sourceTree = "<group>";
 		};
 		49E474FA2820613A009B519E /* Services */ = {
@@ -478,6 +492,7 @@
 				491A1C8627F4BEF7009287E2 /* RaftingOnRivers.jpg in Resources */,
 				491A1C2927F4B734009287E2 /* photoWoman.jpg in Resources */,
 				491A1C8927F4BEF7009287E2 /* HandMadeStories.jpg in Resources */,
+				49DA9FEF2848A4B400930B9F /* GoogleService-Info.plist in Resources */,
 				491A1C2D27F4B734009287E2 /* AlexandrKuznetsov.jpg in Resources */,
 				491A1C8B27F4BEF7009287E2 /* ClayCrafting.jpg in Resources */,
 				491A1C8D27F4BEF7009287E2 /* GeekComputerClub.jpg in Resources */,
@@ -557,6 +572,7 @@
 				49BC8FF2280D76EB005469EA /* FullScreenUserPhoto.swift in Sources */,
 				49D90B7627DA65BE0048866B /* AppDelegate.swift in Sources */,
 				497A2CEB28195D0C0009AA9A /* AnimationNavigationController.swift in Sources */,
+				49E893712848B8F30027363E /* FirestoreCollections.swift in Sources */,
 				49D90B7827DA65BE0048866B /* SceneDelegate.swift in Sources */,
 				491BE65D28311C4B00AED18B /* RealmPhoto.swift in Sources */,
 				49D9AAF8281A862600C6A4B7 /* Session.swift in Sources */,

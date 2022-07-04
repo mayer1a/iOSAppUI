@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>148116231265-55vtu9fq5k7hbjkl6dcvv94jbonn9nu7.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.148116231265-55vtu9fq5k7hbjkl6dcvv94jbonn9nu7</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCBYwkZcKHX0FZmuRiTxyJwLjH4LmO6D8s</string>
+	<key>GCM_SENDER_ID</key>
+	<string>148116231265</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>Mayer-Inc.VKApp</string>
+	<key>PROJECT_ID</key>
+	<string>vkapp-mayer</string>
+	<key>STORAGE_BUCKET</key>
+	<string>vkapp-mayer.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:148116231265:ios:d6a82afe0c987061c18620</string>
+</dict>
+</plist>

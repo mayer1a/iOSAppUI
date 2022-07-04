@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import FirebaseFirestore
 
 
 final class GroupsTableViewController: UITableViewController {
@@ -182,6 +183,7 @@ final class GroupsTableViewController: UITableViewController {
         self.realmNotification = RealmObserver.shared.makeObserver(RealmGroup.self) { groups, changes in
             DispatchQueue.main.async { [weak self] in
                 self?.setupData(from: groups, with: changes)
+                self?.writeFirebase(data: self?.myGroups)
             }
         }
     }
@@ -243,6 +245,33 @@ final class GroupsTableViewController: UITableViewController {
         } else {
             self.tableView.reloadData()
         }
+    }
+
+
+    // MARK: - writeFirebaseData
+
+    private func writeFirebase(data: [Group]?) {
+        guard let usersGroups = data, let userId = Session.shared.userID else { return }
+
+        let firebaseFirestore = Firestore.firestore()
+        var groups = [String: String]()
+
+        usersGroups.forEach { groups[String($0.id)] = $0.name }
+
+        let data: [String: Any] = [
+            FirestoreNames.documentField.rawValue: groups
+        ]
+
+        firebaseFirestore
+            .collection(FirestoreNames.collectionName.rawValue)
+            .document(String(userId))
+            .setData(data) { error in
+                if let error = error {
+                    print("Error adding document: \(error)")
+                } else {
+                    print("Document successfully written with ID: \(userId)")
+                }
+            }
     }
 
 

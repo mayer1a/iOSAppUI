@@ -20,10 +20,10 @@ class RealmUser: Object {
     var lastName: String
 
     @Persisted
-    var isClosed: Bool
+    var isClosed: Bool?
 
     @Persisted
-    var canAccessClosed: Bool
+    var canAccessClosed: Bool?
 
     @Persisted
     var avatar: String

@@ -140,7 +140,6 @@ final class FriendsTableViewController: UITableViewController {
             } else {
                 setupData(from: friends)
             }
-
         } catch {
             print(error)
         }

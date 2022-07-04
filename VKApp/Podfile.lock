@@ -816,7 +816,7 @@ SPEC CHECKSUMS:
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
   Realm: a0dd4e07530faaa327244ddb4ecb445c98f0537a
-  RealmSwift: 625a21f03e01e80fb9b86bade269ebebcd7892c
+  RealmSwift: 625a21f03e01e80f6b9b86bade269ebebcd7892c
   SwiftKeychainWrapper: 807ba1d63c33a7d0613288512399cd1eda1e470c
 
 PODFILE CHECKSUM: f36f2c1cd86d08926be9f36d2de593378dd999f6

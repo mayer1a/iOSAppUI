@@ -14,7 +14,7 @@ class RealmObserver {
     static let shared = RealmObserver()
 
     func makeObserver<T>(_: T.Type,
-                         completion: @escaping () -> Void) -> NotificationToken? where T: Object {
+                         completion: @escaping ([T], ([Int], [Int], [Int])?) -> ()) -> NotificationToken? where T: Object {
 
         let realmObjects: Results<T>
 
@@ -25,8 +25,11 @@ class RealmObserver {
         let realmNotification = realmObjects.observe { changes in
 
             switch changes {
-            case .initial(_), .update(_,_,_,_):
-                completion()
+            case let .initial(objects):
+                completion(Array(objects), nil)
+
+            case let .update(objects, deletions, insertions, modifications):
+                completion(Array(objects), (deletions, insertions, modifications))
 
             case .error(let error):
                 print(error)

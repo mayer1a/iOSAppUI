@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gsA-Cr-FHj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ORU-62-mCb">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
@@ -493,38 +493,40 @@
                                                 <constraint firstAttribute="bottom" secondItem="9LX-Ow-7By" secondAttribute="bottom" id="rFw-G8-eMX"/>
                                             </constraints>
                                         </view>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6T-Ga-Gjr">
-                                            <rect key="frame" x="10" y="546.5" width="52" height="25"/>
+                                        <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6T-Ga-Gjr">
+                                            <rect key="frame" x="10" y="546.5" width="39" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="25" id="LRL-ib-qRF"/>
                                             </constraints>
                                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                             <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="gray" image="heart" catalog="system" title="0" imagePadding="5" buttonSize="small"/>
+                                            <buttonConfiguration key="configuration" style="gray" image="heart" catalog="system" imagePadding="5" buttonSize="small"/>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TJb-Q8-exC">
-                                            <rect key="frame" x="72" y="546.5" width="53" height="25"/>
+                                        <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TJb-Q8-exC">
+                                            <rect key="frame" x="59" y="546.5" width="40" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="25" id="CFI-h1-Nqj"/>
                                             </constraints>
                                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                             <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="gray" image="message" catalog="system" title="0" imagePadding="5" buttonSize="small"/>
+                                            <buttonConfiguration key="configuration" style="gray" image="message" catalog="system" imagePadding="5" buttonSize="small">
+                                                <attributedString key="attributedTitle"/>
+                                            </buttonConfiguration>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="efZ-IE-vAY">
-                                            <rect key="frame" x="135" y="546.5" width="52.5" height="25"/>
+                                        <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="efZ-IE-vAY">
+                                            <rect key="frame" x="109" y="546.5" width="39.5" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="25" id="nlV-Ze-KeW"/>
                                             </constraints>
                                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                             <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="gray" image="arrowshape.turn.up.forward" catalog="system" title="0" imagePadding="5" buttonSize="small"/>
+                                            <buttonConfiguration key="configuration" style="gray" image="arrowshape.turn.up.forward" catalog="system" imagePadding="5" buttonSize="small"/>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ka-ka-q4r">
-                                            <rect key="frame" x="393.5" y="546.5" width="10.5" height="25"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ka-ka-q4r">
+                                            <rect key="frame" x="404" y="546.5" width="0.0" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="25" id="qeM-HQ-H0a"/>
                                             </constraints>
@@ -533,7 +535,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eye.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="y9W-6X-sSv">
-                                            <rect key="frame" x="368.5" y="550.5" width="20" height="16.5"/>
+                                            <rect key="frame" x="379" y="550.5" width="20" height="16.5"/>
                                             <color key="tintColor" systemColor="systemGrayColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="ZBO-QX-NQv"/>
@@ -576,11 +578,11 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
-                                    <outlet property="newLikeButton" destination="b6T-Ga-Gjr" id="2Ie-a1-qn1"/>
                                     <outlet property="newsAuthorAvatar" destination="W0m-J7-9VH" id="l9r-fv-6sB"/>
                                     <outlet property="newsAuthorFullName" destination="oGP-mp-GiX" id="rhC-g3-exL"/>
                                     <outlet property="newsCommentButton" destination="TJb-Q8-exC" id="fMj-xT-I1G"/>
                                     <outlet property="newsImagesView" destination="ACa-ih-E0h" id="Bot-Ma-pN3"/>
+                                    <outlet property="newsLikeButton" destination="b6T-Ga-Gjr" id="2Ie-a1-qn1"/>
                                     <outlet property="newsNumberOfViews" destination="2Ka-ka-q4r" id="hf6-nv-QiB"/>
                                     <outlet property="newsPhotoImageView" destination="9LX-Ow-7By" id="5IQ-3s-eri"/>
                                     <outlet property="newsPostingDate" destination="L76-am-x1U" id="cVP-oP-qQP"/>
@@ -813,7 +815,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="tbh-rz-MIn"/>
+        <segue reference="ATR-IK-rhE"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrowshape.turn.up.forward" catalog="system" width="128" height="106"/>

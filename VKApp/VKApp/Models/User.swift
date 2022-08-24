@@ -15,7 +15,6 @@ class User: Decodable {
     var isClosed: Bool?
     var canAccessClosed: Bool?
     var avatar: String
-
     var blacklisted: Int?
     var isFriend: Int?
 

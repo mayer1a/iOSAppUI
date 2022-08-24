@@ -30,7 +30,7 @@ final class FriendsTableViewController: UITableViewController {
 
         tableView.sectionHeaderTopPadding = CGFloat(0)
         cloudView?.translatesAutoresizingMaskIntoConstraints = false
-        
+
         makeObserver()
         dataValidityCheck()
     }
@@ -40,7 +40,7 @@ final class FriendsTableViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         setupAlphabetView()
     }
 

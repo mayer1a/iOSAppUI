@@ -9,7 +9,7 @@ import UIKit
 
 class NewsTableViewController: UITableViewController {
 
-    var displayedNews: [News] = []
+    var displayedNews: [NewsMock] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,35 +68,41 @@ class NewsTableViewController: UITableViewController {
 
         let news = displayedNews[indexPath.section]
 
-        guard //let userAvatarName = news.user.avatar,
-            //              let userAvatarPath = Bundle.main.path(forResource: userAvatarName, ofType: "jpg"),
-            //              let userAvatar = cell?.newsAuthorAvatar?.resizedImage(at: userAvatarPath, for: imageSize()),
-            let newsText = news.text
-                //              let newsPhotoName = news.photos?.first?.name,
-                //              let newsPhotoPath = Bundle.main.path(forResource: newsPhotoName, ofType: "jpg")
-        else {
-            //              let newsPhoto = cell?.newsPhotoImageView?.resizedImage(at: newsPhotoPath, for: imageSize()) else {
-            return UITableViewCell()
-        }
+//        guard
+//            let newsText = news.text,
+//            let userAvatarName = news.user.avatar,
+//            let userAvatarPath = Bundle.main.path(forResource: userAvatarName, ofType: "jpg"),
+//            let userAvatar = cell?.newsAuthorAvatar?.resizedImage(at: userAvatarPath, for: imageSize()),
+//            let newsPhotoName = news.photos?.first?.name,
+//            let newsPhotoPath = Bundle.main.path(forResource: newsPhotoName, ofType: "jpg")
+//        else {
+//            let newsPhoto = cell?.newsPhotoImageView?.resizedImage(at: newsPhotoPath, for: imageSize()) else {
+//            return UITableViewCell()
+//        }
 
-        //        cell?.newsAuthorAvatar?.image = userAvatar
+        let numberOfLikes = news.numberOfLikes != nil ? String(news.numberOfLikes!) : nil
+        let numberOfComments = news.numberOfComments != nil ? String(news.numberOfComments!) : nil
+        let numberOfShares = news.numberOfShares != nil ? String(news.numberOfShares!) : nil
+        let numberOfViews = news.numberOfViews != nil ? String(news.numberOfViews!) : nil
+
+//        cell?.newsAuthorAvatar?.image = userAvatar
+//        cell?.newsPhotoImageView?.image = newsPhoto
         cell?.newsAuthorFullName?.text = "\(news.user.firstName) \(news.user.lastName)"
         cell?.newsPostingDate?.text = news.postingDate
-        cell?.newsText?.text = newsText
-        //        cell?.newsPhotoImageView?.image = newsPhoto
-        cell?.newLikeButton?.titleLabel?.text = String(news.numberOfLikes)
-        cell?.newsCommentButton?.titleLabel?.text = String(news.numbersOfComments)
-        cell?.newsShareButton?.titleLabel?.text = String(news.numbersOfShares)
-        cell?.newsNumberOfViews?.text = String(news.numberOfViews)
+        cell?.newsText?.text = news.text
+        cell?.newsLikeButton?.setTitle(numberOfLikes, for: .normal)
+        cell?.newsCommentButton?.setTitle(numberOfComments, for: .normal)
+        cell?.newsShareButton?.setTitle(numberOfShares, for: .normal)
+        cell?.newsNumberOfViews?.text = numberOfViews
 
         return cell ?? UITableViewCell()
     }
 
-
+    
     // MARK: - setupData
 
     private func setupData() {
-        displayedNews = News.list
+        displayedNews = NewsMock.news
 
         tableView.sectionHeaderTopPadding = CGFloat(0)
     }

@@ -15,6 +15,7 @@ class LoginWebKitViewController: UIViewController {
     
     @IBOutlet weak var loginWebView: WKWebView?
 
+    private let isInfinityTokenDebug = true
     private var isTokenValid: Bool {
 
         let currentTime = Int(Date().timeIntervalSince1970)
@@ -24,7 +25,7 @@ class LoginWebKitViewController: UIViewController {
             let tokenReceiptTime = KeychainWrapper.standard.integer(forKey: .tokenReceiptTime),
             let tokenExpiresIn = KeychainWrapper.standard.integer(forKey: .tokenExpiresIn),
             KeychainWrapper.standard.integer(forKey: .userId) != nil,
-            currentTime - tokenReceiptTime < tokenExpiresIn
+            (tokenExpiresIn == 0 || currentTime - tokenReceiptTime < tokenExpiresIn)
         else {
             return false
         }
@@ -81,12 +82,14 @@ class LoginWebKitViewController: UIViewController {
         self.loginWebView?.navigationDelegate = self
 
         var urlComponents = URLComponents(string: "https://oauth.vk.com/authorize")
-
+        var scope = 270342
+        if isInfinityTokenDebug { scope += 65536 }
+        
         urlComponents?.queryItems = [
             URLQueryItem(name: "client_id", value: "8155664"),
             URLQueryItem(name: "redirect_uri", value: "https://oauth.vk.com/blank.html"),
             URLQueryItem(name: "display", value: "mobile"),
-            URLQueryItem(name: "scope", value: "270342"),
+            URLQueryItem(name: "scope", value: String(scope)),
             URLQueryItem(name: "response_type", value: "token"),
             URLQueryItem(name: "v", value: "5.131")
         ]

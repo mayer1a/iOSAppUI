@@ -74,20 +74,20 @@ struct NewsMock {
 
         switch (hasText, hasImage, hasVideo, hasAudio) {
         case (true, false, false, false): return .text
-        case (false, true, false, false ): return .image
-        case (false, false, true, false ): return .video
-        case (false, false, false, true ): return .audio
-        case (true, true, false, false ): return .textImage
-        case (true, false, true, false ): return .textVideo
-        case (true, false, false, true ): return .textAudio
-        case (false, true, true, false ): return .imageVideo
-        case (false, true, false, true ): return .imageAudio
-        case (false, false, true, true ): return .videoAudio
-        case (true, true, true, false ): return .textImageVideo
-        case (true, true, false, true ): return .textImageAudio
-        case (true, false, true, true ): return .textVideoAudio
-        case (false, true, true, true ): return .imageVideoAudio
-        case (true, true, true, true ): return .textImageVideoAudio
+        case (false, true, false, false): return .image
+        case (false, false, true, false): return .video
+        case (false, false, false, true): return .audio
+        case (true, true, false, false): return .textImage
+        case (true, false, true, false): return .textVideo
+        case (true, false, false, true): return .textAudio
+        case (false, true, true, false): return .imageVideo
+        case (false, true, false, true): return .imageAudio
+        case (false, false, true, true): return .videoAudio
+        case (true, true, true, false): return .textImageVideo
+        case (true, true, false, true): return .textImageAudio
+        case (true, false, true, true): return .textVideoAudio
+        case (false, true, true, true): return .imageVideoAudio
+        case (true, true, true, true): return .textImageVideoAudio
         default: return nil
         }
     }

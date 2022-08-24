@@ -9,7 +9,7 @@ import UIKit
 
 class NewsTableViewController: UITableViewController {
 
-    var displayedNews: [NewsMock] = []
+    var news: [NewsMock] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,14 +21,24 @@ class NewsTableViewController: UITableViewController {
     // MARK: - numberOfRowsInSection
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        var newsBlocksCount = 2
+
+        switch news[section].postType {
+        case .text, .image, .video, .audio: newsBlocksCount += 1
+        case .textImage, .textVideo, .textAudio, .imageVideo, .imageAudio, .videoAudio: newsBlocksCount += 2
+        case .textImageVideo, .textImageAudio, .textVideoAudio, .imageVideoAudio: newsBlocksCount += 3
+        case .textImageVideoAudio: newsBlocksCount += 4
+        case .none: break
+        }
+        
+        return newsBlocksCount
     }
 
 
     // MARK: - numberOfSections
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return displayedNews.count
+        return news.count
     }
 
 
@@ -64,47 +74,65 @@ class NewsTableViewController: UITableViewController {
     // MARK: - cellForRowAt
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell", for: indexPath) as? NewsTableViewCell
+        let currentNews = news[indexPath.section]
+        let cellIdentifier: String?
+        let numberOfRows = tableView.numberOfRows(inSection: indexPath.section) - 1
 
-        let news = displayedNews[indexPath.section]
+        switch indexPath.row {
+        case 0, numberOfRows: cellIdentifier = requiredCellIdentifier(for: indexPath.row, lastIndex: numberOfRows)
+        default: cellIdentifier = optionalCellIdentifier(by: currentNews.postType, for: indexPath.row - 1)
+        }
 
-//        guard
-//            let newsText = news.text,
-//            let userAvatarName = news.user.avatar,
-//            let userAvatarPath = Bundle.main.path(forResource: userAvatarName, ofType: "jpg"),
-//            let userAvatar = cell?.newsAuthorAvatar?.resizedImage(at: userAvatarPath, for: imageSize()),
-//            let newsPhotoName = news.photos?.first?.name,
-//            let newsPhotoPath = Bundle.main.path(forResource: newsPhotoName, ofType: "jpg")
-//        else {
-//            let newsPhoto = cell?.newsPhotoImageView?.resizedImage(at: newsPhotoPath, for: imageSize()) else {
-//            return UITableViewCell()
-//        }
+        guard
+            let cellIdentifier = cellIdentifier,
+            let newsCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
+        else {
+            return UITableViewCell()
+        }
 
-        let numberOfLikes = news.numberOfLikes != nil ? String(news.numberOfLikes!) : nil
-        let numberOfComments = news.numberOfComments != nil ? String(news.numberOfComments!) : nil
-        let numberOfShares = news.numberOfShares != nil ? String(news.numberOfShares!) : nil
-        let numberOfViews = news.numberOfViews != nil ? String(news.numberOfViews!) : nil
+        (newsCell as? NewsProtocol)?.setup(news: currentNews)
 
-//        cell?.newsAuthorAvatar?.image = userAvatar
-//        cell?.newsPhotoImageView?.image = newsPhoto
-        cell?.newsAuthorFullName?.text = "\(news.user.firstName) \(news.user.lastName)"
-        cell?.newsPostingDate?.text = news.postingDate
-        cell?.newsText?.text = news.text
-        cell?.newsLikeButton?.setTitle(numberOfLikes, for: .normal)
-        cell?.newsCommentButton?.setTitle(numberOfComments, for: .normal)
-        cell?.newsShareButton?.setTitle(numberOfShares, for: .normal)
-        cell?.newsNumberOfViews?.text = numberOfViews
-
-        return cell ?? UITableViewCell()
+        return newsCell
     }
 
     
     // MARK: - setupData
 
     private func setupData() {
-        displayedNews = NewsMock.news
+        news = NewsMock.news
 
         tableView.sectionHeaderTopPadding = CGFloat(0)
     }
 
+
+    // MARK: requiredCellIdentifier
+
+    private func requiredCellIdentifier(for row: Int, lastIndex: Int) -> String? {
+        switch row {
+        case 0: return "NewsAuthorDatetime"
+        case lastIndex: return "NewsUsersInteraction"
+        default: return nil
+        }
+    }
+
+
+    // MARK: optionalCellIdentifier
+
+    private func optionalCellIdentifier(by type: NewsMock.Kind?, for index: Int) -> String? {
+        switch type {
+//        case .text, .image, .video, .audio: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
+//        case .textImage: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
+//        case .textVideo: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
+//        case .textAudio: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
+//        case .imageVideo: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
+//        case .imageAudio: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
+//        case .videoAudio: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
+//        case .textImageVideo: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
+//        case .textImageAudio: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
+//        case .textVideoAudio: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
+//        case .imageVideoAudio: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
+        case .some(_): return type?.rawValue[index]
+        case .none: return nil
+        }
+    }
 }

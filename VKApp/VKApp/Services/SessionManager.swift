@@ -159,5 +159,32 @@ class SessionManager {
         }
 
     }
+
+    func getNewsfeed() {
+        let baseUrl = "https://api.vk.com/method/newsfeed.get"
+
+        guard var urlComponents = URLComponents(string: baseUrl) else { return }
+
+        urlComponents.queryItems = [
+            URLQueryItem(name: "return_banned", value: "0"),
+            URLQueryItem(name: "start_time", value: "1660584803"),
+            URLQueryItem(name: "max_photos", value: "100"),
+            URLQueryItem(name: "count", value: "50"),
+            URLQueryItem(name: "access_token", value: Session.shared.token),
+            URLQueryItem(name: "v", value: currentApiVersion)
+        ]
+
+        AF.request(urlComponents).response { response in
+            guard let data = response.data else { return }
+
+            do {
+                print("-------------------------------------------------------\n\n\n\n\n")
+                print(String(data: data, encoding: .utf8) as Any)
+                print("-------------------------------------------------------\n\n\n\n\n")
+            } catch {
+                print(error)
+            }
+        }
+    }
     
 }

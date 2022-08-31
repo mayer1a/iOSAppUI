@@ -9,7 +9,7 @@ import UIKit
 
 class NewsTableViewController: UITableViewController {
 
-    var news: [NewsMock] = []
+    var news: [News] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,7 +99,14 @@ class NewsTableViewController: UITableViewController {
     // MARK: - setupData
 
     private func setupData() {
-        news = NewsMock.news
+        DispatchQueue.global().async { [weak self] in
+            SessionManager.shared.getNewsfeed { news in
+                DispatchQueue.main.async { [weak self] in
+                    self?.news = news
+                    self?.tableView.reloadData()
+                }
+            }
+        }
 
         tableView.sectionHeaderTopPadding = CGFloat(0)
     }
@@ -118,21 +125,31 @@ class NewsTableViewController: UITableViewController {
 
     // MARK: optionalCellIdentifier
 
-    private func optionalCellIdentifier(by type: NewsMock.Kind?, for index: Int) -> String? {
+    private func optionalCellIdentifier(by type: News.Kind?, for index: Int) -> String? {
         switch type {
-//        case .text, .image, .video, .audio: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
-//        case .textImage: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
-//        case .textVideo: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
-//        case .textAudio: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
-//        case .imageVideo: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
-//        case .imageAudio: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
-//        case .videoAudio: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
-//        case .textImageVideo: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
-//        case .textImageAudio: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
-//        case .textVideoAudio: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
-//        case .imageVideoAudio: cellIdentifier = currentNews.postType?.rawValue[indexPath.row - 1]
         case .some(_): return type?.rawValue[index]
         case .none: return nil
         }
     }
+
+//    private func dataValidityCheck() {
+//
+//        do {
+//            let groups = try RealmGroup.restoreData()
+//            let userDefaults = UserDefaults.standard
+//            let currentTime = Int(Date().timeIntervalSince1970)
+//
+//            if currentTime - userDefaults.integer(forKey: "newsfeedLastLoad") > 3_600 || groups.isEmpty {
+//                SessionManager.shared.getNewsfeed { news in
+//
+//                }
+//
+//                userDefaults.set(currentTime, forKey: "newsfeedLastLoad")
+//            } else {
+//                self.setupData(from: groups)
+//            }
+//        } catch {
+//            print(error)
+//        }
+//    }
 }

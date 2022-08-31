@@ -21,7 +21,7 @@ final class CircularPreviewImageView: UIImageView {
 
 
     // Resized large images to preview
-    func resizedImage(at imageUrl: URL) -> UIImage? {
+    func getImage(at imageUrl: URL) -> UIImage? {
         
         guard
             let imageData = try? Data(contentsOf: imageUrl, options: .uncached),

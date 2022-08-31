@@ -13,6 +13,6 @@ class NewsTextCell: UITableViewCell {
 
 extension NewsTextCell: NewsProtocol {
     func setup<T>(news: T) where T : NewsCellTypeDataProtocol {
-        newsText?.text = news.text
+        newsText?.text = news.newsBody.text
     }
 }

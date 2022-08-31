@@ -26,10 +26,10 @@ class RealmPhoto: Object {
     var originalSizeUrl: String?
 
     @Persisted
-    var likesCounter: Int
+    var likesCounter: Int?
 
     @Persisted
-    var isLiked: Int
+    var isLiked: Int?
 
 
     // MARK: - saveData

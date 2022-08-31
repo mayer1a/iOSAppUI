@@ -67,16 +67,18 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         }
 
         DispatchQueue.global().async {
-            let image = cell?.friendPhoto?.resizedImage(at: path)
+            let image = cell?.friendPhoto?.getImage(at: path)
 
             DispatchQueue.main.async {
                 cell?.friendPhoto?.image = image
             }
         }
 
-        cell?.likeControl?.isSelected = photo.isLiked == 1 ? true : false
-        cell?.likeControl?.likeLabel?.text = String(photo.likesCounter)
-        cell?.likeControl?.setupLikesCounter(equal: photo.likesCounter)
+        if let isLiked = photo.isLiked, let likeCount = photo.likesCounter {
+            cell?.likeControl?.isSelected = isLiked == 1 ? true : false
+            cell?.likeControl?.likeLabel?.text = String(likeCount)
+            cell?.likeControl?.setupLikesCounter(equal: likeCount)
+        }
 
         // TODO: метод "отправки лайка" на бек
 

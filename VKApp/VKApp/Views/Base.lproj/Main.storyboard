@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ORU-62-mCb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gsA-Cr-FHj">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
@@ -682,8 +682,8 @@
                                 <connections>
                                     <outlet property="newsCommentButton" destination="ydQ-mS-Pdb" id="WxA-WZ-LqR"/>
                                     <outlet property="newsLikeButton" destination="qXr-G7-sPA" id="4zj-N2-Xl6"/>
-                                    <outlet property="newsNumberOfViews" destination="Gc0-fu-Awd" id="6Rx-X7-PyX"/>
-                                    <outlet property="newsShareButton" destination="nBc-RM-4HT" id="HWq-oj-Iyl"/>
+                                    <outlet property="newsRepostButton" destination="nBc-RM-4HT" id="HWq-oj-Iyl"/>
+                                    <outlet property="newsViewsLabel" destination="Gc0-fu-Awd" id="6Rx-X7-PyX"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

@@ -16,8 +16,8 @@ class Photo: Decodable {
     var ownerId: Int
     var smallSizeUrl: String
     var originalSizeUrl: String?
-    var likesCounter: Int
-    var isLiked: Int
+    var likesCounter: Int?
+    var isLiked: Int?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -83,9 +83,9 @@ class Photo: Decodable {
 
         self.smallSizeUrl = smallSizeUrl
 
-        let likesValues = try container.nestedContainer(keyedBy: LikedKeys.self, forKey: .likes)
-        self.likesCounter = try likesValues.decode(Int.self, forKey: .likesCounter)
-        self.isLiked = try likesValues.decode(Int.self, forKey: .isLiked)
+        let likesValues = try? container.nestedContainer(keyedBy: LikedKeys.self, forKey: .likes)
+        self.likesCounter = try? likesValues?.decode(Int.self, forKey: .likesCounter)
+        self.isLiked = try? likesValues?.decode(Int.self, forKey: .isLiked)
     }
 
     required init(
@@ -94,8 +94,8 @@ class Photo: Decodable {
         ownerId: Int,
         smallSizeUrl: String,
         originalSizeUrl: String?,
-        likesCounter: Int,
-        isLiked: Int
+        likesCounter: Int?,
+        isLiked: Int?
     ) {
         self.id = id
         self.albumId = albumId

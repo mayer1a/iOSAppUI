@@ -12,14 +12,7 @@ protocol NewsProtocol {
 }
 
 protocol NewsCellTypeDataProtocol {
-    var user: UserTestData? { get }
-    var postingDate: String? { get }
-    var text: String? { get }
-    var images: PhotoTestData? { get }
-    var audio: String? { get }
-    var video: String? { get }
-    var numberOfViews: Int? { get }
-    var numberOfLikes: Int? { get }
-    var numberOfComments: Int? { get }
-    var numberOfShares: Int? { get }
+    var userOwner: User? { get }
+    var groupOwner: Group? { get }
+    var newsBody: NewsBody { get }
 }

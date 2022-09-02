@@ -14,11 +14,19 @@ class NewsImageCell: UITableViewCell {
 
 extension NewsImageCell: NewsProtocol {
     func setup<T>(news: T) where T : NewsCellTypeDataProtocol {
-        guard let imageName = news.images?.smallSizeUrl,
-              let imagePath = Bundle.main.path(forResource: imageName, ofType: "jpg"),
-              let image = UIImage(contentsOfFile: imagePath)
+        self.newsPhotoImageView?.image = nil
+        
+        guard let mainImage = news.newsBody.images.first,
+              let imageName = mainImage?.originalSizeUrl,
+              let imageUrl = URL(string: imageName)
         else { return }
 
-        newsPhotoImageView?.image = image
+        DispatchQueue.global().async { [weak self] in
+            let image = self?.newsPhotoImageView?.getImage(at: imageUrl)
+
+            DispatchQueue.main.async { [weak self] in
+                self?.newsPhotoImageView?.image = image
+            }
+        }
     }
 }

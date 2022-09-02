@@ -373,7 +373,7 @@ final class FriendsTableViewController: UITableViewController {
         guard let path = URL(string: friend.avatar) else { return UITableViewCell() }
 
         DispatchQueue.global().async { [weak cell] in
-            let image = cell?.friendImage?.resizedImage(at: path)
+            let image = cell?.friendImage?.getImage(at: path)
 
             DispatchQueue.main.async { [weak cell] in
                 cell?.friendImage?.image = image

@@ -13,6 +13,12 @@ class NewsVideoCell: UITableViewCell {
 
 extension NewsVideoCell: NewsProtocol {
     func setup<T>(news: T) where T : NewsCellTypeDataProtocol {
-        newsVideo?.text = news.video
+        guard let video = news.newsBody.videos.first
+        else {
+            newsVideo?.text = "[VIDEO]"
+            return
+        }
+        
+        newsVideo?.text = video
     }
 }

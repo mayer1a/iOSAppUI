@@ -13,6 +13,12 @@ class NewsAudioCell: UITableViewCell {
 
 extension NewsAudioCell: NewsProtocol {
     func setup<T>(news: T) where T : NewsCellTypeDataProtocol {
-        newsAudio?.text = news.audio
+        guard let audio = news.newsBody.audios.first
+        else {
+            newsAudio?.text = "[AUDIO]"
+            return
+        }
+        
+        newsAudio?.text = audio
     }
 }

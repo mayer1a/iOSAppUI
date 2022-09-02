@@ -61,7 +61,7 @@ final class GroupsTableViewController: UITableViewController {
         }
 
         DispatchQueue.global().async {
-            let image = cell?.groupImage?.resizedImage(at: path)
+            let image = cell?.groupImage?.getImage(at: path)
 
             DispatchQueue.main.async {
                 cell?.groupImage?.image = image

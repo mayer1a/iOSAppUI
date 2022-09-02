@@ -54,14 +54,14 @@ final class GroupsTableViewController: UITableViewController {
                                                  for: indexPath) as? GroupTableViewCell
 
         guard
-            let groupAvatarName = displayedGroups?[indexPath.row].avatar,
-            let path = URL(string: groupAvatarName)
+            let imageName = displayedGroups?[indexPath.row].avatar,
+            let imageURL = URL(string: imageName)
         else {
             return UITableViewCell()
         }
 
         DispatchQueue.global().async {
-            let image = cell?.groupImage?.getImage(at: path)
+            let image = UIImage.fetchImage(at: imageURL)
 
             DispatchQueue.main.async {
                 cell?.groupImage?.image = image

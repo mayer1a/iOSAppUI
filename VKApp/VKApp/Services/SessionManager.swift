@@ -163,7 +163,7 @@ class SessionManager {
 
     }
 
-    func getNewsfeed(complition: @escaping ([News]) -> Void) {
+    func getNewsfeed(completion: @escaping ([News]) -> Void) {
         let baseUrl = "https://api.vk.com/method/newsfeed.get"
 
         guard var urlComponents = URLComponents(string: baseUrl) else { return }
@@ -182,9 +182,11 @@ class SessionManager {
             guard let data = response.data else { return }
 
             do {
-                let news = try JSONDecoder().decode(NewsResponse.self, from: data).news
+                let newsResponse = try JSONDecoder().decode(NewsResponse.self, from: data)
 
-                complition(news)
+                newsResponse.parseData(data: data) { news in
+                    completion(news)
+                }
             } catch {
                 print(error)
             }

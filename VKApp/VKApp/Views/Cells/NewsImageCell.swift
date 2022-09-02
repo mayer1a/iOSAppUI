@@ -22,7 +22,7 @@ extension NewsImageCell: NewsProtocol {
         else { return }
 
         DispatchQueue.global().async { [weak self] in
-            let image = self?.newsPhotoImageView?.getImage(at: imageUrl)
+            let image = UIImage.fetchImage(at: imageUrl)
 
             DispatchQueue.main.async { [weak self] in
                 self?.newsPhotoImageView?.image = image

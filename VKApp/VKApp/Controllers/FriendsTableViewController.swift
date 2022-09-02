@@ -370,10 +370,10 @@ final class FriendsTableViewController: UITableViewController {
 
         let friend = self.grouppedFriends[indexPath.section].users[indexPath.row]
 
-        guard let path = URL(string: friend.avatar) else { return UITableViewCell() }
+        guard let imageURL = URL(string: friend.avatar) else { return UITableViewCell() }
 
         DispatchQueue.global().async { [weak cell] in
-            let image = cell?.friendImage?.getImage(at: path)
+            let image = UIImage.fetchImage(at: imageURL)
 
             DispatchQueue.main.async { [weak cell] in
                 cell?.friendImage?.image = image

@@ -61,13 +61,13 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
 
         guard
             let photo = photos?[indexPath.item],
-            let path = URL(string: photo.smallSizeUrl)
+            let imageURL = URL(string: photo.smallSizeUrl)
         else {
             return UICollectionViewCell()
         }
 
         DispatchQueue.global().async {
-            let image = cell?.friendPhoto?.getImage(at: path)
+            let image = UIImage.fetchImage(at: imageURL)
 
             DispatchQueue.main.async {
                 cell?.friendPhoto?.image = image

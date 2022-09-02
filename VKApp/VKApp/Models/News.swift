@@ -144,42 +144,85 @@ class NewsResponse: Decodable {
         case groups
         case nextFrom = "next_from"
     }
-
-    private var items: [NewsBody]?
-    private var groups: [Group]?
-    private var users: [User]?
     var nextFrom: String?
-    var news: [News]
 
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let responseValue = try container.nestedContainer(keyedBy: RequestKeys.self, forKey: .response)
 
-        self.items = try responseValue.decode([NewsBody]?.self, forKey: .items)
-        self.groups = try responseValue.decode([Group].self, forKey: .groups)
-        self.users = try responseValue.decode([User].self, forKey: .users)
         self.nextFrom = try? responseValue.decode(String.self, forKey: .nextFrom)
-        self.news = [News]()
+    }
 
-        guard let items = self.items else { return }
+    func parseData(data: Data, completion: @escaping ([News]) -> Void) {
+        DispatchQueue.global().async {
+            var newsBodies = [NewsBody]()
+            var newsGroups = [Group]()
+            var newsUsers = [User]()
 
-        for newsBody in items {
-            let ownerId = newsBody.sourceId
+            let dispatchGroup = DispatchGroup()
+            dispatchGroup.enter()
+            dispatchGroup.enter()
+            dispatchGroup.enter()
 
-            if ownerId > 0 {
-                let owner = users?.first(where: { $0.id == ownerId })
-                self.news.append(News(owner, newsBody: newsBody))
-            } else {
-                let owner = groups?.first(where: { $0.id == -ownerId })
-                self.news.append(News(owner, newsBody: newsBody))
+            let jsonObject = (try? JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
+                              as? [String : Any]
+            ) ?? [:]
+
+            let response = (jsonObject["response"] as? [String : Any]) ?? [:]
+            let items = response["items"]
+            let groups = response["groups"]
+            let users = response["profiles"]
+
+            let itemsData = (try? JSONSerialization.data(withJSONObject: items as Any, options: .fragmentsAllowed)
+            ) ?? Data()
+
+            let profileData = (try? JSONSerialization.data(withJSONObject: users as Any, options: .fragmentsAllowed)
+            ) ?? Data()
+
+            let groupsData = (try? JSONSerialization.data(withJSONObject: groups as Any, options: .fragmentsAllowed)
+            ) ?? Data()
+
+            self.asyncParse(data: itemsData) { (model: [NewsBody]) in
+                newsBodies = model
+                dispatchGroup.leave()
+            }
+
+            self.asyncParse(data: profileData) { (model: [User]) in
+                newsUsers = model
+                dispatchGroup.leave()
+            }
+
+            self.asyncParse(data: groupsData) { (model: [Group]) in
+                newsGroups = model
+                dispatchGroup.leave()
+            }
+
+            dispatchGroup.notify(queue: .global()) {
+                var news = [News]()
+
+                for newsBody in newsBodies {
+                    let ownerId = newsBody.sourceId
+
+                    if ownerId > 0 {
+                        let owner = newsUsers.first(where: { $0.id == ownerId })
+                        news.append(News(owner, newsBody: newsBody))
+                    } else {
+                        let owner = newsGroups.first(where: { $0.id == -ownerId })
+                        news.append(News(owner, newsBody: newsBody))
+                    }
+                }
+
+                completion(news)
             }
         }
+    }
 
-        self.items = nil
-        self.groups = nil
-        self.users = nil
-        self.nextFrom = nil
-
+    private func asyncParse<T: Decodable>(data: Data, completion: @escaping (T) -> Void) {
+        DispatchQueue.global().async {
+            if let parsedModel = try? JSONDecoder().decode(T.self, from: data) {
+                completion(parsedModel)
+            }
+        }
     }
 }
 

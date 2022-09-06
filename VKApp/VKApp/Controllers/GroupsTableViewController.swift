@@ -9,28 +9,22 @@ import UIKit
 import RealmSwift
 import FirebaseFirestore
 
-
+// MARK: UITableViewController
 final class GroupsTableViewController: UITableViewController {
-
     private let customSearchView = CustomSearchBarView().loadView()
     private var realmNotification: NotificationToken?
     var myGroups: [Group]?
     var displayedGroups: [Group]?
 
-
     // MARK: - viewDidLoad
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         customSearchViewConfiguration()
         makeObserver()
         dataValidityCheck()
     }
 
-
     // MARK: - viewWillTransition
-
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
@@ -39,31 +33,24 @@ final class GroupsTableViewController: UITableViewController {
         }
     }
 
-
     // MARK: - numberOfRowsInSection
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return displayedGroups?.count ?? 0
     }
 
-
     // MARK: - cellForRowAt
-
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell",
-                                                 for: indexPath) as? GroupTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as? GroupTableViewCell
 
         guard
-            let groupAvatarName = displayedGroups?[indexPath.row].avatar,
-            let path = URL(string: groupAvatarName)
-        else {
-            return UITableViewCell()
-        }
+            let imageName = displayedGroups?[indexPath.row].avatar,
+            let imageURL = URL(string: imageName)
+        else { return UITableViewCell() }
 
         DispatchQueue.global().async {
-            let image = cell?.groupImage?.getImage(at: path)
+            let image = UIImage.fetchImage(at: imageURL)
 
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak cell] in
                 cell?.groupImage?.image = image
             }
         }
@@ -73,39 +60,18 @@ final class GroupsTableViewController: UITableViewController {
         return cell ?? UITableViewCell()
     }
 
-
     // MARK: - trailingSwipeActionsConfigurationForRowAt
-
     override func tableView(_ tableView: UITableView,
-                            trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-
-        let action = UIContextualAction(style: .destructive,
-                                        title: "Отписаться",
-                                        handler: { _, _, block in
-
-            //            guard let groupToUnsubscribe = self?.myGroups.remove(at: indexPath.row) else { return }
-
-            //            GroupTestData.nonSubscribedGroups.append(groupToUnsubscribe)
-            // TODO: метод отписки от группы
-
+                            trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+    {
+        let action = UIContextualAction(style: .destructive, title: "Отписаться") { _, _, block in
             block(true)
-
-        })
+        }
 
         return UISwipeActionsConfiguration(actions: [action])
     }
 
-
-    // MARK: - prepare
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let searchGroupVC = segue.destination as? SearchGroupTableViewController {
-            searchGroupVC.delegate = self
-        }
-    }
-
-
     // MARK: - customSearchBarDidTapped
-
     @objc func customSearchBarDidTapped() {
         guard let customSearchView = customSearchView else { return }
 
@@ -122,12 +88,9 @@ final class GroupsTableViewController: UITableViewController {
 
             self?.tableView.layoutIfNeeded()
         }
-
     }
 
-
     // MARK: - cancelButtonDidTapped
-
     @objc private func cancelButtonDidTapped() {
         guard let customSearchView = customSearchView else { return }
 
@@ -149,38 +112,28 @@ final class GroupsTableViewController: UITableViewController {
         updateDisplayedGroups(searchText: "")
 
         customSearchView.searchTextField?.resignFirstResponder()
-
     }
 
-
     // MARK: - customSearchTextDidChange
-
     @objc func customSearchTextDidChange(_ sender: Any) {
         guard let sender = sender as? UITextField, let inputText = sender.text else { return }
 
         updateDisplayedGroups(searchText: inputText)
     }
 
-
     // MARK: - @objc tapOutKeyboard
-
     @objc private func tapOutKeyboard() {
         customSearchView?.searchTextField?.resignFirstResponder()
     }
 
-
     // MARK: - searchBarDidTapped
-
     @objc private func searchBarDidTapped() {
         customSearchView?.searchTextField?.resignFirstResponder()
     }
 
-
     // MARK: - makeObserver
-
     private func makeObserver() {
-        
-        self.realmNotification = RealmObserver.shared.makeObserver(RealmGroup.self) { groups, changes in
+        self.realmNotification = RealmObserver.shared.makeObserver { (groups: [RealmGroup], changes) in
             DispatchQueue.main.async { [weak self] in
                 self?.setupData(from: groups, with: changes)
                 self?.writeFirebase(data: self?.myGroups)
@@ -188,18 +141,15 @@ final class GroupsTableViewController: UITableViewController {
         }
     }
 
-
     // MARK: - dataValidityCheck
-
     private func dataValidityCheck() {
-
         do {
             let groups = try RealmGroup.restoreData()
             let userDefaults = UserDefaults.standard
             let currentTime = Int(Date().timeIntervalSince1970)
 
             if currentTime - userDefaults.integer(forKey: "groupsLastLoad") > 10_000 || groups.isEmpty {
-                SessionManager.shared.loadMyGroups()
+                SessionManager.shared.fetchMyGroups()
 
                 userDefaults.set(currentTime, forKey: "groupsLastLoad")
             } else {
@@ -210,9 +160,7 @@ final class GroupsTableViewController: UITableViewController {
         }
     }
 
-
     // MARK: - setupData
-
     private func setupData(from groups: [RealmGroup], with changes: ([Int], [Int], [Int])? = nil) {
         let myGroups = RealmGroup.realmToGroup(from: groups)
         self.myGroups = myGroups
@@ -247,9 +195,7 @@ final class GroupsTableViewController: UITableViewController {
         }
     }
 
-
     // MARK: - writeFirebaseData
-
     private func writeFirebase(data: [Group]?) {
         guard let usersGroups = data, let userId = Session.shared.userID else { return }
 
@@ -258,9 +204,7 @@ final class GroupsTableViewController: UITableViewController {
 
         usersGroups.forEach { groups[String($0.id)] = $0.name }
 
-        let data: [String: Any] = [
-            FirestoreNames.documentField.rawValue: groups
-        ]
+        let data: [String: Any] = [FirestoreNames.documentField.rawValue: groups]
 
         firebaseFirestore
             .collection(FirestoreNames.collectionName.rawValue)
@@ -274,11 +218,8 @@ final class GroupsTableViewController: UITableViewController {
             }
     }
 
-
     // MARK: - configurateCustomSearchView
-
     private func customSearchViewConfiguration() {
-
         self.tableView.tableHeaderView = customSearchView
 
         customSearchView?.insetsLayoutMarginsFromSafeArea = true
@@ -302,9 +243,7 @@ final class GroupsTableViewController: UITableViewController {
         sizeHeaderToFit()
     }
 
-
     // MARK: - sizeHeaderToFit
-
     private func sizeHeaderToFit() {
         guard let headerView = self.tableView.tableHeaderView else { return }
 
@@ -323,16 +262,12 @@ final class GroupsTableViewController: UITableViewController {
         self.tableView.tableHeaderView = headerView
     }
 
-
     // MARK: - updateDisplayedGroups
-
     private func updateDisplayedGroups(searchText: String) {
-
         if searchText.isEmpty, let myGroups = try? RealmGroup.restoreData() {
-
             setupData(from: myGroups)
         } else {
-            SessionManager.shared.loadSearchedGroups(searchText: searchText) { [weak self] groups in
+            SessionManager.shared.fetchSearchedGroups(searchText: searchText) { [weak self] groups in
                 guard let self = self else { return }
 
                 self.displayedGroups = groups.filter { $0.name.lowercased().contains(searchText.lowercased()) }
@@ -340,30 +275,4 @@ final class GroupsTableViewController: UITableViewController {
             }
         }
     }
-}
-
-
-// MARK: - SearchGroupTableViewControllerDelegate
-
-extension GroupsTableViewController: SearchGroupTableViewControllerDelegate {
-
-
-    // MARK: - subscribeGroup
-
-    func subscribeGroup(group: GroupTestData) {
-
-        //        guard
-        //            let removeGroupIndex = GroupTestData.nonSubscribedGroups.enumerated().first(where: {
-        //                $0.element.id == group.id
-        //            })?.offset
-        //        else {
-        //            return
-        //        }
-
-        //        myGroups.append(group)
-
-        //        GroupTestData.nonSubscribedGroups.remove(at: removeGroupIndex)
-        updateDisplayedGroups(searchText: customSearchView?.searchTextField?.text ?? "")
-    }
-
 }

@@ -7,22 +7,20 @@
 
 import UIKit
 
+// MARK: - UICollectionViewCell
 final class FriendPhotoCollectionViewCell: UICollectionViewCell {
-    
     @IBOutlet weak var friendPhoto: PreviewScaledImageView?
     @IBOutlet weak var likeControl: LikeControl?
 
     var photoDidLiked: ((Bool) -> Void)?
 
+    // MARK: - awakeFromNib
     override func awakeFromNib() {
         super.awakeFromNib()
-
         likeControl?.addTarget(self, action: #selector(likeControlTapped), for: .touchUpInside)
     }
 
-
     // MARK: - likeControlTapped
-
     @objc private func likeControlTapped() {
         guard let likeControl = likeControl else { return }
 
@@ -33,12 +31,9 @@ final class FriendPhotoCollectionViewCell: UICollectionViewCell {
         likeControlAnimation(by: likeControl.isSelected)
     }
 
-
     // MARK: - likeControlAnimation
-
     // Setting up and running animation
     private func likeControlAnimation(by isLiked: Bool) {
-
         if isLiked {
             let heartImageAnimation = CASpringAnimation(keyPath: "transform.scale")
             let likeLabelRotateAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
@@ -77,7 +72,6 @@ final class FriendPhotoCollectionViewCell: UICollectionViewCell {
 
             likeControl?.heartImage?.layer.add(heartImageAnimation, forKey: nil)
             likeControl?.likeLabel?.layer.add(animationsGroup, forKey: nil)
-
         } else {
             let heartImageAnimation = CASpringAnimation(keyPath: "transform.translation.x")
             let likeLabelScaleAnimation = CABasicAnimation(keyPath: "transform.scale")
@@ -103,6 +97,5 @@ final class FriendPhotoCollectionViewCell: UICollectionViewCell {
             likeControl?.heartImage?.layer.add(heartImageAnimation, forKey: nil)
             likeControl?.likeLabel?.layer.add(likeLabelScaleAnimation, forKey: nil)
         }
-
     }
 }

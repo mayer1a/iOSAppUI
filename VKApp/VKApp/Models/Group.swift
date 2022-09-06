@@ -7,14 +7,8 @@
 
 import Foundation
 
-
-class Group: Decodable {
-    let id: Int
-    var name: String
-    var isMember: Int?
-    var avatar: String
-    var isClosed: Int
-
+// MARK: - Group
+final class Group: Decodable {
     enum CodingKeys: String, CodingKey {
         case id
         case name
@@ -22,21 +16,27 @@ class Group: Decodable {
         case avatar = "photo_100"
         case isClosed = "is_closed"
     }
-
+    
+    let id: Int
+    var name: String
+    var isMember: Int?
+    var avatar: String
+    var isClosed: Int
+    
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-
+        
         self.id = try container.decode(Int.self, forKey: .id)
         self.name = try container.decode(String.self, forKey: .name)
         self.isMember = try? container.decode(Int.self, forKey: .isMember)
         self.avatar = try container.decode(String.self, forKey: .avatar)
         self.isClosed = try container.decode(Int.self, forKey: .isClosed)
-
+        
         if isMember == nil {
             self.name += " (BANNED)"
         }
     }
-
+    
     required init(
         id: Int,
         name: String,
@@ -52,24 +52,24 @@ class Group: Decodable {
     }
 }
 
-
-class GroupResponse: Decodable {
-    var count: Int
-    var items: [Group]
-
+// MARK: - GroupResponse
+final class GroupResponse: Decodable {
     enum CodingKeys: String, CodingKey {
         case response
     }
-
+    
     enum RequestKeys: String, CodingKey {
         case count
         case items
     }
-
+    
+    var count: Int
+    var items: [Group]
+    
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let responseValue = try container.nestedContainer(keyedBy: RequestKeys.self, forKey: .response)
-
+        
         self.count = try responseValue.decode(Int.self, forKey: .count)
         self.items = try responseValue.decode([Group].self, forKey: .items)
     }

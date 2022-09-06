@@ -10,9 +10,8 @@ import WebKit
 import SwiftKeychainWrapper
 import RealmSwift
 
-
-class LoginWebKitViewController: UIViewController {
-    
+// MARK: - UIViewController
+final class LoginWebKitViewController: UIViewController {
     @IBOutlet weak var loginWebView: WKWebView?
 
     private let isInfinityTokenDebug = true
@@ -26,33 +25,24 @@ class LoginWebKitViewController: UIViewController {
             let tokenExpiresIn = KeychainWrapper.standard.integer(forKey: .tokenExpiresIn),
             KeychainWrapper.standard.integer(forKey: .userId) != nil,
             (tokenExpiresIn == 0 || currentTime - tokenReceiptTime < tokenExpiresIn)
-        else {
-            return false
-        }
+        else { return false }
 
         return true
     }
 
-
     // MARK: - viewDidLoad
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
         checkAuthorization()
     }
 
-
     // MARK: - checkAuthorization
-
     private func checkAuthorization() {
         if isTokenValid {
             guard
                 let token = KeychainWrapper.standard.string(forKey: .token),
                 let userId = KeychainWrapper.standard.integer(forKey: .userId)
-            else {
-                return
-            }
+            else { return }
 
             Session.shared.token = token
             Session.shared.userID = userId
@@ -63,9 +53,7 @@ class LoginWebKitViewController: UIViewController {
         }
     }
 
-
     // MARK: - viewDidAppear
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -73,12 +61,9 @@ class LoginWebKitViewController: UIViewController {
             performSegue(withIdentifier: "PresentTabBarAfterLogin", sender: self)
         }
     }
-    
 
-    // MARK: - authorization
-
+    // MARK: - signIn
     private func signIn() {
-
         self.loginWebView?.navigationDelegate = self
 
         var urlComponents = URLComponents(string: "https://oauth.vk.com/authorize")
@@ -100,20 +85,16 @@ class LoginWebKitViewController: UIViewController {
 
         self.loginWebView?.load(request)
     }
-
 }
 
-
 // MARK: - WKNavigationDelegate
-
 extension LoginWebKitViewController: WKNavigationDelegate {
 
     // MARK: - webviewDecidePolicyDecisionHandler
-
     func webView(_ webView: WKWebView,
                  decidePolicyFor navigationResponse: WKNavigationResponse,
-                 decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
-
+                 decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void)
+    {
         guard
             let url = navigationResponse.response.url,
             let fragment = url.fragment,
@@ -121,7 +102,6 @@ extension LoginWebKitViewController: WKNavigationDelegate {
             url.fragment?.contains("error") != true
         else {
             decisionHandler(.allow)
-
             return
         }
 
@@ -143,9 +123,7 @@ extension LoginWebKitViewController: WKNavigationDelegate {
             let userIdString = parameters["user_id"],
             let userId = Int(userIdString),
             let expiresIn = parameters["expires_in"]
-        else {
-            return
-        }
+        else { return }
 
         KeychainWrapper.standard[.token] = token
         KeychainWrapper.standard[.tokenReceiptTime] = Int(Date().timeIntervalSince1970)
@@ -160,9 +138,7 @@ extension LoginWebKitViewController: WKNavigationDelegate {
         performSegue(withIdentifier: "PresentTabBarAfterLogin", sender: self)
     }
 
-
     // MARK: - logout
-
     private func logout() {
         try? Realm().write({
             try? Realm().deleteAll()
@@ -179,14 +155,12 @@ extension LoginWebKitViewController: WKNavigationDelegate {
         loginWebView?.cleanAllCookies()
         loginWebView?.refreshCookies()
     }
-
 }
 
-
+// MARK: - WKWebView
 extension WKWebView {
 
     // MARK: - cleanAllCookies
-
     func cleanAllCookies() {
         HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
         
@@ -199,11 +173,8 @@ extension WKWebView {
         }
     }
 
-
     // MARK: - refreshCookies
-
     func refreshCookies() {
         self.configuration.processPool = WKProcessPool()
     }
-
 }

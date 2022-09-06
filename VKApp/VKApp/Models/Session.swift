@@ -7,9 +7,8 @@
 
 import Foundation
 
-
+// MARK: - Session
 struct Session {
-
     private init() {
         self.token = String()
         self.userID = Int()
@@ -19,5 +18,4 @@ struct Session {
     var userID: Int?
 
     static var shared = Session()
-
 }

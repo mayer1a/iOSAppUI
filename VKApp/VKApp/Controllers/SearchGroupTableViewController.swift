@@ -7,72 +7,44 @@
 
 import UIKit
 
-protocol SearchGroupTableViewControllerDelegate {
-    func subscribeGroup(group: GroupTestData)
-}
-
-class SearchGroupTableViewController: UITableViewController {
-
-    var nonSubscribedGroups: [GroupTestData] = []
-    var delegate: SearchGroupTableViewControllerDelegate?
+// MARK: - UITableViewController
+final class SearchGroupTableViewController: UITableViewController {
 
     // MARK: - viewDidLoad
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        nonSubscribedGroups = GroupTestData.nonSubscribedGroups
     }
     
     // MARK: - Table view data source
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return nonSubscribedGroups.count
+        return 0
     }
-    
+
+    // MARK: - cellForRowAt
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell",
                                                  for: indexPath) as? SearchGroupTableViewCell
         
-//        guard let groupAvatarName = nonSubscribedGroups[indexPath.row].avatar,
-//              let path = Bundle.main.path(forResource: groupAvatarName, ofType: "jpg")
-//              let groupAvatar = cell?.groupImage?.resizedImage(at: path, for: imageSize())
-//        else {
-//            return UITableViewCell()
-//        }
-        
-//        cell?.groupImage?.image = groupAvatar
-        cell?.groupName?.text = nonSubscribedGroups[indexPath.row].name
-        
         return cell ?? UITableViewCell()
     }
-    
+
+    // MARK: - trailingSwipeActionsConfigurationForRowAt
     override func tableView(_ tableView: UITableView,
-                            trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        let action = UIContextualAction(style: .normal,
-                                        title: "Подписаться",
-                                        handler: { [weak self] _, _, block in
-            
-            guard let groupToSubscribe = self?.nonSubscribedGroups.remove(at: indexPath.row) else { return }
-
-//            self?.subscribedGroups.append(groupToSubscribe)
-
+                            trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+    {
+        let action = UIContextualAction(style: .normal, title: "Подписаться") { _, _, block in
             tableView.deleteRows(at: [indexPath], with: .left)
 
-            self?.delegate?.subscribeGroup(group: groupToSubscribe)
-
             block(true)
-            
-        })
+        }
 
         action.backgroundColor = .systemGreen
 
         return UISwipeActionsConfiguration(actions: [action])
     }
-    
 }
 
+// MARK: - SearchGroupTableViewController
 extension SearchGroupTableViewController {
     func imageSize() -> CGSize {
         let scaleFactor = UIScreen.main.scale

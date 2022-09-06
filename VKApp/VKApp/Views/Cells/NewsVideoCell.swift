@@ -7,12 +7,16 @@
 
 import UIKit
 
-class NewsVideoCell: UITableViewCell {
+// MARK: - UITableViewCell
+final class NewsVideoCell: UITableViewCell {
     @IBOutlet weak var newsVideo: UILabel?
 }
 
+// MARK: - NewsProtocol
 extension NewsVideoCell: NewsProtocol {
-    func setup<T>(news: T) where T : NewsCellTypeDataProtocol {
+    
+    // MARK: - setup
+    func setup<T: NewsCellTypeDataProtocol>(news: T) {
         guard let video = news.newsBody.videos.first
         else {
             newsVideo?.text = "[VIDEO]"

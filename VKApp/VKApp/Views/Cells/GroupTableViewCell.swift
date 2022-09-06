@@ -7,9 +7,8 @@
 
 import UIKit
 
+// MARK: - UITableViewCell
 final class GroupTableViewCell: UITableViewCell {
-    
     @IBOutlet weak var groupImage: CircularPreviewImageView?
     @IBOutlet weak var groupName: UILabel?
-    
 }

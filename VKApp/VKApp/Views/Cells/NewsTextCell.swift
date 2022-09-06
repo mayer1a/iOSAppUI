@@ -7,12 +7,14 @@
 
 import UIKit
 
-class NewsTextCell: UITableViewCell {
+// MARK: - UITableViewCell
+final class NewsTextCell: UITableViewCell {
     @IBOutlet weak var newsText: UILabel?
 }
 
+// MARK: - NewsProtocol
 extension NewsTextCell: NewsProtocol {
-    func setup<T>(news: T) where T : NewsCellTypeDataProtocol {
+    func setup<T: NewsCellTypeDataProtocol>(news: T) {
         newsText?.text = news.newsBody.text
     }
 }

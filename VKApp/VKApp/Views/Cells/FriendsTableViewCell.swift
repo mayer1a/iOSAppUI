@@ -7,9 +7,8 @@
 
 import UIKit
 
+// MARK: - UITableViewCell
 final class FriendsTableViewCell: UITableViewCell {
-
     @IBOutlet weak var friendImage: CircularPreviewImageView?
     @IBOutlet weak var friendName: UILabel?
-
 }

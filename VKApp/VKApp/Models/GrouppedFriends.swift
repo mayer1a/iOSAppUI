@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - GrouppedFriends
 struct GrouppedFriends {
     var character: Character
     var users: [User]

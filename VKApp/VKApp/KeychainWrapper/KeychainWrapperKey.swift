@@ -7,6 +7,7 @@
 
 import SwiftKeychainWrapper
 
+// MARK: - KeychainWrapper.Key
 extension KeychainWrapper.Key {
     static let token: KeychainWrapper.Key = "token"
     static let tokenReceiptTime: KeychainWrapper.Key = "tokenReceiptTime"

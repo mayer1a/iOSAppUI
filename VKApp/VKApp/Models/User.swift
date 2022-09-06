@@ -7,17 +7,8 @@
 
 import Foundation
 
-
-class User: Decodable {
-    let id: Int
-    var firstName: String
-    var lastName: String
-    var isClosed: Bool?
-    var canAccessClosed: Bool?
-    var avatar: String
-    var blacklisted: Int?
-    var isFriend: Int?
-
+// MARK: - User
+final class User: Decodable {
     enum CodingKeys: String, CodingKey {
         case id
         case firstName = "first_name"
@@ -29,8 +20,16 @@ class User: Decodable {
         case blacklisted
     }
 
-    required init(from decoder: Decoder) throws {
+    let id: Int
+    var firstName: String
+    var lastName: String
+    var isClosed: Bool?
+    var canAccessClosed: Bool?
+    var avatar: String
+    var blacklisted: Int?
+    var isFriend: Int?
 
+    required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.id = try container.decode(Int.self, forKey: .id)
@@ -64,11 +63,8 @@ class User: Decodable {
     }
 }
 
-
-class UserResponse: Decodable {
-    var count: Int
-    var items: [User]
-
+// MARK: - UserResponse
+final class UserResponse: Decodable {
     enum CodingKeys: String, CodingKey {
         case response
     }
@@ -77,6 +73,9 @@ class UserResponse: Decodable {
         case count
         case items
     }
+
+    var count: Int
+    var items: [User]
 
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)

@@ -7,9 +7,8 @@
 
 import UIKit
 
-
+//MARK: - UIView
 final class CloudView: UIView {
-
     private lazy var path: UIBezierPath = {
         return UIBezierPath()
     }()
@@ -25,7 +24,6 @@ final class CloudView: UIView {
     private lazy var animationGroup = {
         return CAAnimationGroup()
     }()
-
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,11 +41,8 @@ final class CloudView: UIView {
         self.animationCloudLayer.removeAllAnimations()
     }
 
-
     // MARK: - setupCloudViewFrame
-
     private func setupCloudViewFrame(_ frame: CGRect) {
-
         self.alpha = 0
         self.isHidden = true
         self.widthAnchor.constraint(equalToConstant: 160).isActive = true
@@ -74,14 +69,10 @@ final class CloudView: UIView {
         animationGroup.isRemovedOnCompletion = false
         animationGroup.animations = [strokeStart, strokeEnd]
         animationGroup.timingFunction = CAMediaTimingFunction(name: .linear)
-
     }
 
-
     // MARK: - drawPath
-
     private func drawPath() {
-
         // Draw path from start point
         let startPoint = CGPoint(x: 38, y: 91)
 
@@ -123,24 +114,17 @@ final class CloudView: UIView {
         animationCloudLayer.cornerRadius = 10
     }
 
-
     // MARK: - startAnimation
-
     func startAnimation() {
-
         animationCloudLayer.add(animationGroup, forKey: nil)
 
         self.shape.addSublayer(self.animationCloudLayer)
         self.isHidden = false
     }
 
-
     // MARK: - removeAnimation
-
     func removeAnimation() {
-
         self.isHidden = true
         self.animationCloudLayer.removeAllAnimations()
     }
-
 }

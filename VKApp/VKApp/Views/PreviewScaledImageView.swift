@@ -7,4 +7,5 @@
 
 import UIKit
 
+// MARK: - UIImageView
 final class PreviewScaledImageView: UIImageView {}

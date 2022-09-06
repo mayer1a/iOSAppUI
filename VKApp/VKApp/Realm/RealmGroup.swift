@@ -8,8 +8,8 @@
 import Foundation
 import RealmSwift
 
-
-class RealmGroup: Object {
+// MARK: - RealmGroup
+final class RealmGroup: Object {
     @Persisted(primaryKey: true)
     var id: Int
 
@@ -25,11 +25,8 @@ class RealmGroup: Object {
     @Persisted
     var isClosed: Int
 
-
     // MARK: - saveData
-
     static func saveData(data groups: [Group]) {
-
         let realmGroups: [RealmGroup] = groups.map { group in
             let realmGroup = RealmGroup()
 
@@ -54,26 +51,19 @@ class RealmGroup: Object {
         }
     }
 
-
     // MARK: - deleteOutdatedData
-
     static func deleteData(by id: Int) throws {
-
         guard
             let realm = try? Realm(),
             let objectForDelete = realm.objects(RealmGroup.self).first(where: { $0.id == id })
-        else {
-            return
-        }
+        else { return }
 
         try realm.write {
             realm.delete(objectForDelete)
         }
     }
 
-
     // MARK: - restoreData
-
     static func restoreData() throws -> [RealmGroup] {
         let realm = try Realm()
         let objects = realm.objects(RealmGroup.self)
@@ -81,15 +71,14 @@ class RealmGroup: Object {
         return Array(objects)
     }
 
-
     // MARK: - realmToGroup
-
     static func realmToGroup(from objects: [RealmGroup]) -> [Group] {
-        let group = objects.map { Group(id: $0.id,
-                                        name: $0.name,
-                                        isMember: $0.isMember,
-                                        avatar: $0.avatar,
-                                        isClosed: $0.isClosed) }
+        let group = objects.map {
+            Group(id: $0.id,
+                  name: $0.name,
+                  isMember: $0.isMember,
+                  avatar: $0.avatar,
+                  isClosed: $0.isClosed)}
 
         return Array(group)
     }

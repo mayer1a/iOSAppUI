@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - FirestoreNames
 enum FirestoreNames: String {
     case collectionName = "UsersGroups"
     case documentField = "groups"

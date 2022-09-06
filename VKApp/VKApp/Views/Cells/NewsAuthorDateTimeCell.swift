@@ -7,17 +7,21 @@
 
 import UIKit
 
+// MARK: - UITableViewCell
 final class NewsAuthorDateTimeCell: UITableViewCell {
     @IBOutlet weak var newsAuthorAvatar: CircularPreviewImageView?
     @IBOutlet weak var newsAuthorFullName: UILabel?
     @IBOutlet weak var newsPostingDate: UILabel?
 }
 
+// MARK: - NewsProtocol
 extension NewsAuthorDateTimeCell: NewsProtocol {
+    
+    // MARK: - setup
     func setup<T>(news: T) where T : NewsCellTypeDataProtocol {
         var fullName: String?
         var imageURL: URL?
-
+        
         if let user = news.userOwner {
             fullName = "\(user.firstName) \(user.lastName)"
             imageURL = URL(string: user.avatar)
@@ -25,12 +29,12 @@ extension NewsAuthorDateTimeCell: NewsProtocol {
             fullName = "\(group.name)"
             imageURL = URL(string: group.avatar)
         }
-
+        
         guard let imageURL = imageURL else { return }
-
+        
         DispatchQueue.global().async { [weak self] in
             let image = UIImage.fetchImage(at: imageURL)
-
+            
             DispatchQueue.main.async { [weak self] in
                 self?.newsAuthorFullName?.text = fullName
                 self?.newsAuthorAvatar?.image = image

@@ -6,14 +6,13 @@
 //
 
 import UIKit
-import func AVFoundation.AVMakeRect
 
+// MARK: - UIImageView
 final class CircularPreviewImageView: UIImageView {
-
+    
     // MARK: layoutSubviews
     override func layoutSubviews() {
         super.layoutSubviews()
-
         self.layer.cornerRadius = self.frame.width / 2
     }
 }

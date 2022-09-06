@@ -8,19 +8,16 @@
 import Foundation
 import RealmSwift
 
-
+// MARK: - IndexCalculator
 final class IndexCalculator {
-
     private init() {}
     
     static func getIndexes(from: [User]?, in objects: [GrouppedFriends], with changes: [Int]) -> [IndexPath] {
-
         guard let from = from else { return [IndexPath]() }
-
+        
         var indexPaths = [IndexPath]()
 
         changes.forEach { element in
-
             guard let firstLastNameChar = from[element].lastName.first else { return }
 
             let section = objects

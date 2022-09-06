@@ -7,10 +7,12 @@
 
 import Foundation
 
+// MARK: - NewsProtocol
 protocol NewsProtocol {
-    func setup<T>(news: T) where T: NewsCellTypeDataProtocol
+    func setup<T: NewsCellTypeDataProtocol>(news: T)
 }
 
+// MARK: - NewsCellTypeDataProtocol
 protocol NewsCellTypeDataProtocol {
     var userOwner: User? { get }
     var groupOwner: Group? { get }

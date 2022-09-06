@@ -8,16 +8,13 @@
 import UIKit
 import RealmSwift
 
-
+// MARK: - UICollectionViewController
 final class FriendPhotosCollectionViewController: UICollectionViewController {
-
     private var realmNotification: NotificationToken?
     var photos : [Photo]?
     var userId = Int()
 
-
     // MARK: - viewDidLoad
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -28,45 +25,33 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         dataValidityCheck()
     }
 
-
     // MARK: - viewWillTransition
-
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
-        coordinator.animate { [weak self] _ in
-
-            self?.setupImageCellSize()
+        coordinator.animate { _ in
+            self.setupImageCellSize()
         }
     }
 
-
     // MARK: - numberOfItemsInSection
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photos?.count ?? 0
     }
 
-
     // MARK: - cellForItemAt
-
     override func collectionView(_ collectionView: UICollectionView,
-                                 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
+                                 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+    {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendPhotoViewCell",
                                                       for: indexPath) as? FriendPhotoCollectionViewCell
-
-        //        let gesture = UITapGestureRecognizer(target: self, action: #selector(cellImageDidTapped(_:)))
-        //        cell?.friendPhoto?.addGestureRecognizer(gesture)
 
         guard
             let photo = photos?[indexPath.item],
             let imageURL = URL(string: photo.smallSizeUrl)
-        else {
-            return UICollectionViewCell()
-        }
+        else { return UICollectionViewCell() }
 
-        DispatchQueue.global().async {
+        DispatchQueue.global().async { [weak cell] in
             let image = UIImage.fetchImage(at: imageURL)
 
             DispatchQueue.main.async {
@@ -80,8 +65,6 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
             cell?.likeControl?.setupLikesCounter(equal: likeCount)
         }
 
-        // TODO: метод "отправки лайка" на бек
-
         cell?.photoDidLiked = { [weak self] isLiked in
             self?.photos?[indexPath.item].isLiked = isLiked ? 1 : 0
         }
@@ -89,11 +72,8 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         return cell ?? UICollectionViewCell()
     }
 
-
     // MARK: - didSelectItemAt
-
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         let fullScreenUserPhoto = storyboard.instantiateViewController(withIdentifier: "FullScreenUserPhoto")
 
@@ -102,27 +82,24 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         navigationController?.pushViewController(fullScreenUserPhoto, animated: true)
     }
 
-
     // MARK: - makeObserver
-
     private func makeObserver() {
-        self.realmNotification = RealmObserver.shared.makeObserver(RealmPhoto.self, completion: { photos, changes in
-            DispatchQueue.main.async { [weak self] in
-                self?.setupData(from: photos, with: changes)
+        self.realmNotification = RealmObserver
+            .shared
+            .makeObserver(ownerId: self.userId) { (photos: [RealmPhoto], changes) in
+                DispatchQueue.main.async { [weak self] in
+                    self?.setupData(from: photos, with: changes)
+                }
             }
-        })
     }
 
-
     // MARK: - dataValidityCheck
-
     private func dataValidityCheck() {
-
         do {
             let photos = try RealmPhoto.restoreData(userId: userId)
 
             if photos.isEmpty {
-                SessionManager.shared.loadUserPhotos(id: userId)
+                SessionManager.shared.fetchUserPhotos(id: userId)
             } else {
                 self.setupData(from: photos)
             }
@@ -131,9 +108,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         }
     }
 
-
-    // MARK: - setupData()
-
+    // MARK: - setupData
     private func setupData(from photos: [RealmPhoto], with changes: ([Int], [Int], [Int])? = nil) {
         let userPhotos = RealmPhoto.realmToPhoto(from: photos, by: userId)
         self.photos = userPhotos
@@ -165,47 +140,25 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         }
     }
 
-
     // MARK: - prepareForPushViewControllerAtSender
-
     private func prepare(for pushViewController: UIViewController, at sender: IndexPath?) {
         guard
             let photos = photos,
             let indexPath = sender,
             let fullScreenPhotoVC = pushViewController as? FullScreenUserPhoto
-        else {
-            return
-        }
+        else { return }
         
         fullScreenPhotoVC.photos = photos
         fullScreenPhotoVC.showPhotoIndex = indexPath.item
     }
-
-
-    // MARK: - cellDidTapped
-
-    //    @objc private func cellImageDidTapped(_ sender: Any) {
-    //        //        guard
-    //        //            let selectedImage = ((sender as? UITapGestureRecognizer)?.view as? PreviewScaledImageView)?.image
-    //        //        else {
-    //        //            return
-    //        //        }
-    //
-    //    }
-
 }
 
-
 // MARK: - UICollectionViewDelegateFlowLayout
-
 extension FriendPhotosCollectionViewController: UICollectionViewDelegateFlowLayout {
 
-
     // MARK: - sizeForItemAt
-
     // Change cell size by ui screen width - three cells per row
     private func setupImageCellSize() {
-
         guard let layout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return }
 
         let photosPerRow: CGFloat = UIDevice.current.orientation.isPortrait ? 3.0 : 5.0
@@ -215,5 +168,4 @@ extension FriendPhotosCollectionViewController: UICollectionViewDelegateFlowLayo
 
         layout.itemSize = CGSize(width: itemSize, height: itemSize)
     }
-
 }

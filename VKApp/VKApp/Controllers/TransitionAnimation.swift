@@ -7,9 +7,8 @@
 
 import UIKit
 
-
-class TransitionAnimation: NSObject {
-
+// MARK: - NSObject
+final class TransitionAnimation: NSObject {
     private let isPresenting: Bool
     private let animationDuration: TimeInterval
 
@@ -17,35 +16,26 @@ class TransitionAnimation: NSObject {
         self.isPresenting = isPresenting
         self.animationDuration = 1
     }
-
 }
 
-
 // MARK: - UIViewControllerAnimatedTransitioning
-
 extension TransitionAnimation: UIViewControllerAnimatedTransitioning {
 
     // MARK: - transitionDuration
-
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return animationDuration
     }
 
-
     // MARK: - animateTransition
-
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         if isPresenting {
             presentAnimation(using: transitionContext)
         } else {
             dismissAnimation(using: transitionContext)
         }
-
     }
 
-
     // MARK: - presentAnimation
-
     func presentAnimation(using transitionContext: UIViewControllerContextTransitioning) {
         guard let toViewController = transitionContext.viewController(forKey: .to) else { return }
 
@@ -60,41 +50,29 @@ extension TransitionAnimation: UIViewControllerAnimatedTransitioning {
         toViewController.view.layer.borderWidth = 1
         toViewController.view.layer.borderColor = UIColor.systemBlue.cgColor
 
-        UIView.animateKeyframes(withDuration: animationDuration,
-                                delay: 0,
-                                options: []) {
-
-            UIView.addKeyframe(withRelativeStartTime: 0,
-                               relativeDuration: 0.65) {
+        UIView.animateKeyframes(withDuration: animationDuration, delay: 0, options: []) {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.65) {
                 toViewController.view.transform = .identity
             }
 
-            UIView.addKeyframe(withRelativeStartTime: 0.65,
-                               relativeDuration: 0.35) {
+            UIView.addKeyframe(withRelativeStartTime: 0.65, relativeDuration: 0.35) {
                 toViewController.view.layer.cornerRadius = 0
             }
-
         } completion: { isComplete in
-
             toViewController.view.layer.masksToBounds = false
             toViewController.view.layer.borderWidth = 0
             toViewController.view.layer.borderColor = UIColor.clear.cgColor
 
             transitionContext.completeTransition(isComplete)
         }
-
     }
 
-
     // MARK: - dismissAnimation
-
     func dismissAnimation(using transitionContext: UIViewControllerContextTransitioning) {
         guard
             let fromViewController = transitionContext.viewController(forKey: .from),
             let toViewController = transitionContext.viewController(forKey: .to)
-        else {
-            return
-        }
+        else { return }
 
         let containerView = transitionContext.containerView
 
@@ -107,46 +85,30 @@ extension TransitionAnimation: UIViewControllerAnimatedTransitioning {
         fromViewController.view.layer.borderWidth = 1
         fromViewController.view.layer.borderColor = UIColor.systemBlue.cgColor
 
-        UIView.animateKeyframes(withDuration: animationDuration,
-                                delay: 0,
-                                options: []) {
-
-            UIView.addKeyframe(withRelativeStartTime: 0,
-                               relativeDuration: 0.35) {
+        UIView.animateKeyframes(withDuration: animationDuration, delay: 0, options: []) {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.35) {
                 fromViewController.view.layer.cornerRadius = 150
             }
 
-            UIView.addKeyframe(withRelativeStartTime: 0.35,
-                               relativeDuration: 0.65) {
+            UIView.addKeyframe(withRelativeStartTime: 0.35, relativeDuration: 0.65) {
                 fromViewController.view.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
             }
-
         } completion: { isComplete in
-
             if isComplete && !transitionContext.transitionWasCancelled {
-
                 fromViewController.removeFromParent()
-
             } else if transitionContext.transitionWasCancelled {
-
                 fromViewController.view.layer.masksToBounds = false
                 fromViewController.view.layer.borderWidth = 0
                 fromViewController.view.layer.borderColor = UIColor.clear.cgColor
-
             }
             
             transitionContext.completeTransition(isComplete && !transitionContext.transitionWasCancelled)
-
         }
-
     }
 
-
     // MARK: - setAnchorPoint
-
     // Сhanging the pivot point of the view
     private func setAnchorPoint(_ point: CGPoint, by containerView: UIView) -> CGPoint {
-
         var position = containerView.layer.position
         var newPoint = CGPoint(x: containerView.bounds.size.width * point.x,
                                y: containerView.bounds.size.height * point.y)
@@ -163,7 +125,5 @@ extension TransitionAnimation: UIViewControllerAnimatedTransitioning {
         position.y += newPoint.y
 
         return position
-
     }
-
 }

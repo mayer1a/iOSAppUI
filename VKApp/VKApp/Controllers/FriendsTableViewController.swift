@@ -313,9 +313,11 @@ final class FriendsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell",
                                                  for: indexPath) as? FriendsTableViewCell
-        
-        cell?.friendImage?.image = nil
+
         let friend = self.grouppedFriends[indexPath.section].users[indexPath.row]
+
+        cell?.userId = friend.id
+        cell?.friendImage?.image = UIImage(named: "NonAvatar")
         
         guard let imageURL = URL(string: friend.avatar) else { return UITableViewCell() }
         
@@ -323,7 +325,9 @@ final class FriendsTableViewController: UITableViewController {
             let image = UIImage.fetchImage(at: imageURL)
             
             DispatchQueue.main.async { [weak cell] in
-                cell?.friendImage?.image = image
+                if cell?.userId == friend.id {
+                    cell?.friendImage?.image = image
+                }
             }
         }
         

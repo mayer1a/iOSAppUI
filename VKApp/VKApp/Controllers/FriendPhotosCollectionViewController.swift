@@ -49,6 +49,8 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendPhotoViewCell",
                                                       for: indexPath) as? FriendPhotoCollectionViewCell
+
+        cell?.friendPhoto?.image = UIImage(named: "NonAvatar")
         
         guard
             let photo = photos?[indexPath.item],

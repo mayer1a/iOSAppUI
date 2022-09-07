@@ -15,16 +15,16 @@ class SessionManager {
     private let currentApiVersion = "5.131"
     private let friendFields = "first_name,photo_100,is_friend,blacklisted"
     private lazy var startTime = {
-        return String(Date().timeIntervalSince1970 - 86400)
+        String(Date().timeIntervalSince1970 - 86400)
     }()
     
     static let shared = SessionManager()
     
-    // MARK: - loadFriendsList
-    func fetchFriendsList() {
+    // MARK: - getFriendsRequest
+    lazy var getFriendsRequest: DataRequest? = {
         let baseUrl = "https://api.vk.com/method/friends.get"
         
-        guard var urlComponents = URLComponents(string: baseUrl) else { return }
+        guard var urlComponents = URLComponents(string: baseUrl) else { return nil }
         
         urlComponents.queryItems = [
             URLQueryItem(name: "order", value: "hints"),
@@ -33,24 +33,14 @@ class SessionManager {
             URLQueryItem(name: "v", value: currentApiVersion)
         ]
         
-        AF.request(urlComponents).response { response in
-            guard let data = response.data else { return }
-            
-            do {
-                let friends = try JSONDecoder().decode(UserResponse.self, from: data).items
-                
-                RealmUser.saveData(data: friends)
-            } catch {
-                print(error)
-            }
-        }
-    }
+        return AF.request(urlComponents)
+    }()
     
-    // MARK: - loadUserPhotos
-    func fetchUserPhotos(id: Int) {
+    // MARK: - getPhotosRequest
+    func getPhotosRequest(id: Int) -> DataRequest? {
         let baseUrl = "https://api.vk.com/method/photos.getAll"
         
-        guard var urlComponents = URLComponents(string: baseUrl) else { return }
+        guard var urlComponents = URLComponents(string: baseUrl) else { return nil }
         
         urlComponents.queryItems = [
             URLQueryItem(name: "owner_id", value: "\(id)"),
@@ -60,17 +50,7 @@ class SessionManager {
             URLQueryItem(name: "v", value: currentApiVersion)
         ]
         
-        AF.request(urlComponents).response { response in
-            guard let data = response.data else { return }
-            
-            do {
-                let photos = try JSONDecoder().decode(PhotoResponse.self, from: data).items
-                
-                RealmPhoto.saveData(data: photos, for: id)
-            } catch {
-                print(error)
-            }
-        }
+        return AF.request(urlComponents)
     }
     
     // MARK: - loadMyGroups

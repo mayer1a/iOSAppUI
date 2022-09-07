@@ -59,10 +59,10 @@ final class RealmPhoto: Object {
     }
     
     // MARK: - deleteData
-    static func deleteData(by userId: Int) throws {
+    static func deleteData(by ownerId: Int) throws {
         guard let realm = try? Realm() else { return }
         
-        let objectForDelete = realm.objects(RealmPhoto.self).filter { $0.ownerId == userId }
+        let objectForDelete = realm.objects(RealmPhoto.self).filter { $0.ownerId == ownerId }
         
         try realm.write {
             realm.delete(objectForDelete)
@@ -70,11 +70,11 @@ final class RealmPhoto: Object {
     }
     
     // MARK: - restoreData
-    static func restoreData(userId: Int) throws -> [RealmPhoto] {
+    static func restoreData(ownerId: Int) throws -> [RealmPhoto] {
         let realm = try Realm()
         let objects = realm
             .objects(RealmPhoto.self)
-            .filter { $0.ownerId == userId }
+            .filter { $0.ownerId == ownerId }
         
         return Array(objects)
     }

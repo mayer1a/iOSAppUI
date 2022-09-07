@@ -11,9 +11,7 @@ import RealmSwift
 // MARK: - UICollectionViewController
 final class FriendPhotosCollectionViewController: UICollectionViewController {
     private var realmNotification: NotificationToken?
-    private lazy var operationQueue: OperationQueue? = {
-        OperationQueue()
-    }()
+    private let operationQueue = OperationQueue()
     
     var photos : [Photo]?
     var userId = Int()
@@ -113,10 +111,10 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
                 asyncParseOperation.addDependency(fetchDataOperations)
                 saveRealmOperation.addDependency(asyncParseOperation)
                 
-                operationQueue?.qualityOfService = .userInteractive
-                operationQueue?.addOperation(fetchDataOperations)
-                operationQueue?.addOperation(asyncParseOperation)
-                operationQueue?.addOperation(saveRealmOperation)
+                operationQueue.qualityOfService = .userInteractive
+                operationQueue.addOperation(fetchDataOperations)
+                operationQueue.addOperation(asyncParseOperation)
+                operationQueue.addOperation(saveRealmOperation)
             } else {
                 self.setupData(from: photos)
             }

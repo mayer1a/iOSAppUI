@@ -10,13 +10,11 @@ import RealmSwift
 
 // MARK: - UITableViewController
 final class FriendsTableViewController: UITableViewController {
+    private let operationQueue = OperationQueue()
     private var friends: [User]?
     private var alphabetControl: FriendsAlphabetView?
     private var realmNotification: NotificationToken?
     var grouppedFriends = [GrouppedFriends]()
-    private lazy var operationQueue: OperationQueue = {
-        OperationQueue()
-    }()
     
     private lazy var cloudView: CloudView? = {
         return CloudView(frame: CGRect(origin: .zero, size: CGSize(width: 150, height: 100)))
@@ -313,9 +311,9 @@ final class FriendsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell",
                                                  for: indexPath) as? FriendsTableViewCell
-
+        
         let friend = self.grouppedFriends[indexPath.section].users[indexPath.row]
-
+        
         cell?.userId = friend.id
         cell?.friendImage?.image = UIImage(named: "NonAvatar")
         

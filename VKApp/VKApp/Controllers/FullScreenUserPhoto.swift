@@ -170,8 +170,11 @@ class FullScreenUserPhoto: UIViewController {
         frame.origin.y = self.view.safeAreaLayoutGuide.layoutFrame.origin.y
         frame.size.width = self.view.safeAreaLayoutGuide.layoutFrame.width
 
+        setupDisplayedImage(by: nextPhotoIndex, bounds: self.view.bounds) { image in
+            hiddenPhotoImageView?.image = image
+        }
+
         hiddenPhotoImageView?.frame = frame
-        hiddenPhotoImageView?.image = setupDisplayedImage(by: nextPhotoIndex)
         hiddenPhotoImageView?.isHidden = false
 
         // Transform scale animation
@@ -225,8 +228,11 @@ class FullScreenUserPhoto: UIViewController {
         frame.origin.y = self.view.safeAreaLayoutGuide.layoutFrame.origin.y
         frame.size.width = self.view.safeAreaLayoutGuide.layoutFrame.width
 
+        setupDisplayedImage(by: previousPhotoIndex, bounds: self.view.bounds) { image in
+            hiddenPhotoImageView?.image = image
+        }
+
         hiddenPhotoImageView?.frame = frame
-        hiddenPhotoImageView?.image = setupDisplayedImage(by: previousPhotoIndex)
         hiddenPhotoImageView?.isHidden = false
         hiddenPhotoImageView?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
@@ -297,15 +303,8 @@ class FullScreenUserPhoto: UIViewController {
 
     // MARK: - setupView
     private func setupView() {
-        let bounds = self.view.bounds
-
-        DispatchQueue.global().async { [weak self] in
-            let image = self?.setupDisplayedImage(by: self?.showPhotoIndex)
-            let resizedImage = UIImage.resizeImage(bounds: bounds, image: image)
-
-            DispatchQueue.main.async {
-                self?.displayedUserPhoto?.image = resizedImage
-            }
+        setupDisplayedImage(by: showPhotoIndex, bounds: self.view.bounds) { [weak self] image in
+            self?.displayedUserPhoto?.image = image
         }
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(photoDidTapped))
@@ -318,13 +317,19 @@ class FullScreenUserPhoto: UIViewController {
     }
 
     // MARK: - setupDisplayedImage
-    private func setupDisplayedImage(by displayedIndex: Int?) -> UIImage? {
-        guard
-            let index = displayedIndex,
-            let imagePath = photos[index].originalSizeUrl,
-            let imageUrl = URL(string: imagePath)
-        else { return nil }
+    private func setupDisplayedImage(by displayedIndex: Int, bounds: CGRect, completion: @escaping (UIImage?) -> Void) {
+        DispatchQueue.global().async { [weak self] in
+            guard
+                let imagePath = self?.photos[displayedIndex].originalSizeUrl,
+                let imageUrl = URL(string: imagePath)
+            else { return }
 
-        return UIImage.fetchImage(at: imageUrl)
+            let image = UIImage.fetchImage(at: imageUrl)
+            let scaledImage = UIImage.resizeImage(bounds: bounds, image: image)
+
+            DispatchQueue.main.async {
+                completion(scaledImage)
+            }
+        }
     }
 }

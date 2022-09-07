@@ -11,4 +11,5 @@ import UIKit
 final class FriendsTableViewCell: UITableViewCell {
     @IBOutlet weak var friendImage: CircularPreviewImageView?
     @IBOutlet weak var friendName: UILabel?
+    var userId: Int?
 }

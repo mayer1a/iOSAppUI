@@ -6,9 +6,10 @@ target 'VKApp' do
   use_frameworks!
 
   # Pods for VKApp
-  pod 'Alamofire', '5.6.1' 
+  pod 'Alamofire', '5.6.1'
   pod 'RealmSwift', '~>10'
   pod 'SwiftKeychainWrapper'
   pod 'FirebaseAnalytics'
   pod 'FirebaseFirestore'
+  pod 'PromiseKit', '~>6.8'
 end

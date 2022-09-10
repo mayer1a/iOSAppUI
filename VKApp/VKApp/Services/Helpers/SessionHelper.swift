@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 // MARK: - SessionManager
-class SessionManager {
+class SessionHelper {
     private init() {}
     
     private let currentApiVersion = "5.131"
@@ -18,7 +18,7 @@ class SessionManager {
         String(Date().timeIntervalSince1970 - 86400)
     }()
     
-    static let shared = SessionManager()
+    static let shared = SessionHelper()
     
     // MARK: - getFriendsRequest
     lazy var getFriendsRequest: DataRequest? = {

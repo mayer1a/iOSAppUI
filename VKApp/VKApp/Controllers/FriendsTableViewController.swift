@@ -107,7 +107,7 @@ final class FriendsTableViewController: UITableViewController {
             let currentTime = Int(Date().timeIntervalSince1970)
             
             if currentTime - userDefaults.integer(forKey: "friendsLastLoad") > 10_000 || friends.isEmpty {
-                let request = SessionManager.shared.getFriendsRequest
+                let request = SessionHelper.shared.getFriendsRequest
                 let fetchDataOperation = FetchDataOperation(request: request)
                 let asyncParseOperation = AsyncParseDataOperation<User>()
                 let saveRealmOperation = SaveRealmOperation<User>()
@@ -142,9 +142,9 @@ final class FriendsTableViewController: UITableViewController {
         
         if let changes = changes {
             DispatchQueue.global().async { [weak self] in
-                let deletions = IndexCalculator.getIndexes(from: oldFriends, in: oldGrouppedFriends, with: changes.0)
-                let insertions = IndexCalculator.getIndexes(from: friends, in: grouppedFriends, with: changes.1)
-                let reloads = IndexCalculator.getIndexes(from: oldFriends, in: oldGrouppedFriends, with: changes.2)
+                let deletions = IndexHelper.getIndexes(from: oldFriends, in: oldGrouppedFriends, with: changes.0)
+                let insertions = IndexHelper.getIndexes(from: friends, in: grouppedFriends, with: changes.1)
+                let reloads = IndexHelper.getIndexes(from: oldFriends, in: oldGrouppedFriends, with: changes.2)
                 
                 if oldGrouppedFriends.count != self?.grouppedFriends.count {
                     let deletionIndexSet = deletions.reduce(into: IndexSet(), { $0.insert($1.section) })

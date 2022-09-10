@@ -53,59 +53,6 @@ class SessionHelper {
         return AF.request(urlComponents)
     }
     
-    // MARK: - loadMyGroups
-    func fetchMyGroups() {
-        let baseUrl = "https://api.vk.com/method/groups.get"
-        
-        guard var urlComponents = URLComponents(string: baseUrl) else { return }
-        
-        urlComponents.queryItems = [
-            URLQueryItem(name: "extended", value: "1"),
-            URLQueryItem(name: "filter", value: "groups,publics"),
-            URLQueryItem(name: "access_token", value: Session.shared.token),
-            URLQueryItem(name: "v", value: currentApiVersion)
-        ]
-        
-        AF.request(urlComponents).response { response in
-            guard let data = response.data else { return }
-            
-            do {
-                let myGroups = try JSONDecoder().decode(GroupResponse.self, from: data).items
-                
-                RealmGroup.saveData(data: myGroups)
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
-    // MARK: - loadSearchedGroups
-    func fetchSearchedGroups(searchText: String, completion: @escaping ([Group]) -> Void) {
-        let baseUrl = "https://api.vk.com/method/groups.search"
-        
-        guard var urlComponents = URLComponents(string: baseUrl) else { return }
-        
-        urlComponents.queryItems = [
-            URLQueryItem(name: "q", value: searchText),
-            URLQueryItem(name: "sort", value: "0"),
-            URLQueryItem(name: "count", value: "100"),
-            URLQueryItem(name: "access_token", value: Session.shared.token),
-            URLQueryItem(name: "v", value: currentApiVersion)
-        ]
-        
-        AF.request(urlComponents).response { response in
-            guard let data = response.data else { return }
-            
-            do {
-                let searchedGroups = try JSONDecoder().decode(GroupResponse.self, from: data).items
-                
-                completion(searchedGroups)
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
     // MARK: - getNewsfeed
     func fetchNewsfeed(completion: @escaping ([News]) -> Void) {
         let baseUrl = "https://api.vk.com/method/newsfeed.get"

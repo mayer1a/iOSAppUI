@@ -8,6 +8,7 @@
 import UIKit
 import RealmSwift
 import FirebaseFirestore
+import PromiseKit
 
 // MARK: UITableViewController
 final class GroupsTableViewController: UITableViewController {
@@ -149,7 +150,7 @@ final class GroupsTableViewController: UITableViewController {
             let currentTime = Int(Date().timeIntervalSince1970)
 
             if currentTime - userDefaults.integer(forKey: "groupsLastLoad") > 10_000 || groups.isEmpty {
-                SessionManager.shared.fetchMyGroups()
+                SessionHelper.shared.fetchMyGroups()
 
                 userDefaults.set(currentTime, forKey: "groupsLastLoad")
             } else {
@@ -267,7 +268,7 @@ final class GroupsTableViewController: UITableViewController {
         if searchText.isEmpty, let myGroups = try? RealmGroup.restoreData() {
             setupData(from: myGroups)
         } else {
-            SessionManager.shared.fetchSearchedGroups(searchText: searchText) { [weak self] groups in
+            SessionHelper.shared.fetchSearchedGroups(searchText: searchText) { [weak self] groups in
                 guard let self = self else { return }
 
                 self.displayedGroups = groups.filter { $0.name.lowercased().contains(searchText.lowercased()) }

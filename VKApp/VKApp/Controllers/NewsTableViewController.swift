@@ -83,7 +83,7 @@ final class NewsTableViewController: UITableViewController {
     // MARK: - setupData
     private func setupData() {
         DispatchQueue.global().async { [weak self] in
-            SessionManager.shared.fetchNewsfeed { news in
+            SessionHelper.shared.fetchNewsfeed { news in
                 DispatchQueue.main.async {
                     self?.news = news
                     self?.tableView.reloadData()

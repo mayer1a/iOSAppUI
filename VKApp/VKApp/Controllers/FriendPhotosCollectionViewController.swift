@@ -103,7 +103,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
             let photos = try RealmPhoto.restoreData(ownerId: userId)
             
             if photos.isEmpty {
-                let request = SessionManager.shared.getPhotosRequest(id: userId)
+                let request = SessionHelper.shared.getPhotosRequest(id: userId)
                 let fetchDataOperations = FetchDataOperation(request: request)
                 let asyncParseOperation = AsyncParseDataOperation<Photo>()
                 let saveRealmOperation = SaveRealmOperation<Photo>()

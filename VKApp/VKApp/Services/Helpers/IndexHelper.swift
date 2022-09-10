@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 // MARK: - IndexCalculator
-final class IndexCalculator {
+final class IndexHelper {
     private init() {}
     
     static func getIndexes(from: [User]?, in objects: [GrouppedFriends], with changes: [Int]) -> [IndexPath] {

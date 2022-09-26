@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "1024px-VK.com-logo.png",
+      "filename" : "vk_logo_341.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "1024px-VK.com-logo@2x.png",
+      "filename" : "vk_logo_682.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "1024px-VK.com-logo@3x.png",
+      "filename" : "vk_logo 1.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -21,7 +21,7 @@ final class PhotoView: UIView {
         super.awakeFromNib()
         
         // Add tap gesture recognizer to PhotoView
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(friendPhotoViewDidTapped))
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(photoViewDidTapped))
         gesture.numberOfTapsRequired = 1
         
         self.addGestureRecognizer(gesture)
@@ -29,14 +29,14 @@ final class PhotoView: UIView {
     
     // MARK: - @objc friendPhotoViewDidTapped
     // Photo preivew animation configuration
-    @objc func friendPhotoViewDidTapped() {
+    @objc func photoViewDidTapped() {
         let animationStart = CASpringAnimation(keyPath: "transform")
         
         animationStart.duration = 1
         animationStart.fromValue = self.layer.transform
         animationStart.toValue = CATransform3DMakeScale(0.75, 0.75, 1)
-        animationStart.damping = 3.7
-        animationStart.stiffness = 54.0
+        animationStart.damping = 3.4
+        animationStart.stiffness = 50.0
         animationStart.mass = 1
         animationStart.initialVelocity = 10.0
         animationStart.fillMode = .both
@@ -50,8 +50,8 @@ final class PhotoView: UIView {
             animationEnd.duration = 1
             animationEnd.fromValue = CATransform3DMakeScale(0.75, 0.75, 1)
             animationEnd.toValue = CATransform3DMakeScale(1, 1, 1)
-            animationEnd.damping = 3.7
-            animationEnd.stiffness = 54.0
+            animationEnd.damping = 3.4
+            animationEnd.stiffness = 50.0
             animationEnd.mass = 1
             animationEnd.initialVelocity = 10.0
             animationEnd.fillMode = .both

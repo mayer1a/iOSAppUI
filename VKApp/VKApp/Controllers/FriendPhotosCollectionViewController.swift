@@ -13,15 +13,12 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     private var realmNotification: NotificationToken?
     private let operationQueue = OperationQueue()
     
-    var photos : [Photo]?
+    var photos: [Photo]?
     var userId = Int()
     
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
-        layout?.estimatedItemSize = .zero
         
         makeObserver()
         dataValidityCheck()
@@ -30,17 +27,18 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     // MARK: - viewWillTransition
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        
+
         coordinator.animate { _ in
-            self.setupImageCellSize()
+            (self.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = self.updateCellSize()
         }
     }
-    
+
     // MARK: - numberOfItemsInSection
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        (self.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = self.updateCellSize()
         return photos?.count ?? 0
     }
-    
+
     // MARK: - cellForItemAt
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
@@ -170,17 +168,19 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 extension FriendPhotosCollectionViewController: UICollectionViewDelegateFlowLayout {
-    
-    // MARK: - sizeForItemAt
-    // Change cell size by ui screen width - three cells per row
-    private func setupImageCellSize() {
-        guard let layout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-        
-        let photosPerRow: CGFloat = UIDevice.current.orientation.isPortrait ? 3.0 : 5.0
+
+    // MARK: - updateCellSize
+    func updateCellSize() -> CGSize {
+        guard
+            let layout = collectionViewLayout as? UICollectionViewFlowLayout,
+            let isPortraitOrientation = self.view.window?.windowScene?.interfaceOrientation.isPortrait
+        else { return CGSize.zero }
+
+        let photosPerRow: CGFloat = isPortraitOrientation ? 3.0 : 5.0
         let minimumSpacing = layout.minimumInteritemSpacing
         let width = self.collectionView.safeAreaLayoutGuide.layoutFrame.width
-        let itemSize = ((width - minimumSpacing * (photosPerRow - 1.0)) / photosPerRow)
-        
-        layout.itemSize = CGSize(width: itemSize, height: itemSize)
+        let itemSize = (width - minimumSpacing * (photosPerRow - 1.0)) / photosPerRow
+
+        return CGSize(width: itemSize, height: itemSize)
     }
 }

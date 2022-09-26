@@ -64,6 +64,7 @@
 		49E3C50B27FB27B3001CFED4 /* LikeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C50A27FB27B3001CFED4 /* LikeControl.swift */; };
 		49E474F92820476B009B519E /* LoginWebKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E474F82820476B009B519E /* LoginWebKitViewController.swift */; };
 		49E893712848B8F30027363E /* FirestoreCollections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E893702848B8F30027363E /* FirestoreCollections.swift */; };
+		49EE3B5528CCAC0100142FF1 /* GetUserGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE3B5428CCAC0100142FF1 /* GetUserGroups.swift */; };
 		49FF92272807263400ED648A /* CustomSearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF92262807263400ED648A /* CustomSearchBarView.swift */; };
 		49FF922B28072D8300ED648A /* CustomSearchBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49FF922928072D8300ED648A /* CustomSearchBarView.xib */; };
 		54E6C53814325595994158B7 /* Pods_VKApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D166F0789A96ABC7D75F1DB /* Pods_VKApp.framework */; };
@@ -131,6 +132,7 @@
 		49E3C50A27FB27B3001CFED4 /* LikeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeControl.swift; sourceTree = "<group>"; };
 		49E474F82820476B009B519E /* LoginWebKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWebKitViewController.swift; sourceTree = "<group>"; };
 		49E893702848B8F30027363E /* FirestoreCollections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreCollections.swift; sourceTree = "<group>"; };
+		49EE3B5428CCAC0100142FF1 /* GetUserGroups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserGroups.swift; sourceTree = "<group>"; };
 		49FF92262807263400ED648A /* CustomSearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomSearchBarView.swift; path = VKApp/Views/CustomSearchBarView.swift; sourceTree = SOURCE_ROOT; };
 		49FF922928072D8300ED648A /* CustomSearchBarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomSearchBarView.xib; sourceTree = "<group>"; };
 		5C11E822E5CA2AEAF4597E55 /* Pods-VKApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VKApp.release.xcconfig"; path = "Target Support Files/Pods-VKApp/Pods-VKApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -333,6 +335,7 @@
 		49EE3B5228CCA96300142FF1 /* Promises */ = {
 			isa = PBXGroup;
 			children = (
+				49EE3B5428CCAC0100142FF1 /* GetUserGroups.swift */,
 			);
 			path = Promises;
 			sourceTree = "<group>";
@@ -516,6 +519,7 @@
 				499FE19C28C89731007667E6 /* SaveRealmOperation.swift in Sources */,
 				494CD6B828154CAF00250A56 /* CloudView.swift in Sources */,
 				49B4D3BE2822C7F400AA5801 /* Group.swift in Sources */,
+				49EE3B5528CCAC0100142FF1 /* GetUserGroups.swift in Sources */,
 				498F321F27F32E1400FE7EC9 /* FriendsTableViewController.swift in Sources */,
 				492C372C2803476400BEA637 /* DownloadIndicatorView.swift in Sources */,
 				49E3C50927FB0968001CFED4 /* ShadowView.swift in Sources */,
@@ -677,8 +681,10 @@
 				DEVELOPMENT_TEAM = 277JX9R2RP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VKApp/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = VK;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -707,8 +713,10 @@
 				DEVELOPMENT_TEAM = 277JX9R2RP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VKApp/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = VK;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

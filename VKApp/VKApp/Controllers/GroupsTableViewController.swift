@@ -13,6 +13,7 @@ import PromiseKit
 // MARK: UITableViewController
 final class GroupsTableViewController: UITableViewController {
     private let customSearchView = CustomSearchBarView().loadView()
+    private let getGroupsPromise = GetUserGroups()
     private var realmNotification: NotificationToken?
     var myGroups: [Group]?
     var displayedGroups: [Group]?
@@ -150,9 +151,17 @@ final class GroupsTableViewController: UITableViewController {
             let currentTime = Int(Date().timeIntervalSince1970)
 
             if currentTime - userDefaults.integer(forKey: "groupsLastLoad") > 10_000 || groups.isEmpty {
-                SessionHelper.shared.fetchMyGroups()
-
-                userDefaults.set(currentTime, forKey: "groupsLastLoad")
+                firstly {
+                    getGroupsPromise.fetchUserGroups()
+                }.compactMap(on: DispatchQueue.global()) { data in
+                    self.getGroupsPromise.parseGroups(data: data).value
+                }.done(on: DispatchQueue.global()) { groups in
+                    RealmGroup.saveData(data: groups)
+                }.ensure(on: DispatchQueue.global()) {
+                    userDefaults.set(currentTime, forKey: "groupsLastLoad")
+                }.catch { error in
+                    print(error)
+                }
             } else {
                 self.setupData(from: groups)
             }
@@ -268,11 +277,17 @@ final class GroupsTableViewController: UITableViewController {
         if searchText.isEmpty, let myGroups = try? RealmGroup.restoreData() {
             setupData(from: myGroups)
         } else {
-            SessionHelper.shared.fetchSearchedGroups(searchText: searchText) { [weak self] groups in
-                guard let self = self else { return }
-
-                self.displayedGroups = groups.filter { $0.name.lowercased().contains(searchText.lowercased()) }
-                self.tableView.reloadData()
+            firstly {
+                getGroupsPromise.fetchSearchedGroups(by: searchText)
+            }.compactMap(on: DispatchQueue.global()) { data in
+                try JSONDecoder().decode(GroupResponse.self, from: data).items
+            }.compactMap(on: DispatchQueue.global()) { groups in
+                groups.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+            }.done(on: DispatchQueue.main) { [weak self] groups in
+                self?.displayedGroups = groups.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+                self?.tableView.reloadData()
+            }.catch { error in
+                print(error)
             }
         }
     }

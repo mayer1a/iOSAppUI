@@ -13,7 +13,7 @@ final class AnimationNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        delegate = self
+        delegate = self
     }
 }
 

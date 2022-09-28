@@ -19,7 +19,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         makeObserver()
         dataValidityCheck()
     }
@@ -29,14 +29,20 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         super.viewWillTransition(to: size, with: coordinator)
 
         coordinator.animate { _ in
-            (self.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = self.updateCellSize()
+            guard let updatedSize = self.updateCellSize() else { return }
+            (self.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = updatedSize
         }
     }
 
     // MARK: - numberOfItemsInSection
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        (self.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = self.updateCellSize()
-        return photos?.count ?? 0
+        let count = photos?.count ?? 0
+
+        guard let updatedSize = self.updateCellSize() else { return count }
+
+        (self.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = updatedSize
+
+        return count
     }
 
     // MARK: - cellForItemAt
@@ -50,7 +56,8 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         
         guard
             let photo = photos?[indexPath.item],
-            let imageURL = URL(string: photo.smallSizeUrl)
+            let path = photo.smallSizeUrl,
+            let imageURL = URL(string: path)
         else { return UICollectionViewCell() }
         
         DispatchQueue.global().async { [weak cell] in
@@ -170,11 +177,13 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
 extension FriendPhotosCollectionViewController: UICollectionViewDelegateFlowLayout {
 
     // MARK: - updateCellSize
-    func updateCellSize() -> CGSize {
+    func updateCellSize() -> CGSize? {
         guard
             let layout = collectionViewLayout as? UICollectionViewFlowLayout,
             let isPortraitOrientation = self.view.window?.windowScene?.interfaceOrientation.isPortrait
-        else { return CGSize.zero }
+        else {
+            return (self.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize
+        }
 
         let photosPerRow: CGFloat = isPortraitOrientation ? 3.0 : 5.0
         let minimumSpacing = layout.minimumInteritemSpacing

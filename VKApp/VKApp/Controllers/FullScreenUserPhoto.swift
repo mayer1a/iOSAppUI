@@ -165,7 +165,7 @@ class FullScreenUserPhoto: UIViewController {
 
         let hiddenPhotoImageView = hiddenPhotoImageView
         let displayedPhotoImageView = displayedPhotoImageView
-
+        hiddenPhotoImageView?.image = nil
         frame.origin.x = self.view.bounds.width
         frame.origin.y = self.view.safeAreaLayoutGuide.layoutFrame.origin.y
         frame.size.width = self.view.safeAreaLayoutGuide.layoutFrame.width
@@ -223,7 +223,7 @@ class FullScreenUserPhoto: UIViewController {
 
         let hiddenPhotoImageView = hiddenPhotoImageView
         let displayedPhotoImageView = displayedPhotoImageView
-
+        hiddenPhotoImageView?.image = nil
         frame.origin.x = -self.view.bounds.width
         frame.origin.y = self.view.safeAreaLayoutGuide.layoutFrame.origin.y
         frame.size.width = self.view.safeAreaLayoutGuide.layoutFrame.width

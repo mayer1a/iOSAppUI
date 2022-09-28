@@ -22,6 +22,7 @@
 		4946921C28295D8500C3F06D /* FriendsAlphabetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4946921B28295D8500C3F06D /* FriendsAlphabetView.swift */; };
 		494CD6B828154CAF00250A56 /* CloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494CD6B728154CAF00250A56 /* CloudView.swift */; };
 		494F564A28BD1B160026C80E /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F564928BD1B160026C80E /* News.swift */; };
+		49625E5428E1DBFD00D81712 /* NewsInteractionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49625E5328E1DBFD00D81712 /* NewsInteractionProtocol.swift */; };
 		4972954B28C2787300720F75 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4972954A28C2787300720F75 /* UIImage+Extensions.swift */; };
 		49793EB227FAFCBB0091478A /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49793EB127FAFCBB0091478A /* PhotoView.swift */; };
 		497A2CE7281822990009AA9A /* TransitionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497A2CE6281822990009AA9A /* TransitionAnimation.swift */; };
@@ -67,7 +68,7 @@
 		49EE3B5528CCAC0100142FF1 /* GetUserGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EE3B5428CCAC0100142FF1 /* GetUserGroups.swift */; };
 		49FF92272807263400ED648A /* CustomSearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FF92262807263400ED648A /* CustomSearchBarView.swift */; };
 		49FF922B28072D8300ED648A /* CustomSearchBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49FF922928072D8300ED648A /* CustomSearchBarView.xib */; };
-		54E6C53814325595994158B7 /* Pods_VKApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D166F0789A96ABC7D75F1DB /* Pods_VKApp.framework */; };
+		54E6C53814325595994158B7 /* Pods_VKApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D166F0789A96ABC7D75F1DB /* Pods_VKApp.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +89,7 @@
 		4946921B28295D8500C3F06D /* FriendsAlphabetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsAlphabetView.swift; sourceTree = "<group>"; };
 		494CD6B728154CAF00250A56 /* CloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudView.swift; sourceTree = "<group>"; };
 		494F564928BD1B160026C80E /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
+		49625E5328E1DBFD00D81712 /* NewsInteractionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsInteractionProtocol.swift; sourceTree = "<group>"; };
 		4972954A28C2787300720F75 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		49793EB127FAFCBB0091478A /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		497A2CE6281822990009AA9A /* TransitionAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionAnimation.swift; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 				49EE3B5228CCA96300142FF1 /* Promises */,
 				499FE19428C87F01007667E6 /* Operations */,
 				49981BD528B671CC00AECBAB /* NewsProtocol.swift */,
+				49625E5328E1DBFD00D81712 /* NewsInteractionProtocol.swift */,
 				49AD24672843CD21001D4564 /* RealmObserver.swift */,
 				4972954A28C2787300720F75 /* UIImage+Extensions.swift */,
 			);
@@ -484,6 +487,7 @@
 				498C292427F3358F0058EAE7 /* FriendsTableViewCell.swift in Sources */,
 				492A94BD2801AEB40059C9BE /* NewsTableViewController.swift in Sources */,
 				49AD24682843CD21001D4564 /* RealmObserver.swift in Sources */,
+				49625E5428E1DBFD00D81712 /* NewsInteractionProtocol.swift in Sources */,
 				492A94B928008DEE0059C9BE /* GrouppedFriends.swift in Sources */,
 				4984269B27F5FC070078A50C /* SearchGroupTableViewCell.swift in Sources */,
 				49981BD428B670D700AECBAB /* NewsUsersInteractionCell.swift in Sources */,
@@ -689,6 +693,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -721,6 +726,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

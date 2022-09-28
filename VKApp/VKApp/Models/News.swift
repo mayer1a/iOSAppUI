@@ -25,6 +25,7 @@ final class NewsBody: Decodable {
         case comments
         case likes
         case views
+        case isViewed
         case attachments
     }
     
@@ -73,6 +74,7 @@ final class NewsBody: Decodable {
     var isReposted: Int?
     var canRepost: Int?
     var viewsCount: Int?
+    var isViewed: Bool
     var images: [Photo?]
     var audios: [String?]
     var videos: [String?]
@@ -129,6 +131,7 @@ final class NewsBody: Decodable {
         
         self.audios = [String?]()
         self.videos = [String?]()
+        self.isViewed = false
     }
 }
 

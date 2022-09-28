@@ -14,9 +14,10 @@ extension UIImage {
     // MARK: - fetchImage
     static func fetchImage(at imageUrl: URL) -> UIImage? {
         guard
-            let imageData = try? Data(contentsOf: imageUrl, options: .uncached),
-            let image = UIImage(data: imageData)
+            let imageData = try? Data(contentsOf: imageUrl, options: .uncached)
         else { return nil }
+
+        let image = UIImage(data: imageData)
         
         return image
     }

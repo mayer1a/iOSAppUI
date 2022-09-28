@@ -88,6 +88,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         
         prepare(for: fullScreenUserPhoto, at: indexPath)
         
+        tabBarController?.tabBar.isHidden = true
         navigationController?.pushViewController(fullScreenUserPhoto, animated: true)
     }
     
@@ -184,6 +185,8 @@ extension FriendPhotosCollectionViewController: UICollectionViewDelegateFlowLayo
         else {
             return (self.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize
         }
+
+        tabBarController?.tabBar.isHidden = isPortraitOrientation ? false : true
 
         let photosPerRow: CGFloat = isPortraitOrientation ? 3.0 : 5.0
         let minimumSpacing = layout.minimumInteritemSpacing

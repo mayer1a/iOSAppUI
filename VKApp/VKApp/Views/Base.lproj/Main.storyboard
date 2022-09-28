@@ -203,20 +203,14 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 </view>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="hgp-a5-dy5" customClass="CircularPreviewImageView" customModule="VKApp">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hgp-a5-dy5" customClass="CircularPreviewImageView" customModule="VKApp" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="72" id="acg-Eo-iVX"/>
-                                                        <constraint firstAttribute="width" constant="72" id="j4O-fT-45x"/>
-                                                    </constraints>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="hgp-a5-dy5" secondAttribute="trailing" id="2UE-UZ-prW"/>
-                                                <constraint firstItem="hgp-a5-dy5" firstAttribute="leading" secondItem="Tnk-YS-N7r" secondAttribute="leading" id="Lgx-yY-qzM"/>
-                                                <constraint firstAttribute="bottom" secondItem="hgp-a5-dy5" secondAttribute="bottom" id="m4T-Pb-69s"/>
-                                                <constraint firstItem="hgp-a5-dy5" firstAttribute="top" secondItem="Tnk-YS-N7r" secondAttribute="top" id="wGq-uG-BN4"/>
+                                                <constraint firstAttribute="width" constant="72" id="glp-wl-eDX"/>
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k3e-Df-2Af">
@@ -277,15 +271,12 @@
                                                 </view>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BGv-Ct-x8W" customClass="CircularPreviewImageView" customModule="VKApp">
                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="72" id="6ZW-3y-DT1"/>
-                                                        <constraint firstAttribute="width" constant="72" id="ga1-Ui-0Jf"/>
-                                                    </constraints>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="jGE-vm-9au" secondAttribute="trailing" id="1we-tM-lqB"/>
+                                                <constraint firstAttribute="width" constant="72" id="X9X-Qo-sW3"/>
                                                 <constraint firstAttribute="trailing" secondItem="BGv-Ct-x8W" secondAttribute="trailing" id="aVv-WM-Dnt"/>
                                                 <constraint firstItem="BGv-Ct-x8W" firstAttribute="leading" secondItem="8Pw-yc-Ac2" secondAttribute="leading" id="bYG-PG-nYy"/>
                                                 <constraint firstAttribute="bottom" secondItem="jGE-vm-9au" secondAttribute="bottom" id="hP8-TU-zkh"/>
@@ -853,6 +844,9 @@
                         <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="BYJ-h8-dZ2">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="R4i-1D-Dgb" kind="relationship" relationship="rootViewController" id="Nie-KQ-hKh"/>
                     </connections>

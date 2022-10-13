@@ -26,6 +26,12 @@ final class GroupsTableViewController: UITableViewController {
         dataValidityCheck()
     }
 
+    // MARK: - viewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        sizeHeaderToFit()
+    }
+
     // MARK: - viewWillTransition
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -71,6 +77,10 @@ final class GroupsTableViewController: UITableViewController {
         }
 
         return UISwipeActionsConfiguration(actions: [action])
+    }
+
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return CGFloat(93)
     }
 
     // MARK: - customSearchBarDidTapped
@@ -249,8 +259,6 @@ final class GroupsTableViewController: UITableViewController {
         customSearchView?.searchCloseButton?.addTarget(self,
                                                        action: #selector(cancelButtonDidTapped),
                                                        for: .touchUpInside)
-
-        sizeHeaderToFit()
     }
 
     // MARK: - sizeHeaderToFit

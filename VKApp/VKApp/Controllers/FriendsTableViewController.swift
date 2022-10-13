@@ -337,7 +337,7 @@ final class FriendsTableViewController: UITableViewController {
     // MARK: - heightForRowAt
     // Automatic cell height calculation
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        return CGFloat(93)
     }
 }
 

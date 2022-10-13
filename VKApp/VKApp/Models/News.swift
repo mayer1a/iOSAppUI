@@ -25,6 +25,7 @@ final class NewsBody: Decodable {
         case comments
         case likes
         case views
+        case isViewed
         case attachments
     }
     
@@ -73,6 +74,7 @@ final class NewsBody: Decodable {
     var isReposted: Int?
     var canRepost: Int?
     var viewsCount: Int?
+    var isViewed: Bool
     var images: [Photo?]
     var audios: [String?]
     var videos: [String?]
@@ -129,6 +131,7 @@ final class NewsBody: Decodable {
         
         self.audios = [String?]()
         self.videos = [String?]()
+        self.isViewed = false
     }
 }
 
@@ -248,30 +251,30 @@ final class News {
         
         var rawValue: [String] {
             switch self {
-            case .text, .image, .video, .audio:
-                return [self.rawValue]
-            case .textImage:
-                return [Kind.text.rawValue, Kind.image.rawValue]
-            case .textVideo:
-                return [Kind.text.rawValue, Kind.video.rawValue]
-            case .textAudio:
-                return [Kind.text.rawValue, Kind.audio.rawValue]
-            case .imageVideo:
-                return [Kind.image.rawValue, Kind.video.rawValue]
-            case .imageAudio:
-                return [Kind.image.rawValue, Kind.audio.rawValue]
-            case .videoAudio:
-                return [Kind.video.rawValue, Kind.audio.rawValue]
-            case .textImageVideo:
-                return [Kind.text.rawValue, Kind.image.rawValue, Kind.video.rawValue]
-            case .textImageAudio:
-                return [Kind.text.rawValue, Kind.image.rawValue, Kind.audio.rawValue]
-            case .textVideoAudio:
-                return [Kind.text.rawValue, Kind.video.rawValue, Kind.audio.rawValue]
-            case .imageVideoAudio:
-                return [Kind.image.rawValue, Kind.video.rawValue, Kind.audio.rawValue]
-            case .textImageVideoAudio:
-                return [Kind.text.rawValue, Kind.image.rawValue, Kind.video.rawValue, Kind.audio.rawValue]
+                case .text, .image, .video, .audio:
+                    return [self.rawValue]
+                case .textImage:
+                    return [Kind.text.rawValue, Kind.image.rawValue]
+                case .textVideo:
+                    return [Kind.text.rawValue, Kind.video.rawValue]
+                case .textAudio:
+                    return [Kind.text.rawValue, Kind.audio.rawValue]
+                case .imageVideo:
+                    return [Kind.image.rawValue, Kind.video.rawValue]
+                case .imageAudio:
+                    return [Kind.image.rawValue, Kind.audio.rawValue]
+                case .videoAudio:
+                    return [Kind.video.rawValue, Kind.audio.rawValue]
+                case .textImageVideo:
+                    return [Kind.text.rawValue, Kind.image.rawValue, Kind.video.rawValue]
+                case .textImageAudio:
+                    return [Kind.text.rawValue, Kind.image.rawValue, Kind.audio.rawValue]
+                case .textVideoAudio:
+                    return [Kind.text.rawValue, Kind.video.rawValue, Kind.audio.rawValue]
+                case .imageVideoAudio:
+                    return [Kind.image.rawValue, Kind.video.rawValue, Kind.audio.rawValue]
+                case .textImageVideoAudio:
+                    return [Kind.text.rawValue, Kind.image.rawValue, Kind.video.rawValue, Kind.audio.rawValue]
             }
         }
     }
@@ -287,22 +290,22 @@ final class News {
         let hasAudio = newsBody.audios.first != nil
         
         switch (hasText, hasImage, hasVideo, hasAudio) {
-        case (true, false, false, false): return .text
-        case (false, true, false, false): return .image
-        case (false, false, true, false): return .video
-        case (false, false, false, true): return .audio
-        case (true, true, false, false): return .textImage
-        case (true, false, true, false): return .textVideo
-        case (true, false, false, true): return .textAudio
-        case (false, true, true, false): return .imageVideo
-        case (false, true, false, true): return .imageAudio
-        case (false, false, true, true): return .videoAudio
-        case (true, true, true, false): return .textImageVideo
-        case (true, true, false, true): return .textImageAudio
-        case (true, false, true, true): return .textVideoAudio
-        case (false, true, true, true): return .imageVideoAudio
-        case (true, true, true, true): return .textImageVideoAudio
-        default: return nil
+            case (true, false, false, false): return .text
+            case (false, true, false, false): return .image
+            case (false, false, true, false): return .video
+            case (false, false, false, true): return .audio
+            case (true, true, false, false): return .textImage
+            case (true, false, true, false): return .textVideo
+            case (true, false, false, true): return .textAudio
+            case (false, true, true, false): return .imageVideo
+            case (false, true, false, true): return .imageAudio
+            case (false, false, true, true): return .videoAudio
+            case (true, true, true, false): return .textImageVideo
+            case (true, true, false, true): return .textImageAudio
+            case (true, false, true, true): return .textVideoAudio
+            case (false, true, true, true): return .imageVideoAudio
+            case (true, true, true, true): return .textImageVideoAudio
+            default: return nil
         }
     }
     

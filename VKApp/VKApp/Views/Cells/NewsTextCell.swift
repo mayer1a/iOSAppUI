@@ -14,7 +14,7 @@ final class NewsTextCell: UITableViewCell {
 
 // MARK: - NewsProtocol
 extension NewsTextCell: NewsProtocol {
-    func setup<T: NewsCellTypeDataProtocol>(news: T) {
+    func setup<T : NewsCellTypeDataProtocol>(news: T) {
         newsText?.text = news.newsBody.text
     }
 }

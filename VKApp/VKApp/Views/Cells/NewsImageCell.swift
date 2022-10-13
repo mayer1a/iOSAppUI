@@ -17,7 +17,7 @@ final class NewsImageCell: UITableViewCell {
 extension NewsImageCell: NewsProtocol {
     
     // MARK: - setup
-    func setup<T: NewsCellTypeDataProtocol>(news: T) {
+    func setup<T : NewsCellTypeDataProtocol>(news: T) {
         self.newsPhotoImageView?.image = nil
         
         guard let mainImage = news.newsBody.images.first,

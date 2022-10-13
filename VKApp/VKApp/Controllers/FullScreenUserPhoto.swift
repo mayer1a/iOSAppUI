@@ -44,13 +44,13 @@ class FullScreenUserPhoto: UIViewController {
     private var displayedPhotoImageView: UIImageView? {
         guard let displayedUserPhoto = displayedUserPhoto, let nextUserPhoto = nextUserPhoto else { return nil }
 
-        return [displayedUserPhoto, nextUserPhoto].first(where: { !$0.isHidden })
+        return displayedUserPhoto.isHidden ? nextUserPhoto : displayedUserPhoto
     }
 
     private var hiddenPhotoImageView: UIImageView? {
         guard let displayedUserPhoto = displayedUserPhoto, let nextUserPhoto = nextUserPhoto else { return nil }
 
-        return [displayedUserPhoto, nextUserPhoto].first(where: { $0.isHidden })
+        return displayedUserPhoto.isHidden ? displayedUserPhoto : nextUserPhoto
     }
 
     // MARK: - viewDidLoad
@@ -59,12 +59,20 @@ class FullScreenUserPhoto: UIViewController {
         setupView()
     }
 
+    // MARK: - viewDidAppear
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        self.setupImageView()
+        self.displayedUserPhoto?.alpha = 1
+    }
+
     // MARK: - viewWillTransition
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
         coordinator.animate { _ in
-            self.setupImageViews()
+            self.setupImageView()
         }
     }
 
@@ -80,10 +88,9 @@ class FullScreenUserPhoto: UIViewController {
 
     // MARK: - photoDidTapped
     @objc private func photoDidTapped() {
-        if self.view.layer.backgroundColor != UIColor.black.cgColor {
-            darkenBackground()
-        } else {
-            lightenBackground()
+        switch self.view.layer.backgroundColor {
+            case UIColor.black.cgColor: lightenBackground()
+            default: darkenBackground()
         }
     }
 
@@ -108,36 +115,15 @@ class FullScreenUserPhoto: UIViewController {
         }
     }
 
-    // MARK: - setupImageViews
-    private func setupImageViews() {
-        guard
-            var frame = self.displayedPhotoImageView?.frame,
-            let hiddexOriginX = self.hiddenPhotoImageView?.frame.origin.x
-        else { return }
+    // MARK: - setupImageView
+    private func setupImageView() {
+        var frame = CGRect()
+        let layoutFrame = self.view.safeAreaLayoutGuide.layoutFrame
 
-        frame.origin.y = self.view.safeAreaLayoutGuide.layoutFrame.origin.y
-        frame.size = self.view.safeAreaLayoutGuide.layoutFrame.size
+        frame.origin = layoutFrame.origin
+        frame.size = layoutFrame.size
 
         self.displayedPhotoImageView?.frame = frame
-        self.displayedPhotoImageView?.center = CGPoint(x: self.view.frame.size.width / 2,
-                                                       y: self.view.frame.size.height / 2)
-
-        // Frame setting based on the location of the hidden image view
-        if hiddexOriginX <= 0 {
-            let origin = CGPoint(x: -self.view.safeAreaLayoutGuide.layoutFrame.width,
-                                 y: self.view.safeAreaLayoutGuide.layoutFrame.origin.y)
-
-            let size = self.view.safeAreaLayoutGuide.layoutFrame.size
-
-            self.hiddenPhotoImageView?.frame = CGRect(origin: origin, size: size)
-        } else {
-            let origin = CGPoint(x: self.view.safeAreaLayoutGuide.layoutFrame.width,
-                                 y: self.view.safeAreaLayoutGuide.layoutFrame.origin.y)
-
-            let size = self.view.safeAreaLayoutGuide.layoutFrame.size
-
-            self.hiddenPhotoImageView?.frame = CGRect(origin: origin, size: size)
-        }
     }
 
     // MARK: - setupAnimations
@@ -156,25 +142,19 @@ class FullScreenUserPhoto: UIViewController {
 
     // MARK: - swipeToLeft
     private func swipeToLeft() {
-        guard
-            let nextPhotoIndex = nextPhotoIndex,
-            var frame = hiddenPhotoImageView?.frame
-        else { return }
+        guard let nextPhotoIndex = nextPhotoIndex else { return }
         
         direction = .left
 
         let hiddenPhotoImageView = hiddenPhotoImageView
         let displayedPhotoImageView = displayedPhotoImageView
+        hiddenPhotoImageView?.image = nil
 
-        frame.origin.x = self.view.bounds.width
-        frame.origin.y = self.view.safeAreaLayoutGuide.layoutFrame.origin.y
-        frame.size.width = self.view.safeAreaLayoutGuide.layoutFrame.width
-
-        setupDisplayedImage(by: nextPhotoIndex, bounds: self.view.bounds) { image in
+        getScaledImage(by: nextPhotoIndex, bounds: self.view.bounds) { image in
             hiddenPhotoImageView?.image = image
         }
 
-        hiddenPhotoImageView?.frame = frame
+        hiddenPhotoImageView?.frame = getNewHiddenImageViewFrame()
         hiddenPhotoImageView?.isHidden = false
 
         // Transform scale animation
@@ -214,25 +194,19 @@ class FullScreenUserPhoto: UIViewController {
 
     // MARK: - swipeToRight
     private func swipeToRight() {
-        guard
-            let previousPhotoIndex = previousPhotoIndex,
-            var frame = hiddenPhotoImageView?.frame
-        else { return }
+        guard let previousPhotoIndex = previousPhotoIndex else { return }
 
         direction = .right
 
         let hiddenPhotoImageView = hiddenPhotoImageView
         let displayedPhotoImageView = displayedPhotoImageView
+        hiddenPhotoImageView?.image = nil
 
-        frame.origin.x = -self.view.bounds.width
-        frame.origin.y = self.view.safeAreaLayoutGuide.layoutFrame.origin.y
-        frame.size.width = self.view.safeAreaLayoutGuide.layoutFrame.width
-
-        setupDisplayedImage(by: previousPhotoIndex, bounds: self.view.bounds) { image in
+        getScaledImage(by: previousPhotoIndex, bounds: self.view.bounds) { image in
             hiddenPhotoImageView?.image = image
         }
 
-        hiddenPhotoImageView?.frame = frame
+        hiddenPhotoImageView?.frame = getNewHiddenImageViewFrame()
         hiddenPhotoImageView?.isHidden = false
         hiddenPhotoImageView?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
@@ -272,6 +246,17 @@ class FullScreenUserPhoto: UIViewController {
         animator?.pauseAnimation()
     }
 
+    // MARK: - getNewHiddenImageViewFrame
+    private func getNewHiddenImageViewFrame() -> CGRect {
+        guard var frame = hiddenPhotoImageView?.frame else { return CGRect.zero }
+
+        frame.origin.x = direction == .left ? self.view.bounds.width : -self.view.bounds.width
+        frame.origin.y = self.view.safeAreaLayoutGuide.layoutFrame.origin.y
+        frame.size = self.view.safeAreaLayoutGuide.layoutFrame.size
+
+        return frame
+    }
+
     // MARK: - animationDidChage
     private func animationWillChange(_ recognizer: UIPanGestureRecognizer) {
         guard let animator = animator else { return }
@@ -303,10 +288,15 @@ class FullScreenUserPhoto: UIViewController {
 
     // MARK: - setupView
     private func setupView() {
-        setupDisplayedImage(by: showPhotoIndex, bounds: self.view.bounds) { [weak self] image in
+        getScaledImage(by: showPhotoIndex, bounds: self.view.bounds) { [weak self] image in
             self?.displayedUserPhoto?.image = image
         }
 
+        if let frame = self.view?.frame {
+            self.displayedUserPhoto?.frame = CGRect(origin: frame.origin, size: CGSize(width: self.view.frame.size.width, height: frame.size.height))
+        }
+
+        self.displayedUserPhoto?.center = CGPoint(x: self.view.frame.size.width / 2, y: self.view.frame.size.height / 2)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(photoDidTapped))
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(photoImagePanned(_:)))
 
@@ -317,7 +307,7 @@ class FullScreenUserPhoto: UIViewController {
     }
 
     // MARK: - setupDisplayedImage
-    private func setupDisplayedImage(by displayedIndex: Int, bounds: CGRect, completion: @escaping (UIImage?) -> Void) {
+    private func getScaledImage(by displayedIndex: Int, bounds: CGRect, completion: @escaping (UIImage?) -> Void) {
         DispatchQueue.global().async { [weak self] in
             guard
                 let imagePath = self?.photos[displayedIndex].originalSizeUrl,

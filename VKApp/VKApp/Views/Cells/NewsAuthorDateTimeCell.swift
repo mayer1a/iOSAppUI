@@ -18,7 +18,7 @@ final class NewsAuthorDateTimeCell: UITableViewCell {
 extension NewsAuthorDateTimeCell: NewsProtocol {
     
     // MARK: - setup
-    func setup<T>(news: T) where T : NewsCellTypeDataProtocol {
+    func setup<T : NewsCellTypeDataProtocol>(news: T) {
         var fullName: String?
         var imageURL: URL?
         

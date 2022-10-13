@@ -9,7 +9,7 @@ target 'VKApp' do
   pod 'Alamofire', '5.6.1'
   pod 'RealmSwift', '~>10'
   pod 'SwiftKeychainWrapper'
-  pod 'FirebaseAnalytics'
+  pod 'Firebase/AnalyticsWithoutAdIdSupport'
   pod 'FirebaseFirestore'
   pod 'PromiseKit', '~>6.8'
 end

@@ -20,7 +20,7 @@ final class RealmPhoto: Object {
     var ownerId: Int
     
     @Persisted
-    var smallSizeUrl: String
+    var smallSizeUrl: String?
     
     @Persisted
     var originalSizeUrl: String?

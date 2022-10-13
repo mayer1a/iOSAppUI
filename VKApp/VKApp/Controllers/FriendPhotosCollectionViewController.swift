@@ -168,7 +168,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
             let indexPath = sender,
             let fullScreenPhotoVC = pushViewController as? FullScreenUserPhoto
         else { return }
-        
+
         fullScreenPhotoVC.photos = photos
         fullScreenPhotoVC.showPhotoIndex = indexPath.item
     }

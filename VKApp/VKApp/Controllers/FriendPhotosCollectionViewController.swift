@@ -12,6 +12,7 @@ import RealmSwift
 final class FriendPhotosCollectionViewController: UICollectionViewController {
     private var realmNotification: NotificationToken?
     private let operationQueue = OperationQueue()
+    private var imageCachingService: ImageCachingService?
     
     var photos: [Photo]?
     var userId = Int()
@@ -20,6 +21,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        imageCachingService = ImageCachingService(from: self.collectionView)
         makeObserver()
         dataValidityCheck()
     }
@@ -56,17 +58,10 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         
         guard
             let photo = photos?[indexPath.item],
-            let path = photo.smallSizeUrl,
-            let imageURL = URL(string: path)
+            let path = photo.smallSizeUrl
         else { return UICollectionViewCell() }
-        
-        DispatchQueue.global().async { [weak cell] in
-            let image = UIImage.fetchImage(at: imageURL)
-            
-            DispatchQueue.main.async {
-                cell?.friendPhoto?.image = image
-            }
-        }
+
+        cell?.friendPhoto?.image = imageCachingService?.getImage(at: indexPath, by: path)
         
         if let isLiked = photo.isLiked, let likeCount = photo.likesCounter {
             cell?.likeControl?.isSelected = isLiked == 1 ? true : false

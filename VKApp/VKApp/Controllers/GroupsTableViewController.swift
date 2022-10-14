@@ -14,6 +14,7 @@ import PromiseKit
 final class GroupsTableViewController: UITableViewController {
     private let customSearchView = CustomSearchBarView().loadView()
     private let getGroupsPromise = GetUserGroups()
+    private var imageCachingService: ImageCachingService?
     private var realmNotification: NotificationToken?
     var myGroups: [Group]?
     var displayedGroups: [Group]?
@@ -21,6 +22,8 @@ final class GroupsTableViewController: UITableViewController {
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        imageCachingService = ImageCachingService(from: self.tableView)
         customSearchViewConfiguration()
         makeObserver()
         dataValidityCheck()
@@ -50,19 +53,10 @@ final class GroupsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as? GroupTableViewCell
 
-        guard
-            let imageName = displayedGroups?[indexPath.row].avatar,
-            let imageURL = URL(string: imageName)
+        guard let imagePath = displayedGroups?[indexPath.row].avatar
         else { return UITableViewCell() }
 
-        DispatchQueue.global().async {
-            let image = UIImage.fetchImage(at: imageURL)
-
-            DispatchQueue.main.async { [weak cell] in
-                cell?.groupImage?.image = image
-            }
-        }
-
+        cell?.groupImage?.image = imageCachingService?.getImage(at: indexPath, by: imagePath)
         cell?.groupName?.text = displayedGroups?[indexPath.row].name
 
         return cell ?? UITableViewCell()

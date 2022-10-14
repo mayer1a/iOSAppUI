@@ -11,6 +11,9 @@ import UIKit
 final class NewsImageCell: UITableViewCell {
     @IBOutlet weak var newsImagesView: UIView?
     @IBOutlet weak var newsPhotoImageView: PreviewScaledImageView?
+
+    var indexPath: IndexPath?
+    var imageCachingService: ImageCachingService?
 }
 
 // MARK: - NewsProtocol
@@ -21,16 +24,10 @@ extension NewsImageCell: NewsProtocol {
         self.newsPhotoImageView?.image = nil
         
         guard let mainImage = news.newsBody.images.first,
-              let imageName = mainImage?.originalSizeUrl,
-              let imageUrl = URL(string: imageName)
+              let imagePath = mainImage?.originalSizeUrl,
+              let indexPath = indexPath
         else { return }
-        
-        DispatchQueue.global().async { [weak self] in
-            let image = UIImage.fetchImage(at: imageUrl)
-            
-            DispatchQueue.main.async { [weak self] in
-                self?.newsPhotoImageView?.image = image
-            }
-        }
+
+        self.newsPhotoImageView?.image = imageCachingService?.getImage(at: indexPath, by: imagePath)
     }
 }

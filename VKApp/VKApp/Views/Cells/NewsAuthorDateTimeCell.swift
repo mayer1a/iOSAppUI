@@ -12,6 +12,9 @@ final class NewsAuthorDateTimeCell: UITableViewCell {
     @IBOutlet weak var newsAuthorAvatar: CircularPreviewImageView?
     @IBOutlet weak var newsAuthorFullName: UILabel?
     @IBOutlet weak var newsPostingDate: UILabel?
+
+    var imageCachingService: ImageCachingService?
+    var indexPath: IndexPath?
 }
 
 // MARK: - NewsProtocol
@@ -20,26 +23,20 @@ extension NewsAuthorDateTimeCell: NewsProtocol {
     // MARK: - setup
     func setup<T : NewsCellTypeDataProtocol>(news: T) {
         var fullName: String?
-        var imageURL: URL?
+        var imageURL = String()
         
         if let user = news.userOwner {
             fullName = "\(user.firstName) \(user.lastName)"
-            imageURL = URL(string: user.avatar)
+            imageURL = user.avatar
         } else if let group = news.groupOwner {
             fullName = "\(group.name)"
-            imageURL = URL(string: group.avatar)
+            imageURL = group.avatar
         }
-        
-        guard let imageURL = imageURL else { return }
-        
-        DispatchQueue.global().async { [weak self] in
-            let image = UIImage.fetchImage(at: imageURL)
-            
-            DispatchQueue.main.async { [weak self] in
-                self?.newsAuthorFullName?.text = fullName
-                self?.newsAuthorAvatar?.image = image
-                self?.newsPostingDate?.text = news.newsBody.date
-            }
-        }
+
+        guard let indexPath = indexPath else { return }
+
+        self.newsAuthorFullName?.text = fullName
+        self.newsPostingDate?.text = news.newsBody.date
+        self.newsAuthorAvatar?.image = imageCachingService?.getImage(at: indexPath, by: imageURL)
     }
 }

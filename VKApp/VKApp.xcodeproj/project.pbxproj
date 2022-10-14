@@ -18,6 +18,7 @@
 		492A94BD2801AEB40059C9BE /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492A94BC2801AEB40059C9BE /* NewsTableViewController.swift */; };
 		492C372A280345D400BEA637 /* DownloadIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 492C3728280345D400BEA637 /* DownloadIndicatorView.xib */; };
 		492C372C2803476400BEA637 /* DownloadIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C372B2803476400BEA637 /* DownloadIndicatorView.swift */; };
+		49437AC628F9644500978439 /* ImageCachingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49437AC528F9644500978439 /* ImageCachingService.swift */; };
 		494692182829577F00C3F06D /* FriendsAlphabetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 494692162829577F00C3F06D /* FriendsAlphabetView.xib */; };
 		4946921C28295D8500C3F06D /* FriendsAlphabetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4946921B28295D8500C3F06D /* FriendsAlphabetView.swift */; };
 		494CD6B828154CAF00250A56 /* CloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494CD6B728154CAF00250A56 /* CloudView.swift */; };
@@ -84,6 +85,7 @@
 		492A94BC2801AEB40059C9BE /* NewsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
 		492C3728280345D400BEA637 /* DownloadIndicatorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DownloadIndicatorView.xib; sourceTree = "<group>"; };
 		492C372B2803476400BEA637 /* DownloadIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadIndicatorView.swift; sourceTree = "<group>"; };
+		49437AC528F9644500978439 /* ImageCachingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCachingService.swift; sourceTree = "<group>"; };
 		494692162829577F00C3F06D /* FriendsAlphabetView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendsAlphabetView.xib; sourceTree = "<group>"; };
 		4946921B28295D8500C3F06D /* FriendsAlphabetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsAlphabetView.swift; sourceTree = "<group>"; };
 		494CD6B728154CAF00250A56 /* CloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudView.swift; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 				49625E5328E1DBFD00D81712 /* NewsInteractionProtocol.swift */,
 				49AD24672843CD21001D4564 /* RealmObserver.swift */,
 				4972954A28C2787300720F75 /* UIImage+Extensions.swift */,
+				49437AC528F9644500978439 /* ImageCachingService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -522,6 +525,7 @@
 				49981BD028B670A700AECBAB /* NewsVideoCell.swift in Sources */,
 				499FE19C28C89731007667E6 /* SaveRealmOperation.swift in Sources */,
 				494CD6B828154CAF00250A56 /* CloudView.swift in Sources */,
+				49437AC628F9644500978439 /* ImageCachingService.swift in Sources */,
 				49B4D3BE2822C7F400AA5801 /* Group.swift in Sources */,
 				49EE3B5528CCAC0100142FF1 /* GetUserGroups.swift in Sources */,
 				498F321F27F32E1400FE7EC9 /* FriendsTableViewController.swift in Sources */,

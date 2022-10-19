@@ -11,6 +11,7 @@ import RealmSwift
 // MARK: - UITableViewController
 final class FriendsTableViewController: UITableViewController {
     private let operationQueue = OperationQueue()
+    private var imageCachingService: ImageCachingService?
     private var friends: [User]?
     private var alphabetControl: FriendsAlphabetView?
     private var realmNotification: NotificationToken?
@@ -23,7 +24,8 @@ final class FriendsTableViewController: UITableViewController {
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        imageCachingService = ImageCachingService(from: self.tableView)
         tableView.sectionHeaderTopPadding = CGFloat(0)
         cloudView?.translatesAutoresizingMaskIntoConstraints = false
         
@@ -313,21 +315,9 @@ final class FriendsTableViewController: UITableViewController {
                                                  for: indexPath) as? FriendsTableViewCell
         
         let friend = self.grouppedFriends[indexPath.section].users[indexPath.row]
-        
-        cell?.userId = friend.id
+
         cell?.friendImage?.image = UIImage(named: "NonAvatar")
-        
-        guard let imageURL = URL(string: friend.avatar) else { return UITableViewCell() }
-        
-        DispatchQueue.global().async { [weak cell] in
-            let image = UIImage.fetchImage(at: imageURL)
-            
-            DispatchQueue.main.async { [weak cell] in
-                if cell?.userId == friend.id {
-                    cell?.friendImage?.image = image
-                }
-            }
-        }
+        cell?.friendImage?.image = imageCachingService?.getImage(at: indexPath, by: friend.avatar)
         
         cell?.friendName?.text = "\(friend.firstName) \(friend.lastName)"
         

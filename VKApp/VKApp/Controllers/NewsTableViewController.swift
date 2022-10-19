@@ -10,10 +10,13 @@ import UIKit
 // MARK: - UITableViewController
 final class NewsTableViewController: UITableViewController {
     var news: [News] = []
+    private var imageCachingService: ImageCachingService?
 
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        imageCachingService = ImageCachingService(from: self.tableView)
         setupData()
     }
 
@@ -75,9 +78,13 @@ final class NewsTableViewController: UITableViewController {
             let cellIdentifier = cellIdentifier,
             let newsCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
         else { return UITableViewCell() }
-
+        
         (newsCell as? NewsUsersInteractionCell)?.delegate = self
         (newsCell as? NewsUsersInteractionCell)?.cellId = indexPath
+        (newsCell as? NewsAuthorDateTimeCell)?.imageCachingService = imageCachingService
+        (newsCell as? NewsAuthorDateTimeCell)?.indexPath = indexPath
+        (newsCell as? NewsImageCell)?.imageCachingService = imageCachingService
+        (newsCell as? NewsImageCell)?.indexPath = indexPath
         (newsCell as? NewsProtocol)?.setup(news: currentNews)
 
         return newsCell

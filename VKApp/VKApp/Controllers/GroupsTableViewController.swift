@@ -277,7 +277,6 @@ final class GroupsTableViewController: UITableViewController {
 
         frame.size.height = height
         headerView.frame = frame
-//        headerView.subviews[0].backgroundColor = 
 
         self.tableView.tableHeaderView = headerView
     }

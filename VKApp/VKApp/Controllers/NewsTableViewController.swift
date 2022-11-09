@@ -144,27 +144,6 @@ final class NewsTableViewController: UITableViewController {
             case .none: return nil
         }
     }
-
-    //    private func dataValidityCheck() {
-    //
-    //        do {
-    //            let groups = try RealmGroup.restoreData()
-    //            let userDefaults = UserDefaults.standard
-    //            let currentTime = Int(Date().timeIntervalSince1970)
-    //
-    //            if currentTime - userDefaults.integer(forKey: "newsfeedLastLoad") > 3_600 || groups.isEmpty {
-    //                SessionManager.shared.getNewsfeed { news in
-    //
-    //                }
-    //
-    //                userDefaults.set(currentTime, forKey: "newsfeedLastLoad")
-    //            } else {
-    //                self.setupData(from: groups)
-    //            }
-    //        } catch {
-    //            print(error)
-    //        }
-    //    }
 }
 
 // MARK: - NewsInteractionProtocol

@@ -270,8 +270,9 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 </view>
-                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BGv-Ct-x8W" customClass="CircularPreviewImageView" customModule="VKApp">
+                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="BGv-Ct-x8W" customClass="CircularPreviewImageView" customModule="VKApp">
                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 </imageView>
                                             </subviews>
@@ -279,11 +280,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="jGE-vm-9au" secondAttribute="trailing" id="1we-tM-lqB"/>
                                                 <constraint firstAttribute="width" constant="72" id="X9X-Qo-sW3"/>
-                                                <constraint firstAttribute="trailing" secondItem="BGv-Ct-x8W" secondAttribute="trailing" id="aVv-WM-Dnt"/>
-                                                <constraint firstItem="BGv-Ct-x8W" firstAttribute="leading" secondItem="8Pw-yc-Ac2" secondAttribute="leading" id="bYG-PG-nYy"/>
                                                 <constraint firstAttribute="bottom" secondItem="jGE-vm-9au" secondAttribute="bottom" id="hP8-TU-zkh"/>
-                                                <constraint firstAttribute="bottom" secondItem="BGv-Ct-x8W" secondAttribute="bottom" id="jpq-Ok-VJj"/>
-                                                <constraint firstItem="BGv-Ct-x8W" firstAttribute="top" secondItem="8Pw-yc-Ac2" secondAttribute="top" id="k8f-Jz-g8i"/>
                                                 <constraint firstItem="jGE-vm-9au" firstAttribute="leading" secondItem="8Pw-yc-Ac2" secondAttribute="leading" id="pMf-mO-DJh"/>
                                                 <constraint firstItem="jGE-vm-9au" firstAttribute="top" secondItem="8Pw-yc-Ac2" secondAttribute="top" id="uXq-4O-AM9"/>
                                             </constraints>
@@ -336,22 +333,22 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GroupCell" rowHeight="92" id="Jx1-nc-JhL" userLabel="GroupCell" customClass="SearchGroupTableViewCell" customModule="VKApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="50" width="430" height="92"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GroupCell" rowHeight="93" id="Jx1-nc-JhL" userLabel="GroupCell" customClass="SearchGroupTableViewCell" customModule="VKApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="50" width="430" height="93"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Jx1-nc-JhL" id="yEp-Ys-f8D">
-                                    <rect key="frame" x="0.0" y="0.0" width="430" height="92"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="430" height="93"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l1x-IM-y1e" customClass="PhotoView" customModule="VKApp" customModuleProvider="target">
-                                            <rect key="frame" x="10" y="10" width="72" height="72"/>
+                                            <rect key="frame" x="10" y="10" width="72" height="73"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PMz-fi-84R" customClass="ShadowView" customModule="VKApp" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="72" height="73"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 </view>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VpU-DD-4M7" customClass="CircularPreviewImageView" customModule="VKApp" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="72" height="73"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="72" id="LCA-J2-dge"/>
                                                         <constraint firstAttribute="height" constant="72" id="OVU-gD-561"/>
@@ -371,7 +368,7 @@
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hok-fh-D9y">
-                                            <rect key="frame" x="102" y="35.666666666666664" width="288" height="21"/>
+                                            <rect key="frame" x="102" y="36" width="288" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>

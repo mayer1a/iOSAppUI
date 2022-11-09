@@ -11,7 +11,8 @@ import RealmSwift
 // MARK: - IndexCalculator
 final class IndexHelper {
     private init() {}
-    
+
+    // MARK: - getIndexes
     static func getIndexes(from: [User]?, in objects: [GrouppedFriends], with changes: [Int]) -> [IndexPath] {
         guard let from = from else { return [IndexPath]() }
         

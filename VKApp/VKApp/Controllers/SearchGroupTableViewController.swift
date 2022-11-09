@@ -9,12 +9,6 @@ import UIKit
 
 // MARK: - UITableViewController
 final class SearchGroupTableViewController: UITableViewController {
-
-    // MARK: - viewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0
@@ -41,14 +35,5 @@ final class SearchGroupTableViewController: UITableViewController {
         action.backgroundColor = .systemGreen
 
         return UISwipeActionsConfiguration(actions: [action])
-    }
-}
-
-// MARK: - SearchGroupTableViewController
-extension SearchGroupTableViewController {
-    func imageSize() -> CGSize {
-        let scaleFactor = UIScreen.main.scale
-        let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
-        return view.bounds.size.applying(scale)
     }
 }

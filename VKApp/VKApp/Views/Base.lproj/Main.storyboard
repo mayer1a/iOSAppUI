@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gsA-Cr-FHj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gsA-Cr-FHj">
     <device id="retina6_72" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -195,17 +195,18 @@
                                     <rect key="frame" x="0.0" y="0.0" width="430" height="92"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tnk-YS-N7r" customClass="PhotoView" customModule="VKApp" customModuleProvider="target">
+                                        <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tnk-YS-N7r" customClass="PhotoView" customModule="VKApp" customModuleProvider="target">
                                             <rect key="frame" x="10" y="10" width="72" height="72"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="naz-fG-lJm" customClass="ShadowView" customModule="VKApp" customModuleProvider="target">
+                                                <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="naz-fG-lJm" customClass="ShadowView" customModule="VKApp" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 </view>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hgp-a5-dy5" customClass="CircularPreviewImageView" customModule="VKApp" customModuleProvider="target">
+                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hgp-a5-dy5" customClass="CircularPreviewImageView" customModule="VKApp" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -262,15 +263,16 @@
                                     <rect key="frame" x="0.0" y="0.0" width="430" height="92"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Pw-yc-Ac2" userLabel="PhotoView" customClass="PhotoView" customModule="VKApp" customModuleProvider="target">
+                                        <view opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Pw-yc-Ac2" userLabel="PhotoView" customClass="PhotoView" customModule="VKApp" customModuleProvider="target">
                                             <rect key="frame" x="10" y="10" width="72" height="72"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jGE-vm-9au" customClass="ShadowView" customModule="VKApp" customModuleProvider="target">
+                                                <view opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jGE-vm-9au" customClass="ShadowView" customModule="VKApp" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 </view>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BGv-Ct-x8W" customClass="CircularPreviewImageView" customModule="VKApp">
+                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BGv-Ct-x8W" customClass="CircularPreviewImageView" customModule="VKApp">
                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -427,18 +429,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewsAuthorDatetime" id="64x-pR-eLS" userLabel="NewsAuthorDatetime" customClass="NewsAuthorDateTimeCell" customModule="VKApp" customModuleProvider="target">
+                            <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewsAuthorDatetime" id="64x-pR-eLS" userLabel="NewsAuthorDatetime" customClass="NewsAuthorDateTimeCell" customModule="VKApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.333332061767578" width="430" height="92"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="64x-pR-eLS" id="Ue4-iO-Qak">
                                     <rect key="frame" x="0.0" y="0.0" width="430" height="92"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ATB-yK-XTq" customClass="PhotoView" customModule="VKApp" customModuleProvider="target">
+                                        <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ATB-yK-XTq" customClass="PhotoView" customModule="VKApp" customModuleProvider="target">
                                             <rect key="frame" x="10" y="10" width="72" height="72"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="W0m-J7-9VH" customClass="CircularPreviewImageView" customModule="VKApp" customModuleProvider="target">
+                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="W0m-J7-9VH" customClass="CircularPreviewImageView" customModule="VKApp" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="72" id="2l8-2N-f4n"/>
                                                         <constraint firstAttribute="height" constant="72" id="DeF-aj-d2i"/>
@@ -455,17 +458,20 @@
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[NAME]" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oGP-mp-GiX">
                                             <rect key="frame" x="92" y="25.666666666666671" width="308" height="21"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[DATETIME]" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L76-am-x1U">
                                             <rect key="frame" x="92" y="47.666666666666664" width="308" height="16.999999999999993"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                             <color key="textColor" systemColor="systemGrayColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="ATB-yK-XTq" firstAttribute="leading" secondItem="Ue4-iO-Qak" secondAttribute="leading" constant="10" id="5X2-Q8-75E"/>
                                         <constraint firstItem="L76-am-x1U" firstAttribute="centerY" secondItem="ATB-yK-XTq" secondAttribute="centerY" constant="10" id="ClJ-px-ntd"/>
@@ -478,14 +484,14 @@
                                         <constraint firstItem="L76-am-x1U" firstAttribute="leading" secondItem="ATB-yK-XTq" secondAttribute="trailing" constant="10" id="yua-eC-f72"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="newsAuthorAvatar" destination="W0m-J7-9VH" id="l9r-fv-6sB"/>
                                     <outlet property="newsAuthorFullName" destination="oGP-mp-GiX" id="rhC-g3-exL"/>
                                     <outlet property="newsPostingDate" destination="L76-am-x1U" id="cVP-oP-qQP"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewsText" id="JAb-qm-ogm" userLabel="NewsText" customClass="NewsTextCell" customModule="VKApp" customModuleProvider="target">
+                            <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewsText" id="JAb-qm-ogm" userLabel="NewsText" customClass="NewsTextCell" customModule="VKApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="147.33333206176758" width="430" height="25.333333969116211"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JAb-qm-ogm" id="ooY-3j-qkO">
@@ -494,11 +500,13 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[TEXT]" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="evW-US-sZg">
                                             <rect key="frame" x="10" y="0.0" width="390" height="20.333333333333332"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="evW-US-sZg" firstAttribute="leading" secondItem="ooY-3j-qkO" secondAttribute="leading" constant="10" id="KMy-zS-nxg"/>
                                         <constraint firstItem="evW-US-sZg" firstAttribute="top" secondItem="ooY-3j-qkO" secondAttribute="top" id="PTs-Lz-E8Z"/>
@@ -506,28 +514,30 @@
                                         <constraint firstAttribute="bottom" secondItem="evW-US-sZg" secondAttribute="bottom" constant="5" id="t84-Cx-7hi"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="newsText" destination="evW-US-sZg" id="fu4-sl-ZRT"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewsImage" id="RFP-WP-nxX" customClass="NewsImageCell" customModule="VKApp" customModuleProvider="target">
+                            <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewsImage" id="RFP-WP-nxX" customClass="NewsImageCell" customModule="VKApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="172.66666603088379" width="430" height="440"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RFP-WP-nxX" id="myF-vc-BiW">
                                     <rect key="frame" x="0.0" y="0.0" width="430" height="440"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="fAR-cU-9JX">
+                                        <view opaque="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="fAR-cU-9JX">
                                             <rect key="frame" x="0.0" y="5" width="430" height="430"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hOi-bM-eZp" customClass="PreviewScaledImageView" customModule="VKApp" customModuleProvider="target">
+                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hOi-bM-eZp" customClass="PreviewScaledImageView" customModule="VKApp" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="430" height="430"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="hOi-bM-eZp" secondAttribute="height" multiplier="1:1" id="Pka-vs-Q3P"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstItem="hOi-bM-eZp" firstAttribute="leading" secondItem="fAR-cU-9JX" secondAttribute="leading" id="DAM-gl-8wU"/>
                                                 <constraint firstItem="hOi-bM-eZp" firstAttribute="top" secondItem="fAR-cU-9JX" secondAttribute="top" id="de3-qP-VVt"/>
@@ -536,6 +546,7 @@
                                             </constraints>
                                         </view>
                                     </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="fAR-cU-9JX" firstAttribute="leading" secondItem="myF-vc-BiW" secondAttribute="leading" id="1Ef-Cb-2cn"/>
                                         <constraint firstAttribute="trailing" secondItem="fAR-cU-9JX" secondAttribute="trailing" id="WXz-6d-ZZ6"/>
@@ -543,13 +554,13 @@
                                         <constraint firstItem="fAR-cU-9JX" firstAttribute="top" secondItem="myF-vc-BiW" secondAttribute="top" constant="5" id="rY7-qa-oQu"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="newsImagesView" destination="fAR-cU-9JX" id="fj3-wZ-muJ"/>
                                     <outlet property="newsPhotoImageView" destination="hOi-bM-eZp" id="Dqz-lT-H4w"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewsVideo" id="r3y-Cj-90Q" userLabel="NewsVideo" customClass="NewsVideoCell" customModule="VKApp" customModuleProvider="target">
+                            <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewsVideo" id="r3y-Cj-90Q" userLabel="NewsVideo" customClass="NewsVideoCell" customModule="VKApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="612.66666603088379" width="430" height="30.333333969116211"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="r3y-Cj-90Q" id="RKB-ue-R1K">
@@ -558,11 +569,13 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[VIDEO]" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wgi-og-xVg" userLabel="NewsVideo">
                                             <rect key="frame" x="10" y="5" width="390" height="20.333333333333332"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="Wgi-og-xVg" firstAttribute="leading" secondItem="RKB-ue-R1K" secondAttribute="leading" constant="10" id="To0-b1-n2Q"/>
                                         <constraint firstAttribute="bottom" secondItem="Wgi-og-xVg" secondAttribute="bottom" constant="5" id="h8T-wu-FWY"/>
@@ -570,12 +583,12 @@
                                         <constraint firstItem="Wgi-og-xVg" firstAttribute="top" secondItem="RKB-ue-R1K" secondAttribute="top" constant="5" id="uZ6-BG-KR9"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="newsVideo" destination="Wgi-og-xVg" id="z0k-ZX-O5r"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewsAudio" id="vls-R3-oPj" userLabel="NewsAudio" customClass="NewsAudioCell" customModule="VKApp" customModuleProvider="target">
+                            <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewsAudio" id="vls-R3-oPj" userLabel="NewsAudio" customClass="NewsAudioCell" customModule="VKApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="643" width="430" height="30.333333969116211"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vls-R3-oPj" id="OLv-Ry-OXZ">
@@ -584,11 +597,13 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[AUDIO]" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EBP-UH-jqw" userLabel="NewsAudio">
                                             <rect key="frame" x="10" y="5" width="390" height="20.333333333333332"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="EBP-UH-jqw" firstAttribute="leading" secondItem="OLv-Ry-OXZ" secondAttribute="leading" constant="10" id="Io0-84-A3l"/>
                                         <constraint firstAttribute="bottom" secondItem="EBP-UH-jqw" secondAttribute="bottom" constant="5" id="Qi4-Z0-VpJ"/>
@@ -596,12 +611,12 @@
                                         <constraint firstAttribute="trailingMargin" secondItem="EBP-UH-jqw" secondAttribute="trailing" constant="10" id="qu3-xl-fXr"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="newsAudio" destination="EBP-UH-jqw" id="vr4-kB-0lB"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewsUsersInteraction" id="dAp-4k-6sZ" userLabel="NewsUsersInteraction" customClass="NewsUsersInteractionCell" customModule="VKApp" customModuleProvider="target">
+                            <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewsUsersInteraction" id="dAp-4k-6sZ" userLabel="NewsUsersInteraction" customClass="NewsUsersInteractionCell" customModule="VKApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="673.33333396911621" width="430" height="40"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dAp-4k-6sZ" id="GIX-jH-HGW">
@@ -610,18 +625,18 @@
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ydQ-mS-Pdb">
                                             <rect key="frame" x="64" y="5" width="44.666666666666657" height="25"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="25" id="CfD-Ez-vSL"/>
                                             </constraints>
                                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                             <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="gray" image="message" catalog="system" imagePadding="5" buttonSize="small">
-                                                <attributedString key="attributedTitle"/>
-                                            </buttonConfiguration>
+                                            <buttonConfiguration key="configuration" style="gray" image="message" catalog="system" title="" imagePadding="5" buttonSize="small"/>
                                         </button>
                                         <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nBc-RM-4HT">
                                             <rect key="frame" x="118.66666666666669" y="5" width="44" height="25"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="25" id="MNA-KE-OrP"/>
                                             </constraints>
@@ -632,6 +647,7 @@
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gc0-fu-Awd">
                                             <rect key="frame" x="420" y="5" width="0.0" height="25"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="25" id="pqF-RZ-g0S"/>
                                             </constraints>
@@ -639,8 +655,9 @@
                                             <color key="textColor" systemColor="systemGrayColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eye.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="7Ln-tV-4Ea">
+                                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eye.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="7Ln-tV-4Ea">
                                             <rect key="frame" x="395" y="9.6666666666666625" width="20" height="16"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <color key="tintColor" systemColor="systemGrayColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="XWh-NZ-YWX"/>
@@ -649,6 +666,7 @@
                                         </imageView>
                                         <button autoresizesSubviews="NO" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qXr-G7-sPA">
                                             <rect key="frame" x="10" y="5" width="44" height="25"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="25" id="MqB-sw-NTC"/>
                                             </constraints>
@@ -662,6 +680,7 @@
                                             </connections>
                                         </button>
                                     </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="ydQ-mS-Pdb" firstAttribute="leading" secondItem="qXr-G7-sPA" secondAttribute="trailing" constant="10" id="2Ht-qg-S39"/>
                                         <constraint firstItem="qXr-G7-sPA" firstAttribute="top" secondItem="GIX-jH-HGW" secondAttribute="top" constant="5" id="4cf-81-W8I"/>
@@ -677,7 +696,7 @@
                                         <constraint firstItem="Gc0-fu-Awd" firstAttribute="leading" secondItem="7Ln-tV-4Ea" secondAttribute="trailing" constant="5" id="yyI-cq-6qu"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="newsCommentButton" destination="ydQ-mS-Pdb" id="WxA-WZ-LqR"/>
                                     <outlet property="newsLikeButton" destination="qXr-G7-sPA" id="4zj-N2-Xl6"/>
@@ -813,11 +832,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VPY-tt-TUO">
-                                <rect key="frame" x="0.0" y="104" width="429" height="749"/>
+                                <rect key="frame" x="-2" y="104" width="430" height="748"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D6v-IA-n6q">
-                                <rect key="frame" x="0.0" y="104" width="429" height="749"/>
+                                <rect key="frame" x="-2" y="104" width="430" height="748"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                         </subviews>
@@ -925,6 +944,9 @@
         <image name="searchIconsSet" width="25" height="25"/>
         <image name="vk_auth_icon" width="341.33334350585938" height="341.33334350585938"/>
         <image name="vk_id_icon" width="80" height="40"/>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -27,18 +27,18 @@ extension AnimationNavigationController: UINavigationControllerDelegate {
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning?
     {
         switch operation {
-        case .push:
-            interactiveTransition.viewControllerWillPopped = toVC
-
-            return TransitionAnimation(isPresenting: true)
-        case .pop:
-            if navigationController.viewControllers.first != toVC {
+            case .push:
                 interactiveTransition.viewControllerWillPopped = toVC
-            }
-            
-            return TransitionAnimation(isPresenting: false)
-        default:
-            return nil
+
+                return TransitionAnimation(isPresenting: true)
+            case .pop:
+                if navigationController.viewControllers.first != toVC {
+                    interactiveTransition.viewControllerWillPopped = toVC
+                }
+
+                return TransitionAnimation(isPresenting: false)
+            default:
+                return nil
         }
     }
 

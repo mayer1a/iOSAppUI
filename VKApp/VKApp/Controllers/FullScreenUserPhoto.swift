@@ -293,7 +293,9 @@ class FullScreenUserPhoto: UIViewController {
         }
 
         if let frame = self.view?.frame {
-            self.displayedUserPhoto?.frame = CGRect(origin: frame.origin, size: CGSize(width: self.view.frame.size.width, height: frame.size.height))
+            self.displayedUserPhoto?.frame = CGRect(origin: frame.origin,
+                                                    size: CGSize(width: self.view.frame.size.width,
+                                                                 height: frame.size.height))
         }
 
         self.displayedUserPhoto?.center = CGPoint(x: self.view.frame.size.width / 2, y: self.view.frame.size.height / 2)

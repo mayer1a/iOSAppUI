@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -10,11 +11,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" restorationIdentifier="CustomSearchBarView" insetsLayoutMarginsFromSafeArea="NO" id="i5M-Pr-FkT" customClass="CustomSearchBarView" customModule="VKApp" customModuleProvider="target">
+        <view opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" restorationIdentifier="CustomSearchBarView" insetsLayoutMarginsFromSafeArea="NO" id="i5M-Pr-FkT" customClass="CustomSearchBarView" customModule="VKApp" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="301" height="45"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yss-a6-ncT">
+                <view opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yss-a6-ncT">
                     <rect key="frame" x="0.0" y="0.0" width="301" height="45"/>
                     <subviews>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="DCx-gK-t6a">
@@ -28,11 +29,11 @@
                             <color key="tintColor" red="0.49803921569999998" green="0.49803921569999998" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="24" id="BzY-Fz-Ylt"/>
-                                <constraint firstAttribute="height" constant="25" id="piy-29-ywJ"/>
                             </constraints>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zZN-13-Xno">
                             <rect key="frame" x="301" y="6" width="80" height="33"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="80" id="Plc-b6-HmZ"/>
                             </constraints>
@@ -51,12 +52,12 @@
                         <constraint firstItem="zZN-13-Xno" firstAttribute="centerY" secondItem="DCx-gK-t6a" secondAttribute="centerY" id="FdU-Zx-6be"/>
                         <constraint firstAttribute="trailing" secondItem="DCx-gK-t6a" secondAttribute="trailing" constant="10" id="Gl8-CQ-z9S"/>
                         <constraint firstItem="zZN-13-Xno" firstAttribute="leading" secondItem="DCx-gK-t6a" secondAttribute="trailing" constant="10" id="Ovm-XU-Gel"/>
-                        <constraint firstItem="DCx-gK-t6a" firstAttribute="top" secondItem="yss-a6-ncT" secondAttribute="top" constant="5" id="elY-Lo-aSd"/>
+                        <constraint firstItem="DCx-gK-t6a" firstAttribute="top" secondItem="yss-a6-ncT" secondAttribute="top" priority="750" constant="5" id="elY-Lo-aSd"/>
                         <constraint firstItem="DCx-gK-t6a" firstAttribute="leading" secondItem="wjW-9l-SqM" secondAttribute="trailing" constant="10" id="hfQ-yg-2uG"/>
                         <constraint firstItem="wjW-9l-SqM" firstAttribute="leading" secondItem="yss-a6-ncT" secondAttribute="leading" priority="750" constant="10" id="jFC-eu-Wa0"/>
                         <constraint firstAttribute="trailing" secondItem="zZN-13-Xno" secondAttribute="trailing" constant="10" id="p4r-Lr-ndS"/>
                         <constraint firstItem="DCx-gK-t6a" firstAttribute="leading" secondItem="yss-a6-ncT" secondAttribute="leading" priority="750" constant="10" id="qW8-xg-HGv"/>
-                        <constraint firstAttribute="bottom" secondItem="DCx-gK-t6a" secondAttribute="bottom" constant="5" id="vaG-nf-QOD"/>
+                        <constraint firstAttribute="bottom" secondItem="DCx-gK-t6a" secondAttribute="bottom" priority="750" constant="5" id="vaG-nf-QOD"/>
                         <constraint firstItem="wjW-9l-SqM" firstAttribute="top" secondItem="DCx-gK-t6a" secondAttribute="top" constant="5" id="yux-YZ-i4T"/>
                     </constraints>
                     <variation key="default">
@@ -90,7 +91,7 @@
         </view>
     </objects>
     <resources>
-        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

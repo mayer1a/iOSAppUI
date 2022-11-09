@@ -9,21 +9,18 @@ import UIKit
 
 // MARK: - UIView
 final class PhotoView: UIView {
-    
-    // MARK: - layoutSubviews
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        self.layer.cornerRadius = self.frame.width / 2
-    }
-    
     // MARK: - awakeFromNib
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        self.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+        self.isOpaque = false
+        self.layer.cornerRadius = self.frame.width / 2
         
         // Add tap gesture recognizer to PhotoView
         let gesture = UITapGestureRecognizer(target: self, action: #selector(photoViewDidTapped))
         gesture.numberOfTapsRequired = 1
-        
+
         self.addGestureRecognizer(gesture)
     }
     

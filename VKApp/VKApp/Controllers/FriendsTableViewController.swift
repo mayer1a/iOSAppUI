@@ -11,6 +11,19 @@ import RealmSwift
 // MARK: - UITableViewController
 final class FriendsTableViewController: UITableViewController {
     private let operationQueue = OperationQueue()
+    
+    private var headerView: UITableViewHeaderFooterView = {
+        let headerView = UITableViewHeaderFooterView(reuseIdentifier: "FriendsHeaderView")
+        return headerView
+    }()
+
+    private let backgroundConfiguration: UIBackgroundConfiguration = {
+        var configuration = UIBackgroundConfiguration.listPlainHeaderFooter()
+        configuration.backgroundColor = UIColor(red: 0.9411764706, green: 0.9411764706, blue: 0.9450980392, alpha: 1)
+
+        return configuration
+    }()
+
     private var imageCachingService: ImageCachingService?
     private var friends: [User]?
     private var alphabetControl: FriendsAlphabetView?
@@ -18,7 +31,10 @@ final class FriendsTableViewController: UITableViewController {
     var grouppedFriends = [GrouppedFriends]()
     
     private lazy var cloudView: CloudView? = {
-        return CloudView(frame: CGRect(origin: .zero, size: CGSize(width: 150, height: 100)))
+        let cloudView = CloudView(frame: CGRect(origin: .zero, size: CGSize(width: 150, height: 100)))
+        cloudView.translatesAutoresizingMaskIntoConstraints = false
+
+        return cloudView
     }()
     
     // MARK: - viewDidLoad
@@ -26,9 +42,7 @@ final class FriendsTableViewController: UITableViewController {
         super.viewDidLoad()
 
         imageCachingService = ImageCachingService(from: self.tableView)
-        tableView.sectionHeaderTopPadding = CGFloat(0)
-        cloudView?.translatesAutoresizingMaskIntoConstraints = false
-        
+        tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "FriendsHeaderView")
         makeObserver()
         dataValidityCheck()
     }
@@ -50,9 +64,9 @@ final class FriendsTableViewController: UITableViewController {
         super.viewWillTransition(to: size, with: coordinator)
         
         coordinator.animate { _ in
-            if self.view.window != nil {
-                self.setupAlphabetView()
-            }
+            guard self.view.window != nil else { return }
+
+            self.setupAlphabetView()
         }
     }
     
@@ -108,7 +122,7 @@ final class FriendsTableViewController: UITableViewController {
             let userDefaults = UserDefaults.standard
             let currentTime = Int(Date().timeIntervalSince1970)
             
-            if currentTime - userDefaults.integer(forKey: "friendsLastLoad") > 10_000 || friends.isEmpty {
+            if currentTime - userDefaults.integer(forKey: "friendsLastLoad") > 1 || friends.isEmpty {
                 let request = SessionHelper.shared.getFriendsRequest
                 let fetchDataOperation = FetchDataOperation(request: request)
                 let asyncParseOperation = AsyncParseDataOperation<User>()
@@ -135,6 +149,8 @@ final class FriendsTableViewController: UITableViewController {
     private func setupData(from friends: [RealmUser], with changes: ([Int], [Int], [Int])? = nil) {
         let oldFriends = self.friends
         let oldGrouppedFriends = self.grouppedFriends
+
+        
         let friends = RealmUser.realmToUser(from: friends)
         
         self.friends = friends
@@ -142,39 +158,41 @@ final class FriendsTableViewController: UITableViewController {
         
         let grouppedFriends = self.grouppedFriends
         
-        if let changes = changes {
-            DispatchQueue.global().async { [weak self] in
-                let deletions = IndexHelper.getIndexes(from: oldFriends, in: oldGrouppedFriends, with: changes.0)
-                let insertions = IndexHelper.getIndexes(from: friends, in: grouppedFriends, with: changes.1)
-                let reloads = IndexHelper.getIndexes(from: oldFriends, in: oldGrouppedFriends, with: changes.2)
-                
-                if oldGrouppedFriends.count != self?.grouppedFriends.count {
-                    let deletionIndexSet = deletions.reduce(into: IndexSet(), { $0.insert($1.section) })
-                    let insertionIndexSet = insertions.reduce(into: IndexSet(), { $0.insert($1.section) })
-                    
-                    DispatchQueue.main.async {
-                        self?.tableView.beginUpdates()
-                        
-                        self?.tableView.deleteSections(deletionIndexSet, with: .none)
-                        self?.tableView.insertSections(insertionIndexSet, with: .none)
-                        self?.tableView.reloadRows(at: reloads, with: .none)
-                        
-                        self?.tableView.endUpdates()
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        self?.tableView.beginUpdates()
-                        
-                        self?.tableView.deleteRows(at: deletions, with: .none)
-                        self?.tableView.insertRows(at: insertions, with: .none)
-                        self?.tableView.reloadRows(at: reloads, with: .none)
-                        
-                        self?.tableView.endUpdates()
-                    }
+        guard let changes = changes
+        else {
+            self.tableView.reloadData()
+            return
+        }
+
+        DispatchQueue.global().async { [weak self] in
+            let deletions = IndexHelper.getIndexes(from: oldFriends, in: oldGrouppedFriends, with: changes.0)
+            let insertions = IndexHelper.getIndexes(from: friends, in: grouppedFriends, with: changes.1)
+            let reloads = IndexHelper.getIndexes(from: oldFriends, in: oldGrouppedFriends, with: changes.2)
+
+            if oldGrouppedFriends.count != self?.grouppedFriends.count {
+                let deletionIndexSet = deletions.reduce(into: IndexSet(), { $0.insert($1.section) })
+                let insertionIndexSet = insertions.reduce(into: IndexSet(), { $0.insert($1.section) })
+
+                DispatchQueue.main.async {
+                    self?.tableView.beginUpdates()
+
+                    self?.tableView.deleteSections(deletionIndexSet, with: .none)
+                    self?.tableView.insertSections(insertionIndexSet, with: .none)
+                    self?.tableView.reloadRows(at: reloads, with: .none)
+
+                    self?.tableView.endUpdates()
+                }
+            } else {
+                DispatchQueue.main.async { [weak self] in
+                    self?.tableView.beginUpdates()
+
+                    self?.tableView.deleteRows(at: deletions, with: .none)
+                    self?.tableView.insertRows(at: insertions, with: .none)
+                    self?.tableView.reloadRows(at: reloads, with: .none)
+
+                    self?.tableView.endUpdates()
                 }
             }
-        } else {
-            self.tableView.reloadData()
         }
         
         self.setupAlphabetView()
@@ -184,50 +202,55 @@ final class FriendsTableViewController: UITableViewController {
     private func setupAlphabetView() {
         alphabetControl?.removeFromSuperview()
         
-        if grouppedFriends.count == 0 { return }
+        guard !grouppedFriends.isEmpty else { return }
         
-        let customFrame = CGRect.zero
-        
-        alphabetControl = FriendsAlphabetView(frame: customFrame)
+        alphabetControl = FriendsAlphabetView(frame: CGRect.zero)
         alphabetControl?.addTarget(self, action: #selector(characterChanged), for: .valueChanged)
-        
-        self.grouppedFriends.forEach { self.alphabetControl?.characters.append($0.character) }
-        
-        guard let alphabetView = alphabetControl, let tabBarView = tabBarController?.view else { return }
-        
-        tabBarView.addSubview(alphabetView)
-        
-        NSLayoutConstraint.activate([
-            tabBarView.centerYAnchor.constraint(equalTo: alphabetView.centerYAnchor, constant: 0),
-            tabBarView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: alphabetView.trailingAnchor, constant: 0)
-        ])
+
+        let grouppedFriends = self.grouppedFriends
+
+        DispatchQueue.global().async { [weak self] in
+            let characters = grouppedFriends.map { $0.character }
+
+            DispatchQueue.main.async { [weak self] in
+                guard
+                    let alphabetView = self?.alphabetControl,
+                    let tabBarView = self?.tabBarController?.view
+                else { return }
+
+                alphabetView.characters = characters
+                tabBarView.addSubview(alphabetView)
+
+                NSLayoutConstraint.activate([
+                    tabBarView.centerYAnchor.constraint(equalTo: alphabetView.centerYAnchor, constant: 0),
+                    tabBarView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: alphabetView.trailingAnchor,
+                                                                             constant: 0)
+                ])
+            }
+        }
     }
     
-    // MARK: - @objc stopAnimation
-    @objc func stopAnimation() {
-        guard let tableView = self.tableView else { return }
-        
+    // MARK: - stopAnimation
+    @objc
+    private func stopAnimation() {
         UIView.animate(withDuration: 1, delay: 0) { [weak self] in
             self?.cloudView?.alpha = 0.1
         }
         
         self.cloudView?.removeAnimation()
-        self.cloudView?.removeFromSuperview()
         
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         let friendsPhotoCollectionVC = storyboard.instantiateViewController(withIdentifier: "FriendsPhotoCollectionVC")
         
         prepare(for: friendsPhotoCollectionVC, at: tableView.indexPathForSelectedRow)
         
-        alphabetControl?.removeFromSuperview()
-        
         navigationController?.pushViewController(friendsPhotoCollectionVC, animated: true)
     }
     
     // MARK: - characterChanged
-    @objc func characterChanged() {
-        guard let section = grouppedFriends.firstIndex(where: { $0.character == alphabetControl?.selectedCharacter })
-        else { return }
+    @objc
+    private func characterChanged() {
+        guard let section = alphabetControl?.selectedIndex else { return }
         
         let indexPath = IndexPath(row: 0, section: section)
         
@@ -246,18 +269,16 @@ final class FriendsTableViewController: UITableViewController {
     }
     
     // MARK: - groupFriends
-    func groupFriends() -> [GrouppedFriends] {
+    private func groupFriends() -> [GrouppedFriends] {
         var result = [GrouppedFriends]()
         
-        guard let friends = friends else { return [GrouppedFriends]() }
-        
-        for friend in friends {
-            guard let character: Character = friend.lastName.first else { continue }
+        friends?.forEach {
+            guard let character: Character = $0.lastName.first else { return }
             
             if let currentCharacter = result.firstIndex(where: { $0.character == character }) {
-                result[currentCharacter].users.append(friend)
+                result[currentCharacter].users.append($0)
             } else {
-                result.append(GrouppedFriends(character: character, users: [friend]))
+                result.append(GrouppedFriends(character: character, users: [$0]))
             }
         }
         
@@ -274,24 +295,20 @@ final class FriendsTableViewController: UITableViewController {
         return grouppedFriends.count
     }
     
-    // MARK: - titleForHeaderInSection
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return String(grouppedFriends[section].character)
-    }
-    
     // MARK: - viewForHeaderInSection
     // Adding custom header view
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         // Adding and configurating reusable header
-        let headerView = UITableViewHeaderFooterView()
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "FriendsHeaderView")
+        else { return UIView() }
+
         var contentConfiguration = headerView.defaultContentConfiguration()
-        
-        contentConfiguration.text = self.tableView(tableView, titleForHeaderInSection: section)
         contentConfiguration.textProperties.alignment = .natural
-        
+        contentConfiguration.text = String(grouppedFriends[section].character)
+
+        headerView.backgroundConfiguration = backgroundConfiguration
         headerView.contentConfiguration = contentConfiguration
-        headerView.contentView.backgroundColor = .systemGray6
-        headerView.alpha = 0.5
+        headerView.contentView.subviews[0].backgroundColor = UIColor(red: 0.9411764706, green: 0.9411764706, blue: 0.9450980392, alpha: 1)
         
         return headerView
     }

@@ -41,6 +41,8 @@ final class GroupsTableViewController: UITableViewController {
 
         coordinator.animate { _ in
             self.sizeHeaderToFit()
+
+            self.searchBarTransitionConstraintsSetup()
         }
     }
 
@@ -87,10 +89,10 @@ final class GroupsTableViewController: UITableViewController {
                        initialSpringVelocity: 0.6,
                        options: [.curveEaseInOut]) { [weak self] in
 
-            customSearchView.closeButtonTrailingConstraint?.isActive = true
-            customSearchView.searchTextFieldLeadingAnchor?.isActive = true
             customSearchView.searchIconCenterXConstraint?.isActive = false
             customSearchView.searchTextFieldTrailingConstraint?.isActive = false
+            customSearchView.closeButtonTrailingConstraint?.isActive = true
+            customSearchView.searchTextFieldLeadingAnchor?.isActive = true
 
             self?.tableView.layoutIfNeeded()
         }
@@ -106,10 +108,10 @@ final class GroupsTableViewController: UITableViewController {
                        initialSpringVelocity: 0.6,
                        options: [.curveEaseInOut]) { [weak self] in
 
-            customSearchView.searchIconCenterXConstraint?.isActive = true
-            customSearchView.searchTextFieldTrailingConstraint?.isActive = true
             customSearchView.closeButtonTrailingConstraint?.isActive = false
             customSearchView.searchTextFieldLeadingAnchor?.isActive = false
+            customSearchView.searchIconCenterXConstraint?.isActive = true
+            customSearchView.searchTextFieldTrailingConstraint?.isActive = true
 
             self?.tableView.layoutIfNeeded()
         }
@@ -133,8 +135,21 @@ final class GroupsTableViewController: UITableViewController {
     }
 
     // MARK: - searchBarDidTapped
-    @objc private func searchBarDidTapped() {
+    @objc private func searchBarOutTapped() {
         customSearchView?.searchTextField?.resignFirstResponder()
+    }
+
+    // MARK: - searchBarTransitionConstraintsSetup
+    private func searchBarTransitionConstraintsSetup() {
+        guard self.customSearchView?.searchTextField?.isFirstResponder == true
+        else { return }
+
+        self.customSearchView?.searchIconCenterXConstraint?.isActive = false
+        self.customSearchView?.searchTextFieldTrailingConstraint?.isActive = false
+        self.customSearchView?.closeButtonTrailingConstraint?.isActive = true
+        self.customSearchView?.searchTextFieldLeadingAnchor?.isActive = true
+
+        self.tableView.layoutIfNeeded()
     }
 
     // MARK: - makeObserver
@@ -154,7 +169,7 @@ final class GroupsTableViewController: UITableViewController {
             let userDefaults = UserDefaults.standard
             let currentTime = Int(Date().timeIntervalSince1970)
 
-            if currentTime - userDefaults.integer(forKey: "groupsLastLoad") > 10_000 || groups.isEmpty {
+            if currentTime - userDefaults.integer(forKey: "groupsLastLoad") > 5_000 || groups.isEmpty {
                 firstly {
                     getGroupsPromise.fetchUserGroups()
                 }.compactMap(on: DispatchQueue.global()) { data in
@@ -236,8 +251,6 @@ final class GroupsTableViewController: UITableViewController {
     private func customSearchViewConfiguration() {
         self.tableView.tableHeaderView = customSearchView
 
-        customSearchView?.insetsLayoutMarginsFromSafeArea = true
-
         customSearchView?.searchTextField?.addTarget(self,
                                                      action: #selector(customSearchBarDidTapped),
                                                      for: .editingDidBegin)
@@ -247,7 +260,7 @@ final class GroupsTableViewController: UITableViewController {
                                                      for: .editingChanged)
 
         customSearchView?.searchTextField?.addTarget(self,
-                                                     action: #selector(searchBarDidTapped),
+                                                     action: #selector(searchBarOutTapped),
                                                      for: .editingDidEndOnExit)
 
         customSearchView?.searchCloseButton?.addTarget(self,
@@ -259,17 +272,12 @@ final class GroupsTableViewController: UITableViewController {
     private func sizeHeaderToFit() {
         guard let headerView = self.tableView.tableHeaderView else { return }
 
-        headerView.setNeedsLayout()
-        headerView.layoutIfNeeded()
-
         let height = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
-        let width = self.tableView.safeAreaLayoutGuide.layoutFrame.size.width
         var frame = headerView.frame
 
         frame.size.height = height
-        frame.size.width = width
-        frame.origin = self.tableView.safeAreaLayoutGuide.layoutFrame.origin
         headerView.frame = frame
+//        headerView.subviews[0].backgroundColor = 
 
         self.tableView.tableHeaderView = headerView
     }

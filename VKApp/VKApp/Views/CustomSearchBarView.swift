@@ -17,28 +17,18 @@ final class CustomSearchBarView: UIView {
     @IBOutlet weak var searchTextFieldLeadingAnchor: NSLayoutConstraint?
     @IBOutlet weak var searchTextFieldTrailingConstraint: NSLayoutConstraint?
     
-    // MARK: - layoutSubviews
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        setupComponents()
-    }
-    
     // MARK: - loadView
     func loadView() -> CustomSearchBarView? {
         let nib = UINib(nibName: "CustomSearchBarView", bundle: Bundle.main)
         let view = nib.instantiate(withOwner: nil).first as? CustomSearchBarView
-        
+
+        view?.searchTextField?.clipsToBounds = true
+        view?.searchTextField?.layer.cornerRadius = 10
+        view?.searchTextField?.layer.masksToBounds = true
+        view?.searchTextField?.layer.borderColor = view?.searchTextField?.backgroundColor?.cgColor
+        view?.searchTextField?.layer.borderWidth = 1
+
         return view
-    }
-    
-    // MARK: - setupComponents
-    private func setupComponents() {
-        // Text field rounded
-        searchTextField?.clipsToBounds = true
-        searchTextField?.layer.cornerRadius = 10
-        searchTextField?.layer.masksToBounds = true
-        searchTextField?.layer.borderColor = searchTextField?.backgroundColor?.cgColor
-        searchTextField?.layer.borderWidth = 1
     }
 }
 

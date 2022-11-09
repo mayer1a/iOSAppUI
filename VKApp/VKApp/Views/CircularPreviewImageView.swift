@@ -9,10 +9,12 @@ import UIKit
 
 // MARK: - UIImageView
 final class CircularPreviewImageView: UIImageView {
-    
-    // MARK: layoutSubviews
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    // MARK: awakeFromNib
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
         self.layer.cornerRadius = self.frame.width / 2
+        self.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+        self.isOpaque = false
     }
 }

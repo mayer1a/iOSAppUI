@@ -226,8 +226,6 @@ final class GroupsTableViewController: UITableViewController {
             .setData(data) { error in
                 if let error = error {
                     print("Error adding document: \(error)")
-                } else {
-                    print("Document successfully written with ID: \(userId)")
                 }
             }
     }

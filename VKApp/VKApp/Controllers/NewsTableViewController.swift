@@ -11,13 +11,19 @@ import UIKit
 final class NewsTableViewController: UITableViewController {
     var news: [News] = []
     private var imageCachingService: ImageCachingService?
+    private var isLoadingNews: Bool = false
+    private var selectedIndex: IndexPath?
+    private let backgroundHeaderColor = {
+        UIColor(red: 0.8990648985, green: 0.8991654515, blue: 0.9022777677, alpha: 1)
+    }()
 
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         imageCachingService = ImageCachingService(from: self.tableView)
         setupData()
+        setupRefreshControl()
     }
 
     // MARK: - numberOfRowsInSection
@@ -42,7 +48,33 @@ final class NewsTableViewController: UITableViewController {
 
     // MARK: - heightForRowAt
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        // Expand selected cell
+        if selectedIndex == indexPath {
+            return UITableView.automaticDimension
+        }
+
+        switch news[indexPath.section].postType {
+            case .image, .imageAudio, .imageVideo, .imageVideoAudio:
+                if indexPath.row == 1 {
+                    return getImageCellSize(tableView, indexPath)
+                }
+            case .textImage, .textImageAudio, .textImageVideo, .textImageVideoAudio:
+                if indexPath.row == 1 {
+                    return getTextCellSize(tableView, indexPath)
+                }
+
+                if indexPath.row == 2 {
+                    return getImageCellSize(tableView, indexPath)
+                }
+            case .text, .textVideo, .textAudio, .textVideoAudio:
+                if indexPath.row == 1 {
+                    return getTextCellSize(tableView, indexPath)
+                }
+            case .some(_), .none: break
+        }
+
+        // If the current cell is author information return fixed 92 pt size
+        return indexPath.row == 0 ? CGFloat(92) : UITableView.automaticDimension
     }
 
     // MARK: - heightForHeaderInSection
@@ -56,7 +88,7 @@ final class NewsTableViewController: UITableViewController {
         if section == 0 { return nil }
 
         let headerView = UIView()
-        headerView.backgroundColor = #colorLiteral(red: 0.8990648985, green: 0.8991654515, blue: 0.9022777677, alpha: 1)
+        headerView.backgroundColor = backgroundHeaderColor
 
         return headerView
     }
@@ -78,13 +110,16 @@ final class NewsTableViewController: UITableViewController {
             let cellIdentifier = cellIdentifier,
             let newsCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
         else { return UITableViewCell() }
-        
+
         (newsCell as? NewsUsersInteractionCell)?.delegate = self
         (newsCell as? NewsUsersInteractionCell)?.cellId = indexPath
         (newsCell as? NewsAuthorDateTimeCell)?.imageCachingService = imageCachingService
         (newsCell as? NewsAuthorDateTimeCell)?.indexPath = indexPath
         (newsCell as? NewsImageCell)?.imageCachingService = imageCachingService
         (newsCell as? NewsImageCell)?.indexPath = indexPath
+        (newsCell as? NewsTextCell)?.cellId = indexPath.section
+        (newsCell as? NewsTextCell)?.showMoreButton?.tag = indexPath.section
+        (newsCell as? NewsTextCell)?.showMoreButton?.addTarget(self, action: #selector(showMoreText), for: .touchUpInside)
         (newsCell as? NewsProtocol)?.setup(news: currentNews)
 
         return newsCell
@@ -92,6 +127,11 @@ final class NewsTableViewController: UITableViewController {
 
     // MARK: - willDisplayCell
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if (cell as? NewsTextCell)?.newsText?.isOversizeLabel() == true {
+            (cell as? NewsTextCell)?.showMoreButton?.isHidden = false
+        } else {
+            (cell as? NewsTextCell)?.showMoreButton?.isHidden = true
+        }
         DispatchQueue.global(qos: .userInteractive).async { [weak self] in
             guard
                 self?.news[indexPath.section].newsBody.isViewed == false,
@@ -115,6 +155,8 @@ final class NewsTableViewController: UITableViewController {
 
     // MARK: - setupData
     private func setupData() {
+        tableView.sectionHeaderTopPadding = CGFloat(0)
+
         DispatchQueue.global().async { [weak self] in
             SessionHelper.shared.fetchNewsfeed { news in
                 self?.news = news
@@ -124,8 +166,6 @@ final class NewsTableViewController: UITableViewController {
                 }
             }
         }
-
-        tableView.sectionHeaderTopPadding = CGFloat(0)
     }
 
     // MARK: requiredCellIdentifier
@@ -145,26 +185,73 @@ final class NewsTableViewController: UITableViewController {
         }
     }
 
-    //    private func dataValidityCheck() {
-    //
-    //        do {
-    //            let groups = try RealmGroup.restoreData()
-    //            let userDefaults = UserDefaults.standard
-    //            let currentTime = Int(Date().timeIntervalSince1970)
-    //
-    //            if currentTime - userDefaults.integer(forKey: "newsfeedLastLoad") > 3_600 || groups.isEmpty {
-    //                SessionManager.shared.getNewsfeed { news in
-    //
-    //                }
-    //
-    //                userDefaults.set(currentTime, forKey: "newsfeedLastLoad")
-    //            } else {
-    //                self.setupData(from: groups)
-    //            }
-    //        } catch {
-    //            print(error)
-    //        }
-    //    }
+    // MARK: - getTextCellSize
+    /// If the current cell is text that exceed 200 pt, return fixed 200 pt
+    private func getTextCellSize(_ tableView: UITableView, _ indexPath: IndexPath) -> CGFloat {
+        guard
+            let cellLabel = (self.tableView(tableView, cellForRowAt: indexPath) as? NewsTextCell)?.newsText,
+            cellLabel.isOversizeLabel() == true
+        else { return UITableView.automaticDimension }
+
+        return cellLabel.newsLabelSize()
+    }
+
+    // MARK: - getImageCellSize
+    /// If the current cell is an image, return the aspect rate size
+    private func getImageCellSize(_ tableView: UITableView, _ indexPath: IndexPath) -> CGFloat {
+        guard let aspectRatio = news[indexPath.section].newsBody.images[0]?.aspectRatio
+        else { return UITableView.automaticDimension }
+
+        return tableView.bounds.width * aspectRatio
+    }
+
+    // MARK: - newsRefresh
+    @objc private func newsRefresh() {
+        refreshControl?.beginRefreshing()
+
+        var lastLoadDate = self.news.first?.newsBody.date ?? Date().timeIntervalSince1970
+
+        DispatchQueue.global().async { [weak self] in
+            SessionHelper.shared.fetchNewsfeed(from: lastLoadDate + 1) { news in
+                DispatchQueue.main.async { [weak self] in
+                    self?.refreshControl?.endRefreshing()
+                }
+
+                guard news.count > 0, let oldNews = self?.news else { return }
+
+                lastLoadDate = news.first?.newsBody.date ?? lastLoadDate + 1
+                UserDefaults.standard.set(lastLoadDate, forKey: "newsLastLoad")
+
+                self?.news = news + oldNews
+                let indexSet = IndexSet(integersIn: 0..<news.count)
+                
+                DispatchQueue.main.async { [weak self] in
+                    self?.tableView.insertSections(indexSet, with: .automatic)
+                }
+            }
+        }
+    }
+
+    // MARK: - showMoreText
+    @objc private func showMoreText(_ sender: UIButton) {
+        guard
+            let cell = sender.superview?.superview?.superview as? NewsTextCell,
+            let indexPath = tableView.indexPath(for: cell)
+        else { return }
+
+        if selectedIndex == indexPath {
+            let indexPathSection = IndexPath(row: 0, section: selectedIndex!.section)
+            tableView.scrollToRow(at: indexPathSection, at: .top, animated: true)
+
+            selectedIndex = nil
+            cell.showMoreButton?.setTitle("Показать больше...", for: .normal)
+        } else {
+            selectedIndex = indexPath
+            cell.showMoreButton?.setTitle("Показать меньше", for: .normal)
+        }
+
+        tableView.reloadSections(IndexSet(integersIn: indexPath.section..<indexPath.section), with: .automatic)
+    }
 }
 
 // MARK: - NewsInteractionProtocol
@@ -181,7 +268,53 @@ extension NewsTableViewController: NewsInteractionProtocol {
         news[indexPath.section].newsBody.isLiked = isLiked ? 1 : 0
         news[indexPath.section].newsBody.likesCount = isLiked ? oldLikesCount + 1 : oldLikesCount - 1
 
-        let indexPaths = [indexPath]
-        self.tableView.reloadRows(at: indexPaths, with: .none)
+        self.tableView.reloadRows(at: [indexPath], with: .none)
+    }
+}
+
+// MARK: - UITableViewDataSourcePrefetching
+extension NewsTableViewController: UITableViewDataSourcePrefetching {
+
+    // MARK: - tableViewPrefetchRowsAt
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard
+                let self = self,
+                let maxSection = indexPaths.map({ $0.section }).max(),
+                let nextFrom = UserDefaults.standard.string(forKey: "newsNextFrom"),
+                !nextFrom.isEmpty,
+                maxSection > self.news.count - 4,
+                !self.isLoadingNews
+            else { return }
+
+            self.isLoadingNews = true
+
+            SessionHelper.shared.fetchNewsfeed(for: nextFrom) { news in
+                let indexSet = IndexSet(integersIn: self.news.count..<self.news.count + news.count)
+
+                DispatchQueue.main.async { [weak self] in
+                    self?.news.append(contentsOf: news)
+                    self?.tableView.insertSections(indexSet, with: .automatic)
+                    self?.isLoadingNews = false
+                }
+            }
+        }
+    }
+
+    // MARK: - setupRefreshControl
+    private func setupRefreshControl() {
+        let color = UIColor(red: 0.09803921569, green: 0.462745098, blue: 0.8235294118, alpha: 1)
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        paragraphStyle.lineBreakMode = .byClipping
+
+        refreshControl?.tintColor = color
+        refreshControl?.attributedTitle = NSAttributedString(string: "Обновление", attributes: [
+            .foregroundColor : color,
+            .backgroundColor : UIColor.white,
+            .paragraphStyle : paragraphStyle
+        ])
+        refreshControl?.addTarget(self, action: #selector(newsRefresh), for: .valueChanged)
     }
 }

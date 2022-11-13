@@ -14,9 +14,6 @@ class SessionHelper {
     
     private let currentApiVersion = "5.131"
     private let friendFields = "first_name,photo_100,is_friend,blacklisted"
-    private lazy var startTime = {
-        String(Date().timeIntervalSince1970 - 86400)
-    }()
     
     static let shared = SessionHelper()
     
@@ -54,7 +51,10 @@ class SessionHelper {
     }
     
     // MARK: - getNewsfeed
-    func fetchNewsfeed(completion: @escaping ([News]) -> Void) {
+    func fetchNewsfeed(from specificTime: TimeInterval? = nil,
+                       for nextFrom: String? = nil,
+                       completion: @escaping ([News]) -> Void)
+    {
         let baseUrl = "https://api.vk.com/method/newsfeed.get"
         
         guard var urlComponents = URLComponents(string: baseUrl) else { return }
@@ -62,19 +62,25 @@ class SessionHelper {
         urlComponents.queryItems = [
             URLQueryItem(name: "filters", value: "post"),
             URLQueryItem(name: "return_banned", value: "0"),
-            URLQueryItem(name: "start_time", value: startTime),
             URLQueryItem(name: "max_photos", value: "1"),
-            URLQueryItem(name: "count", value: "50"),
+            URLQueryItem(name: "count", value: "20"),
             URLQueryItem(name: "access_token", value: Session.shared.token),
             URLQueryItem(name: "v", value: currentApiVersion)
         ]
+        
+        if let specificTime = specificTime {
+            urlComponents.queryItems?.append(URLQueryItem(name: "start_time", value: "\(specificTime)"))
+        }
+        if let nextFrom = nextFrom {
+            urlComponents.queryItems?.append(URLQueryItem(name: "start_from", value: "\(nextFrom)"))
+        }
         
         AF.request(urlComponents).response { response in
             guard let data = response.data else { return }
             
             do {
                 let newsResponse = try JSONDecoder().decode(NewsResponse.self, from: data)
-                
+
                 newsResponse.parseData(data: data) { news in
                     completion(news)
                 }

@@ -56,7 +56,7 @@ final class NewsBody: Decodable {
     }
     
     let sourceId: Int
-    let date: String
+    let date: TimeInterval
     let markedAsAds: Int?
     let postID: Int?
     let signerID: Int?
@@ -83,12 +83,7 @@ final class NewsBody: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.sourceId = try container.decode(Int.self, forKey: .sourceId)
         
-        let dateValue = try container.decode(Int.self, forKey: .date)
-        let date = Date(timeIntervalSince1970: TimeInterval(dateValue))
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.mm.yyyy hh:mm"
-        dateFormatter.timeZone = .current
-        self.date = dateFormatter.string(from: date)
+        self.date = try container.decode(TimeInterval.self, forKey: .date)
         
         self.canDoubtCategory = try? container.decode(Bool.self, forKey: .canDoubtCategory)
         self.canSetCategory = try? container.decode(Bool.self, forKey: .canSetCategory)
@@ -155,6 +150,8 @@ final class NewsResponse: Decodable {
         let responseValue = try container.nestedContainer(keyedBy: RequestKeys.self, forKey: .response)
         
         self.nextFrom = try? responseValue.decode(String.self, forKey: .nextFrom)
+
+        UserDefaults.standard.set(self.nextFrom, forKey: "newsNextFrom")
     }
     
     func parseData(data: Data, completion: @escaping ([News]) -> Void) {
@@ -185,7 +182,7 @@ final class NewsResponse: Decodable {
             
             let groupsData = (try? JSONSerialization.data(withJSONObject: groups as Any, options: .fragmentsAllowed)
             ) ?? Data()
-            
+
             self.asyncParse(data: itemsData) { (model: [NewsBody]) in
                 newsBodies = model
                 dispatchGroup.leave()

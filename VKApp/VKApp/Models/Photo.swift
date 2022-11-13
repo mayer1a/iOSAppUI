@@ -15,7 +15,7 @@ enum SizeType: String, Decodable {
 }
 
 // MARK: - PhotoSizes
-final class PhotoSizes: Decodable {
+final class PhotoSize: Decodable {
     enum CodingKeys: String, CodingKey {
         case url
         case type
@@ -70,7 +70,8 @@ final class Photo: Decodable {
     var ownerId: Int
     var smallSizeUrl: String?
     var originalSizeUrl: String?
-    var sizes: [PhotoSizes]
+    var aspectRatio: Double?
+    var sizes: [PhotoSize]
     var likesCounter: Int?
     var isLiked: Int?
     
@@ -84,12 +85,14 @@ final class Photo: Decodable {
         self.sizes = []
 
         while !sizesValues.isAtEnd {
-            let size = try sizesValues.decode(PhotoSizes.self)
+            let size = try sizesValues.decode(PhotoSize.self)
             self.sizes.append(size)
 
             switch size.type {
                 case .m: self.smallSizeUrl = size.url
-                case .z: self.originalSizeUrl = size.url
+                case .z:
+                    self.originalSizeUrl = size.url
+                    self.aspectRatio = Double(size.height) / Double(size.width)
                 default: break
             }
         }
@@ -99,8 +102,9 @@ final class Photo: Decodable {
                 self?.smallSizeUrl = self?.sizes.first(where: { $0.url != nil })?.url
             }
 
-            if self?.originalSizeUrl == nil {
-                self?.originalSizeUrl = self?.sizes.last(where: { $0.url != nil })?.url
+            if self?.originalSizeUrl == nil, let size = self?.sizes.last(where: { $0.url != nil }) {
+                self?.originalSizeUrl = size.url
+                self?.aspectRatio = Double(size.height) / Double(size.width)
             }
         }
         
@@ -115,7 +119,8 @@ final class Photo: Decodable {
         ownerId: Int,
         smallSizeUrl: String?,
         originalSizeUrl: String?,
-        sizes: [PhotoSizes] = [],
+        aspectRatio: Double?,
+        sizes: [PhotoSize] = [],
         likesCounter: Int?,
         isLiked: Int?
     ) {
@@ -124,6 +129,7 @@ final class Photo: Decodable {
         self.ownerId = ownerId
         self.smallSizeUrl = smallSizeUrl
         self.originalSizeUrl = originalSizeUrl
+        self.aspectRatio = aspectRatio
         self.sizes = sizes
         self.likesCounter = likesCounter
         self.isLiked = isLiked

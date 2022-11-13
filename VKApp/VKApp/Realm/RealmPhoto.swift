@@ -30,6 +30,9 @@ final class RealmPhoto: Object {
     
     @Persisted
     var isLiked: Int?
+
+    @Persisted
+    var aspectRatio: Double?
     
     // MARK: - saveData
     static func saveData(data photos: [Photo], for ownerId: Int) {
@@ -43,6 +46,7 @@ final class RealmPhoto: Object {
             realmPhoto.originalSizeUrl = photo.originalSizeUrl
             realmPhoto.likesCounter = photo.likesCounter
             realmPhoto.isLiked = photo.isLiked
+            realmPhoto.aspectRatio = photo.aspectRatio
             
             return realmPhoto
         }
@@ -87,6 +91,7 @@ final class RealmPhoto: Object {
                   ownerId: $0.ownerId,
                   smallSizeUrl: $0.smallSizeUrl,
                   originalSizeUrl: $0.originalSizeUrl,
+                  aspectRatio: $0.aspectRatio,
                   likesCounter: $0.likesCounter,
                   isLiked: $0.isLiked)}
         

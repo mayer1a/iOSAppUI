@@ -36,7 +36,7 @@ extension NewsAuthorDateTimeCell: NewsProtocol {
         guard let indexPath = indexPath else { return }
 
         self.newsAuthorFullName?.text = fullName
-        self.newsPostingDate?.text = news.newsBody.date
+        self.newsPostingDate?.text = NewsDateFormatter.shared.getFormattedDate(from: news.newsBody.date)
         self.newsAuthorAvatar?.image = imageCachingService?.getImage(at: indexPath, by: imageURL)
     }
 }

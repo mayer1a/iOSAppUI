@@ -32,6 +32,7 @@ final class GroupsTableViewController: UITableViewController {
     // MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         sizeHeaderToFit()
     }
 
@@ -73,8 +74,21 @@ final class GroupsTableViewController: UITableViewController {
         return UISwipeActionsConfiguration(actions: [action])
     }
 
+    // MARK: - heightForRowAt
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(93)
+    }
+
+    // MARK: - traitCollectionDidChange
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard customSearchView?.searchTextField?.isFirstResponder == true else { return }
+
+        tableView.layoutIfNeeded()
+
+        customSearchView?.searchIconCenterXConstraint?.isActive = false
+        customSearchView?.searchTextFieldTrailingConstraint?.isActive = false
+        customSearchView?.closeButtonTrailingConstraint?.isActive = true
+        customSearchView?.searchTextFieldLeadingAnchor?.isActive = true
     }
 
     // MARK: - customSearchBarDidTapped
@@ -87,10 +101,11 @@ final class GroupsTableViewController: UITableViewController {
                        initialSpringVelocity: 0.6,
                        options: [.curveEaseInOut]) { [weak self] in
 
-            customSearchView.closeButtonTrailingConstraint?.isActive = true
-            customSearchView.searchTextFieldLeadingAnchor?.isActive = true
             customSearchView.searchIconCenterXConstraint?.isActive = false
             customSearchView.searchTextFieldTrailingConstraint?.isActive = false
+            customSearchView.closeButtonTrailingConstraint?.isActive = true
+            customSearchView.searchTextFieldLeadingAnchor?.isActive = true
+            customSearchView.searchTextField?.placeholder = "Поиск"
 
             self?.tableView.layoutIfNeeded()
         }
@@ -106,35 +121,26 @@ final class GroupsTableViewController: UITableViewController {
                        initialSpringVelocity: 0.6,
                        options: [.curveEaseInOut]) { [weak self] in
 
-            customSearchView.searchIconCenterXConstraint?.isActive = true
-            customSearchView.searchTextFieldTrailingConstraint?.isActive = true
             customSearchView.closeButtonTrailingConstraint?.isActive = false
             customSearchView.searchTextFieldLeadingAnchor?.isActive = false
+            customSearchView.searchIconCenterXConstraint?.isActive = true
+            customSearchView.searchTextFieldTrailingConstraint?.isActive = true
 
             self?.tableView.layoutIfNeeded()
         }
 
         customSearchView.searchTextField?.text = ""
+        customSearchView.searchTextField?.placeholder = ""
         updateDisplayedGroups(searchText: "")
 
         customSearchView.searchTextField?.resignFirstResponder()
     }
 
     // MARK: - customSearchTextDidChange
-    @objc func customSearchTextDidChange(_ sender: Any) {
-        guard let sender = sender as? UITextField, let inputText = sender.text else { return }
+    @objc func customSearchTextDidChange(_ sender: UITextField) {
+        guard let inputText = sender.text else { return }
 
         updateDisplayedGroups(searchText: inputText)
-    }
-
-    // MARK: - @objc tapOutKeyboard
-    @objc private func tapOutKeyboard() {
-        customSearchView?.searchTextField?.resignFirstResponder()
-    }
-
-    // MARK: - searchBarDidTapped
-    @objc private func searchBarDidTapped() {
-        customSearchView?.searchTextField?.resignFirstResponder()
     }
 
     // MARK: - makeObserver
@@ -241,11 +247,11 @@ final class GroupsTableViewController: UITableViewController {
                                                      for: .editingDidBegin)
 
         customSearchView?.searchTextField?.addTarget(self,
-                                                     action: #selector(customSearchTextDidChange(_:)),
+                                                     action: #selector(customSearchTextDidChange),
                                                      for: .editingChanged)
 
         customSearchView?.searchTextField?.addTarget(self,
-                                                     action: #selector(searchBarDidTapped),
+                                                     action: #selector(cancelButtonDidTapped),
                                                      for: .editingDidEndOnExit)
 
         customSearchView?.searchCloseButton?.addTarget(self,

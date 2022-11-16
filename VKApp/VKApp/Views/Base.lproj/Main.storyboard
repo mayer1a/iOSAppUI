@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gsA-Cr-FHj">
-    <device id="retina6_72" orientation="portrait" appearance="light"/>
+    <device id="retina6_72" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -185,7 +186,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="yyB-Dy-Buj">
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="backgroundColor"/>
                         <inset key="separatorInset" minX="100" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FriendCell" rowHeight="92" id="91H-Rk-Uaw" customClass="FriendsTableViewCell" customModule="VKApp" customModuleProvider="target">
@@ -201,25 +202,28 @@
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="naz-fG-lJm" customClass="ShadowView" customModule="VKApp" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <color key="backgroundColor" name="backgroundColor"/>
                                                 </view>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hgp-a5-dy5" customClass="CircularPreviewImageView" customModule="VKApp" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" name="backgroundColor"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="72" id="glp-wl-eDX"/>
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k3e-Df-2Af">
                                             <rect key="frame" x="102" y="35.666666666666664" width="288" height="21"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
+                                            <color key="textColor" name="foregroundColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="Tnk-YS-N7r" firstAttribute="top" secondItem="4oG-mT-wOs" secondAttribute="top" constant="10" id="DE5-Ac-xaK"/>
                                         <constraint firstAttribute="bottom" secondItem="Tnk-YS-N7r" secondAttribute="bottom" constant="10" id="aYW-6A-109"/>
@@ -229,6 +233,7 @@
                                         <constraint firstItem="k3e-Df-2Af" firstAttribute="centerY" secondItem="4oG-mT-wOs" secondAttribute="centerY" id="tTY-OR-tCr"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" name="backgroundColor"/>
                                 <connections>
                                     <outlet property="friendImage" destination="hgp-a5-dy5" id="e5r-vv-NVH"/>
                                     <outlet property="friendName" destination="k3e-Df-2Af" id="D3d-nH-7gu"/>
@@ -253,7 +258,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="jDK-Ys-m1L">
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="backgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GroupCell" rowHeight="92" id="lD7-8m-bas" userLabel="GroupCell" customClass="GroupTableViewCell" customModule="VKApp">
                                 <rect key="frame" x="0.0" y="50" width="430" height="92"/>
@@ -267,13 +272,19 @@
                                             <subviews>
                                                 <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jGE-vm-9au" customClass="ShadowView" customModule="VKApp" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <color key="backgroundColor" name="backgroundColor"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                            <color key="value" systemColor="systemGray3Color"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BGv-Ct-x8W" customClass="CircularPreviewImageView" customModule="VKApp">
                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
+                                                    <color key="backgroundColor" name="backgroundColor"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="jGE-vm-9au" secondAttribute="trailing" id="1we-tM-lqB"/>
                                                 <constraint firstAttribute="width" constant="72" id="X9X-Qo-sW3"/>
@@ -288,11 +299,13 @@
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cXs-yr-uJe">
                                             <rect key="frame" x="102" y="35.666666666666664" width="288" height="21"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
+                                            <color key="textColor" name="foregroundColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="8Pw-yc-Ac2" firstAttribute="top" secondItem="ZEA-mE-NbP" secondAttribute="top" constant="10" id="0Q5-Z4-Fzd"/>
                                         <constraint firstAttribute="bottom" secondItem="8Pw-yc-Ac2" secondAttribute="bottom" constant="10" id="6gK-VB-RMT"/>
@@ -302,6 +315,7 @@
                                         <constraint firstItem="8Pw-yc-Ac2" firstAttribute="leading" secondItem="ZEA-mE-NbP" secondAttribute="leading" constant="10" id="sVP-fK-LqY"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" name="backgroundColor"/>
                                 <connections>
                                     <outlet property="groupImage" destination="BGv-Ct-x8W" id="ThT-PQ-m7B"/>
                                     <outlet property="groupName" destination="cXs-yr-uJe" id="nTQ-hZ-66g"/>
@@ -315,6 +329,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Группы" id="ZFu-7T-Ptf">
                         <barButtonItem key="rightBarButtonItem" title="Поиск" image="searchIconsSet" id="SbS-ue-o4l">
+                            <color key="tintColor" name="navigationBarButtonTintColor"/>
                             <connections>
                                 <segue destination="iMb-Ci-8Z5" kind="show" identifier="ShowSearchGroup" id="XVj-68-t29"/>
                             </connections>
@@ -409,6 +424,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="afb-T7-sat">
                         <rect key="frame" x="0.0" y="59" width="430" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" name="navigationBarButtonTintColor"/>
                     </navigationBar>
                     <connections>
                         <segue destination="dXI-I0-hgI" kind="relationship" relationship="rootViewController" id="8ja-p8-LFP"/>
@@ -425,7 +441,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" separatorInsetReference="fromAutomaticInsets" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="1" estimatedSectionFooterHeight="-1" id="JUi-YD-QmF">
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" name="newsTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewsAuthorDatetime" id="64x-pR-eLS" userLabel="NewsAuthorDatetime" customClass="NewsAuthorDateTimeCell" customModule="VKApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.333332061767578" width="430" height="20"/>
@@ -439,12 +455,13 @@
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="W0m-J7-9VH" customClass="CircularPreviewImageView" customModule="VKApp" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="72" height="0.0"/>
+                                                    <color key="backgroundColor" name="backgroundColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="72" id="2l8-2N-f4n"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <constraints>
                                                 <constraint firstItem="W0m-J7-9VH" firstAttribute="leading" secondItem="ATB-yK-XTq" secondAttribute="leading" id="DgR-qe-p1Y"/>
                                                 <constraint firstAttribute="bottom" secondItem="W0m-J7-9VH" secondAttribute="bottom" id="GeI-QN-Coe"/>
@@ -454,17 +471,20 @@
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[NAME]" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oGP-mp-GiX">
                                             <rect key="frame" x="92" y="-10.333333333333334" width="308" height="20.666666666666668"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
+                                            <color key="textColor" name="foregroundColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[DATETIME]" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L76-am-x1U">
                                             <rect key="frame" x="92" y="11.666666666666664" width="308" height="17"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
-                                            <color key="textColor" systemColor="systemGrayColor"/>
+                                            <color key="textColor" name="interactionButtonsForegroundColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="ATB-yK-XTq" firstAttribute="leading" secondItem="Ue4-iO-Qak" secondAttribute="leading" constant="10" id="5X2-Q8-75E"/>
                                         <constraint firstItem="L76-am-x1U" firstAttribute="centerY" secondItem="ATB-yK-XTq" secondAttribute="centerY" constant="10" id="ClJ-px-ntd"/>
@@ -477,7 +497,7 @@
                                         <constraint firstItem="L76-am-x1U" firstAttribute="leading" secondItem="ATB-yK-XTq" secondAttribute="trailing" constant="10" id="yua-eC-f72"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="backgroundColor"/>
                                 <connections>
                                     <outlet property="newsAuthorAvatar" destination="W0m-J7-9VH" id="l9r-fv-6sB"/>
                                     <outlet property="newsAuthorFullName" destination="oGP-mp-GiX" id="rhC-g3-exL"/>
@@ -495,21 +515,21 @@
                                             <rect key="frame" x="10" y="0.0" width="410" height="18"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="evW-US-sZg">
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <color key="backgroundColor" name="backgroundColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" name="foregroundColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" verticalCompressionResistancePriority="751" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3fd-WA-aZp">
                                                     <rect key="frame" x="0.0" y="0.0" width="141" height="18"/>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <color key="backgroundColor" name="backgroundColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="18" id="WsI-8p-mHy"/>
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" title="Показать больше ..." buttonSize="mini" titleAlignment="leading">
                                                         <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
-                                                        <color key="baseForegroundColor" systemColor="linkColor"/>
+                                                        <color key="baseForegroundColor" name="navigationBarButtonTintColor"/>
                                                     </buttonConfiguration>
                                                     <variation key="default">
                                                         <mask key="constraints">
@@ -518,10 +538,10 @@
                                                     </variation>
                                                 </button>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                         </stackView>
                                     </subviews>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="Iz4-1A-WN3" firstAttribute="top" secondItem="ooY-3j-qkO" secondAttribute="top" id="9t6-2E-XLZ"/>
                                         <constraint firstItem="Iz4-1A-WN3" firstAttribute="leading" secondItem="ooY-3j-qkO" secondAttribute="leading" constant="10" id="AeI-3J-bt1"/>
@@ -529,7 +549,7 @@
                                         <constraint firstAttribute="bottom" secondItem="Iz4-1A-WN3" secondAttribute="bottom" constant="5" id="aTQ-uD-Tar"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="backgroundColor"/>
                                 <connections>
                                     <outlet property="newsText" destination="evW-US-sZg" id="fu4-sl-ZRT"/>
                                     <outlet property="showMoreButton" destination="3fd-WA-aZp" id="BPq-nN-qX0"/>
@@ -547,10 +567,10 @@
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hOi-bM-eZp" customClass="PreviewScaledImageView" customModule="VKApp" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="430" height="44"/>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <color key="backgroundColor" name="backgroundColor"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="hOi-bM-eZp" secondAttribute="trailing" id="5OF-Pq-i3v"/>
                                                 <constraint firstAttribute="bottom" secondItem="hOi-bM-eZp" secondAttribute="bottom" id="WAT-QJ-Yhz"/>
@@ -559,7 +579,7 @@
                                             </constraints>
                                         </view>
                                     </subviews>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="fAR-cU-9JX" firstAttribute="leading" secondItem="myF-vc-BiW" secondAttribute="leading" id="Ddn-KG-4fr"/>
                                         <constraint firstAttribute="trailing" secondItem="fAR-cU-9JX" secondAttribute="trailing" id="U0F-ZQ-Oke"/>
@@ -567,7 +587,7 @@
                                         <constraint firstItem="fAR-cU-9JX" firstAttribute="top" secondItem="myF-vc-BiW" secondAttribute="top" id="kbo-3O-kJ9"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="backgroundColor"/>
                                 <connections>
                                     <outlet property="newsImagesView" destination="fAR-cU-9JX" id="fj3-wZ-muJ"/>
                                     <outlet property="newsPhotoImageView" destination="hOi-bM-eZp" id="Dqz-lT-H4w"/>
@@ -582,11 +602,13 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[VIDEO]" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wgi-og-xVg" userLabel="NewsVideo">
                                             <rect key="frame" x="10" y="5" width="390" height="20.333333333333332"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
+                                            <color key="textColor" name="foregroundColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="Wgi-og-xVg" firstAttribute="leading" secondItem="RKB-ue-R1K" secondAttribute="leading" constant="10" id="To0-b1-n2Q"/>
                                         <constraint firstAttribute="bottom" secondItem="Wgi-og-xVg" secondAttribute="bottom" constant="5" id="h8T-wu-FWY"/>
@@ -594,7 +616,7 @@
                                         <constraint firstItem="Wgi-og-xVg" firstAttribute="top" secondItem="RKB-ue-R1K" secondAttribute="top" constant="5" id="uZ6-BG-KR9"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="backgroundColor"/>
                                 <connections>
                                     <outlet property="newsVideo" destination="Wgi-og-xVg" id="z0k-ZX-O5r"/>
                                 </connections>
@@ -608,11 +630,13 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[AUDIO]" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EBP-UH-jqw" userLabel="NewsAudio">
                                             <rect key="frame" x="10" y="5" width="390" height="20.333333333333332"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
+                                            <color key="textColor" name="foregroundColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="EBP-UH-jqw" firstAttribute="leading" secondItem="OLv-Ry-OXZ" secondAttribute="leading" constant="10" id="Io0-84-A3l"/>
                                         <constraint firstAttribute="bottom" secondItem="EBP-UH-jqw" secondAttribute="bottom" constant="5" id="Qi4-Z0-VpJ"/>
@@ -620,7 +644,7 @@
                                         <constraint firstAttribute="trailingMargin" secondItem="EBP-UH-jqw" secondAttribute="trailing" constant="10" id="qu3-xl-fXr"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="backgroundColor"/>
                                 <connections>
                                     <outlet property="newsAudio" destination="EBP-UH-jqw" id="vr4-kB-0lB"/>
                                 </connections>
@@ -634,38 +658,46 @@
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ydQ-mS-Pdb">
                                             <rect key="frame" x="63.333333333333343" y="11.666666666666664" width="44.666666666666657" height="25"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="25" id="CfD-Ez-vSL"/>
                                             </constraints>
-                                            <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="tintColor" name="interactionButtonsBackgroundColor"/>
                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                             <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="gray" image="message" catalog="system" imagePadding="5" buttonSize="small">
-                                                <attributedString key="attributedTitle"/>
+                                            <buttonConfiguration key="configuration" style="gray" image="message" catalog="system" title="" imagePadding="5" buttonSize="small">
+                                                <color key="baseForegroundColor" name="interactionButtonsForegroundColor"/>
+                                                <color key="baseBackgroundColor" name="interactionButtonsBackgroundColor"/>
                                             </buttonConfiguration>
                                         </button>
                                         <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nBc-RM-4HT">
                                             <rect key="frame" x="118" y="11.666666666666664" width="44" height="25"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="25" id="MNA-KE-OrP"/>
                                             </constraints>
-                                            <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="tintColor" name="interactionButtonsBackgroundColor"/>
                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                             <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="gray" image="arrowshape.turn.up.forward" catalog="system" imagePadding="5" buttonSize="small"/>
+                                            <buttonConfiguration key="configuration" style="gray" image="arrowshape.turn.up.forward" catalog="system" imagePadding="5" buttonSize="small">
+                                                <color key="baseForegroundColor" name="interactionButtonsForegroundColor"/>
+                                                <color key="baseBackgroundColor" name="interactionButtonsBackgroundColor"/>
+                                            </buttonConfiguration>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gc0-fu-Awd">
                                             <rect key="frame" x="420" y="11.666666666666664" width="0.0" height="25"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="25" id="pqF-RZ-g0S"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" systemColor="systemGrayColor"/>
+                                            <color key="textColor" name="interactionButtonsForegroundColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eye.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="7Ln-tV-4Ea">
                                             <rect key="frame" x="395" y="15.999999999999998" width="20" height="16"/>
-                                            <color key="tintColor" systemColor="systemGrayColor"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
+                                            <color key="tintColor" name="interactionButtonsForegroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="XWh-NZ-YWX"/>
                                                 <constraint firstAttribute="width" constant="20" id="uPg-XA-01y"/>
@@ -673,16 +705,20 @@
                                         </imageView>
                                         <button autoresizesSubviews="NO" opaque="NO" contentMode="center" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qXr-G7-sPA">
                                             <rect key="frame" x="10" y="10" width="43.333333333333336" height="28"/>
-                                            <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
+                                            <color key="tintColor" name="interactionButtonsBackgroundColor"/>
                                             <state key="normal" title="Button"/>
                                             <buttonConfiguration key="configuration" style="gray" image="heart" catalog="system" imagePadding="4" buttonSize="small">
                                                 <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                                <color key="baseForegroundColor" name="interactionButtonsForegroundColor"/>
+                                                <color key="baseBackgroundColor" name="interactionButtonsBackgroundColor"/>
                                             </buttonConfiguration>
                                             <connections>
                                                 <action selector="likeButtonDidTapped:" destination="dAp-4k-6sZ" eventType="touchUpInside" id="i7F-FM-gLX"/>
                                             </connections>
                                         </button>
                                     </subviews>
+                                    <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="ydQ-mS-Pdb" firstAttribute="leading" secondItem="qXr-G7-sPA" secondAttribute="trailing" constant="10" id="2Ht-qg-S39"/>
                                         <constraint firstItem="nBc-RM-4HT" firstAttribute="leading" secondItem="ydQ-mS-Pdb" secondAttribute="trailing" constant="10" id="MWk-cy-WHI"/>
@@ -698,7 +734,7 @@
                                         <constraint firstItem="Gc0-fu-Awd" firstAttribute="leading" secondItem="7Ln-tV-4Ea" secondAttribute="trailing" constant="5" id="yyI-cq-6qu"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="backgroundColor"/>
                                 <connections>
                                     <outlet property="newsCommentButton" destination="ydQ-mS-Pdb" id="WxA-WZ-LqR"/>
                                     <outlet property="newsLikeButton" destination="qXr-G7-sPA" id="4zj-N2-Xl6"/>
@@ -717,8 +753,9 @@
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="czi-z3-Dem">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="newsTableViewBackgroundColor"/>
                         <attributedString key="attributedTitle"/>
+                        <color key="tintColor" name="newsTableViewBackgroundColor"/>
                     </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wN5-X9-AZV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -733,6 +770,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Hqf-3i-Mg6">
                         <rect key="frame" x="0.0" y="59" width="430" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" name="navigationBarButtonTintColor"/>
                     </navigationBar>
                     <connections>
                         <segue destination="ORU-62-mCb" kind="relationship" relationship="rootViewController" id="LNg-ze-IdV"/>
@@ -749,7 +787,7 @@
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" prefetchingEnabled="NO" id="Pbd-Ml-3b7">
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="backgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" sectionInsetReference="safeArea" id="h73-N4-Zi0">
                             <size key="itemSize" width="128" height="128"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -766,12 +804,14 @@
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="end-1I-j1W" customClass="PreviewScaledImageView" customModule="VKApp" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bf1-hv-ydP" customClass="LikeControl" customModule="VKApp" customModuleProvider="target">
                                             <rect key="frame" x="82" y="103" width="41" height="20"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="09U-Yx-l29">
                                                     <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                                                    <color key="tintColor" name="photoLikesForegroundColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="T2p-ay-NIk"/>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="20" id="VVp-B3-5O5"/>
@@ -782,7 +822,7 @@
                                                 </label>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="7AC-Pu-bmR">
                                                     <rect key="frame" x="21" y="1.9999999999999982" width="20" height="17"/>
-                                                    <color key="tintColor" systemColor="systemRedColor"/>
+                                                    <color key="tintColor" name="photoLikesForegroundColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="20" id="CSl-4h-rnk"/>
                                                         <constraint firstAttribute="height" constant="20" id="Kjp-rI-jFl"/>
@@ -790,6 +830,7 @@
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="tintColor" name="photoLikesForegroundColor"/>
                                             <constraints>
                                                 <constraint firstItem="7AC-Pu-bmR" firstAttribute="leading" secondItem="09U-Yx-l29" secondAttribute="trailing" constant="1" id="0ay-1t-n5c"/>
                                                 <constraint firstAttribute="bottom" secondItem="7AC-Pu-bmR" secondAttribute="bottom" id="9iY-r7-vEr"/>
@@ -806,6 +847,7 @@
                                         </view>
                                     </subviews>
                                     <viewLayoutGuide key="safeArea" id="QYB-gi-ffb"/>
+                                    <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="end-1I-j1W" firstAttribute="leading" secondItem="QYB-gi-ffb" secondAttribute="leading" id="3jd-eh-9o9"/>
                                         <constraint firstAttribute="trailing" secondItem="Bf1-hv-ydP" secondAttribute="trailing" constant="5" id="I4G-7a-9ck"/>
@@ -815,6 +857,7 @@
                                         <constraint firstItem="end-1I-j1W" firstAttribute="top" secondItem="QYB-gi-ffb" secondAttribute="top" id="yXZ-2R-Mj4"/>
                                     </constraints>
                                 </collectionViewCellContentView>
+                                <color key="backgroundColor" name="backgroundColor"/>
                                 <connections>
                                     <outlet property="friendPhoto" destination="end-1I-j1W" id="Aqy-Si-8Vi"/>
                                     <outlet property="likeControl" destination="Bf1-hv-ydP" id="bBP-nb-2Pc"/>
@@ -841,16 +884,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VPY-tt-TUO">
-                                <rect key="frame" x="0.0" y="104" width="428" height="747"/>
+                                <rect key="frame" x="0.0" y="104" width="426" height="747"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" name="backgroundColor"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D6v-IA-n6q">
-                                <rect key="frame" x="0.0" y="104" width="428" height="747"/>
+                                <rect key="frame" x="0.0" y="104" width="426" height="747"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" name="backgroundColor"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="X7k-eq-596"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="backgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="LRb-6B-UGf"/>
                     <connections>
@@ -927,6 +972,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" name="tabBarSelectedButtonTintColor"/>
+                        <color key="selectedImageTintColor" name="tabBarSelectedButtonTintColor"/>
                     </tabBar>
                     <connections>
                         <segue destination="f6n-GI-Ghf" kind="relationship" relationship="viewControllers" id="e8e-vi-O7P"/>
@@ -940,7 +987,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ATR-IK-rhE"/>
+        <segue reference="tbh-rz-MIn"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrowshape.turn.up.forward" catalog="system" width="128" height="104"/>
@@ -953,17 +1000,35 @@
         <image name="searchIconsSet" width="25" height="25"/>
         <image name="vk_auth_icon" width="341.33334350585938" height="341.33334350585938"/>
         <image name="vk_id_icon" width="80" height="40"/>
-        <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
+        <namedColor name="backgroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="foregroundColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="interactionButtonsBackgroundColor">
+            <color red="0.95686274510000002" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="interactionButtonsForegroundColor">
+            <color red="0.59607843140000005" green="0.63137254899999995" blue="0.67843137249999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="navigationBarButtonTintColor">
+            <color red="0.14901960784313725" green="0.52941176469999995" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="newsTableViewBackgroundColor">
+            <color red="0.91764705879999997" green="0.92941176469999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="photoLikesForegroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="tabBarSelectedButtonTintColor">
+            <color red="0.16078431372549021" green="0.45882352941176469" blue="0.79607843137254897" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
-        <systemColor name="systemGrayColor">
-            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemGray3Color">
+            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

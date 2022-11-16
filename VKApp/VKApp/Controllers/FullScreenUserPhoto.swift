@@ -24,6 +24,7 @@ class FullScreenUserPhoto: UIViewController {
     var showPhotoIndex = Int()
 
     private var direction: Direction? = .nonDirection
+    private var isDarken = false
 
     private lazy var animator: UIViewPropertyAnimator? = {
         return UIViewPropertyAnimator(duration: 1, curve: .easeInOut)
@@ -88,17 +89,21 @@ class FullScreenUserPhoto: UIViewController {
 
     // MARK: - photoDidTapped
     @objc private func photoDidTapped() {
-        switch self.view.layer.backgroundColor {
-            case UIColor.black.cgColor: lightenBackground()
-            default: darkenBackground()
+        if isDarken {
+            lightenBackground()
+        } else {
+            darkenBackground()
         }
+
+        isDarken.toggle()
     }
 
     // MARK: - lightenBackground
     private func lightenBackground() {
         UIView.animateKeyframes(withDuration: 0.2, delay: 0) { [weak self] in
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
-                self?.view.layer.backgroundColor = UIColor.white.cgColor
+                self?.view.layer.backgroundColor = UIColor(named: "backgroundColor")?.cgColor
+                self?.displayedPhotoImageView?.backgroundColor = UIColor(named: "backgroundColor")
             }
 
             UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5) {
@@ -111,7 +116,8 @@ class FullScreenUserPhoto: UIViewController {
     private func darkenBackground() {
         UIView.animate(withDuration: 0.2) { [weak self] in
             self?.navigationController?.navigationBar.isHidden = true
-            self?.view.layer.backgroundColor = UIColor.black.cgColor
+            self?.view.layer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1).cgColor
+            self?.displayedPhotoImageView?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
         }
     }
 
@@ -174,18 +180,18 @@ class FullScreenUserPhoto: UIViewController {
 
         animator?.addCompletion { [weak self] position in
             switch position {
-            case .end:
-                guard let nextPhotoIndex = self?.nextPhotoIndex else { return }
+                case .end:
+                    guard let nextPhotoIndex = self?.nextPhotoIndex else { return }
 
-                displayedPhotoImageView?.isHidden = true
-                displayedPhotoImageView?.transform = .identity
+                    displayedPhotoImageView?.isHidden = true
+                    displayedPhotoImageView?.transform = .identity
 
-                self?.showPhotoIndex = nextPhotoIndex
-                self?.view.layoutIfNeeded()
-            case .start:
-                hiddenPhotoImageView?.isHidden = true
-            default:
-                break
+                    self?.showPhotoIndex = nextPhotoIndex
+                    self?.view.layoutIfNeeded()
+                case .start:
+                    hiddenPhotoImageView?.isHidden = true
+                default:
+                    break
             }
         }
 
@@ -229,17 +235,17 @@ class FullScreenUserPhoto: UIViewController {
 
         animator?.addCompletion { [weak self] position in
             switch position {
-            case .end:
-                guard let previousPhotoIndex = self?.previousPhotoIndex else { return }
+                case .end:
+                    guard let previousPhotoIndex = self?.previousPhotoIndex else { return }
 
-                displayedPhotoImageView?.isHidden = true
+                    displayedPhotoImageView?.isHidden = true
 
-                self?.showPhotoIndex = previousPhotoIndex
-            case .start:
-                hiddenPhotoImageView?.isHidden = true
-                hiddenPhotoImageView?.transform = .identity
-            default:
-                break
+                    self?.showPhotoIndex = previousPhotoIndex
+                case .start:
+                    hiddenPhotoImageView?.isHidden = true
+                    hiddenPhotoImageView?.transform = .identity
+                default:
+                    break
             }
         }
 

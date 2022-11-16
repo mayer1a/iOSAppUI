@@ -48,7 +48,8 @@ extension TransitionAnimation: UIViewControllerAnimatedTransitioning {
         toViewController.view.layer.cornerRadius = 150
         toViewController.view.layer.masksToBounds = true
         toViewController.view.layer.borderWidth = 1
-        toViewController.view.layer.borderColor = UIColor.systemBlue.cgColor
+        toViewController.view.layer.borderColor = UIColor(named: "navigationBarButtonTintColor")?.cgColor
+        toViewController.navigationController?.navigationBar.tintColor = UIColor(named: "navigationBarButtonTintColor")
 
         UIView.animateKeyframes(withDuration: animationDuration, delay: 0, options: []) {
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.65) {
@@ -83,7 +84,8 @@ extension TransitionAnimation: UIViewControllerAnimatedTransitioning {
         fromViewController.view.layer.cornerRadius = 0
         fromViewController.view.layer.masksToBounds = true
         fromViewController.view.layer.borderWidth = 1
-        fromViewController.view.layer.borderColor = UIColor.systemBlue.cgColor
+        fromViewController.view.layer.borderColor = UIColor(named: "navigationBarButtonTintColor")?.cgColor
+        fromViewController.navigationController?.navigationBar.tintColor = UIColor(named: "navigationBarButtonTintColor")
 
         UIView.animateKeyframes(withDuration: animationDuration, delay: 0, options: []) {
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.35) {

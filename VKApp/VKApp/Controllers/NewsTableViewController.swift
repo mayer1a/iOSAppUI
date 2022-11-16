@@ -14,7 +14,7 @@ final class NewsTableViewController: UITableViewController {
     private var isLoadingNews: Bool = false
     private var selectedIndex: IndexPath?
     private let backgroundHeaderColor = {
-        UIColor(red: 0.8990648985, green: 0.8991654515, blue: 0.9022777677, alpha: 1)
+        UIColor(named: "newsTableViewBackgroundColor")
     }()
 
     // MARK: - viewDidLoad
@@ -303,7 +303,7 @@ extension NewsTableViewController: UITableViewDataSourcePrefetching {
 
     // MARK: - setupRefreshControl
     private func setupRefreshControl() {
-        let color = UIColor(red: 0.09803921569, green: 0.462745098, blue: 0.8235294118, alpha: 1)
+        let color = UIColor(named: "navigationBarButtonTintColor")
 
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
@@ -312,7 +312,7 @@ extension NewsTableViewController: UITableViewDataSourcePrefetching {
         refreshControl?.tintColor = color
         refreshControl?.attributedTitle = NSAttributedString(string: "Обновление", attributes: [
             .foregroundColor : color,
-            .backgroundColor : UIColor.white,
+            .backgroundColor : UIColor(named: "newsTableViewBackgroundColor"),
             .paragraphStyle : paragraphStyle
         ])
         refreshControl?.addTarget(self, action: #selector(newsRefresh), for: .valueChanged)

@@ -9,7 +9,7 @@ import UIKit
 
 // MARK: - UIView
 @IBDesignable final class ShadowView: UIView {
-    @IBInspectable private var shadowColor: UIColor = .black {
+    @IBInspectable private var shadowColor: UIColor = .systemGray3 {
         didSet {
             setNeedsDisplay()
         }

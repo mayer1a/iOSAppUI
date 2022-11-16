@@ -27,7 +27,7 @@ final class CustomSearchBarView: UIView {
     func loadView() -> CustomSearchBarView? {
         let nib = UINib(nibName: "CustomSearchBarView", bundle: Bundle.main)
         let view = nib.instantiate(withOwner: nil).first as? CustomSearchBarView
-        
+
         return view
     }
     

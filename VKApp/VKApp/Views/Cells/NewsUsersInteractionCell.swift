@@ -16,9 +16,23 @@ class NewsUsersInteractionCell: UITableViewCell {
 
     private var canLike: Bool = false
     private var isLiked: Bool?
+    private var maskLayer = CAShapeLayer()
 
     var delegate: NewsInteractionProtocol?
     var cellId: IndexPath?
+
+
+
+    // MARK: - layoutSubviews
+    override func layoutSubviews () {
+        super.layoutSubviews()
+
+        let roundPath = UIBezierPath(roundedRect: bounds,
+                                     byRoundingCorners: [.bottomLeft, .bottomRight],
+                                 cornerRadii: CGSize(width: 30, height: 30))
+        maskLayer.path = roundPath.cgPath
+        self.layer.mask = maskLayer
+    }
 
     // MARK: - likeButtonDidTapped
     @IBAction func likeButtonDidTapped(_ sender: Any) {

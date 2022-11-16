@@ -15,6 +15,18 @@ final class NewsAuthorDateTimeCell: UITableViewCell {
 
     var imageCachingService: ImageCachingService?
     var indexPath: IndexPath?
+    private var maskLayer = CAShapeLayer()
+
+    // MARK: - layoutSubviews
+    override func layoutSubviews () {
+        super.layoutSubviews()
+
+        let roundPath = UIBezierPath(roundedRect: bounds,
+                                 byRoundingCorners: [.topLeft, .topRight],
+                                 cornerRadii: CGSize(width: 30, height: 30))
+        maskLayer.path = roundPath.cgPath
+        self.layer.mask = maskLayer
+    }
 }
 
 // MARK: - NewsProtocol

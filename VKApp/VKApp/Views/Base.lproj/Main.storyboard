@@ -695,7 +695,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eye.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="7Ln-tV-4Ea">
-                                            <rect key="frame" x="395" y="15.999999999999998" width="20" height="16"/>
+                                            <rect key="frame" x="395" y="16.000000000000004" width="20" height="15.999999999999993"/>
                                             <color key="backgroundColor" name="backgroundColor"/>
                                             <color key="tintColor" name="interactionButtonsForegroundColor"/>
                                             <constraints>
@@ -883,12 +883,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VPY-tt-TUO">
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VPY-tt-TUO">
                                 <rect key="frame" x="0.0" y="104" width="426" height="747"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" name="backgroundColor"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D6v-IA-n6q">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D6v-IA-n6q">
                                 <rect key="frame" x="0.0" y="104" width="426" height="747"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" name="backgroundColor"/>
@@ -1013,10 +1013,10 @@
             <color red="0.59607843140000005" green="0.63137254899999995" blue="0.67843137249999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="navigationBarButtonTintColor">
-            <color red="0.14901960784313725" green="0.52941176469999995" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.14901960784313725" green="0.52941176470588236" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="newsTableViewBackgroundColor">
-            <color red="0.91764705879999997" green="0.92941176469999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.91764705882352937" green="0.92941176470588238" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="photoLikesForegroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

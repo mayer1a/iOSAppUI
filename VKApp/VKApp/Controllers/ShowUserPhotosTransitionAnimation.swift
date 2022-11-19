@@ -1,5 +1,5 @@
 //
-//  TransitionAnimation.swift
+//  ShowUserPhotosTransitionAnimation.swift
 //  VKApp
 //
 //  Created by Artem Mayer on 26.04.2022.
@@ -8,7 +8,7 @@
 import UIKit
 
 // MARK: - NSObject
-final class TransitionAnimation: NSObject {
+final class ShowUserPhotosTransitionAnimation: NSObject {
     private let isPresenting: Bool
     private let animationDuration: TimeInterval
 
@@ -19,7 +19,7 @@ final class TransitionAnimation: NSObject {
 }
 
 // MARK: - UIViewControllerAnimatedTransitioning
-extension TransitionAnimation: UIViewControllerAnimatedTransitioning {
+extension ShowUserPhotosTransitionAnimation: UIViewControllerAnimatedTransitioning {
 
     // MARK: - transitionDuration
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {

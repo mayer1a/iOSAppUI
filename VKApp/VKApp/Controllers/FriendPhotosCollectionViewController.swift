@@ -191,3 +191,12 @@ extension FriendPhotosCollectionViewController: UICollectionViewDelegateFlowLayo
         return CGSize(width: itemSize, height: itemSize)
     }
 }
+
+// MARK: - ViewPresentable
+extension FriendPhotosCollectionViewController: ViewPresentable {
+    var photoCellView: UIView {
+        guard let selectedCell = collectionView.indexPathsForSelectedItems?.first else { return .init() }
+
+        return collectionView(collectionView, cellForItemAt: selectedCell)
+    }
+}

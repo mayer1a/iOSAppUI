@@ -22,6 +22,7 @@ class FullScreenUserPhoto: UIViewController {
     
     var photos = [Photo]()
     var showPhotoIndex = Int()
+    var startImage: UIImage?
 
     private var direction: Direction? = .nonDirection
     private var isDarken = false
@@ -179,7 +180,7 @@ class FullScreenUserPhoto: UIViewController {
         let displayedPhotoImageView = displayedPhotoImageView
         hiddenPhotoImageView?.image = nil
 
-        getScaledImage(by: nextPhotoIndex, bounds: self.view.bounds) { image in
+        setupScaledImage(by: nextPhotoIndex, bounds: self.view.bounds) { image in
             hiddenPhotoImageView?.image = image
         }
 
@@ -231,7 +232,7 @@ class FullScreenUserPhoto: UIViewController {
         let displayedPhotoImageView = displayedPhotoImageView
         hiddenPhotoImageView?.image = nil
 
-        getScaledImage(by: previousPhotoIndex, bounds: self.view.bounds) { image in
+        setupScaledImage(by: previousPhotoIndex, bounds: self.view.bounds) { image in
             hiddenPhotoImageView?.image = image
         }
 
@@ -317,15 +318,16 @@ class FullScreenUserPhoto: UIViewController {
 
     // MARK: - setupView
     private func setupView() {
-        getScaledImage(by: showPhotoIndex, bounds: self.view.bounds) { [weak self] image in
-            self?.displayedUserPhoto?.image = image
+        self.displayedUserPhoto?.image = startImage
+
+        setupScaledImage(by: showPhotoIndex, bounds: self.view.bounds) { [weak self] scaledFetchedImage in
+            self?.displayedUserPhoto?.image = scaledFetchedImage
         }
 
-        if let frame = self.view?.frame {
-            self.displayedUserPhoto?.frame = CGRect(origin: frame.origin, size: CGSize(width: self.view.frame.size.width, height: frame.size.height))
-        }
+        let size = CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height)
+        self.displayedUserPhoto?.frame = CGRect(origin: self.view.frame.origin, size: size)
+        self.displayedUserPhoto?.center = CGPoint(x: size.width / 2, y: size.height / 2)
 
-        self.displayedUserPhoto?.center = CGPoint(x: self.view.frame.size.width / 2, y: self.view.frame.size.height / 2)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(photoDidTapped))
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(photoImagePanned(_:)))
 
@@ -336,15 +338,14 @@ class FullScreenUserPhoto: UIViewController {
     }
 
     // MARK: - setupDisplayedImage
-    private func getScaledImage(by displayedIndex: Int, bounds: CGRect, completion: @escaping (UIImage?) -> Void) {
+    private func setupScaledImage(by displayedIndex: Int, bounds: CGRect, completion: @escaping (UIImage) -> Void) {
         DispatchQueue.global().async { [weak self] in
             guard
                 let imagePath = self?.photos[displayedIndex].originalSizeUrl,
-                let imageUrl = URL(string: imagePath)
+                let imageUrl = URL(string: imagePath),
+                let image = UIImage.fetchImage(at: imageUrl),
+                let scaledImage = UIImage.resizeImage(bounds: bounds, image: image)
             else { return }
-
-            let image = UIImage.fetchImage(at: imageUrl)
-            let scaledImage = UIImage.resizeImage(bounds: bounds, image: image)
 
             DispatchQueue.main.async {
                 completion(scaledImage)

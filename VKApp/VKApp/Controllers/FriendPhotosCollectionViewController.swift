@@ -53,7 +53,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendPhotoViewCell",
                                                       for: indexPath) as? FriendPhotoCollectionViewCell
-
+        
         cell?.friendPhoto?.image = UIImage(named: "NonAvatar")
         
         guard
@@ -61,7 +61,9 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
             let path = photo.smallSizeUrl
         else { return UICollectionViewCell() }
 
-        cell?.friendPhoto?.image = imageCachingService?.getImage(at: indexPath, by: path)
+        imageCachingService?.getImage(at: indexPath, by: path) { image in
+            cell?.friendPhoto?.image = image
+        }
         
         if let isLiked = photo.isLiked, let likeCount = photo.likesCounter {
             cell?.likeControl?.isSelected = isLiked == 1 ? true : false
@@ -80,13 +82,12 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         let fullScreenUserPhoto = storyboard.instantiateViewController(withIdentifier: "FullScreenUserPhoto")
-        
+
         prepare(for: fullScreenUserPhoto, at: indexPath)
-        
-        tabBarController?.tabBar.isHidden = true
+
         navigationController?.pushViewController(fullScreenUserPhoto, animated: true)
     }
-    
+
     // MARK: - makeObserver
     private func makeObserver() {
         self.realmNotification = RealmObserver
@@ -161,11 +162,16 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         guard
             let photos = photos,
             let indexPath = sender,
-            let fullScreenPhotoVC = pushViewController as? FullScreenUserPhoto
+            let fullScreenPhotoVC = pushViewController as? FullScreenUserPhoto,
+            let imagePath = photos[indexPath.item].smallSizeUrl
         else { return }
 
         fullScreenPhotoVC.photos = photos
         fullScreenPhotoVC.showPhotoIndex = indexPath.item
+
+        imageCachingService?.getImage(at: indexPath, by: imagePath) { image in
+            fullScreenPhotoVC.startImage = image
+        }
     }
 }
 
@@ -194,9 +200,34 @@ extension FriendPhotosCollectionViewController: UICollectionViewDelegateFlowLayo
 
 // MARK: - ViewPresentable
 extension FriendPhotosCollectionViewController: ViewPresentable {
-    var photoCellView: UIView {
+    var photoCellViewRect: CGRect {
         guard let selectedCell = collectionView.indexPathsForSelectedItems?.first else { return .init() }
 
-        return collectionView(collectionView, cellForItemAt: selectedCell)
+        var cellRect = collectionView(collectionView, cellForItemAt: selectedCell).frame
+        let offset = collectionView.contentOffset
+        let newOrigin = CGPoint(x: cellRect.origin.x, y: cellRect.origin.y - offset.y)
+
+        cellRect.origin = newOrigin
+
+        return cellRect
+    }
+}
+
+// MARK: - StartImageProtocol
+extension FriendPhotosCollectionViewController: StartImageProtocol {
+    func fetchStartImage(for item: Int, with bounds: CGRect, completion: @escaping (UIImage?) -> Void) {
+        DispatchQueue.global().async { [weak self] in
+            guard
+                let imagePath = self?.photos?[item].originalSizeUrl,
+                let imageUrl = URL(string: imagePath)
+            else { return }
+
+            let image = UIImage.fetchImage(at: imageUrl)
+            let scaledImage = UIImage.resizeImage(bounds: bounds, image: image)
+
+            DispatchQueue.main.async {
+                completion(scaledImage)
+            }
+        }
     }
 }

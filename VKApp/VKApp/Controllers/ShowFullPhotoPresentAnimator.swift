@@ -43,36 +43,31 @@ extension ShowFullPhotoPresentAnimator: UIViewControllerAnimatedTransitioning {
         guard
             let toViewController = transitionContext.viewController(forKey: .to),
             let fromViewController = transitionContext.viewController(forKey: .from),
-            let fromViewCell = (transitionContext.viewController(forKey: .from) as? ViewPresentable)?.photoCellView
+            let fromCellViewRect = (transitionContext.viewController(forKey: .from) as? ViewPresentable)?.photoCellViewRect,
+            let tabBar = fromViewController.tabBarController?.tabBar
         else { return }
-
-        let startFrame = fromViewCell.convert(fromViewController.view.safeAreaLayoutGuide.layoutFrame,
-                                              to: fromViewController.view)
 
         transitionContext.containerView.addSubview(toViewController.view)
 
-        toViewController.view.frame = CGRect(origin: startFrame.origin, size: fromViewCell.frame.size)
+        toViewController.view.frame = fromCellViewRect
 
         self.backToCellFrame = toViewController.view.frame
 
         let finalFrame = transitionContext.finalFrame(for: toViewController)
 
         toViewController.view.backgroundColor = toViewController.view.backgroundColor?.withAlphaComponent(0)
-        toViewController.view.subviews.forEach {
-            $0.backgroundColor = $0.backgroundColor?.withAlphaComponent(0)
-        }
-        toViewController.view.alpha = 0
+        (toViewController as? FullScreenUserPhoto)?.displayedUserPhoto?.backgroundColor = (toViewController as? FullScreenUserPhoto)?.displayedUserPhoto?.backgroundColor?.withAlphaComponent(0)
+
+        tabBar.isHidden = false
+        UIView.transition(with: tabBar, duration: 0.7, options: .transitionCrossDissolve, animations: nil)
 
         UIView.animateKeyframes(withDuration: animationDuration, delay: 0) {
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1) {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.7) {
                 toViewController.view.frame = finalFrame
             }
-            UIView.addKeyframe(withRelativeStartTime: 0.1, relativeDuration: 1) {
-                toViewController.view.alpha = 1
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1) {
                 toViewController.view.backgroundColor = toViewController.view.backgroundColor?.withAlphaComponent(1)
-                toViewController.view.subviews.forEach {
-                    $0.backgroundColor = $0.backgroundColor?.withAlphaComponent(1)
-                }
+                (toViewController as? FullScreenUserPhoto)?.displayedUserPhoto?.backgroundColor = (toViewController as? FullScreenUserPhoto)?.displayedUserPhoto?.backgroundColor?.withAlphaComponent(1)
             }
         } completion: { finished in
             transitionContext.completeTransition(finished)
@@ -84,21 +79,23 @@ extension ShowFullPhotoPresentAnimator: UIViewControllerAnimatedTransitioning {
         guard
             let toViewController = transitionContext.viewController(forKey: .to),
             let fromViewController = transitionContext.viewController(forKey: .from),
-            let startFrame = backToCellFrame
+            let startFrame = backToCellFrame,
+            let tabBar = toViewController.tabBarController?.tabBar
         else { return }
 
         transitionContext.containerView.insertSubview(toViewController.view, belowSubview: fromViewController.view)
+        toViewController.tabBarController?.tabBar.frame.origin = CGPoint(x: 0, y: tabBar.frame.origin.y)
 
+        tabBar.isHidden = false
+        UIView.transition(with: tabBar, duration: 0.7, options: .transitionCrossDissolve, animations: nil)
+        
         UIView.animateKeyframes(withDuration: animationDuration, delay: 0) {
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1) {
+            UIView.addKeyframe(withRelativeStartTime: 0.3, relativeDuration: 1) {
                 fromViewController.view.frame = startFrame
             }
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.9) {
-                fromViewController.view.alpha = 0
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.7) {
                 fromViewController.view.backgroundColor = fromViewController.view.backgroundColor?.withAlphaComponent(0)
-                fromViewController.view.subviews.forEach {
-                    $0.backgroundColor = $0.backgroundColor?.withAlphaComponent(0)
-                }
+                (fromViewController as? FullScreenUserPhoto)?.displayedUserPhoto?.backgroundColor = (fromViewController as? FullScreenUserPhoto)?.displayedUserPhoto?.backgroundColor?.withAlphaComponent(0)
             }
         } completion: { finished in
             if finished && !transitionContext.transitionWasCancelled {

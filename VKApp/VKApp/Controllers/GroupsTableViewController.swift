@@ -56,8 +56,11 @@ final class GroupsTableViewController: UITableViewController {
 
         guard let imagePath = displayedGroups?[indexPath.row].avatar
         else { return UITableViewCell() }
+        
+        imageCachingService?.getImage(at: indexPath, by: imagePath) { image in
+            cell?.groupImage?.image = image
+        }
 
-        cell?.groupImage?.image = imageCachingService?.getImage(at: indexPath, by: imagePath)
         cell?.groupName?.text = displayedGroups?[indexPath.row].name
 
         return cell ?? UITableViewCell()

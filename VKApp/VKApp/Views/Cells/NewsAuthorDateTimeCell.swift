@@ -35,20 +35,22 @@ extension NewsAuthorDateTimeCell: NewsProtocol {
     // MARK: - setup
     func setup<T : NewsCellTypeDataProtocol>(news: T) {
         var fullName: String?
-        var imageURL = String()
+        var imagePath = String()
         
         if let user = news.userOwner {
             fullName = "\(user.firstName) \(user.lastName)"
-            imageURL = user.avatar
+            imagePath = user.avatar
         } else if let group = news.groupOwner {
             fullName = "\(group.name)"
-            imageURL = group.avatar
+            imagePath = group.avatar
         }
 
         guard let indexPath = indexPath else { return }
 
         self.newsAuthorFullName?.text = fullName
         self.newsPostingDate?.text = NewsDateFormatter.shared.getFormattedDate(from: news.newsBody.date)
-        self.newsAuthorAvatar?.image = imageCachingService?.getImage(at: indexPath, by: imageURL)
+        imageCachingService?.getImage(at: indexPath, by: imagePath) { [weak self] image in
+            self?.newsAuthorAvatar?.image = image
+        }
     }
 }

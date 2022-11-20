@@ -45,7 +45,6 @@ final class ImageCachingService {
         return pathName
     }()
 
-    private let serialQueue = DispatchQueue(label: "serialCachingQueue", qos: .userInitiated)
     private let container: DataReloadable
     private var fastImagesCache = [String : UIImage]()
 
@@ -86,25 +85,32 @@ final class ImageCachingService {
     }
 
     // MARK: - getImageFromCache
-    private func getImageFromCache(by url: String) -> UIImage? {
-        guard
-            let fileName = getFilePath(by: url),
-            let info = try? FileManager.default.attributesOfItem(atPath: fileName),
-            let modificationDate = info[FileAttributeKey.modificationDate] as? Date
-        else { return nil }
+    private func getImageFromCache(by url: String, completion: @escaping (UIImage?) -> Void) {
+        DispatchQueue.global().async { [weak self] in
+            guard
+                let fileName = self?.getFilePath(by: url),
+                let info = try? FileManager.default.attributesOfItem(atPath: fileName),
+                let modificationDate = info[FileAttributeKey.modificationDate] as? Date
+            else {
+                completion(nil)
+                return
+            }
 
-        let lifeTime = Date().timeIntervalSince(modificationDate)
+            let lifeTime = Date().timeIntervalSince(modificationDate)
 
-        guard
-            lifeTime <= CacheLifeTime.day.rawValue,
-            let image = UIImage(contentsOfFile: fileName)
-        else { return nil }
+            guard lifeTime <= CacheLifeTime.day.rawValue else { return }
 
-        serialQueue.async { [weak self] in
-            self?.fastImagesCache[url] = image
+            DispatchQueue.main.async { [weak self] in
+                guard let image = UIImage(contentsOfFile: fileName) else {
+                    completion(nil)
+                    return
+                }
+
+                self?.fastImagesCache[url] = image
+                completion(image)
+            }
         }
 
-        return image
     }
 
     // MARK: - fetchImage
@@ -115,28 +121,29 @@ final class ImageCachingService {
                 let image = UIImage(data: data)
             else { return }
 
+            self?.saveImageToCache(by: url, image: image)
+
             DispatchQueue.main.async {
                 self?.fastImagesCache[url] = image
                 self?.container.reloadRow(at: indexPath)
             }
-
-            self?.saveImageToCache(by: url, image: image)
         }
     }
 
     // MARK: - getImage
-    func getImage(at indexPath: IndexPath, by url: String) -> UIImage? {
-        var image: UIImage?
-
+    func getImage(at indexPath: IndexPath, by url: String, completion: @escaping (UIImage?) -> Void) {
         if let photo = fastImagesCache[url] {
-            image = photo
-        } else if let photo = getImageFromCache(by: url) {
-            image = photo
+            completion(photo)
         } else {
-            fetchImage(at: indexPath, by: url)
-        }
+            getImageFromCache(by: url) { [weak self] photo in
+                guard let photo = photo else  {
+                    self?.fetchImage(at: indexPath, by: url)
+                    return
+                }
 
-        return image
+                completion(photo)
+            }
+        }
     }
 }
 

@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: - ViewPresentable
 protocol ViewPresentable {
-    var photoCellView: UIView { get }
+    var photoCellViewRect: CGRect { get }
 }

@@ -298,13 +298,13 @@ final class FriendsTableViewController: UITableViewController {
     // MARK: - tableViewWillDisplayForRowAt
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         // Removing the bottom separator from the last cell of a section
-        if indexPath.row == grouppedFriends[indexPath.section].users.count - 1 {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)
-        } else {
-            guard let width = alphabetControl?.bounds.width else { return }
-            
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 100, bottom: 0, right: tableView.bounds.minX + width)
-        }
+//        if indexPath.row == grouppedFriends[indexPath.section].users.count - 1 {
+//            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)
+//        } else {
+//            guard let width = alphabetControl?.bounds.width else { return }
+//
+//            cell.sepaxwratorInset = UIEdgeInsets(top: 0, left: 100, bottom: 0, right: tableView.bounds.minX + width)
+//        }
     }
     
     // MARK: - cellForRowAt
@@ -316,7 +316,10 @@ final class FriendsTableViewController: UITableViewController {
         let friend = self.grouppedFriends[indexPath.section].users[indexPath.row]
 
         cell?.friendImage?.image = UIImage(named: "NonAvatar")
-        cell?.friendImage?.image = imageCachingService?.getImage(at: indexPath, by: friend.avatar)
+        
+        imageCachingService?.getImage(at: indexPath, by: friend.avatar) { image in
+            cell?.friendImage?.image = image
+        }
         
         cell?.friendName?.text = "\(friend.firstName) \(friend.lastName)"
         

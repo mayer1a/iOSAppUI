@@ -163,7 +163,7 @@ final class GroupsTableViewController: UITableViewController {
             let userDefaults = UserDefaults.standard
             let currentTime = Int(Date().timeIntervalSince1970)
 
-            if currentTime - userDefaults.integer(forKey: "groupsLastLoad") > 10_000 || groups.isEmpty {
+            if currentTime - userDefaults.integer(forKey: "groupsLastLoad") > 5_000 || groups.isEmpty {
                 firstly {
                     getGroupsPromise.fetchUserGroups()
                 }.compactMap(on: DispatchQueue.global()) { data in
@@ -243,8 +243,6 @@ final class GroupsTableViewController: UITableViewController {
     private func customSearchViewConfiguration() {
         self.tableView.tableHeaderView = customSearchView
 
-        customSearchView?.insetsLayoutMarginsFromSafeArea = true
-
         customSearchView?.searchTextField?.addTarget(self,
                                                      action: #selector(customSearchBarDidTapped),
                                                      for: .editingDidBegin)
@@ -266,16 +264,11 @@ final class GroupsTableViewController: UITableViewController {
     private func sizeHeaderToFit() {
         guard let headerView = self.tableView.tableHeaderView else { return }
 
-        headerView.setNeedsLayout()
-        headerView.layoutIfNeeded()
-
         let height = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
-        let width = self.tableView.safeAreaLayoutGuide.layoutFrame.size.width
-        var frame = headerView.frame
 
+        var frame = headerView.frame
         frame.size.height = height
-        frame.size.width = width
-        frame.origin = self.tableView.safeAreaLayoutGuide.layoutFrame.origin
+
         headerView.frame = frame
 
         self.tableView.tableHeaderView = headerView

@@ -109,7 +109,7 @@ extension ShowUserPhotosTransitionAnimation: UIViewControllerAnimatedTransitioni
     }
 
     // MARK: - setAnchorPoint
-    // Сhanging the pivot point of the view
+    /// Сhanging the pivot point of the view
     private func setAnchorPoint(_ point: CGPoint, by containerView: UIView) -> CGPoint {
         var position = containerView.layer.position
         var newPoint = CGPoint(x: containerView.bounds.size.width * point.x,

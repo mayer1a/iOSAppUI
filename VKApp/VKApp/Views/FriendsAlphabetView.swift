@@ -18,7 +18,7 @@ final class FriendsAlphabetView: UIControl {
         }
     }
 
-    var selectedCharacter: Character?
+    var selectedIndex: Int?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -60,18 +60,28 @@ extension FriendsAlphabetView {
 
     // MARK: - endTracking
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        guard let touch = touch else { return }
+        guard
+            let touch = touch,
+            let stackview = alphabetStackView?.arrangedSubviews as? [UILabel],
+            let selectedIndex = selectedIndex
+        else { return }
 
         updateSelectedLabel(using: touch)
+
+        stackview[selectedIndex].textColor = .systemBlue
+        self.selectedIndex = nil
 
         super.endTracking(touch, with: event)
     }
 
     // MARK: - cancelTracking
     override func cancelTracking(with event: UIEvent?) {
-        guard let stackview = alphabetStackView?.arrangedSubviews as? [UILabel] else { return }
+        guard
+            let stackview = alphabetStackView?.arrangedSubviews as? [UILabel],
+            let selectedIndex = selectedIndex
+        else { return }
 
-        stackview.forEach { $0.textColor = .systemBlue }
+        stackview[selectedIndex].textColor = .systemBlue
 
         super.cancelTracking(with: event)
     }
@@ -97,16 +107,16 @@ extension FriendsAlphabetView {
         let views = alphabetStackView?.arrangedSubviews as? [UILabel]
         let location = touch.location(in: self)
 
-        views?.forEach {
-            if $0.frame.contains(location) {
-                guard let labelText = $0.text?.first, selectedCharacter != labelText else { return }
+        views?.enumerated().forEach { (index, label) in
+            if label.frame.contains(location) {
+                guard selectedIndex != index else { return }
 
-                selectedCharacter = labelText
+                selectedIndex = index
                 sendActions(for: .valueChanged)
                 
-                $0.textColor = .systemRed
+                label.textColor = .systemRed
             } else {
-                $0.textColor = .systemBlue
+                label.textColor = .systemBlue
             }
         }
     }

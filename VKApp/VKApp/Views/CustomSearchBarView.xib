@@ -29,7 +29,6 @@
                             <color key="tintColor" name="searchBarForegroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="24" id="BzY-Fz-Ylt"/>
-                                <constraint firstAttribute="height" constant="25" id="piy-29-ywJ"/>
                             </constraints>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zZN-13-Xno">
@@ -53,12 +52,12 @@
                         <constraint firstItem="zZN-13-Xno" firstAttribute="centerY" secondItem="DCx-gK-t6a" secondAttribute="centerY" id="FdU-Zx-6be"/>
                         <constraint firstAttribute="trailing" secondItem="DCx-gK-t6a" secondAttribute="trailing" constant="10" id="Gl8-CQ-z9S"/>
                         <constraint firstItem="zZN-13-Xno" firstAttribute="leading" secondItem="DCx-gK-t6a" secondAttribute="trailing" constant="10" id="Ovm-XU-Gel"/>
-                        <constraint firstItem="DCx-gK-t6a" firstAttribute="top" secondItem="yss-a6-ncT" secondAttribute="top" constant="5" id="elY-Lo-aSd"/>
+                        <constraint firstItem="DCx-gK-t6a" firstAttribute="top" secondItem="yss-a6-ncT" secondAttribute="top" priority="750" constant="5" id="elY-Lo-aSd"/>
                         <constraint firstItem="DCx-gK-t6a" firstAttribute="leading" secondItem="wjW-9l-SqM" secondAttribute="trailing" constant="10" id="hfQ-yg-2uG"/>
                         <constraint firstItem="wjW-9l-SqM" firstAttribute="leading" secondItem="yss-a6-ncT" secondAttribute="leading" priority="750" constant="10" id="jFC-eu-Wa0"/>
                         <constraint firstAttribute="trailing" secondItem="zZN-13-Xno" secondAttribute="trailing" constant="10" id="p4r-Lr-ndS"/>
                         <constraint firstItem="DCx-gK-t6a" firstAttribute="leading" secondItem="yss-a6-ncT" secondAttribute="leading" priority="750" constant="10" id="qW8-xg-HGv"/>
-                        <constraint firstAttribute="bottom" secondItem="DCx-gK-t6a" secondAttribute="bottom" constant="5" id="vaG-nf-QOD"/>
+                        <constraint firstAttribute="bottom" secondItem="DCx-gK-t6a" secondAttribute="bottom" priority="750" constant="5" id="vaG-nf-QOD"/>
                         <constraint firstItem="wjW-9l-SqM" firstAttribute="top" secondItem="DCx-gK-t6a" secondAttribute="top" constant="5" id="yux-YZ-i4T"/>
                     </constraints>
                     <variation key="default">
@@ -97,13 +96,13 @@
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="navigationBarButtonTintColor">
-            <color red="0.14901960784313725" green="0.52941176469999995" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.14901960784313725" green="0.52941176470588236" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="searchBarBackgroundColor">
-            <color red="0.91764705879999997" green="0.92549019610000005" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.91764705882352937" green="0.92549019607843142" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="searchBarForegroundColor">
-            <color red="0.50196078430000002" green="0.54901960780000003" blue="0.59607843140000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.50196078431372548" green="0.5490196078431373" blue="0.59607843137254901" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

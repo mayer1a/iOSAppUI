@@ -16,7 +16,6 @@ final class LoginWebKitViewController: UIViewController {
 
     private let isInfinityTokenDebug = true
     private var isTokenValid: Bool {
-
         let currentTime = Int(Date().timeIntervalSince1970)
 
         guard
@@ -140,9 +139,9 @@ extension LoginWebKitViewController: WKNavigationDelegate {
 
     // MARK: - logout
     private func logout() {
-        try? Realm().write({
+        try? Realm().write {
             try? Realm().deleteAll()
-        })
+        }
 
         KeychainWrapper.standard.removeAllKeys()
 

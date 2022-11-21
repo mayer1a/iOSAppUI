@@ -30,9 +30,8 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
-        coordinator.animate { _ in
-            guard let updatedSize = self.updateCellSize() else { return }
-            (self.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = updatedSize
+        coordinator.animate { [weak self] _ in
+            self?.updateCellSize()
         }
     }
 
@@ -40,9 +39,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = photos?.count ?? 0
 
-        guard let updatedSize = self.updateCellSize() else { return count }
-
-        (self.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = updatedSize
+        self.updateCellSize()
 
         return count
     }
@@ -127,33 +124,33 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     
     // MARK: - setupData
     private func setupData(from photos: [RealmPhoto], with changes: ([Int], [Int], [Int])? = nil) {
-        let userPhotos = RealmPhoto.realmToPhoto(from: photos, by: userId)
-        self.photos = userPhotos
+        self.photos = RealmPhoto.realmToPhoto(from: photos, by: userId)
         
-        if let changes = changes {
-            DispatchQueue.global().async {
-                let deletionIndexes = changes.0.reduce(into: [IndexPath]()) {
-                    $0.append(IndexPath(item: $1, section: 0))
-                }
-                
-                let insertionIndexes = changes.1.reduce(into: [IndexPath]()) {
-                    $0.append(IndexPath(item: $1, section: 0))
-                }
-                
-                let reloadIndexes = changes.2.reduce(into: [IndexPath]()) {
-                    $0.append(IndexPath(item: $1, section: 0))
-                }
-                
-                DispatchQueue.main.async { [weak self] in
-                    self?.collectionView.performBatchUpdates {
-                        self?.collectionView.deleteItems(at: deletionIndexes)
-                        self?.collectionView.insertItems(at: insertionIndexes)
-                        self?.collectionView.reloadItems(at: reloadIndexes)
-                    }
+        guard let changes = changes else {
+            self.collectionView.reloadData()
+            return
+        }
+        
+        DispatchQueue.global().async {
+            let deletionIndexes = changes.0.reduce(into: [IndexPath]()) {
+                $0.append(IndexPath(item: $1, section: 0))
+            }
+
+            let insertionIndexes = changes.1.reduce(into: [IndexPath]()) {
+                $0.append(IndexPath(item: $1, section: 0))
+            }
+
+            let reloadIndexes = changes.2.reduce(into: [IndexPath]()) {
+                $0.append(IndexPath(item: $1, section: 0))
+            }
+
+            DispatchQueue.main.async { [weak self] in
+                self?.collectionView.performBatchUpdates {
+                    self?.collectionView.deleteItems(at: deletionIndexes)
+                    self?.collectionView.insertItems(at: insertionIndexes)
+                    self?.collectionView.reloadItems(at: reloadIndexes)
                 }
             }
-        } else {
-            self.collectionView.reloadData()
         }
     }
     
@@ -179,22 +176,20 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
 extension FriendPhotosCollectionViewController: UICollectionViewDelegateFlowLayout {
 
     // MARK: - updateCellSize
-    func updateCellSize() -> CGSize? {
+    func updateCellSize() {
         guard
             let layout = collectionViewLayout as? UICollectionViewFlowLayout,
             let isPortraitOrientation = self.view.window?.windowScene?.interfaceOrientation.isPortrait
-        else {
-            return (self.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize
-        }
+        else { return }
 
         tabBarController?.tabBar.isHidden = isPortraitOrientation ? false : true
 
-        let photosPerRow: CGFloat = isPortraitOrientation ? 3.0 : 5.0
         let minimumSpacing = layout.minimumInteritemSpacing
         let width = self.collectionView.safeAreaLayoutGuide.layoutFrame.width
-        let itemSize = (width - minimumSpacing * (photosPerRow - 1.0)) / photosPerRow
+        let photosPerRow: CGFloat = isPortraitOrientation ? 3.0 : 5.0
+        let side = (width - minimumSpacing * (photosPerRow - 1.0)) / photosPerRow
 
-        return CGSize(width: itemSize, height: itemSize)
+        (self.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = CGSize(width: side, height: side)
     }
 }
 

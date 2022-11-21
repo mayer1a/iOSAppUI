@@ -32,7 +32,7 @@ final class FriendPhotoCollectionViewCell: UICollectionViewCell {
     }
 
     // MARK: - likeControlAnimation
-    // Setting up and running animation
+    /// Setting up and running animation
     private func likeControlAnimation(by isLiked: Bool) {
         if isLiked {
             let heartImageAnimation = CASpringAnimation(keyPath: "transform.scale")

@@ -126,5 +126,6 @@ final class CloudView: UIView {
     func removeAnimation() {
         self.isHidden = true
         self.animationCloudLayer.removeAllAnimations()
+        self.removeFromSuperview()
     }
 }

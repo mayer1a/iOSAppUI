@@ -168,7 +168,7 @@ final class NewsTableViewController: UITableViewController {
         }
     }
 
-    // MARK: requiredCellIdentifier
+    // MARK: - requiredCellIdentifier
     private func requiredCellIdentifier(for row: Int, lastIndex: Int) -> String? {
         switch row {
             case 0: return "NewsAuthorDatetime"
@@ -177,7 +177,7 @@ final class NewsTableViewController: UITableViewController {
         }
     }
 
-    // MARK: optionalCellIdentifier
+    // MARK: - optionalCellIdentifier
     private func optionalCellIdentifier(by type: News.Kind?, for index: Int) -> String? {
         switch type {
             case .some(_): return type?.rawValue[index]
@@ -303,16 +303,20 @@ extension NewsTableViewController: UITableViewDataSourcePrefetching {
 
     // MARK: - setupRefreshControl
     private func setupRefreshControl() {
-        let color = UIColor(named: "navigationBarButtonTintColor")
+        guard
+            let foregroundColor = UIColor(named: "navigationBarButtonTintColor"),
+            let backgroundColor = UIColor(named: "newsTableViewBackgroundColor")
+        else { return }
+
 
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
         paragraphStyle.lineBreakMode = .byClipping
 
-        refreshControl?.tintColor = color
+        refreshControl?.tintColor = foregroundColor
         refreshControl?.attributedTitle = NSAttributedString(string: "Обновление", attributes: [
-            .foregroundColor : color,
-            .backgroundColor : UIColor(named: "newsTableViewBackgroundColor"),
+            .foregroundColor : foregroundColor,
+            .backgroundColor : backgroundColor,
             .paragraphStyle : paragraphStyle
         ])
         refreshControl?.addTarget(self, action: #selector(newsRefresh), for: .valueChanged)

@@ -34,7 +34,6 @@ extension AnimationNavigationController: UINavigationControllerDelegate {
                 interactiveTransition.viewControllerWillPopped = toVC
                 
                 if toVC as? FullScreenUserPhoto != nil {
-//                    return ShowFullPhotoPresentAnimator(isPresenting: true)
                     return transitionAnimator
                 }
 
@@ -45,7 +44,6 @@ extension AnimationNavigationController: UINavigationControllerDelegate {
                 }
 
                 if fromVC as? FullScreenUserPhoto != nil {
-//                    return ShowFullPhotoPresentAnimator(isPresenting: false)
                     return transitionAnimator
                 }
 

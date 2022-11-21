@@ -9,5 +9,6 @@ import UIKit
 
 // MARK: - ViewPresentable
 protocol ViewPresentable {
-    var photoCellViewRect: CGRect { get }
+    func photoCellViewRect(of itemIndex: Int) -> CGRect
+    func photoCellViewRect() -> CGRect
 }

@@ -43,7 +43,7 @@ extension ShowFullPhotoPresentAnimator: UIViewControllerAnimatedTransitioning {
         guard
             let toViewController = transitionContext.viewController(forKey: .to),
             let fromViewController = transitionContext.viewController(forKey: .from),
-            let fromCellViewRect = (transitionContext.viewController(forKey: .from) as? ViewPresentable)?.photoCellViewRect,
+            let fromCellViewRect = (fromViewController as? ViewPresentable)?.photoCellViewRect(),
             let tabBar = fromViewController.tabBarController?.tabBar
         else { return }
 
@@ -79,8 +79,9 @@ extension ShowFullPhotoPresentAnimator: UIViewControllerAnimatedTransitioning {
         guard
             let toViewController = transitionContext.viewController(forKey: .to),
             let fromViewController = transitionContext.viewController(forKey: .from),
-            let startFrame = backToCellFrame,
-            let tabBar = toViewController.tabBarController?.tabBar
+            let tabBar = toViewController.tabBarController?.tabBar,
+            let photoIndex = (fromViewController as? FullScreenUserPhoto)?.currentPhotoIndex,
+            let startFrame = (toViewController as? ViewPresentable)?.photoCellViewRect(of: photoIndex)
         else { return }
 
         transitionContext.containerView.insertSubview(toViewController.view, belowSubview: fromViewController.view)

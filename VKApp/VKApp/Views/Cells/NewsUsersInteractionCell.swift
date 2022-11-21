@@ -72,7 +72,7 @@ extension NewsUsersInteractionCell: NewsProtocol {
             let commentsCount = news.newsBody.commentsCount != nil ? String(news.newsBody.commentsCount!) : nil
             let repostCount = news.newsBody.repostsCount != nil ? String(news.newsBody.repostsCount!) : nil
             let viewsCount = news.newsBody.viewsCount != nil ? String(news.newsBody.viewsCount!) : nil
-            let color = self?.isLiked ?? false ? UIColor.red : UIColor.darkGray
+            let color = self?.isLiked ?? false ? UIColor.systemRed : UIColor.systemGray
             let image = self?.isLiked ?? false ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
 
             DispatchQueue.main.async { [weak self] in

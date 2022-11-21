@@ -167,7 +167,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         else { return }
 
         fullScreenPhotoVC.photos = photos
-        fullScreenPhotoVC.showPhotoIndex = indexPath.item
+        fullScreenPhotoVC.currentPhotoIndex = indexPath.item
 
         imageCachingService?.getImage(at: indexPath, by: imagePath) { image in
             fullScreenPhotoVC.startImage = image
@@ -200,10 +200,11 @@ extension FriendPhotosCollectionViewController: UICollectionViewDelegateFlowLayo
 
 // MARK: - ViewPresentable
 extension FriendPhotosCollectionViewController: ViewPresentable {
-    var photoCellViewRect: CGRect {
-        guard let selectedCell = collectionView.indexPathsForSelectedItems?.first else { return .init() }
 
-        var cellRect = collectionView(collectionView, cellForItemAt: selectedCell).frame
+    // MARK: - photoCellViewRectOfItemIndex
+    func photoCellViewRect(of itemIndex: Int) -> CGRect {
+        let indexPath = IndexPath(item: itemIndex, section: 0)
+        var cellRect = collectionView(collectionView, cellForItemAt: indexPath).frame
         let offset = collectionView.contentOffset
         let newOrigin = CGPoint(x: cellRect.origin.x, y: cellRect.origin.y - offset.y)
 
@@ -211,23 +212,20 @@ extension FriendPhotosCollectionViewController: ViewPresentable {
 
         return cellRect
     }
-}
 
-// MARK: - StartImageProtocol
-extension FriendPhotosCollectionViewController: StartImageProtocol {
-    func fetchStartImage(for item: Int, with bounds: CGRect, completion: @escaping (UIImage?) -> Void) {
-        DispatchQueue.global().async { [weak self] in
-            guard
-                let imagePath = self?.photos?[item].originalSizeUrl,
-                let imageUrl = URL(string: imagePath)
-            else { return }
+    // MARK: - photoCellViewRect
+    func photoCellViewRect() -> CGRect {
+        guard let selectedCellIndexPath = collectionView.indexPathsForSelectedItems?.first
+        else {
+            print("We have some problem....")
+            return CGRect.zero }
 
-            let image = UIImage.fetchImage(at: imageUrl)
-            let scaledImage = UIImage.resizeImage(bounds: bounds, image: image)
+        var cellRect = collectionView(collectionView, cellForItemAt: selectedCellIndexPath).frame
+        let offset = collectionView.contentOffset
+        let newOrigin = CGPoint(x: cellRect.origin.x, y: cellRect.origin.y - offset.y)
 
-            DispatchQueue.main.async {
-                completion(scaledImage)
-            }
-        }
+        cellRect.origin = newOrigin
+
+        return cellRect
     }
 }

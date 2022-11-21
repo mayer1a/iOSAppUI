@@ -21,7 +21,7 @@ class FullScreenUserPhoto: UIViewController {
     @IBOutlet weak var displayedUserPhoto: UIImageView?
     
     var photos = [Photo]()
-    var showPhotoIndex = Int()
+    var currentPhotoIndex = Int()
     var startImage: UIImage?
 
     private var direction: Direction? = .nonDirection
@@ -32,13 +32,13 @@ class FullScreenUserPhoto: UIViewController {
     }()
 
     private var nextPhotoIndex: Int? {
-        let nextIndex = showPhotoIndex + 1
+        let nextIndex = currentPhotoIndex + 1
 
         return nextIndex < photos.count ? nextIndex : nil
     }
 
     private var previousPhotoIndex: Int? {
-        let previousIndex = showPhotoIndex - 1
+        let previousIndex = currentPhotoIndex - 1
 
         return previousIndex >= 0 ? previousIndex : nil
     }
@@ -97,29 +97,11 @@ class FullScreenUserPhoto: UIViewController {
         UIView.animateKeyframes(withDuration: 0.4, delay: 0) { [weak self] in
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.2) {
                 self?.view.layer.backgroundColor = UIColor(named: "backgroundColor")?.cgColor
+                self?.navigationController?.navigationBar.isHidden = false
+
                 self?.displayedPhotoImageView?.backgroundColor = UIColor(named: "backgroundColor")
                 self?.hiddenPhotoImageView?.backgroundColor = UIColor(named: "backgroundColor")
             }
-
-            UIView.addKeyframe(withRelativeStartTime: 0.2, relativeDuration: 0.2) {
-                self?.navigationController?.navigationBar.isHidden = false
-                self?.navigationController?.view.layoutIfNeeded()
-                self?.view.layoutIfNeeded()
-            }
-        } completion: { [weak self] finished in
-            guard
-                UIDevice.current.orientation.isLandscape == true,
-                let self = self,
-                let navigationBar = self.navigationController?.navigationBar.frame
-            else { return }
-
-            let frame = self.view.layoutMarginsGuide.layoutFrame
-            let origin = CGPoint(x: frame.origin.x, y: frame.origin.y + navigationBar.height)
-            let size = CGSize(width: frame.width, height: frame.size.height - navigationBar.height)
-
-            self.displayedPhotoImageView?.frame.origin = origin
-            self.displayedPhotoImageView?.frame.size = size
-            self.displayedUserPhoto?.center = CGPoint(x: size.width / 2, y: (size.height + navigationBar.height) / 2)
         }
     }
 
@@ -130,30 +112,7 @@ class FullScreenUserPhoto: UIViewController {
             self?.view.layer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1).cgColor
             self?.displayedPhotoImageView?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
             self?.hiddenPhotoImageView?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-        } completion: { [weak self] finished in
-            guard
-                UIDevice.current.orientation.isLandscape,
-                let self = self
-            else { return }
-
-            let frame = self.view.frame
-
-            self.displayedPhotoImageView?.frame = frame
-            self.displayedUserPhoto?.center = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
         }
-    }
-
-    // MARK: - setupImageView
-    private func setupImageView() {
-        var layoutFrame = CGRect.zero
-
-        if UIDevice.current.orientation.isLandscape {
-            layoutFrame = self.view.layoutMarginsGuide.layoutFrame
-        } else {
-            layoutFrame = self.view.frame
-        }
-
-        self.displayedPhotoImageView?.frame = layoutFrame
     }
 
     // MARK: - setupAnimations
@@ -210,7 +169,7 @@ class FullScreenUserPhoto: UIViewController {
                     displayedPhotoImageView?.isHidden = true
                     displayedPhotoImageView?.transform = .identity
 
-                    self?.showPhotoIndex = nextPhotoIndex
+                    self?.currentPhotoIndex = nextPhotoIndex
                     self?.view.layoutIfNeeded()
                 case .start:
                     hiddenPhotoImageView?.isHidden = true
@@ -264,7 +223,7 @@ class FullScreenUserPhoto: UIViewController {
 
                     displayedPhotoImageView?.isHidden = true
 
-                    self?.showPhotoIndex = previousPhotoIndex
+                    self?.currentPhotoIndex = previousPhotoIndex
                 case .start:
                     hiddenPhotoImageView?.isHidden = true
                     hiddenPhotoImageView?.transform = .identity
@@ -316,16 +275,21 @@ class FullScreenUserPhoto: UIViewController {
         }
     }
 
+    // MARK: - setupImageView
+    private func setupImageView() {
+        self.displayedPhotoImageView?.frame = self.view.frame
+    }
+
     // MARK: - setupView
     private func setupView() {
         self.displayedUserPhoto?.image = startImage
 
-        setupScaledImage(by: showPhotoIndex, bounds: self.view.bounds) { [weak self] scaledFetchedImage in
+        setupScaledImage(by: currentPhotoIndex, bounds: self.view.bounds) { [weak self] scaledFetchedImage in
             self?.displayedUserPhoto?.image = scaledFetchedImage
         }
 
-        let size = CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height)
-        self.displayedUserPhoto?.frame = CGRect(origin: self.view.frame.origin, size: size)
+        let size = self.view.frame.size
+        self.displayedUserPhoto?.frame = self.view.frame
         self.displayedUserPhoto?.center = CGPoint(x: size.width / 2, y: size.height / 2)
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(photoDidTapped))
@@ -335,6 +299,9 @@ class FullScreenUserPhoto: UIViewController {
         self.view.addGestureRecognizer(tapGesture)
 
         animator?.scrubsLinearly = false
+
+        self.navigationController?.navigationBar.backgroundColor = UIColor(named: "backgroundColor")
+        self.navigationController?.navigationBar.isTranslucent = true
     }
 
     // MARK: - setupDisplayedImage

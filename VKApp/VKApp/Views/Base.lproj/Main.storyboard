@@ -187,7 +187,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" name="backgroundColor"/>
-                        <inset key="separatorInset" minX="100" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FriendCell" rowHeight="92" id="91H-Rk-Uaw" customClass="FriendsTableViewCell" customModule="VKApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="50" width="430" height="92"/>
@@ -217,13 +216,11 @@
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k3e-Df-2Af">
                                             <rect key="frame" x="102" y="35.666666666666664" width="288" height="21"/>
-                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" name="foregroundColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="Tnk-YS-N7r" firstAttribute="top" secondItem="4oG-mT-wOs" secondAttribute="top" constant="10" id="DE5-Ac-xaK"/>
                                         <constraint firstAttribute="bottom" secondItem="Tnk-YS-N7r" secondAttribute="bottom" constant="10" id="aYW-6A-109"/>
@@ -299,13 +296,11 @@
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cXs-yr-uJe">
                                             <rect key="frame" x="102" y="35.666666666666664" width="288" height="21"/>
-                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" name="foregroundColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="8Pw-yc-Ac2" firstAttribute="top" secondItem="ZEA-mE-NbP" secondAttribute="top" constant="10" id="0Q5-Z4-Fzd"/>
                                         <constraint firstAttribute="bottom" secondItem="8Pw-yc-Ac2" secondAttribute="bottom" constant="10" id="6gK-VB-RMT"/>
@@ -706,7 +701,6 @@
                                         <button autoresizesSubviews="NO" opaque="NO" contentMode="center" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qXr-G7-sPA">
                                             <rect key="frame" x="10" y="10" width="43.333333333333336" height="28"/>
                                             <color key="backgroundColor" name="backgroundColor"/>
-                                            <color key="tintColor" name="interactionButtonsBackgroundColor"/>
                                             <state key="normal" title="Button"/>
                                             <buttonConfiguration key="configuration" style="gray" image="heart" catalog="system" imagePadding="4" buttonSize="small">
                                                 <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
@@ -884,12 +878,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VPY-tt-TUO">
-                                <rect key="frame" x="0.0" y="104" width="426" height="747"/>
+                                <rect key="frame" x="-4" y="103" width="427" height="745"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" name="backgroundColor"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D6v-IA-n6q">
-                                <rect key="frame" x="0.0" y="104" width="426" height="747"/>
+                                <rect key="frame" x="-4" y="103" width="427" height="745"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" name="backgroundColor"/>
                             </imageView>
@@ -898,6 +892,7 @@
                         <color key="backgroundColor" name="backgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="LRb-6B-UGf"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="displayedUserPhoto" destination="D6v-IA-n6q" id="hCr-cd-ToW"/>
                         <outlet property="nextUserPhoto" destination="VPY-tt-TUO" id="qzu-ew-AtZ"/>

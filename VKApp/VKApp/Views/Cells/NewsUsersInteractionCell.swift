@@ -16,9 +16,23 @@ class NewsUsersInteractionCell: UITableViewCell {
 
     private var canLike: Bool = false
     private var isLiked: Bool?
+    private var maskLayer = CAShapeLayer()
 
     var delegate: NewsInteractionProtocol?
     var cellId: IndexPath?
+
+
+
+    // MARK: - layoutSubviews
+    override func layoutSubviews () {
+        super.layoutSubviews()
+
+        let roundPath = UIBezierPath(roundedRect: bounds,
+                                     byRoundingCorners: [.bottomLeft, .bottomRight],
+                                 cornerRadii: CGSize(width: 30, height: 30))
+        maskLayer.path = roundPath.cgPath
+        self.layer.mask = maskLayer
+    }
 
     // MARK: - likeButtonDidTapped
     @IBAction func likeButtonDidTapped(_ sender: Any) {
@@ -58,7 +72,7 @@ extension NewsUsersInteractionCell: NewsProtocol {
             let commentsCount = news.newsBody.commentsCount != nil ? String(news.newsBody.commentsCount!) : nil
             let repostCount = news.newsBody.repostsCount != nil ? String(news.newsBody.repostsCount!) : nil
             let viewsCount = news.newsBody.viewsCount != nil ? String(news.newsBody.viewsCount!) : nil
-            let color = self?.isLiked ?? false ? UIColor.red : UIColor.darkGray
+            let color = self?.isLiked ?? false ? UIColor.systemRed : UIColor.systemGray
             let image = self?.isLiked ?? false ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
 
             DispatchQueue.main.async { [weak self] in

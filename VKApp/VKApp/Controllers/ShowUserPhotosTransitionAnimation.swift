@@ -1,5 +1,5 @@
 //
-//  TransitionAnimation.swift
+//  ShowUserPhotosTransitionAnimation.swift
 //  VKApp
 //
 //  Created by Artem Mayer on 26.04.2022.
@@ -8,7 +8,7 @@
 import UIKit
 
 // MARK: - NSObject
-final class TransitionAnimation: NSObject {
+final class ShowUserPhotosTransitionAnimation: NSObject {
     private let isPresenting: Bool
     private let animationDuration: TimeInterval
 
@@ -19,7 +19,7 @@ final class TransitionAnimation: NSObject {
 }
 
 // MARK: - UIViewControllerAnimatedTransitioning
-extension TransitionAnimation: UIViewControllerAnimatedTransitioning {
+extension ShowUserPhotosTransitionAnimation: UIViewControllerAnimatedTransitioning {
 
     // MARK: - transitionDuration
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -48,7 +48,8 @@ extension TransitionAnimation: UIViewControllerAnimatedTransitioning {
         toViewController.view.layer.cornerRadius = 150
         toViewController.view.layer.masksToBounds = true
         toViewController.view.layer.borderWidth = 1
-        toViewController.view.layer.borderColor = UIColor.systemBlue.cgColor
+        toViewController.view.layer.borderColor = UIColor(named: "navigationBarButtonTintColor")?.cgColor
+        toViewController.navigationController?.navigationBar.tintColor = UIColor(named: "navigationBarButtonTintColor")
 
         UIView.animateKeyframes(withDuration: animationDuration, delay: 0, options: []) {
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.65) {
@@ -83,7 +84,8 @@ extension TransitionAnimation: UIViewControllerAnimatedTransitioning {
         fromViewController.view.layer.cornerRadius = 0
         fromViewController.view.layer.masksToBounds = true
         fromViewController.view.layer.borderWidth = 1
-        fromViewController.view.layer.borderColor = UIColor.systemBlue.cgColor
+        fromViewController.view.layer.borderColor = UIColor(named: "navigationBarButtonTintColor")?.cgColor
+        fromViewController.navigationController?.navigationBar.tintColor = UIColor(named: "navigationBarButtonTintColor")
 
         UIView.animateKeyframes(withDuration: animationDuration, delay: 0, options: []) {
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.35) {
@@ -107,7 +109,7 @@ extension TransitionAnimation: UIViewControllerAnimatedTransitioning {
     }
 
     // MARK: - setAnchorPoint
-    // Сhanging the pivot point of the view
+    /// Сhanging the pivot point of the view
     private func setAnchorPoint(_ point: CGPoint, by containerView: UIView) -> CGPoint {
         var position = containerView.layer.position
         var newPoint = CGPoint(x: containerView.bounds.size.width * point.x,

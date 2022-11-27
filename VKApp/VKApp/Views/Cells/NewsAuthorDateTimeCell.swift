@@ -15,6 +15,18 @@ final class NewsAuthorDateTimeCell: UITableViewCell {
 
     var imageCachingService: ImageCachingService?
     var indexPath: IndexPath?
+    private var maskLayer = CAShapeLayer()
+
+    // MARK: - layoutSubviews
+    override func layoutSubviews () {
+        super.layoutSubviews()
+
+        let roundPath = UIBezierPath(roundedRect: bounds,
+                                 byRoundingCorners: [.topLeft, .topRight],
+                                 cornerRadii: CGSize(width: 30, height: 30))
+        maskLayer.path = roundPath.cgPath
+        self.layer.mask = maskLayer
+    }
 }
 
 // MARK: - NewsProtocol
@@ -23,20 +35,23 @@ extension NewsAuthorDateTimeCell: NewsProtocol {
     // MARK: - setup
     func setup<T : NewsCellTypeDataProtocol>(news: T) {
         var fullName: String?
-        var imageURL = String()
+        var imagePath = String()
         
         if let user = news.userOwner {
             fullName = "\(user.firstName) \(user.lastName)"
-            imageURL = user.avatar
+            imagePath = user.avatar
         } else if let group = news.groupOwner {
             fullName = "\(group.name)"
-            imageURL = group.avatar
+            imagePath = group.avatar
         }
 
         guard let indexPath = indexPath else { return }
 
         self.newsAuthorFullName?.text = fullName
-        self.newsPostingDate?.text = news.newsBody.date
-        self.newsAuthorAvatar?.image = imageCachingService?.getImage(at: indexPath, by: imageURL)
+        self.newsPostingDate?.text = NewsDateFormatter.shared.getFormattedDate(from: news.newsBody.date)
+
+        imageCachingService?.getImage(at: indexPath, by: imagePath) { [weak self] image in
+            self?.newsAuthorAvatar?.image = image
+        }
     }
 }

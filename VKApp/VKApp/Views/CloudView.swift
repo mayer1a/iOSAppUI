@@ -102,12 +102,11 @@ final class CloudView: UIView {
         shape.path = path.cgPath
         shape.lineWidth = 7
         shape.fillColor = UIColor.clear.cgColor
-        shape.strokeColor = UIColor.systemGray.cgColor
+        shape.strokeColor = UIColor.systemGray2.cgColor
         shape.lineCap = .round
 
         // Create animation laye based on a path
         animationCloudLayer.path = path.cgPath
-        animationCloudLayer.strokeColor = UIColor.systemBlue.cgColor
         animationCloudLayer.lineWidth = 7
         animationCloudLayer.fillColor = UIColor.clear.cgColor
         animationCloudLayer.lineCap = .round
@@ -117,6 +116,7 @@ final class CloudView: UIView {
     // MARK: - startAnimation
     func startAnimation() {
         animationCloudLayer.add(animationGroup, forKey: nil)
+        animationCloudLayer.strokeColor = UIColor(named: "navigationBarButtonTintColor")?.cgColor
 
         self.shape.addSublayer(self.animationCloudLayer)
         self.isHidden = false
@@ -126,5 +126,6 @@ final class CloudView: UIView {
     func removeAnimation() {
         self.isHidden = true
         self.animationCloudLayer.removeAllAnimations()
+        self.removeFromSuperview()
     }
 }

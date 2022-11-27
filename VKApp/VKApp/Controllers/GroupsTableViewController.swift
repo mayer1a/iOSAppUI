@@ -32,6 +32,7 @@ final class GroupsTableViewController: UITableViewController {
     // MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         sizeHeaderToFit()
     }
 
@@ -55,8 +56,11 @@ final class GroupsTableViewController: UITableViewController {
 
         guard let imagePath = displayedGroups?[indexPath.row].avatar
         else { return UITableViewCell() }
+        
+        imageCachingService?.getImage(at: indexPath, by: imagePath) { image in
+            cell?.groupImage?.image = image
+        }
 
-        cell?.groupImage?.image = imageCachingService?.getImage(at: indexPath, by: imagePath)
         cell?.groupName?.text = displayedGroups?[indexPath.row].name
 
         return cell ?? UITableViewCell()
@@ -73,8 +77,21 @@ final class GroupsTableViewController: UITableViewController {
         return UISwipeActionsConfiguration(actions: [action])
     }
 
+    // MARK: - heightForRowAt
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(93)
+    }
+
+    // MARK: - traitCollectionDidChange
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard customSearchView?.searchTextField?.isFirstResponder == true else { return }
+
+        tableView.layoutIfNeeded()
+
+        customSearchView?.searchIconCenterXConstraint?.isActive = false
+        customSearchView?.searchTextFieldTrailingConstraint?.isActive = false
+        customSearchView?.closeButtonTrailingConstraint?.isActive = true
+        customSearchView?.searchTextFieldLeadingAnchor?.isActive = true
     }
 
     // MARK: - customSearchBarDidTapped
@@ -87,10 +104,11 @@ final class GroupsTableViewController: UITableViewController {
                        initialSpringVelocity: 0.6,
                        options: [.curveEaseInOut]) { [weak self] in
 
-            customSearchView.closeButtonTrailingConstraint?.isActive = true
-            customSearchView.searchTextFieldLeadingAnchor?.isActive = true
             customSearchView.searchIconCenterXConstraint?.isActive = false
             customSearchView.searchTextFieldTrailingConstraint?.isActive = false
+            customSearchView.closeButtonTrailingConstraint?.isActive = true
+            customSearchView.searchTextFieldLeadingAnchor?.isActive = true
+            customSearchView.searchTextField?.placeholder = "Поиск"
 
             self?.tableView.layoutIfNeeded()
         }
@@ -106,35 +124,26 @@ final class GroupsTableViewController: UITableViewController {
                        initialSpringVelocity: 0.6,
                        options: [.curveEaseInOut]) { [weak self] in
 
-            customSearchView.searchIconCenterXConstraint?.isActive = true
-            customSearchView.searchTextFieldTrailingConstraint?.isActive = true
             customSearchView.closeButtonTrailingConstraint?.isActive = false
             customSearchView.searchTextFieldLeadingAnchor?.isActive = false
+            customSearchView.searchIconCenterXConstraint?.isActive = true
+            customSearchView.searchTextFieldTrailingConstraint?.isActive = true
 
             self?.tableView.layoutIfNeeded()
         }
 
         customSearchView.searchTextField?.text = ""
+        customSearchView.searchTextField?.placeholder = ""
         updateDisplayedGroups(searchText: "")
 
         customSearchView.searchTextField?.resignFirstResponder()
     }
 
     // MARK: - customSearchTextDidChange
-    @objc func customSearchTextDidChange(_ sender: Any) {
-        guard let sender = sender as? UITextField, let inputText = sender.text else { return }
+    @objc func customSearchTextDidChange(_ sender: UITextField) {
+        guard let inputText = sender.text else { return }
 
         updateDisplayedGroups(searchText: inputText)
-    }
-
-    // MARK: - @objc tapOutKeyboard
-    @objc private func tapOutKeyboard() {
-        customSearchView?.searchTextField?.resignFirstResponder()
-    }
-
-    // MARK: - searchBarDidTapped
-    @objc private func searchBarDidTapped() {
-        customSearchView?.searchTextField?.resignFirstResponder()
     }
 
     // MARK: - makeObserver
@@ -142,34 +151,40 @@ final class GroupsTableViewController: UITableViewController {
         self.realmNotification = RealmObserver.shared.makeObserver { (groups: [RealmGroup], changes) in
             DispatchQueue.main.async { [weak self] in
                 self?.setupData(from: groups, with: changes)
-                self?.writeFirebase(data: self?.myGroups)
+//                self?.writeFirebase(data: self?.myGroups)
             }
         }
     }
 
     // MARK: - dataValidityCheck
     private func dataValidityCheck() {
-        do {
-            let groups = try RealmGroup.restoreData()
-            let userDefaults = UserDefaults.standard
-            let currentTime = Int(Date().timeIntervalSince1970)
+        var groups = [RealmGroup]()
+        let userDefaults = UserDefaults.standard
+        let currentTime = Int(Date().timeIntervalSince1970)
 
-            if currentTime - userDefaults.integer(forKey: "groupsLastLoad") > 10_000 || groups.isEmpty {
-                firstly {
-                    getGroupsPromise.fetchUserGroups()
-                }.compactMap(on: DispatchQueue.global()) { data in
-                    self.getGroupsPromise.parseGroups(data: data).value
-                }.done(on: DispatchQueue.global()) { groups in
-                    RealmGroup.saveData(data: groups)
-                }.ensure(on: DispatchQueue.global()) {
-                    userDefaults.set(currentTime, forKey: "groupsLastLoad")
-                }.catch { error in
-                    print(error)
-                }
-            } else {
-                self.setupData(from: groups)
-            }
+        do {
+            groups = try RealmGroup.restoreData()
         } catch {
+            print(error)
+        }
+
+        guard
+            currentTime - userDefaults.integer(forKey: "groupsLastLoad") > 0 || groups.isEmpty
+        else {
+            self.setupData(from: groups)
+            return
+        }
+
+        firstly {
+            self.getGroupsPromise.fetchUserGroups()
+        }.compactMap(on: DispatchQueue.global()) { [weak self] data in
+            self!.getGroupsPromise.parseGroups(data: data)
+        }.compactMap(on: DispatchQueue.global()) { groupResponse in
+            groupResponse.value?.items
+        }.done(on: DispatchQueue.global()) { groups in
+            userDefaults.set(currentTime, forKey: "groupsLastLoad")
+            RealmGroup.saveData(data: groups)
+        }.catch { error in
             print(error)
         }
     }
@@ -180,32 +195,35 @@ final class GroupsTableViewController: UITableViewController {
         self.myGroups = myGroups
         self.displayedGroups = myGroups
 
-        if let changes = changes {
-            DispatchQueue.global().async {
-                let deletionIndexes = changes.0.reduce(into: [IndexPath]()) {
-                    $0.append(IndexPath(row: $1, section: 0))
-                }
-
-                let insertionIndexes = changes.1.reduce(into: [IndexPath]()) {
-                    $0.append(IndexPath(row: $1, section: 0))
-                }
-
-                let reloadIndexes = changes.2.reduce(into: [IndexPath]()) {
-                    $0.append(IndexPath(row: $1, section: 0))
-                }
-
-                DispatchQueue.main.async {
-                    self.tableView.beginUpdates()
-
-                    self.tableView.deleteRows(at: deletionIndexes, with: .none)
-                    self.tableView.insertRows(at: insertionIndexes, with: .none)
-                    self.tableView.reloadRows(at: reloadIndexes, with: .none)
-
-                    self.tableView.endUpdates()
-                }
-            }
-        } else {
+        guard
+            let changes = changes
+        else {
             self.tableView.reloadData()
+            return
+        }
+
+        DispatchQueue.global().async {
+            let deletionIndexes = changes.0.reduce(into: [IndexPath]()) {
+                $0.append(IndexPath(row: $1, section: 0))
+            }
+
+            let insertionIndexes = changes.1.reduce(into: [IndexPath]()) {
+                $0.append(IndexPath(row: $1, section: 0))
+            }
+
+            let reloadIndexes = changes.2.reduce(into: [IndexPath]()) {
+                $0.append(IndexPath(row: $1, section: 0))
+            }
+
+            DispatchQueue.main.async {
+                self.tableView.beginUpdates()
+
+                self.tableView.deleteRows(at: deletionIndexes, with: .none)
+                self.tableView.insertRows(at: insertionIndexes, with: .none)
+                self.tableView.reloadRows(at: reloadIndexes, with: .none)
+
+                self.tableView.endUpdates()
+            }
         }
     }
 
@@ -224,11 +242,8 @@ final class GroupsTableViewController: UITableViewController {
             .collection(FirestoreNames.collectionName.rawValue)
             .document(String(userId))
             .setData(data) { error in
-                if let error = error {
-                    print("Error adding document: \(error)")
-                } else {
-                    print("Document successfully written with ID: \(userId)")
-                }
+                guard let error = error else { return }
+                print("Error adding document: \(error)")
             }
     }
 
@@ -236,39 +251,36 @@ final class GroupsTableViewController: UITableViewController {
     private func customSearchViewConfiguration() {
         self.tableView.tableHeaderView = customSearchView
 
-        customSearchView?.insetsLayoutMarginsFromSafeArea = true
-
         customSearchView?.searchTextField?.addTarget(self,
                                                      action: #selector(customSearchBarDidTapped),
                                                      for: .editingDidBegin)
 
         customSearchView?.searchTextField?.addTarget(self,
-                                                     action: #selector(customSearchTextDidChange(_:)),
+                                                     action: #selector(customSearchTextDidChange),
                                                      for: .editingChanged)
 
         customSearchView?.searchTextField?.addTarget(self,
-                                                     action: #selector(searchBarDidTapped),
+                                                     action: #selector(cancelButtonDidTapped),
                                                      for: .editingDidEndOnExit)
 
         customSearchView?.searchCloseButton?.addTarget(self,
                                                        action: #selector(cancelButtonDidTapped),
                                                        for: .touchUpInside)
-    }
+        // add target on rightView
 
+    }
+    @objc private func test(_ sender: Any) {
+        print("clear")
+    }
     // MARK: - sizeHeaderToFit
     private func sizeHeaderToFit() {
         guard let headerView = self.tableView.tableHeaderView else { return }
 
-        headerView.setNeedsLayout()
-        headerView.layoutIfNeeded()
-
         let height = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
-        let width = self.tableView.safeAreaLayoutGuide.layoutFrame.size.width
-        var frame = headerView.frame
 
+        var frame = headerView.frame
         frame.size.height = height
-        frame.size.width = width
-        frame.origin = self.tableView.safeAreaLayoutGuide.layoutFrame.origin
+
         headerView.frame = frame
 
         self.tableView.tableHeaderView = headerView
@@ -281,12 +293,14 @@ final class GroupsTableViewController: UITableViewController {
         } else {
             firstly {
                 getGroupsPromise.fetchSearchedGroups(by: searchText)
-            }.compactMap(on: DispatchQueue.global()) { data in
-                try JSONDecoder().decode(GroupResponse.self, from: data).items
+            }.compactMap(on: DispatchQueue.global()) { [weak self] data in
+                self?.getGroupsPromise.parseGroups(data: data)
+            }.compactMap(on: DispatchQueue.global()) { groupsResponse in
+                groupsResponse.value?.items
             }.compactMap(on: DispatchQueue.global()) { groups in
                 groups.filter { $0.name.lowercased().contains(searchText.lowercased()) }
             }.done(on: DispatchQueue.main) { [weak self] groups in
-                self?.displayedGroups = groups.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+                self?.displayedGroups = groups
                 self?.tableView.reloadData()
             }.catch { error in
                 print(error)

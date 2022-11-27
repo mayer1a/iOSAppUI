@@ -16,9 +16,9 @@ final class NewsBody: Decodable {
         case isFavorite = "is_favorite"
         case markedAsAds = "marked_as_ads"
         case postSource = "post_source"
-        case postID = "post_id"
-        case signerID = "signer_id"
-        case topicID = "topic_id"
+        case postId = "post_id"
+        case signerId = "signer_id"
+        case topicId = "topic_id"
         case date
         case text
         case reposts
@@ -27,6 +27,9 @@ final class NewsBody: Decodable {
         case views
         case isViewed
         case attachments
+        case type
+        case photos
+        case videos
     }
     
     enum LikesKeys: String, CodingKey {
@@ -53,14 +56,32 @@ final class NewsBody: Decodable {
     enum AttachmentsKeys: String, CodingKey {
         case type
         case photo
+        case video
+    }
+
+    enum WallPhotosKeys: String, CodingKey {
+        case items
+    }
+
+    enum VideoKeys: String, CodingKey {
+        case items
+    }
+
+    enum NewsType: String {
+        case post
+        case photo
+        case wallPhoto = "wall_photo"
+        case musicVideo = "music_video"
+        case video
+        case movie
     }
     
-    let sourceId: Int
-    let date: String
-    let markedAsAds: Int?
-    let postID: Int?
-    let signerID: Int?
-    let topicID: Int?
+    var sourceId: Int?
+    var date: TimeInterval?
+    var postId: Int?
+    var markedAsAds: Int?
+    var signerId: Int?
+    var topicId: Int?
     var canDoubtCategory: Bool?
     var canSetCategory: Bool?
     var isFavorite: Bool?
@@ -74,64 +95,114 @@ final class NewsBody: Decodable {
     var isReposted: Int?
     var canRepost: Int?
     var viewsCount: Int?
-    var isViewed: Bool
+    var isViewed: Bool = false
     var images: [Photo?]
     var audios: [String?]
-    var videos: [String?]
+    var videos: [Video?]
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(String.self, forKey: .type)
+
+        self.images = [Photo]()
+        self.audios = [String?]()
+        self.videos = [Video?]()
+
+        switch type {
+            case NewsType.post.rawValue:
+                try self.postParse(from: container)
+            case NewsType.photo.rawValue, NewsType.wallPhoto.rawValue:
+                try self.photoParse(from: container)
+            case NewsType.video.rawValue, NewsType.musicVideo.rawValue, NewsType.movie.rawValue:
+                try self.videoParse(from: container)
+            default:
+                break
+        }
+    }
+
+    // MARK: - postParse
+    private func postParse(from container: KeyedDecodingContainer<NewsBody.CodingKeys>) throws {
         self.sourceId = try container.decode(Int.self, forKey: .sourceId)
-        
-        let dateValue = try container.decode(Int.self, forKey: .date)
-        let date = Date(timeIntervalSince1970: TimeInterval(dateValue))
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.mm.yyyy hh:mm"
-        dateFormatter.timeZone = .current
-        self.date = dateFormatter.string(from: date)
-        
+        self.date = try container.decode(TimeInterval.self, forKey: .date)
+        self.postId = try? container.decode(Int.self, forKey: .postId)
+
         self.canDoubtCategory = try? container.decode(Bool.self, forKey: .canDoubtCategory)
         self.canSetCategory = try? container.decode(Bool.self, forKey: .canSetCategory)
         self.isFavorite = try? container.decode(Bool.self, forKey: .isFavorite)
         self.markedAsAds = try? container.decode(Int.self, forKey: .markedAsAds)
-        self.postID = try? container.decode(Int.self, forKey: .postID)
-        self.signerID = try? container.decode(Int.self, forKey: .signerID)
-        self.topicID = try? container.decode(Int.self, forKey: .topicID)
+
+        self.signerId = try? container.decode(Int.self, forKey: .signerId)
+        self.topicId = try? container.decode(Int.self, forKey: .topicId)
         self.text = try? container.decode(String.self, forKey: .text)
-        
+
         let nestedLikesContainer = try? container.nestedContainer(keyedBy: LikesKeys.self, forKey: .likes)
         self.likesCount = try? nestedLikesContainer?.decode(Int.self, forKey: .likesCount)
         self.canLike = try? nestedLikesContainer?.decode(Int.self, forKey: .canLike)
         self.isLiked = try? nestedLikesContainer?.decode(Int.self, forKey: .isLiked)
         self.canRepost = try? nestedLikesContainer?.decode(Int.self, forKey: .canRepost)
-        
+
         let nestedCommentsContainer = try? container.nestedContainer(keyedBy: CommentsKeys.self, forKey: .comments)
         self.commentsCount = try? nestedCommentsContainer?.decode(Int.self, forKey: .commentsCount)
         self.canPostComment = try? nestedCommentsContainer?.decode(Int.self, forKey: .canPostComment)
-        
+
         let nestedRepostsContainer = try? container.nestedContainer(keyedBy: RepostsKeys.self, forKey: .reposts)
         self.repostsCount = try? nestedRepostsContainer?.decode(Int.self, forKey: .repostsCount)
         self.isReposted = try? nestedRepostsContainer?.decode(Int.self, forKey: .isReposted)
-        
+
         let nestedViewsContainer = try? container.nestedContainer(keyedBy: ViewsKeys.self, forKey: .views)
         self.viewsCount = try? nestedViewsContainer?.decode(Int.self, forKey: .viewsCount)
-        
-        var nestedUnkeyedImageContainer = try? container.nestedUnkeyedContainer(forKey: .attachments)
-        self.images = [Photo]()
-        
-        while !(nestedUnkeyedImageContainer?.isAtEnd ?? true) {
-            let nestedImageContainer = try? nestedUnkeyedImageContainer?.nestedContainer(keyedBy: AttachmentsKeys.self)
-            let attachmentsType = try? nestedImageContainer?.decode(String.self, forKey: .type)
-            
-            if attachmentsType == "photo" {
-                let image = try? nestedImageContainer?.decode(Photo.self, forKey: .photo)
-                self.images.append(image)
+
+        var nestedUnkeyedMediaContainer = try? container.nestedUnkeyedContainer(forKey: .attachments)
+
+        while !(nestedUnkeyedMediaContainer?.isAtEnd ?? true) {
+            let nestedMediaContainer = try? nestedUnkeyedMediaContainer?.nestedContainer(keyedBy: AttachmentsKeys.self)
+            let attachmentType = try? nestedMediaContainer?.decode(String.self, forKey: .type)
+
+            switch attachmentType {
+                case NewsType.post.rawValue, NewsType.photo.rawValue, NewsType.wallPhoto.rawValue:
+                    self.photoParse(from: nestedMediaContainer)
+                case NewsType.video.rawValue, NewsType.musicVideo.rawValue, NewsType.movie.rawValue:
+                    self.videoParse(from: nestedMediaContainer)
+                default: break
             }
         }
-        
-        self.audios = [String?]()
-        self.videos = [String?]()
-        self.isViewed = false
+    }
+
+    // MARK: - photoParse
+    private func photoParse(from container: KeyedDecodingContainer<NewsBody.CodingKeys>) throws {
+        self.sourceId = try container.decode(Int.self, forKey: .sourceId)
+        self.date = try container.decode(TimeInterval.self, forKey: .date)
+        self.postId = try? container.decode(Int.self, forKey: .postId)
+
+        let nestedImageContainer = try? container.nestedContainer(keyedBy: WallPhotosKeys.self, forKey: .photos)
+
+        let image = try? nestedImageContainer?.decode(Photo.self, forKey: .items)
+        self.images.append(image)
+    }
+
+    // MARK: - photoParse
+    private func photoParse(from container: KeyedDecodingContainer<NewsBody.AttachmentsKeys>?) {
+        if !self.images.isEmpty { return }
+        let image = try? container?.decode(Photo.self, forKey: .photo)
+        self.images.append(image)
+    }
+
+    // MARK: - videoParse
+    private func videoParse(from container: KeyedDecodingContainer<NewsBody.CodingKeys>) throws {
+        self.sourceId = try container.decode(Int.self, forKey: .sourceId)
+        self.date = try container.decode(TimeInterval.self, forKey: .date)
+        self.postId = try? container.decode(Int.self, forKey: .postId)
+
+        let nestedImageContainer = try? container.nestedContainer(keyedBy: VideoKeys.self, forKey: .videos)
+        let video = try? nestedImageContainer?.decode(Video.self, forKey: .items)
+        self.videos.append(video)
+    }
+
+    // MARK: - videoParse
+    private func videoParse(from container: KeyedDecodingContainer<NewsBody.AttachmentsKeys>?) {
+        if !self.videos.isEmpty { return }
+        let video = try? container?.decode(Video.self, forKey: .video)
+        self.videos.append(video)
     }
 }
 
@@ -155,6 +226,8 @@ final class NewsResponse: Decodable {
         let responseValue = try container.nestedContainer(keyedBy: RequestKeys.self, forKey: .response)
         
         self.nextFrom = try? responseValue.decode(String.self, forKey: .nextFrom)
+
+        UserDefaults.standard.set(self.nextFrom, forKey: "newsNextFrom")
     }
     
     func parseData(data: Data, completion: @escaping ([News]) -> Void) {
@@ -185,7 +258,7 @@ final class NewsResponse: Decodable {
             
             let groupsData = (try? JSONSerialization.data(withJSONObject: groups as Any, options: .fragmentsAllowed)
             ) ?? Data()
-            
+
             self.asyncParse(data: itemsData) { (model: [NewsBody]) in
                 newsBodies = model
                 dispatchGroup.leave()
@@ -203,16 +276,24 @@ final class NewsResponse: Decodable {
             
             dispatchGroup.notify(queue: .global()) {
                 var news = [News]()
-                
-                for newsBody in newsBodies {
-                    let ownerId = newsBody.sourceId
-                    
-                    if ownerId > 0 {
-                        let owner = newsUsers.first(where: { $0.id == ownerId })
-                        news.append(News(owner, newsBody: newsBody))
+
+                newsBodies.forEach { newsBody in
+                    if let ownerId = newsBody.sourceId {
+                        if ownerId > 0 {
+                            let owner = newsUsers.first(where: { $0.id == ownerId })
+                            news.append(News(owner, newsBody: newsBody))
+                        } else {
+                            let owner = newsGroups.first(where: { $0.id == -ownerId })
+                            news.append(News(owner, newsBody: newsBody))
+                        }
+                    }
+                }
+
+                news = news.compactMap { news in
+                    if news.postType == .none {
+                        return nil
                     } else {
-                        let owner = newsGroups.first(where: { $0.id == -ownerId })
-                        news.append(News(owner, newsBody: newsBody))
+                        return news
                     }
                 }
                 
@@ -284,7 +365,9 @@ final class News {
     var newsBody: NewsBody
     
     var postType: Kind? {
-        let hasText = newsBody.text != nil
+        guard let isEmptyText = newsBody.text?.isEmpty else { return nil }
+
+        let hasText = !isEmptyText
         let hasImage = newsBody.images.first != nil
         let hasVideo = newsBody.videos.first != nil
         let hasAudio = newsBody.audios.first != nil

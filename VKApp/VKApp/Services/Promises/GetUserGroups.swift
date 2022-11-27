@@ -36,8 +36,8 @@ final class GetUserGroups {
         
         return firstly {
             URLSession.shared.dataTask(.promise, with: url)
-        }.map { data, _ in
-            data
+        }.compactMap { data, _ in
+            return data
         }
     }
     
@@ -58,25 +58,21 @@ final class GetUserGroups {
         
         return firstly {
             URLSession.shared.dataTask(.promise, with: url)
-        }.map { data, _ in
-            data
+        }.compactMap { data, _ in
+            return data
         }
     }
-    
+
     // MARK: - parseGroups
-    func parseGroups(data: Data) -> Promise<[Group]> {
-        return firstly {
-            Promise<GroupResponse> { seal in
-                guard let group = try? JSONDecoder().decode(GroupResponse.self, from: data)
-                else {
-                    seal.reject(URLError.badURL as! Error)
-                    return
-                }
-                
-                seal.fulfill(group)
-            }.compactMap { groupResponse in
-                groupResponse.items
+    func parseGroups(data: Data) -> Promise<GroupResponse> {
+        return Promise<GroupResponse> { seal in
+            guard let group = try? JSONDecoder().decode(GroupResponse.self, from: data)
+            else {
+                seal.reject(URLError.badURL as! Error)
+                return
             }
+
+            seal.fulfill(group)
         }
     }
 }

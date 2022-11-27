@@ -21,22 +21,24 @@ class FullScreenUserPhoto: UIViewController {
     @IBOutlet weak var displayedUserPhoto: UIImageView?
     
     var photos = [Photo]()
-    var showPhotoIndex = Int()
+    var currentPhotoIndex = Int()
+    var startImage: UIImage?
 
     private var direction: Direction? = .nonDirection
+    private var isDarken = false
 
     private lazy var animator: UIViewPropertyAnimator? = {
         return UIViewPropertyAnimator(duration: 1, curve: .easeInOut)
     }()
 
     private var nextPhotoIndex: Int? {
-        let nextIndex = showPhotoIndex + 1
+        let nextIndex = currentPhotoIndex + 1
 
         return nextIndex < photos.count ? nextIndex : nil
     }
 
     private var previousPhotoIndex: Int? {
-        let previousIndex = showPhotoIndex - 1
+        let previousIndex = currentPhotoIndex - 1
 
         return previousIndex >= 0 ? previousIndex : nil
     }
@@ -56,15 +58,8 @@ class FullScreenUserPhoto: UIViewController {
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+
         setupView()
-    }
-
-    // MARK: - viewDidAppear
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        self.setupImageView()
-        self.displayedUserPhoto?.alpha = 1
     }
 
     // MARK: - viewWillTransition
@@ -79,30 +74,33 @@ class FullScreenUserPhoto: UIViewController {
     // MARK: - photoImagePanned
     @objc private func photoImagePanned(_ recognizer: UIPanGestureRecognizer) {
         switch recognizer.state {
-        case .began: setupAnimations(recognizer)
-        case .changed: animationWillChange(recognizer)
-        case .ended: endAnimation(recognizer)
-        default: break
+            case .began: setupAnimations(recognizer)
+            case .changed: animationWillChange(recognizer)
+            case .ended: endAnimation(recognizer)
+            default: break
         }
     }
 
     // MARK: - photoDidTapped
     @objc private func photoDidTapped() {
-        switch self.view.layer.backgroundColor {
-            case UIColor.black.cgColor: lightenBackground()
-            default: darkenBackground()
+        if isDarken {
+            lightenBackground()
+        } else {
+            darkenBackground()
         }
+
+        isDarken.toggle()
     }
 
     // MARK: - lightenBackground
     private func lightenBackground() {
-        UIView.animateKeyframes(withDuration: 0.2, delay: 0) { [weak self] in
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
-                self?.view.layer.backgroundColor = UIColor.white.cgColor
-            }
-
-            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5) {
+        UIView.animateKeyframes(withDuration: 0.4, delay: 0) { [weak self] in
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.2) {
+                self?.view.layer.backgroundColor = UIColor(named: "backgroundColor")?.cgColor
                 self?.navigationController?.navigationBar.isHidden = false
+
+                self?.displayedPhotoImageView?.backgroundColor = UIColor(named: "backgroundColor")
+                self?.hiddenPhotoImageView?.backgroundColor = UIColor(named: "backgroundColor")
             }
         }
     }
@@ -111,19 +109,10 @@ class FullScreenUserPhoto: UIViewController {
     private func darkenBackground() {
         UIView.animate(withDuration: 0.2) { [weak self] in
             self?.navigationController?.navigationBar.isHidden = true
-            self?.view.layer.backgroundColor = UIColor.black.cgColor
+            self?.view.layer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1).cgColor
+            self?.displayedPhotoImageView?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+            self?.hiddenPhotoImageView?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
         }
-    }
-
-    // MARK: - setupImageView
-    private func setupImageView() {
-        var frame = CGRect()
-        let layoutFrame = self.view.safeAreaLayoutGuide.layoutFrame
-
-        frame.origin = layoutFrame.origin
-        frame.size = layoutFrame.size
-
-        self.displayedPhotoImageView?.frame = frame
     }
 
     // MARK: - setupAnimations
@@ -150,7 +139,7 @@ class FullScreenUserPhoto: UIViewController {
         let displayedPhotoImageView = displayedPhotoImageView
         hiddenPhotoImageView?.image = nil
 
-        getScaledImage(by: nextPhotoIndex, bounds: self.view.bounds) { image in
+        setupScaledImage(by: nextPhotoIndex, bounds: self.view.bounds) { image in
             hiddenPhotoImageView?.image = image
         }
 
@@ -166,7 +155,7 @@ class FullScreenUserPhoto: UIViewController {
         animator?.addAnimations({ [weak self] in
             guard let self = self else { return }
 
-            hiddenPhotoImageView?.frame.origin.x = self.view.safeAreaLayoutGuide.layoutFrame.origin.x
+            hiddenPhotoImageView?.frame.origin.x = self.view.frame.origin.x
             displayedPhotoImageView?.frame.origin.x = -(self.view.bounds.maxX)
 
             self.view.layoutIfNeeded()
@@ -174,18 +163,18 @@ class FullScreenUserPhoto: UIViewController {
 
         animator?.addCompletion { [weak self] position in
             switch position {
-            case .end:
-                guard let nextPhotoIndex = self?.nextPhotoIndex else { return }
+                case .end:
+                    guard let nextPhotoIndex = self?.nextPhotoIndex else { return }
 
-                displayedPhotoImageView?.isHidden = true
-                displayedPhotoImageView?.transform = .identity
+                    displayedPhotoImageView?.isHidden = true
+                    displayedPhotoImageView?.transform = .identity
 
-                self?.showPhotoIndex = nextPhotoIndex
-                self?.view.layoutIfNeeded()
-            case .start:
-                hiddenPhotoImageView?.isHidden = true
-            default:
-                break
+                    self?.currentPhotoIndex = nextPhotoIndex
+                    self?.view.layoutIfNeeded()
+                case .start:
+                    hiddenPhotoImageView?.isHidden = true
+                default:
+                    break
             }
         }
 
@@ -202,7 +191,7 @@ class FullScreenUserPhoto: UIViewController {
         let displayedPhotoImageView = displayedPhotoImageView
         hiddenPhotoImageView?.image = nil
 
-        getScaledImage(by: previousPhotoIndex, bounds: self.view.bounds) { image in
+        setupScaledImage(by: previousPhotoIndex, bounds: self.view.bounds) { image in
             hiddenPhotoImageView?.image = image
         }
 
@@ -213,8 +202,8 @@ class FullScreenUserPhoto: UIViewController {
         // Transform scale animation
         animator?.addAnimations { [weak self] in
             guard
-                let originX = self?.view.safeAreaLayoutGuide.layoutFrame.origin.x,
-                let width = self?.view.safeAreaLayoutGuide.layoutFrame.width,
+                let originX = self?.view.frame.origin.x,
+                let width = self?.view.frame.width,
                 let maxX = self?.view.bounds.maxX
             else { return }
 
@@ -229,17 +218,17 @@ class FullScreenUserPhoto: UIViewController {
 
         animator?.addCompletion { [weak self] position in
             switch position {
-            case .end:
-                guard let previousPhotoIndex = self?.previousPhotoIndex else { return }
+                case .end:
+                    guard let previousPhotoIndex = self?.previousPhotoIndex else { return }
 
-                displayedPhotoImageView?.isHidden = true
+                    displayedPhotoImageView?.isHidden = true
 
-                self?.showPhotoIndex = previousPhotoIndex
-            case .start:
-                hiddenPhotoImageView?.isHidden = true
-                hiddenPhotoImageView?.transform = .identity
-            default:
-                break
+                    self?.currentPhotoIndex = previousPhotoIndex
+                case .start:
+                    hiddenPhotoImageView?.isHidden = true
+                    hiddenPhotoImageView?.transform = .identity
+                default:
+                    break
             }
         }
 
@@ -251,8 +240,8 @@ class FullScreenUserPhoto: UIViewController {
         guard var frame = hiddenPhotoImageView?.frame else { return CGRect.zero }
 
         frame.origin.x = direction == .left ? self.view.bounds.width : -self.view.bounds.width
-        frame.origin.y = self.view.safeAreaLayoutGuide.layoutFrame.origin.y
-        frame.size = self.view.safeAreaLayoutGuide.layoutFrame.size
+        frame.origin.y = self.view.frame.origin.y
+        frame.size = self.view.frame.size
 
         return frame
     }
@@ -286,17 +275,23 @@ class FullScreenUserPhoto: UIViewController {
         }
     }
 
+    // MARK: - setupImageView
+    private func setupImageView() {
+        self.displayedPhotoImageView?.frame = self.view.frame
+    }
+
     // MARK: - setupView
     private func setupView() {
-        getScaledImage(by: showPhotoIndex, bounds: self.view.bounds) { [weak self] image in
-            self?.displayedUserPhoto?.image = image
+        self.displayedUserPhoto?.image = startImage
+
+        setupScaledImage(by: currentPhotoIndex, bounds: self.view.bounds) { [weak self] scaledFetchedImage in
+            self?.displayedUserPhoto?.image = scaledFetchedImage
         }
 
-        if let frame = self.view?.frame {
-            self.displayedUserPhoto?.frame = CGRect(origin: frame.origin, size: CGSize(width: self.view.frame.size.width, height: frame.size.height))
-        }
+        let size = self.view.frame.size
+        self.displayedUserPhoto?.frame = self.view.frame
+        self.displayedUserPhoto?.center = CGPoint(x: size.width / 2, y: size.height / 2)
 
-        self.displayedUserPhoto?.center = CGPoint(x: self.view.frame.size.width / 2, y: self.view.frame.size.height / 2)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(photoDidTapped))
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(photoImagePanned(_:)))
 
@@ -304,18 +299,20 @@ class FullScreenUserPhoto: UIViewController {
         self.view.addGestureRecognizer(tapGesture)
 
         animator?.scrubsLinearly = false
+
+        self.navigationController?.navigationBar.backgroundColor = UIColor(named: "backgroundColor")
+        self.navigationController?.navigationBar.isTranslucent = true
     }
 
     // MARK: - setupDisplayedImage
-    private func getScaledImage(by displayedIndex: Int, bounds: CGRect, completion: @escaping (UIImage?) -> Void) {
+    private func setupScaledImage(by displayedIndex: Int, bounds: CGRect, completion: @escaping (UIImage) -> Void) {
         DispatchQueue.global().async { [weak self] in
             guard
                 let imagePath = self?.photos[displayedIndex].originalSizeUrl,
-                let imageUrl = URL(string: imagePath)
+                let imageUrl = URL(string: imagePath),
+                let image = UIImage.fetchImage(at: imageUrl),
+                let scaledImage = UIImage.resizeImage(bounds: bounds, image: image)
             else { return }
-
-            let image = UIImage.fetchImage(at: imageUrl)
-            let scaledImage = UIImage.resizeImage(bounds: bounds, image: image)
 
             DispatchQueue.main.async {
                 completion(scaledImage)

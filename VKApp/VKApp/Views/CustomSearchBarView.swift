@@ -39,6 +39,18 @@ final class CustomSearchBarView: UIView {
         searchTextField?.layer.masksToBounds = true
         searchTextField?.layer.borderColor = searchTextField?.backgroundColor?.cgColor
         searchTextField?.layer.borderWidth = 1
+        let buttonView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 20)))
+        buttonView.contentMode = .scaleAspectFill
+
+        let button = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 20, height: 20)))
+        button.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        buttonView.addSubview(button)
+        
+        searchTextField?.rightView = buttonView
+        searchTextField?.clearButtonMode = .never
+        searchTextField?.rightViewMode = .whileEditing
     }
+
+
 }
 

@@ -13,14 +13,15 @@ final class LikeControl: UIControl {
     @IBOutlet weak var heartImage: UIImageView?
     
     private var likeCounter: Int = 0
+    private let foregroundColor = UIColor(named: "photoLikesForegroundColor")
     
     override var isSelected: Bool {
         didSet {
             guard oldValue != isSelected else { return }
             
             heartImage?.image = isSelected ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
-            heartImage?.tintColor = isSelected ? .systemRed : .white
-            likeLabel?.textColor = isSelected ? .systemRed : .white
+            heartImage?.tintColor = isSelected ? .systemRed : foregroundColor
+            likeLabel?.textColor = isSelected ? .systemRed : foregroundColor
             
             likeCounter = isSelected ? likeCounter + 1 : likeCounter - 1
             
@@ -30,8 +31,8 @@ final class LikeControl: UIControl {
     
     // MARK: - awakeFromNib
     override func awakeFromNib() {
-        likeLabel?.textColor = .white
-        heartImage?.tintColor = .white
+        likeLabel?.textColor = foregroundColor
+        heartImage?.tintColor = foregroundColor
     }
     
     // MARK: - setupLikesCounter

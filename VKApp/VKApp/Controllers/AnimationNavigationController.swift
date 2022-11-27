@@ -10,6 +10,9 @@ import UIKit
 // MARK: - UINavigationController
 final class AnimationNavigationController: UINavigationController {
     var interactiveTransition = InteractiveTransitionDriven()
+    private lazy var transitionAnimator: ShowFullPhotoPresentAnimator = {
+        return ShowFullPhotoPresentAnimator(isPresenting: true)
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,18 +30,26 @@ extension AnimationNavigationController: UINavigationControllerDelegate {
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning?
     {
         switch operation {
-        case .push:
-            interactiveTransition.viewControllerWillPopped = toVC
-
-            return TransitionAnimation(isPresenting: true)
-        case .pop:
-            if navigationController.viewControllers.first != toVC {
+            case .push:
                 interactiveTransition.viewControllerWillPopped = toVC
-            }
-            
-            return TransitionAnimation(isPresenting: false)
-        default:
-            return nil
+                
+                if toVC as? FullScreenUserPhoto != nil {
+                    return transitionAnimator
+                }
+
+                return ShowUserPhotosTransitionAnimation(isPresenting: true)
+            case .pop:
+                if navigationController.viewControllers.first != toVC {
+                    interactiveTransition.viewControllerWillPopped = toVC
+                }
+
+                if fromVC as? FullScreenUserPhoto != nil {
+                    return transitionAnimator
+                }
+
+                return ShowUserPhotosTransitionAnimation(isPresenting: false)
+            default:
+                return nil
         }
     }
 

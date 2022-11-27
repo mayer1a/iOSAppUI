@@ -27,7 +27,9 @@ extension NewsImageCell: NewsProtocol {
               let imagePath = mainImage?.originalSizeUrl,
               let indexPath = indexPath
         else { return }
-
-        self.newsPhotoImageView?.image = imageCachingService?.getImage(at: indexPath, by: imagePath)
+        
+        imageCachingService?.getImage(at: indexPath, by: imagePath) { [weak self] image in
+            self?.newsPhotoImageView?.image = image
+        }
     }
 }

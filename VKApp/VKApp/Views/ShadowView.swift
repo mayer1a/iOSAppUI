@@ -9,7 +9,7 @@ import UIKit
 
 // MARK: - UIView
 @IBDesignable final class ShadowView: UIView {
-    @IBInspectable private var shadowColor: UIColor = .black {
+    @IBInspectable private var shadowColor: UIColor = .systemGray3 {
         didSet {
             setNeedsDisplay()
         }
@@ -34,7 +34,7 @@ import UIKit
         let cornerRadius = self.frame.width / 2
         
         self.layer.shadowOpacity = shadowOpacity
-        self.layer.shadowOffset = CGSize(width: 7, height: 5)
+        self.layer.shadowOffset = CGSize(width: 7, height: 4)
         self.layer.shadowRadius = shadowWidth
         self.layer.shadowColor = shadowColor.cgColor
         self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: cornerRadius).cgPath

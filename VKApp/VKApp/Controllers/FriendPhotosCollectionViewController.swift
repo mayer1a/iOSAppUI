@@ -30,9 +30,8 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
-        coordinator.animate { _ in
-            guard let updatedSize = self.updateCellSize() else { return }
-            (self.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = updatedSize
+        coordinator.animate { [weak self] _ in
+            self?.updateCellSize()
         }
     }
 
@@ -40,9 +39,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = photos?.count ?? 0
 
-        guard let updatedSize = self.updateCellSize() else { return count }
-
-        (self.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = updatedSize
+        self.updateCellSize()
 
         return count
     }
@@ -53,7 +50,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendPhotoViewCell",
                                                       for: indexPath) as? FriendPhotoCollectionViewCell
-
+        
         cell?.friendPhoto?.image = UIImage(named: "NonAvatar")
         
         guard
@@ -61,16 +58,18 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
             let path = photo.smallSizeUrl
         else { return UICollectionViewCell() }
 
-        cell?.friendPhoto?.image = imageCachingService?.getImage(at: indexPath, by: path)
+        imageCachingService?.getImage(at: indexPath, by: path) { image in
+            cell?.friendPhoto?.image = image
+        }
         
         if let isLiked = photo.isLiked, let likeCount = photo.likesCounter {
-            cell?.likeControl?.isSelected = isLiked == 1 ? true : false
+            cell?.likeControl?.isSelected = isLiked
             cell?.likeControl?.likeLabel?.text = String(likeCount)
             cell?.likeControl?.setupLikesCounter(equal: likeCount)
         }
         
         cell?.photoDidLiked = { [weak self] isLiked in
-            self?.photos?[indexPath.item].isLiked = isLiked ? 1 : 0
+            self?.photos?[indexPath.item].isLiked = isLiked
         }
         
         return cell ?? UICollectionViewCell()
@@ -80,13 +79,12 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         let fullScreenUserPhoto = storyboard.instantiateViewController(withIdentifier: "FullScreenUserPhoto")
-        
+
         prepare(for: fullScreenUserPhoto, at: indexPath)
-        
-        tabBarController?.tabBar.isHidden = true
+
         navigationController?.pushViewController(fullScreenUserPhoto, animated: true)
     }
-    
+
     // MARK: - makeObserver
     private func makeObserver() {
         self.realmNotification = RealmObserver
@@ -126,33 +124,33 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     
     // MARK: - setupData
     private func setupData(from photos: [RealmPhoto], with changes: ([Int], [Int], [Int])? = nil) {
-        let userPhotos = RealmPhoto.realmToPhoto(from: photos, by: userId)
-        self.photos = userPhotos
+        self.photos = RealmPhoto.realmToPhoto(from: photos, by: userId)
         
-        if let changes = changes {
-            DispatchQueue.global().async {
-                let deletionIndexes = changes.0.reduce(into: [IndexPath]()) {
-                    $0.append(IndexPath(item: $1, section: 0))
-                }
-                
-                let insertionIndexes = changes.1.reduce(into: [IndexPath]()) {
-                    $0.append(IndexPath(item: $1, section: 0))
-                }
-                
-                let reloadIndexes = changes.2.reduce(into: [IndexPath]()) {
-                    $0.append(IndexPath(item: $1, section: 0))
-                }
-                
-                DispatchQueue.main.async { [weak self] in
-                    self?.collectionView.performBatchUpdates {
-                        self?.collectionView.deleteItems(at: deletionIndexes)
-                        self?.collectionView.insertItems(at: insertionIndexes)
-                        self?.collectionView.reloadItems(at: reloadIndexes)
-                    }
+        guard let changes = changes else {
+            self.collectionView.reloadData()
+            return
+        }
+        
+        DispatchQueue.global().async {
+            let deletionIndexes = changes.0.reduce(into: [IndexPath]()) {
+                $0.append(IndexPath(item: $1, section: 0))
+            }
+
+            let insertionIndexes = changes.1.reduce(into: [IndexPath]()) {
+                $0.append(IndexPath(item: $1, section: 0))
+            }
+
+            let reloadIndexes = changes.2.reduce(into: [IndexPath]()) {
+                $0.append(IndexPath(item: $1, section: 0))
+            }
+
+            DispatchQueue.main.async { [weak self] in
+                self?.collectionView.performBatchUpdates {
+                    self?.collectionView.deleteItems(at: deletionIndexes)
+                    self?.collectionView.insertItems(at: insertionIndexes)
+                    self?.collectionView.reloadItems(at: reloadIndexes)
                 }
             }
-        } else {
-            self.collectionView.reloadData()
         }
     }
     
@@ -161,11 +159,16 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         guard
             let photos = photos,
             let indexPath = sender,
-            let fullScreenPhotoVC = pushViewController as? FullScreenUserPhoto
+            let fullScreenPhotoVC = pushViewController as? FullScreenUserPhoto,
+            let imagePath = photos[indexPath.item].smallSizeUrl
         else { return }
 
         fullScreenPhotoVC.photos = photos
-        fullScreenPhotoVC.showPhotoIndex = indexPath.item
+        fullScreenPhotoVC.currentPhotoIndex = indexPath.item
+
+        imageCachingService?.getImage(at: indexPath, by: imagePath) { image in
+            fullScreenPhotoVC.startImage = image
+        }
     }
 }
 
@@ -173,21 +176,51 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
 extension FriendPhotosCollectionViewController: UICollectionViewDelegateFlowLayout {
 
     // MARK: - updateCellSize
-    func updateCellSize() -> CGSize? {
+    func updateCellSize() {
         guard
             let layout = collectionViewLayout as? UICollectionViewFlowLayout,
             let isPortraitOrientation = self.view.window?.windowScene?.interfaceOrientation.isPortrait
-        else {
-            return (self.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize
-        }
+        else { return }
 
         tabBarController?.tabBar.isHidden = isPortraitOrientation ? false : true
 
-        let photosPerRow: CGFloat = isPortraitOrientation ? 3.0 : 5.0
         let minimumSpacing = layout.minimumInteritemSpacing
         let width = self.collectionView.safeAreaLayoutGuide.layoutFrame.width
-        let itemSize = (width - minimumSpacing * (photosPerRow - 1.0)) / photosPerRow
+        let photosPerRow: CGFloat = isPortraitOrientation ? 3.0 : 5.0
+        let side = (width - minimumSpacing * (photosPerRow - 1.0)) / photosPerRow
 
-        return CGSize(width: itemSize, height: itemSize)
+        (self.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = CGSize(width: side, height: side)
+    }
+}
+
+// MARK: - ViewPresentable
+extension FriendPhotosCollectionViewController: ViewPresentable {
+
+    // MARK: - photoCellViewRectOfItemIndex
+    func photoCellViewRect(of itemIndex: Int) -> CGRect {
+        let indexPath = IndexPath(item: itemIndex, section: 0)
+        var cellRect = collectionView(collectionView, cellForItemAt: indexPath).frame
+        let offset = collectionView.contentOffset
+        let newOrigin = CGPoint(x: cellRect.origin.x, y: cellRect.origin.y - offset.y)
+
+        cellRect.origin = newOrigin
+
+        return cellRect
+    }
+
+    // MARK: - photoCellViewRect
+    func photoCellViewRect() -> CGRect {
+        guard let selectedCellIndexPath = collectionView.indexPathsForSelectedItems?.first
+        else {
+            print("We have some problem....")
+            return CGRect.zero }
+
+        var cellRect = collectionView(collectionView, cellForItemAt: selectedCellIndexPath).frame
+        let offset = collectionView.contentOffset
+        let newOrigin = CGPoint(x: cellRect.origin.x, y: cellRect.origin.y - offset.y)
+
+        cellRect.origin = newOrigin
+
+        return cellRect
     }
 }

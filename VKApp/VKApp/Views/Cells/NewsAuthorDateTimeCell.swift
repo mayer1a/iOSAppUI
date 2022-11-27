@@ -49,6 +49,7 @@ extension NewsAuthorDateTimeCell: NewsProtocol {
 
         self.newsAuthorFullName?.text = fullName
         self.newsPostingDate?.text = NewsDateFormatter.shared.getFormattedDate(from: news.newsBody.date)
+
         imageCachingService?.getImage(at: indexPath, by: imagePath) { [weak self] image in
             self?.newsAuthorAvatar?.image = image
         }

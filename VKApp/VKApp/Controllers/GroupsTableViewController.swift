@@ -151,34 +151,40 @@ final class GroupsTableViewController: UITableViewController {
         self.realmNotification = RealmObserver.shared.makeObserver { (groups: [RealmGroup], changes) in
             DispatchQueue.main.async { [weak self] in
                 self?.setupData(from: groups, with: changes)
-                self?.writeFirebase(data: self?.myGroups)
+//                self?.writeFirebase(data: self?.myGroups)
             }
         }
     }
 
     // MARK: - dataValidityCheck
     private func dataValidityCheck() {
-        do {
-            let groups = try RealmGroup.restoreData()
-            let userDefaults = UserDefaults.standard
-            let currentTime = Int(Date().timeIntervalSince1970)
+        var groups = [RealmGroup]()
+        let userDefaults = UserDefaults.standard
+        let currentTime = Int(Date().timeIntervalSince1970)
 
-            if currentTime - userDefaults.integer(forKey: "groupsLastLoad") > 5_000 || groups.isEmpty {
-                firstly {
-                    getGroupsPromise.fetchUserGroups()
-                }.compactMap(on: DispatchQueue.global()) { data in
-                    self.getGroupsPromise.parseGroups(data: data).value
-                }.done(on: DispatchQueue.global()) { groups in
-                    RealmGroup.saveData(data: groups)
-                }.ensure(on: DispatchQueue.global()) {
-                    userDefaults.set(currentTime, forKey: "groupsLastLoad")
-                }.catch { error in
-                    print(error)
-                }
-            } else {
-                self.setupData(from: groups)
-            }
+        do {
+            groups = try RealmGroup.restoreData()
         } catch {
+            print(error)
+        }
+
+        guard
+            currentTime - userDefaults.integer(forKey: "groupsLastLoad") > 0 || groups.isEmpty
+        else {
+            self.setupData(from: groups)
+            return
+        }
+
+        firstly {
+            self.getGroupsPromise.fetchUserGroups()
+        }.compactMap(on: DispatchQueue.global()) { [weak self] data in
+            self!.getGroupsPromise.parseGroups(data: data)
+        }.compactMap(on: DispatchQueue.global()) { groupResponse in
+            groupResponse.value?.items
+        }.done(on: DispatchQueue.global()) { groups in
+            userDefaults.set(currentTime, forKey: "groupsLastLoad")
+            RealmGroup.saveData(data: groups)
+        }.catch { error in
             print(error)
         }
     }
@@ -189,32 +195,35 @@ final class GroupsTableViewController: UITableViewController {
         self.myGroups = myGroups
         self.displayedGroups = myGroups
 
-        if let changes = changes {
-            DispatchQueue.global().async {
-                let deletionIndexes = changes.0.reduce(into: [IndexPath]()) {
-                    $0.append(IndexPath(row: $1, section: 0))
-                }
-
-                let insertionIndexes = changes.1.reduce(into: [IndexPath]()) {
-                    $0.append(IndexPath(row: $1, section: 0))
-                }
-
-                let reloadIndexes = changes.2.reduce(into: [IndexPath]()) {
-                    $0.append(IndexPath(row: $1, section: 0))
-                }
-
-                DispatchQueue.main.async {
-                    self.tableView.beginUpdates()
-
-                    self.tableView.deleteRows(at: deletionIndexes, with: .none)
-                    self.tableView.insertRows(at: insertionIndexes, with: .none)
-                    self.tableView.reloadRows(at: reloadIndexes, with: .none)
-
-                    self.tableView.endUpdates()
-                }
-            }
-        } else {
+        guard
+            let changes = changes
+        else {
             self.tableView.reloadData()
+            return
+        }
+
+        DispatchQueue.global().async {
+            let deletionIndexes = changes.0.reduce(into: [IndexPath]()) {
+                $0.append(IndexPath(row: $1, section: 0))
+            }
+
+            let insertionIndexes = changes.1.reduce(into: [IndexPath]()) {
+                $0.append(IndexPath(row: $1, section: 0))
+            }
+
+            let reloadIndexes = changes.2.reduce(into: [IndexPath]()) {
+                $0.append(IndexPath(row: $1, section: 0))
+            }
+
+            DispatchQueue.main.async {
+                self.tableView.beginUpdates()
+
+                self.tableView.deleteRows(at: deletionIndexes, with: .none)
+                self.tableView.insertRows(at: insertionIndexes, with: .none)
+                self.tableView.reloadRows(at: reloadIndexes, with: .none)
+
+                self.tableView.endUpdates()
+            }
         }
     }
 
@@ -233,9 +242,8 @@ final class GroupsTableViewController: UITableViewController {
             .collection(FirestoreNames.collectionName.rawValue)
             .document(String(userId))
             .setData(data) { error in
-                if let error = error {
-                    print("Error adding document: \(error)")
-                }
+                guard let error = error else { return }
+                print("Error adding document: \(error)")
             }
     }
 
@@ -258,8 +266,12 @@ final class GroupsTableViewController: UITableViewController {
         customSearchView?.searchCloseButton?.addTarget(self,
                                                        action: #selector(cancelButtonDidTapped),
                                                        for: .touchUpInside)
-    }
+        // add target on rightView
 
+    }
+    @objc private func test(_ sender: Any) {
+        print("clear")
+    }
     // MARK: - sizeHeaderToFit
     private func sizeHeaderToFit() {
         guard let headerView = self.tableView.tableHeaderView else { return }
@@ -281,12 +293,14 @@ final class GroupsTableViewController: UITableViewController {
         } else {
             firstly {
                 getGroupsPromise.fetchSearchedGroups(by: searchText)
-            }.compactMap(on: DispatchQueue.global()) { data in
-                try JSONDecoder().decode(GroupResponse.self, from: data).items
+            }.compactMap(on: DispatchQueue.global()) { [weak self] data in
+                self?.getGroupsPromise.parseGroups(data: data)
+            }.compactMap(on: DispatchQueue.global()) { groupsResponse in
+                groupsResponse.value?.items
             }.compactMap(on: DispatchQueue.global()) { groups in
                 groups.filter { $0.name.lowercased().contains(searchText.lowercased()) }
             }.done(on: DispatchQueue.main) { [weak self] groups in
-                self?.displayedGroups = groups.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+                self?.displayedGroups = groups
                 self?.tableView.reloadData()
             }.catch { error in
                 print(error)

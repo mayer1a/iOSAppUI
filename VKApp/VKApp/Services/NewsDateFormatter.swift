@@ -21,8 +21,10 @@ class NewsDateFormatter {
     static let shared = NewsDateFormatter()
 
     // MARK: - newsFormattedDate
-    func getFormattedDate(from date: TimeInterval) -> String {
-        let date = Date(timeIntervalSince1970: date)
-        return dateFormatter.string(from: date)
+    func getFormattedDate(from date: TimeInterval?) -> String {
+        guard let date = date else { return "" }
+
+        let dateInterval = Date(timeIntervalSince1970: date)
+        return dateFormatter.string(from: dateInterval)
     }
 }

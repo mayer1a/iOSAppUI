@@ -17,12 +17,11 @@ extension NewsVideoCell: NewsProtocol {
     
     // MARK: - setup
     func setup<T : NewsCellTypeDataProtocol>(news: T) {
-        guard let video = news.newsBody.videos.first
-        else {
-            newsVideo?.text = "[VIDEO]"
-            return
-        }
+        guard
+            let video = news.newsBody.videos.first,
+            let title = video?.title
+        else { return }
         
-        newsVideo?.text = video
+        newsVideo?.text = "[VIDEO TITLE]: \(title)"
     }
 }

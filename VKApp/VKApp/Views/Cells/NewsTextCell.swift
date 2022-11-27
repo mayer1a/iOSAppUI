@@ -12,62 +12,75 @@ final class NewsTextCell: UITableViewCell {
     @IBOutlet weak var newsText: UILabel?
     @IBOutlet weak var showMoreButton: UIButton?
 
+    private let linkRegex = try? NSRegularExpression(pattern: "(?i)https?:\\/\\/(?:www\\.)?\\S+(?:\\/|\\b)")
+    private let hashtagRegex = try? NSRegularExpression(pattern: "(?i)#\\S+(?:\\/|\\b)")
+    private lazy var textRange: NSRange = {
+        return NSRange(location: 0, length: 0)
+    }()
+    private lazy var paragraphStyle = {
+        let style = NSMutableParagraphStyle()
+        style.alignment = .left
+        style.lineBreakMode = .byWordWrapping
+
+        return style
+    }()
+
     var cellId: Int?
 }
 
 // MARK: - NewsProtocol
 extension NewsTextCell: NewsProtocol {
     func setup<T : NewsCellTypeDataProtocol>(news: T) {
-//        newsText?.text = news.newsBody.text
+        guard
+            self.cellId == self.showMoreButton?.tag,
+            let text = news.newsBody.text,
+            let linkRegex = linkRegex,
+            let hashtagRegex = hashtagRegex
+        else {
+            self.showMoreButton?.isHidden = true
 
-        let text = news.newsBody.text
+            return
+        }
 
-        DispatchQueue.global().async {
-            let linkRegex = try? NSRegularExpression(pattern: "(?i)https?:\\/\\/(?:www\\.)?\\S+(?:\\/|\\b)")
-            let hashtagRegex = try? NSRegularExpression(pattern: "(?i)#\\S+(?:\\/|\\b)")
+        self.textRange.length = text.count
 
-            if let text = text, let linkRegex = linkRegex, let hashtagRegex = hashtagRegex {
-                let attributedString = NSMutableAttributedString(string: text)
-                let textRange = NSRange(location: 0, length: text.count)
+        let attributedString = NSMutableAttributedString(string: text)
+        let linksMatches = linkRegex.matches(in: text, range: self.textRange)
+        let tagsMatches = hashtagRegex.matches(in: text, range: self.textRange)
+        var rangeText = ""
 
-                let linksMatches = linkRegex.matches(in: text, range: textRange)
-                let tagsMatches = hashtagRegex.matches(in: text, range: textRange)
+        linksMatches.enumerated().forEach { (index, item) in
+            if let range = Range(item.range, in: text) {
+                rangeText = String(text[range])
 
-                linksMatches.enumerated().forEach { (index, item) in
-                    if let range = Range(item.range, in: text), let url = URL(string: String(text[range])) {
-                        let attributes: [NSAttributedString.Key : Any] = [.link : url]
-                        let urlAttributedString = NSAttributedString(string: String(text[range]), attributes: attributes)
+                let attributes: [NSAttributedString.Key : Any] = [.link : rangeText]
+                let urlAttributedString = NSAttributedString(string: rangeText, attributes: attributes)
 
-                        attributedString.replaceCharacters(in: item.range, with: urlAttributedString)
-                    }
-                }
-
-                tagsMatches.enumerated().forEach { (index, item) in
-                    if let range = Range(item.range, in: text) {
-                        let attributes: [NSAttributedString.Key : Any] = [.link : String(text[range])]
-                        let urlAttributedString = NSAttributedString(string: String(text[range]), attributes: attributes)
-
-                        attributedString.replaceCharacters(in: item.range, with: urlAttributedString)
-                    }
-                }
-
-                DispatchQueue.main.async { [weak self] in
-                    self?.newsText?.attributedText = attributedString
-
-                    guard self?.cellId == self?.showMoreButton?.tag else { return }
-
-                    if self?.newsText?.isOversizeLabel() == true {
-                        self?.showMoreButton?.isHidden = false
-                    } else {
-                        self?.showMoreButton?.isHidden = true
-                    }
-                }
+                attributedString.replaceCharacters(in: item.range, with: urlAttributedString)
             }
         }
 
+        tagsMatches.enumerated().forEach { (index, item) in
+            if let range = Range(item.range, in: text) {
+                rangeText = String(text[range])
+
+                let attributes: [NSAttributedString.Key : Any] = [.link : rangeText]
+                let urlAttributedString = NSAttributedString(string: rangeText, attributes: attributes)
+
+                attributedString.replaceCharacters(in: item.range, with: urlAttributedString)
+            }
+        }
+
+        textRange.length = attributedString.length
+        attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: textRange)
+
+        self.newsText?.attributedText = attributedString
+
+        if self.newsText?.isOversizeLabel() == true {
+            self.showMoreButton?.isHidden = false
+        } else {
+            self.showMoreButton?.isHidden = true
+        }
     }
 }
 
-extension NSAttributedString.Key {
-    static let hyperlink = NSAttributedString.Key("hyperlink")
-}

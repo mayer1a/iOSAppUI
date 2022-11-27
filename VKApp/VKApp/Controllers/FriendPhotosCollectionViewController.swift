@@ -63,13 +63,13 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         }
         
         if let isLiked = photo.isLiked, let likeCount = photo.likesCounter {
-            cell?.likeControl?.isSelected = isLiked == 1 ? true : false
+            cell?.likeControl?.isSelected = isLiked
             cell?.likeControl?.likeLabel?.text = String(likeCount)
             cell?.likeControl?.setupLikesCounter(equal: likeCount)
         }
         
         cell?.photoDidLiked = { [weak self] isLiked in
-            self?.photos?[indexPath.item].isLiked = isLiked ? 1 : 0
+            self?.photos?[indexPath.item].isLiked = isLiked
         }
         
         return cell ?? UICollectionViewCell()

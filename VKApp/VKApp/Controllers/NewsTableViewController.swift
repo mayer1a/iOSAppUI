@@ -35,7 +35,7 @@ final class NewsTableViewController: UITableViewController {
             case .textImage, .textVideo, .textAudio, .imageVideo, .imageAudio, .videoAudio: newsBlocksCount += 2
             case .textImageVideo, .textImageAudio, .textVideoAudio, .imageVideoAudio: newsBlocksCount += 3
             case .textImageVideoAudio: newsBlocksCount += 4
-            case .none: break
+            case .none: return 0
         }
         
         return newsBlocksCount
@@ -70,7 +70,8 @@ final class NewsTableViewController: UITableViewController {
                 if indexPath.row == 1 {
                     return getTextCellSize(tableView, indexPath)
                 }
-            case .some(_), .none: break
+            case .some(_), .none:
+                return 0
         }
 
         // If the current cell is author information return fixed 92 pt size
@@ -127,25 +128,21 @@ final class NewsTableViewController: UITableViewController {
 
     // MARK: - willDisplayCell
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if (cell as? NewsTextCell)?.newsText?.isOversizeLabel() == true {
-            (cell as? NewsTextCell)?.showMoreButton?.isHidden = false
-        } else {
-            (cell as? NewsTextCell)?.showMoreButton?.isHidden = true
-        }
+        let news = [indexPath.section : self.news[indexPath.section].newsBody]
         DispatchQueue.global(qos: .userInteractive).async { [weak self] in
             guard
-                self?.news[indexPath.section].newsBody.isViewed == false,
+                news[indexPath.section]?.isViewed == false,
                 let interactionCell = cell as? NewsUsersInteractionCell,
-                let oldViewsCount = self?.news[indexPath.section].newsBody.viewsCount
+                let oldViewsCount = news[indexPath.section]?.viewsCount
             else { return }
 
             let newViewsCount = oldViewsCount + 1
             let convertViewsCount = String(newViewsCount)
 
-            self?.news[indexPath.section].newsBody.viewsCount = newViewsCount
-            self?.news[indexPath.section].newsBody.isViewed = true
+            DispatchQueue.main.async { [weak self] in
+                self?.news[indexPath.section].newsBody.viewsCount = newViewsCount
+                self?.news[indexPath.section].newsBody.isViewed = true
 
-            DispatchQueue.main.async {
                 if indexPath == interactionCell.cellId {
                     interactionCell.newsViewsLabel?.text = convertViewsCount
                 }

@@ -60,7 +60,7 @@ class SessionHelper {
         guard var urlComponents = URLComponents(string: baseUrl) else { return }
         
         urlComponents.queryItems = [
-            URLQueryItem(name: "filters", value: "post"),
+            URLQueryItem(name: "filters", value: "post,photo,wall_photo,video"),
             URLQueryItem(name: "return_banned", value: "0"),
             URLQueryItem(name: "max_photos", value: "1"),
             URLQueryItem(name: "count", value: "20"),
@@ -88,5 +88,14 @@ class SessionHelper {
                 print(error)
             }
         }
+    }
+
+    private func pretty(from data: Data) {
+        guard let object = try? JSONSerialization.jsonObject(with: data, options: []),
+              let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
+              let prettyPrintedString = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
+        else { return }
+
+        print(prettyPrintedString)
     }
 }

@@ -17,7 +17,7 @@
                 <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yss-a6-ncT">
                     <rect key="frame" x="0.0" y="0.0" width="301" height="45"/>
                     <subviews>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="DCx-gK-t6a">
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="DCx-gK-t6a">
                             <rect key="frame" x="10" y="5" width="281" height="35"/>
                             <color key="backgroundColor" name="searchBarBackgroundColor"/>
                             <color key="textColor" name="searchBarForegroundColor"/>

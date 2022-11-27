@@ -29,10 +29,28 @@ final class RealmPhoto: Object {
     var likesCounter: Int?
     
     @Persisted
-    var isLiked: Int?
+    var isLiked: Bool?
 
     @Persisted
     var aspectRatio: Double?
+
+    @Persisted
+    var repostsCount: Int?
+
+    @Persisted
+    var isReposted: Bool?
+
+    @Persisted
+    var canRepost: Bool?
+
+    @Persisted
+    var commentsCount: Int?
+
+    @Persisted
+    var canComment: Bool?
+
+    @Persisted
+    var text: String?
     
     // MARK: - saveData
     static func saveData(data photos: [Photo], for ownerId: Int) {
@@ -47,6 +65,12 @@ final class RealmPhoto: Object {
             realmPhoto.likesCounter = photo.likesCounter
             realmPhoto.isLiked = photo.isLiked
             realmPhoto.aspectRatio = photo.aspectRatio
+            realmPhoto.repostsCount = photo.repostsCount
+            realmPhoto.isReposted = photo.isReposted
+            realmPhoto.canRepost = photo.canRepost
+            realmPhoto.commentsCount = photo.commentsCount
+            realmPhoto.canComment = photo.canComment
+            realmPhoto.text = photo.text
             
             return realmPhoto
         }
@@ -85,15 +109,23 @@ final class RealmPhoto: Object {
     
     // MARK: - realmToPhoto
     static func realmToPhoto(from objects: [RealmPhoto], by ownerId: Int? = nil) -> [Photo] {
-        let photo = objects.map {
-            Photo(id: $0.id,
-                  albumId: $0.albumId,
-                  ownerId: $0.ownerId,
-                  smallSizeUrl: $0.smallSizeUrl,
-                  originalSizeUrl: $0.originalSizeUrl,
-                  aspectRatio: $0.aspectRatio,
-                  likesCounter: $0.likesCounter,
-                  isLiked: $0.isLiked)}
+        let photo = objects
+            .map {
+                Photo(id: $0.id,
+                      albumId: $0.albumId,
+                      ownerId: $0.ownerId,
+                      smallSizeUrl: $0.smallSizeUrl,
+                      originalSizeUrl: $0.originalSizeUrl,
+                      aspectRatio: $0.aspectRatio,
+                      likesCounter: $0.likesCounter,
+                      isLiked: $0.isLiked,
+                      repostsCount: $0.repostsCount,
+                      isReposted: $0.isReposted,
+                      canRepost: $0.canRepost,
+                      commentsCount: $0.commentsCount,
+                      canComment: $0.canComment,
+                      text: $0.text)
+            }
         
         return photo
     }

@@ -66,8 +66,9 @@ final class LoginWebKitViewController: UIViewController {
         self.loginWebView?.navigationDelegate = self
 
         var urlComponents = URLComponents(string: "https://oauth.vk.com/authorize")
-        var scope = 270342
+        var scope = 270366
         if isInfinityTokenDebug { scope += 65536 }
+        scope += 256
         
         urlComponents?.queryItems = [
             URLQueryItem(name: "client_id", value: "8155664"),

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" restorationIdentifier="CustomSearchBarView" insetsLayoutMarginsFromSafeArea="NO" id="i5M-Pr-FkT" customClass="CustomSearchBarView" customModule="VKApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="301" height="45"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yss-a6-ncT">
+                    <rect key="frame" x="0.0" y="0.0" width="301" height="45"/>
+                    <subviews>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="DCx-gK-t6a">
+                            <rect key="frame" x="10" y="5" width="281" height="35"/>
+                            <color key="backgroundColor" name="searchBarBackgroundColor"/>
+                            <color key="textColor" name="searchBarForegroundColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="yes" spellCheckingType="yes" returnKeyType="search" textContentType="name"/>
+                        </textField>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="magnifyingglass" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="wjW-9l-SqM">
+                            <rect key="frame" x="138.5" y="10.5" width="24" height="23.5"/>
+                            <color key="tintColor" name="searchBarForegroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="24" id="BzY-Fz-Ylt"/>
+                            </constraints>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zZN-13-Xno">
+                            <rect key="frame" x="301" y="6" width="80" height="33"/>
+                            <color key="backgroundColor" name="backgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="80" id="Plc-b6-HmZ"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="tintColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Отменить">
+                                <color key="titleColor" name="navigationBarButtonTintColor"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" name="backgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="DCx-gK-t6a" firstAttribute="bottom" secondItem="wjW-9l-SqM" secondAttribute="bottom" constant="5" id="6lv-mg-1AE"/>
+                        <constraint firstItem="wjW-9l-SqM" firstAttribute="centerX" secondItem="DCx-gK-t6a" secondAttribute="centerX" id="CKk-Xz-yrl"/>
+                        <constraint firstItem="zZN-13-Xno" firstAttribute="centerY" secondItem="DCx-gK-t6a" secondAttribute="centerY" id="FdU-Zx-6be"/>
+                        <constraint firstAttribute="trailing" secondItem="DCx-gK-t6a" secondAttribute="trailing" constant="10" id="Gl8-CQ-z9S"/>
+                        <constraint firstItem="zZN-13-Xno" firstAttribute="leading" secondItem="DCx-gK-t6a" secondAttribute="trailing" constant="10" id="Ovm-XU-Gel"/>
+                        <constraint firstItem="DCx-gK-t6a" firstAttribute="top" secondItem="yss-a6-ncT" secondAttribute="top" priority="750" constant="5" id="elY-Lo-aSd"/>
+                        <constraint firstItem="DCx-gK-t6a" firstAttribute="leading" secondItem="wjW-9l-SqM" secondAttribute="trailing" constant="10" id="hfQ-yg-2uG"/>
+                        <constraint firstItem="wjW-9l-SqM" firstAttribute="leading" secondItem="yss-a6-ncT" secondAttribute="leading" priority="750" constant="10" id="jFC-eu-Wa0"/>
+                        <constraint firstAttribute="trailing" secondItem="zZN-13-Xno" secondAttribute="trailing" constant="10" id="p4r-Lr-ndS"/>
+                        <constraint firstItem="DCx-gK-t6a" firstAttribute="leading" secondItem="yss-a6-ncT" secondAttribute="leading" priority="750" constant="10" id="qW8-xg-HGv"/>
+                        <constraint firstAttribute="bottom" secondItem="DCx-gK-t6a" secondAttribute="bottom" priority="750" constant="5" id="vaG-nf-QOD"/>
+                        <constraint firstItem="wjW-9l-SqM" firstAttribute="top" secondItem="DCx-gK-t6a" secondAttribute="top" constant="5" id="yux-YZ-i4T"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="hfQ-yg-2uG"/>
+                            <exclude reference="p4r-Lr-ndS"/>
+                        </mask>
+                    </variation>
+                </view>
+            </subviews>
+            <color key="backgroundColor" name="backgroundColor"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="yss-a6-ncT" secondAttribute="trailing" id="0bh-Rs-2hy"/>
+                <constraint firstItem="yss-a6-ncT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="CQV-Zr-aKw"/>
+                <constraint firstItem="yss-a6-ncT" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="N9E-YT-q6K"/>
+                <constraint firstAttribute="bottom" secondItem="yss-a6-ncT" secondAttribute="bottom" id="gUj-TE-iSG"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="closeButtonTrailingConstraint" destination="p4r-Lr-ndS" id="UvE-zz-8eF"/>
+                <outlet property="searchCloseButton" destination="zZN-13-Xno" id="cKE-fb-X5i"/>
+                <outlet property="searchIconCenterXConstraint" destination="CKk-Xz-yrl" id="jnj-rQ-msB"/>
+                <outlet property="searchIconImageView" destination="wjW-9l-SqM" id="dXY-WD-bcE"/>
+                <outlet property="searchTextField" destination="DCx-gK-t6a" id="b9X-1o-A0O"/>
+                <outlet property="searchTextFieldLeadingAnchor" destination="hfQ-yg-2uG" id="cgx-3F-sfS"/>
+                <outlet property="searchTextFieldTrailingConstraint" destination="Gl8-CQ-z9S" id="2oK-vw-Swg"/>
+            </connections>
+            <point key="canvasLocation" x="23.913043478260871" y="100.44642857142857"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="magnifyingglass" catalog="system" width="128" height="117"/>
+        <namedColor name="backgroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="navigationBarButtonTintColor">
+            <color red="0.14901960784313725" green="0.52941176470588236" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="searchBarBackgroundColor">
+            <color red="0.91764705882352937" green="0.92549019607843142" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="searchBarForegroundColor">
+            <color red="0.50196078431372548" green="0.5490196078431373" blue="0.59607843137254901" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

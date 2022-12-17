@@ -116,7 +116,7 @@ final class CloudView: UIView {
     // MARK: - startAnimation
     func startAnimation() {
         animationCloudLayer.add(animationGroup, forKey: nil)
-        animationCloudLayer.strokeColor = UIColor(named: "navigationBarButtonTintColor")?.cgColor
+        animationCloudLayer.strokeColor = UIColor.navigationBarButtonTintColor?.cgColor
 
         self.shape.addSublayer(self.animationCloudLayer)
         self.isHidden = false

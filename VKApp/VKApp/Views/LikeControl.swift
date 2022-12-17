@@ -13,7 +13,7 @@ final class LikeControl: UIControl {
     @IBOutlet weak var heartImage: UIImageView?
     
     private var likeCounter: Int = 0
-    private let foregroundColor = UIColor(named: "photoLikesForegroundColor")
+    private let foregroundColor = UIColor.photoLikesForegroundColor
     
     override var isSelected: Bool {
         didSet {

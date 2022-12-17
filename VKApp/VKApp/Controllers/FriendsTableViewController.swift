@@ -297,7 +297,7 @@ final class FriendsTableViewController: UITableViewController {
         contentConfiguration.textProperties.alignment = .natural
 
         headerView.contentConfiguration = contentConfiguration
-        headerView.contentView.backgroundColor = UIColor(named: "sectionBackgroundColor")
+        headerView.contentView.backgroundColor = UIColor.sectionBackgroundColor
         
         return headerView
     }

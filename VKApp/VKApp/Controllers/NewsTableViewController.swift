@@ -14,7 +14,7 @@ final class NewsTableViewController: UITableViewController {
     private var isLoadingNews: Bool = false
     private var selectedIndex: IndexPath?
     private let backgroundHeaderColor = {
-        UIColor(named: "newsTableViewBackgroundColor")
+        UIColor.newsTableViewBackgroundColor
     }()
 
     // MARK: - viewDidLoad
@@ -301,8 +301,8 @@ extension NewsTableViewController: UITableViewDataSourcePrefetching {
     // MARK: - setupRefreshControl
     private func setupRefreshControl() {
         guard
-            let foregroundColor = UIColor(named: "navigationBarButtonTintColor"),
-            let backgroundColor = UIColor(named: "newsTableViewBackgroundColor")
+            let foregroundColor = UIColor.navigationBarButtonTintColor,
+            let backgroundColor = UIColor.newsTableViewBackgroundColor
         else { return }
 
 

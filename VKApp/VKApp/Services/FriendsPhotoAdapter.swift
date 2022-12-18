@@ -10,8 +10,12 @@ import RealmSwift
 
 final class FriendsPhotoAdapter {
 
+    // MARK: - Private properties
+
     private let operationQueue = OperationQueue()
     private var realmNotificationTokens: [String : NotificationToken] = [:]
+
+    // MARK: - Functions
 
     func getPhotos(by userId: Int, _ completion: @escaping ([Photo], ([Int], [Int], [Int])?) -> Void) {
         guard let realm = try? Realm() else { return }
@@ -72,6 +76,8 @@ final class FriendsPhotoAdapter {
             print(error)
         }
     }
+
+    // MARK: - Private functions
 
     private func realmPhotosToPhotos(_ realmPhoto: RealmPhoto) -> Photo {
         return Photo(id: realmPhoto.id,

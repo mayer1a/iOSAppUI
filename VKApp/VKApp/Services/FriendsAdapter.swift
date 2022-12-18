@@ -10,8 +10,12 @@ import RealmSwift
 
 final class FriendsAdapter {
 
+    // MARK: - Private properties
+
     private let operationQueue = OperationQueue()
     private var realmNotificationTokens: [String : NotificationToken] = [:]
+
+    // MARK: - Functions
 
     func getFriends(_ completion: @escaping ([User], ([Int], [Int], [Int])?) -> Void) {
         guard let realm = try? Realm() else { return }
@@ -79,6 +83,8 @@ final class FriendsAdapter {
         }
 
     }
+
+    // MARK: - Private functions
 
     private func realmUsersToUsers(_ realmUsers: RealmUser) -> User {
         return User(id: realmUsers.id,

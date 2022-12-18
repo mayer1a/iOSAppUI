@@ -60,6 +60,7 @@
 		49BE762D294E1BD300AE7E63 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BE762C294E1BD300AE7E63 /* UIColor+Extensions.swift */; };
 		49BE762F294F143E00AE7E63 /* FriendsAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BE762E294F143E00AE7E63 /* FriendsAdapter.swift */; };
 		49BE7631294F215000AE7E63 /* FriendsPhotoAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BE7630294F215000AE7E63 /* FriendsPhotoAdapter.swift */; };
+		49BE7633294F2A4F00AE7E63 /* GroupsAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BE7632294F2A4F00AE7E63 /* GroupsAdapter.swift */; };
 		49C571D42852091100FAEC8F /* IndexHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C571D32852091100FAEC8F /* IndexHelper.swift */; };
 		49CA60EB292F5D2900E0ED79 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CA60EA292F5D2900E0ED79 /* VideoPlayerView.swift */; };
 		49CA60ED292F5E7A00E0ED79 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CA60EC292F5E7A00E0ED79 /* Video.swift */; };
@@ -136,6 +137,7 @@
 		49BE762C294E1BD300AE7E63 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		49BE762E294F143E00AE7E63 /* FriendsAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsAdapter.swift; sourceTree = "<group>"; };
 		49BE7630294F215000AE7E63 /* FriendsPhotoAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsPhotoAdapter.swift; sourceTree = "<group>"; };
+		49BE7632294F2A4F00AE7E63 /* GroupsAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsAdapter.swift; sourceTree = "<group>"; };
 		49C571D32852091100FAEC8F /* IndexHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexHelper.swift; sourceTree = "<group>"; };
 		49CA60EA292F5D2900E0ED79 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		49CA60EC292F5E7A00E0ED79 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
@@ -377,6 +379,7 @@
 				49BE762C294E1BD300AE7E63 /* UIColor+Extensions.swift */,
 				49BE762E294F143E00AE7E63 /* FriendsAdapter.swift */,
 				49BE7630294F215000AE7E63 /* FriendsPhotoAdapter.swift */,
+				49BE7632294F2A4F00AE7E63 /* GroupsAdapter.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -566,6 +569,7 @@
 				49BE762F294F143E00AE7E63 /* FriendsAdapter.swift in Sources */,
 				49981BD028B670A700AECBAB /* NewsVideoCell.swift in Sources */,
 				499FE19C28C89731007667E6 /* SaveRealmOperation.swift in Sources */,
+				49BE7633294F2A4F00AE7E63 /* GroupsAdapter.swift in Sources */,
 				494CD6B828154CAF00250A56 /* CloudView.swift in Sources */,
 				49437AC628F9644500978439 /* ImageCachingService.swift in Sources */,
 				49B4D3BE2822C7F400AA5801 /* Group.swift in Sources */,

@@ -93,7 +93,7 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
     // MARK: - setupData
     private func setupData(from photos: [Photo], with changes: ([Int], [Int], [Int])?) {
         self.photos = photos
-        
+
         guard
             let changes = changes
         else {

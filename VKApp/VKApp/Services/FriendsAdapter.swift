@@ -24,16 +24,8 @@ final class FriendsAdapter {
             guard let self = self else { return }
 
             switch changes {
-                case .initial(let realmUsers):
-                    var friends: [User] = []
-
-                    for realmUser in realmUsers {
-                        friends.append(self.realmUsersToUsers(realmUser))
-                    }
-
-                    self.realmNotificationTokens["friends"]?.invalidate()
-
-                    completion(friends, nil)
+                case .initial(_):
+                    break
                 case .update(let realmUsers, let deletions, let insertions, let modifications):
                     var friends: [User] = []
 

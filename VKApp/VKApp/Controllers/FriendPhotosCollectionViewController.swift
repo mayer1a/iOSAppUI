@@ -10,9 +10,8 @@ import RealmSwift
 
 // MARK: - UICollectionViewController
 final class FriendPhotosCollectionViewController: UICollectionViewController {
-    private var realmNotification: NotificationToken?
-    private let operationQueue = OperationQueue()
     private var imageCachingService: ImageCachingService?
+    private let friendsPhotoAdapter = FriendsPhotoAdapter()
     
     var photos: [Photo]?
     var userId = Int()
@@ -22,7 +21,6 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
 
         imageCachingService = ImageCachingService(from: self.collectionView)
-        makeObserver()
         dataValidityCheck()
     }
     
@@ -84,49 +82,21 @@ final class FriendPhotosCollectionViewController: UICollectionViewController {
 
         navigationController?.pushViewController(fullScreenUserPhoto, animated: true)
     }
-
-    // MARK: - makeObserver
-    private func makeObserver() {
-        self.realmNotification = RealmObserver
-            .shared
-            .makeObserver(ownerId: self.userId) { (photos: [RealmPhoto], changes) in
-                DispatchQueue.main.async { [weak self] in
-                    self?.setupData(from: photos, with: changes)
-                }
-            }
-    }
     
     // MARK: - dataValidityCheck
     private func dataValidityCheck() {
-        do {
-            let photos = try RealmPhoto.restoreData(ownerId: userId)
-            
-            if photos.isEmpty {
-                let request = SessionHelper.shared.getPhotosRequest(id: userId)
-                let fetchDataOperations = FetchDataOperation(request: request)
-                let asyncParseOperation = AsyncParseDataOperation<Photo>()
-                let saveRealmOperation = SaveRealmOperation<Photo>()
-                
-                asyncParseOperation.addDependency(fetchDataOperations)
-                saveRealmOperation.addDependency(asyncParseOperation)
-                
-                operationQueue.qualityOfService = .userInteractive
-                operationQueue.addOperation(fetchDataOperations)
-                operationQueue.addOperation(asyncParseOperation)
-                operationQueue.addOperation(saveRealmOperation)
-            } else {
-                self.setupData(from: photos)
-            }
-        } catch {
-            print(error)
+        friendsPhotoAdapter.getPhotos(by: userId) { [weak self] (photos, changes) in
+            self?.setupData(from: photos, with: changes)
         }
     }
     
     // MARK: - setupData
-    private func setupData(from photos: [RealmPhoto], with changes: ([Int], [Int], [Int])? = nil) {
-        self.photos = RealmPhoto.realmToPhoto(from: photos, by: userId)
+    private func setupData(from photos: [Photo], with changes: ([Int], [Int], [Int])?) {
+        self.photos = photos
         
-        guard let changes = changes else {
+        guard
+            let changes = changes
+        else {
             self.collectionView.reloadData()
             return
         }

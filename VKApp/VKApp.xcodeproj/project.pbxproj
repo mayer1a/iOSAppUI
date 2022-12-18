@@ -320,6 +320,26 @@
 			path = Operations;
 			sourceTree = "<group>";
 		};
+		49BE7634294F2FE100AE7E63 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4972954A28C2787300720F75 /* UIImage+Extensions.swift */,
+				4948481B292123E800389A52 /* UILabel+Extension.swift */,
+				49BE762C294E1BD300AE7E63 /* UIColor+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		49BE7635294F300600AE7E63 /* Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				49BE762E294F143E00AE7E63 /* FriendsAdapter.swift */,
+				49BE7630294F215000AE7E63 /* FriendsPhotoAdapter.swift */,
+				49BE7632294F2A4F00AE7E63 /* GroupsAdapter.swift */,
+			);
+			path = Adapters;
+			sourceTree = "<group>";
+		};
 		49D90B6927DA65BE0048866B = {
 			isa = PBXGroup;
 			children = (
@@ -367,6 +387,8 @@
 		49E474FA2820613A009B519E /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				49BE7635294F300600AE7E63 /* Adapters */,
+				49BE7634294F2FE100AE7E63 /* Extensions */,
 				49EE3B5328CCA97700142FF1 /* Helpers */,
 				499FE19428C87F01007667E6 /* Operations */,
 				49EE3B5228CCA96300142FF1 /* Promises */,
@@ -374,12 +396,6 @@
 				49437AC528F9644500978439 /* ImageCachingService.swift */,
 				49484819291FACF000389A52 /* NewsDateFormatter.swift */,
 				49AD24672843CD21001D4564 /* RealmObserver.swift */,
-				4972954A28C2787300720F75 /* UIImage+Extensions.swift */,
-				4948481B292123E800389A52 /* UILabel+Extension.swift */,
-				49BE762C294E1BD300AE7E63 /* UIColor+Extensions.swift */,
-				49BE762E294F143E00AE7E63 /* FriendsAdapter.swift */,
-				49BE7630294F215000AE7E63 /* FriendsPhotoAdapter.swift */,
-				49BE7632294F2A4F00AE7E63 /* GroupsAdapter.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";

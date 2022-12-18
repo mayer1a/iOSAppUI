@@ -10,11 +10,10 @@ import RealmSwift
 
 // MARK: - UITableViewController
 final class FriendsTableViewController: UITableViewController {
-    private let operationQueue = OperationQueue()
+    private let friendsAdapter = FriendsAdapter()
     private var imageCachingService: ImageCachingService?
     private var friends: [User]?
     private var alphabetControl: FriendsAlphabetView?
-    private var realmNotification: NotificationToken?
     var grouppedFriends = [GrouppedFriends]()
     
     private lazy var cloudView: CloudView? = {
@@ -29,8 +28,7 @@ final class FriendsTableViewController: UITableViewController {
         super.viewDidLoad()
 
         imageCachingService = ImageCachingService(from: self.tableView)
-        
-        makeObserver()
+
         dataValidityCheck()
     }
     
@@ -80,15 +78,6 @@ final class FriendsTableViewController: UITableViewController {
         return self.tableView.indexPathForSelectedRow == nil ? indexPath : nil
     }
     
-    // MARK: - makeObserver
-    private func makeObserver() {
-        self.realmNotification = RealmObserver.shared.makeObserver { (friends: [RealmUser], changes) in
-            DispatchQueue.main.async { [weak self] in
-                self?.setupData(from: friends, with: changes)
-            }
-        }
-    }
-    
     // MARK: - setupAnimation
     private func setupAnimation() {
         guard let cloudView = cloudView, let tabBarView = tabBarController?.view else { return }
@@ -104,48 +93,26 @@ final class FriendsTableViewController: UITableViewController {
     
     // MARK: - dataValidityCheck
     private func dataValidityCheck() {
-        do {
-            let friends = try RealmUser.restoreData()
-            let userDefaults = UserDefaults.standard
-            let currentTime = Int(Date().timeIntervalSince1970)
-            
-            if currentTime - userDefaults.integer(forKey: "friendsLastLoad") > 10_000 || friends.isEmpty {
-                let request = SessionHelper.shared.getFriendsRequest
-                let fetchDataOperation = FetchDataOperation(request: request)
-                let asyncParseOperation = AsyncParseDataOperation<User>()
-                let saveRealmOperation = SaveRealmOperation<User>()
-                
-                asyncParseOperation.addDependency(fetchDataOperation)
-                saveRealmOperation.addDependency(asyncParseOperation)
-                
-                operationQueue.qualityOfService = .userInteractive
-                operationQueue.addOperation(fetchDataOperation)
-                operationQueue.addOperation(asyncParseOperation)
-                operationQueue.addOperation(saveRealmOperation)
-                
-                userDefaults.set(currentTime, forKey: "friendsLastLoad")
-            } else {
-                setupData(from: friends)
-            }
-        } catch {
-            print(error)
+        friendsAdapter.getFriends { [weak self] friends, changes in
+            self?.setupData(from: friends, with: changes)
         }
     }
     
     // MARK: - setupData
-    private func setupData(from friends: [RealmUser], with changes: ([Int], [Int], [Int])? = nil) {
+    private func setupData(from friends: [User], with changes: ([Int], [Int], [Int])?) {
         let oldFriends = self.friends
         let oldGrouppedFriends = self.grouppedFriends
-        let friends = RealmUser.realmToUser(from: friends)
         
         self.friends = friends
         self.grouppedFriends = self.groupFriends()
         
         let grouppedFriends = self.grouppedFriends
         
-        guard let changes = changes
+        guard
+            let changes = changes
         else {
             self.tableView.reloadData()
+
             return
         }
 

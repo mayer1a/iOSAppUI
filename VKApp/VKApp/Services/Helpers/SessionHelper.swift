@@ -32,6 +32,31 @@ class SessionHelper {
         
         return AF.request(urlComponents)
     }()
+
+    func getFriends(_ completion: @escaping ([User]) -> Void) {
+        let baseUrl = "https://api.vk.com/method/friends.get"
+
+        guard var urlComponents = URLComponents(string: baseUrl) else { return }
+
+        urlComponents.queryItems = [
+            URLQueryItem(name: "order", value: "hints"),
+            URLQueryItem(name: "fields", value: friendFields),
+            URLQueryItem(name: "access_token", value: Session.shared.token),
+            URLQueryItem(name: "v", value: currentApiVersion)
+        ]
+
+        AF.request(urlComponents).response { response in
+            guard let data = response.data else { return }
+
+            do {
+                let users = try JSONDecoder().decode(UserResponse.self, from: data).items
+                completion(users)
+            } catch {
+                print(error)
+            }
+        }
+
+    }
     
     // MARK: - getPhotosRequest
     func getPhotosRequest(id: Int) -> DataRequest? {

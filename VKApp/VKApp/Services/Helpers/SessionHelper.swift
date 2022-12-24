@@ -8,17 +8,22 @@
 import Foundation
 import Alamofire
 
+protocol SessionHelperInterface: AnyObject {
+    var getFriendsRequest: DataRequest? { get }
+
+    func getFriends(_ completion: @escaping ([User]) -> Void)
+    func getPhotosRequest(id: Int) -> DataRequest?
+    func fetchNewsfeed(from specificTime: TimeInterval?, for nextFrom: String?, completion: @escaping ([News]) -> Void)
+}
+
 // MARK: - SessionManager
-class SessionHelper {
-    private init() {}
-    
+
+class SessionHelper: SessionHelperInterface {
     private let currentApiVersion = "5.131"
     private let friendFields = "first_name,photo_100,is_friend,blacklisted"
     
-    static let shared = SessionHelper()
-    
     // MARK: - getFriendsRequest
-    lazy var getFriendsRequest: DataRequest? = {
+    private(set) lazy var getFriendsRequest: DataRequest? = {
         let baseUrl = "https://api.vk.com/method/friends.get"
         
         guard var urlComponents = URLComponents(string: baseUrl) else { return nil }

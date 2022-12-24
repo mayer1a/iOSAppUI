@@ -54,7 +54,7 @@ final class FriendsAdapter {
             
             if currentTime - userDefaults.integer(forKey: "friendsLastLoad") > 10_000 || realmUsers.isEmpty {
 
-                let request = SessionHelper.shared.getFriendsRequest
+                let request = LoggingProxy.shared.getFriendsRequest
                 let fetchDataOperation = FetchDataOperation(request: request)
                 let asyncParseOperation = AsyncParseDataOperation<User>()
                 let saveRealmOperation = SaveRealmOperation<User>()

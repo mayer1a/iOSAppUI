@@ -29,8 +29,14 @@ final class GroupsAdapter {
             guard let self = self else { return }
 
             switch changes {
-                case .initial(_):
-                    break
+                case .initial(let realmGroups):
+                var groups: [Group] = []
+
+                for realmGroup in realmGroups {
+                    groups.append(self.realmGroupsToGroups(realmGroup))
+                }
+
+                completion(groups, nil)
                 case .update(let realmGroups, let deletions, let insertions, let modifications):
                     var groups: [Group] = []
 

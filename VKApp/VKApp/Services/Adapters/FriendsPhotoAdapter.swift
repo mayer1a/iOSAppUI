@@ -20,7 +20,7 @@ final class FriendsPhotoAdapter {
     func getPhotos(by userId: Int, _ completion: @escaping ([Photo], ([Int], [Int], [Int])?) -> Void) {
         guard let realm = try? Realm() else { return }
 
-        let realmPhoto = realm.objects(RealmPhoto.self)
+        let realmPhoto = realm.objects(RealmPhoto.self).where({ $0.ownerId == userId })
 
         realmNotificationTokens["photos"]?.invalidate()
 
@@ -28,13 +28,19 @@ final class FriendsPhotoAdapter {
             guard let self = self else { return }
 
             switch changes {
-                case .initial(_):
-                    break
+                case .initial(let realmPhotos):
+                var photos: [Photo] = []
+
+                for realmPhoto in realmPhotos {
+                    photos.append(self.realmPhotosToPhotos(realmPhoto, by: userId))
+                }
+
+                completion(photos, nil)
                 case .update(let realmPhotos, let deletions, let insertions, let modifications):
                     var photos: [Photo] = []
 
                     for realmPhoto in realmPhotos {
-                        photos.append(self.realmPhotosToPhotos(realmPhoto))
+                        photos.append(self.realmPhotosToPhotos(realmPhoto, by: userId))
                     }
 
                     self.realmNotificationTokens["photos"]?.invalidate()
@@ -67,7 +73,7 @@ final class FriendsPhotoAdapter {
                 var photos: [Photo] = []
 
                 for realmPhoto in realmPhotos {
-                    photos.append(self.realmPhotosToPhotos(realmPhoto))
+                    photos.append(self.realmPhotosToPhotos(realmPhoto, by: userId))
                 }
 
                 completion(photos, nil)
@@ -79,7 +85,7 @@ final class FriendsPhotoAdapter {
 
     // MARK: - Private functions
 
-    private func realmPhotosToPhotos(_ realmPhoto: RealmPhoto) -> Photo {
+    private func realmPhotosToPhotos(_ realmPhoto: RealmPhoto, by userId: Int) -> Photo {
         return Photo(id: realmPhoto.id,
                      albumId: realmPhoto.albumId,
                      ownerId: realmPhoto.ownerId,

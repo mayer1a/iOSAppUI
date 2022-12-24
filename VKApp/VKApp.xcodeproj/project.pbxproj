@@ -57,6 +57,10 @@
 		49B4D3BE2822C7F400AA5801 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4D3BD2822C7F400AA5801 /* Group.swift */; };
 		49B4D3C02822CA4B00AA5801 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4D3BF2822CA4B00AA5801 /* Photo.swift */; };
 		49BC8FF2280D76EB005469EA /* FullScreenUserPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC8FF1280D76EB005469EA /* FullScreenUserPhoto.swift */; };
+		49BE762D294E1BD300AE7E63 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BE762C294E1BD300AE7E63 /* UIColor+Extensions.swift */; };
+		49BE762F294F143E00AE7E63 /* FriendsAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BE762E294F143E00AE7E63 /* FriendsAdapter.swift */; };
+		49BE7631294F215000AE7E63 /* FriendsPhotoAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BE7630294F215000AE7E63 /* FriendsPhotoAdapter.swift */; };
+		49BE7633294F2A4F00AE7E63 /* GroupsAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BE7632294F2A4F00AE7E63 /* GroupsAdapter.swift */; };
 		49C571D42852091100FAEC8F /* IndexHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C571D32852091100FAEC8F /* IndexHelper.swift */; };
 		49CA60EB292F5D2900E0ED79 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CA60EA292F5D2900E0ED79 /* VideoPlayerView.swift */; };
 		49CA60ED292F5E7A00E0ED79 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CA60EC292F5E7A00E0ED79 /* Video.swift */; };
@@ -130,6 +134,10 @@
 		49B4D3BD2822C7F400AA5801 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		49B4D3BF2822CA4B00AA5801 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		49BC8FF1280D76EB005469EA /* FullScreenUserPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenUserPhoto.swift; sourceTree = "<group>"; };
+		49BE762C294E1BD300AE7E63 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
+		49BE762E294F143E00AE7E63 /* FriendsAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsAdapter.swift; sourceTree = "<group>"; };
+		49BE7630294F215000AE7E63 /* FriendsPhotoAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsPhotoAdapter.swift; sourceTree = "<group>"; };
+		49BE7632294F2A4F00AE7E63 /* GroupsAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsAdapter.swift; sourceTree = "<group>"; };
 		49C571D32852091100FAEC8F /* IndexHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexHelper.swift; sourceTree = "<group>"; };
 		49CA60EA292F5D2900E0ED79 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		49CA60EC292F5E7A00E0ED79 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
@@ -312,6 +320,26 @@
 			path = Operations;
 			sourceTree = "<group>";
 		};
+		49BE7634294F2FE100AE7E63 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4972954A28C2787300720F75 /* UIImage+Extensions.swift */,
+				4948481B292123E800389A52 /* UILabel+Extension.swift */,
+				49BE762C294E1BD300AE7E63 /* UIColor+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		49BE7635294F300600AE7E63 /* Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				49BE762E294F143E00AE7E63 /* FriendsAdapter.swift */,
+				49BE7630294F215000AE7E63 /* FriendsPhotoAdapter.swift */,
+				49BE7632294F2A4F00AE7E63 /* GroupsAdapter.swift */,
+			);
+			path = Adapters;
+			sourceTree = "<group>";
+		};
 		49D90B6927DA65BE0048866B = {
 			isa = PBXGroup;
 			children = (
@@ -359,6 +387,8 @@
 		49E474FA2820613A009B519E /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				49BE7635294F300600AE7E63 /* Adapters */,
+				49BE7634294F2FE100AE7E63 /* Extensions */,
 				49EE3B5328CCA97700142FF1 /* Helpers */,
 				499FE19428C87F01007667E6 /* Operations */,
 				49EE3B5228CCA96300142FF1 /* Promises */,
@@ -366,8 +396,6 @@
 				49437AC528F9644500978439 /* ImageCachingService.swift */,
 				49484819291FACF000389A52 /* NewsDateFormatter.swift */,
 				49AD24672843CD21001D4564 /* RealmObserver.swift */,
-				4972954A28C2787300720F75 /* UIImage+Extensions.swift */,
-				4948481B292123E800389A52 /* UILabel+Extension.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -518,6 +546,7 @@
 				492A94BD2801AEB40059C9BE /* NewsTableViewController.swift in Sources */,
 				49AD24682843CD21001D4564 /* RealmObserver.swift in Sources */,
 				4948481C292123E800389A52 /* UILabel+Extension.swift in Sources */,
+				49BE7631294F215000AE7E63 /* FriendsPhotoAdapter.swift in Sources */,
 				49625E5428E1DBFD00D81712 /* NewsInteractionProtocol.swift in Sources */,
 				492A94B928008DEE0059C9BE /* GrouppedFriends.swift in Sources */,
 				4984269B27F5FC070078A50C /* SearchGroupTableViewCell.swift in Sources */,
@@ -551,9 +580,12 @@
 				498C292A27F353970058EAE7 /* FriendPhotoCollectionViewCell.swift in Sources */,
 				49B4D3BC2822BDB000AA5801 /* User.swift in Sources */,
 				49E474F92820476B009B519E /* LoginWebKitViewController.swift in Sources */,
+				49BE762D294E1BD300AE7E63 /* UIColor+Extensions.swift in Sources */,
 				498C292627F34F130058EAE7 /* FriendPhotosCollectionViewController.swift in Sources */,
+				49BE762F294F143E00AE7E63 /* FriendsAdapter.swift in Sources */,
 				49981BD028B670A700AECBAB /* NewsVideoCell.swift in Sources */,
 				499FE19C28C89731007667E6 /* SaveRealmOperation.swift in Sources */,
+				49BE7633294F2A4F00AE7E63 /* GroupsAdapter.swift in Sources */,
 				494CD6B828154CAF00250A56 /* CloudView.swift in Sources */,
 				49437AC628F9644500978439 /* ImageCachingService.swift in Sources */,
 				49B4D3BE2822C7F400AA5801 /* Group.swift in Sources */,

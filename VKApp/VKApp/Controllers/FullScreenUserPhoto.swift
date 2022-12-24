@@ -96,11 +96,11 @@ class FullScreenUserPhoto: UIViewController {
     private func lightenBackground() {
         UIView.animateKeyframes(withDuration: 0.4, delay: 0) { [weak self] in
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.2) {
-                self?.view.layer.backgroundColor = UIColor(named: "backgroundColor")?.cgColor
+                self?.view.layer.backgroundColor = UIColor.appLightenBackgroundColor?.cgColor
                 self?.navigationController?.navigationBar.isHidden = false
 
-                self?.displayedPhotoImageView?.backgroundColor = UIColor(named: "backgroundColor")
-                self?.hiddenPhotoImageView?.backgroundColor = UIColor(named: "backgroundColor")
+                self?.displayedPhotoImageView?.backgroundColor = UIColor.appLightenBackgroundColor
+                self?.hiddenPhotoImageView?.backgroundColor = UIColor.appLightenBackgroundColor
             }
         }
     }
@@ -109,9 +109,9 @@ class FullScreenUserPhoto: UIViewController {
     private func darkenBackground() {
         UIView.animate(withDuration: 0.2) { [weak self] in
             self?.navigationController?.navigationBar.isHidden = true
-            self?.view.layer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1).cgColor
-            self?.displayedPhotoImageView?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-            self?.hiddenPhotoImageView?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+            self?.view.layer.backgroundColor = UIColor.appDarkenBackgroundColor.cgColor
+            self?.displayedPhotoImageView?.backgroundColor = UIColor.appDarkenBackgroundColor
+            self?.hiddenPhotoImageView?.backgroundColor = UIColor.appDarkenBackgroundColor
         }
     }
 
@@ -300,7 +300,7 @@ class FullScreenUserPhoto: UIViewController {
 
         animator?.scrubsLinearly = false
 
-        self.navigationController?.navigationBar.backgroundColor = UIColor(named: "backgroundColor")
+        self.navigationController?.navigationBar.backgroundColor = UIColor.appLightenBackgroundColor
         self.navigationController?.navigationBar.isTranslucent = true
     }
 

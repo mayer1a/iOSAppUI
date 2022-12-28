@@ -155,7 +155,7 @@ final class NewsTableViewController: UITableViewController {
         tableView.sectionHeaderTopPadding = CGFloat(0)
 
         DispatchQueue.global().async { [weak self] in
-            SessionHelper.shared.fetchNewsfeed { news in
+            LoggingProxy.shared.fetchNewsfeed { news in
                 self?.news = news
 
                 DispatchQueue.main.async {
@@ -209,7 +209,7 @@ final class NewsTableViewController: UITableViewController {
         var lastLoadDate = self.news.first?.newsBody.date ?? Date().timeIntervalSince1970
 
         DispatchQueue.global().async { [weak self] in
-            SessionHelper.shared.fetchNewsfeed(from: lastLoadDate + 1) { news in
+            LoggingProxy.shared.fetchNewsfeed(from: lastLoadDate + 1) { news in
                 DispatchQueue.main.async { [weak self] in
                     self?.refreshControl?.endRefreshing()
                 }
@@ -286,7 +286,7 @@ extension NewsTableViewController: UITableViewDataSourcePrefetching {
 
             self.isLoadingNews = true
 
-            SessionHelper.shared.fetchNewsfeed(for: nextFrom) { news in
+            LoggingProxy.shared.fetchNewsfeed(for: nextFrom) { news in
                 let indexSet = IndexSet(integersIn: self.news.count..<self.news.count + news.count)
 
                 DispatchQueue.main.async { [weak self] in

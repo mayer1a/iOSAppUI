@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		490AE8DB28218DF60062480F /* SessionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490AE8DA28218DF60062480F /* SessionHelper.swift */; };
+		490F19D02957043A00EB7951 /* LoggingProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490F19CF2957043A00EB7951 /* LoggingProxy.swift */; };
+		490F19D22957097300EB7951 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490F19D12957097300EB7951 /* Logger.swift */; };
 		491A1C9327F4CAF0009287E2 /* PreviewScaledImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A1C9227F4CAF0009287E2 /* PreviewScaledImageView.swift */; };
 		491BE65928311B1E00AED18B /* RealmUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491BE65828311B1E00AED18B /* RealmUser.swift */; };
 		491BE65B28311BEA00AED18B /* RealmGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491BE65A28311BEA00AED18B /* RealmGroup.swift */; };
@@ -85,6 +87,8 @@
 /* Begin PBXFileReference section */
 		140A8D8A341A47AA0A978978 /* Pods-VKApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VKApp.debug.xcconfig"; path = "Target Support Files/Pods-VKApp/Pods-VKApp.debug.xcconfig"; sourceTree = "<group>"; };
 		490AE8DA28218DF60062480F /* SessionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHelper.swift; sourceTree = "<group>"; };
+		490F19CF2957043A00EB7951 /* LoggingProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingProxy.swift; sourceTree = "<group>"; };
+		490F19D12957097300EB7951 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		491A1C9227F4CAF0009287E2 /* PreviewScaledImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewScaledImageView.swift; sourceTree = "<group>"; };
 		491BE65828311B1E00AED18B /* RealmUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmUser.swift; sourceTree = "<group>"; };
 		491BE65A28311BEA00AED18B /* RealmGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmGroup.swift; sourceTree = "<group>"; };
@@ -396,6 +400,8 @@
 				49437AC528F9644500978439 /* ImageCachingService.swift */,
 				49484819291FACF000389A52 /* NewsDateFormatter.swift */,
 				49AD24672843CD21001D4564 /* RealmObserver.swift */,
+				490F19CF2957043A00EB7951 /* LoggingProxy.swift */,
+				490F19D12957097300EB7951 /* Logger.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -568,6 +574,7 @@
 				499FE19628C87F36007667E6 /* AsyncFetchOperation.swift in Sources */,
 				49D90B7627DA65BE0048866B /* AppDelegate.swift in Sources */,
 				497A2CEB28195D0C0009AA9A /* AnimationNavigationController.swift in Sources */,
+				490F19D02957043A00EB7951 /* LoggingProxy.swift in Sources */,
 				49E893712848B8F30027363E /* FirestoreCollections.swift in Sources */,
 				4974AABC2927D7A9009FC7EF /* ShowFullPhotoPresentAnimator.swift in Sources */,
 				49D90B7827DA65BE0048866B /* SceneDelegate.swift in Sources */,
@@ -601,6 +608,7 @@
 				49981BCC28B66F5A00AECBAB /* NewsTextCell.swift in Sources */,
 				490AE8DB28218DF60062480F /* SessionHelper.swift in Sources */,
 				49CA60EB292F5D2900E0ED79 /* VideoPlayerView.swift in Sources */,
+				490F19D22957097300EB7951 /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

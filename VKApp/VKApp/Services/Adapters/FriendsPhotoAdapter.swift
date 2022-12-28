@@ -51,7 +51,7 @@ final class FriendsPhotoAdapter {
             let realmPhotos = try RealmPhoto.restoreData(ownerId: userId)
 
             if realmPhotos.isEmpty {
-                let request = SessionHelper.shared.getPhotosRequest(id: userId)
+                let request = LoggingProxy.shared.getPhotosRequest(id: userId)
                 let fetchDataOperations = FetchDataOperation(request: request)
                 let asyncParseOperation = AsyncParseDataOperation<Photo>()
                 let saveRealmOperation = SaveRealmOperation<Photo>()

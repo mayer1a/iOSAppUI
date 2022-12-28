@@ -22,13 +22,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let contentView = Cell(model: UserMock.shared.viewModel)
 //        let contentView = Cell(model: GroupMock.shared.viewModel)
 
+//        let contentView = LoginScreen()
+
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = UIHostingController(rootView: contentView)
 
         self.window = window
         self.window?.makeKeyAndVisible()
-
-
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

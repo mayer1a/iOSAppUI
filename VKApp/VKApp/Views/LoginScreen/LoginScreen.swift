@@ -106,6 +106,7 @@ struct InputView: View {
             Spacer(minLength: 20)
 
             Button {
+                UIApplication.shared.endEditing()
                 print("\(login) entered")
             } label: {
                 Text("Войти")
@@ -130,7 +131,8 @@ struct InputView: View {
             Spacer(minLength: 20)
 
             Button {
-                print(login, "forgotten password")
+                UIApplication.shared.endEditing()
+                print("\(login) forgotten password")
             } label: {
                 Text("Забыли пароль?")
                     .foregroundColor(.blue)
@@ -144,7 +146,7 @@ struct InputView: View {
     }
 
     private var buttonColor: Color {
-        return (login.isEmpty || password.count < 7) ? .gray : .blue
+        return (login.isEmpty || password.count < 6) ? .gray : .blue
     }
 
     private var inputView: some View {

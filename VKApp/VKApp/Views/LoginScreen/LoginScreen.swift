@@ -12,9 +12,15 @@ import Combine
 
 struct LoginScreen: View {
 
+    // MARK: - State properties
+
     @State private var shouldShowLogo: Bool = true
 
+    // MARK: - Private properties
+
     private let keyboardIsOnPublisher = KeyboardPublisher.shared.keyboardPublishers
+
+    // MARK: - Properties
 
     var body: some View {
         ZStack {
@@ -41,9 +47,11 @@ struct LoginScreen: View {
     }
 }
 
-extension UIApplication {
-    func endEditing() {
+// MARK: - Extensions
 
+extension UIApplication {
+
+    func endEditing() {
         sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }

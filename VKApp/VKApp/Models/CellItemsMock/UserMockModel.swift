@@ -1,5 +1,5 @@
 //
-//  UserMock.swift
+//  UserMockModel.swift
 //  VKApp
 //
 //  Created by Artem Mayer on 11.01.2023.
@@ -10,7 +10,7 @@ import Foundation
 struct UserMockModel {
     static let shared = UserMockModel()
 
-    let user: [User] = [
+    let users: [User] = [
         User(id: 654234,
              firstName: "Alex",
              lastName: "Morning",

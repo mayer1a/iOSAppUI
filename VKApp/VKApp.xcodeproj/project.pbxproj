@@ -71,6 +71,7 @@
 		49CA60EB292F5D2900E0ED79 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CA60EA292F5D2900E0ED79 /* VideoPlayerView.swift */; };
 		49CA60ED292F5E7A00E0ED79 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CA60EC292F5E7A00E0ED79 /* Video.swift */; };
 		49D4A43C296EDFFC00A39124 /* UserMockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A43B296EDFFC00A39124 /* UserMockModel.swift */; };
+		49D4A440296EFBE500A39124 /* UserCellModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A43F296EFBE500A39124 /* UserCellModelFactory.swift */; };
 		49D90B7627DA65BE0048866B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7527DA65BE0048866B /* AppDelegate.swift */; };
 		49D90B7827DA65BE0048866B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7727DA65BE0048866B /* SceneDelegate.swift */; };
 		49D90B7A27DA65BE0048866B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7927DA65BE0048866B /* LoginViewController.swift */; };
@@ -155,6 +156,7 @@
 		49CA60EA292F5D2900E0ED79 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		49CA60EC292F5E7A00E0ED79 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		49D4A43B296EDFFC00A39124 /* UserMockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMockModel.swift; sourceTree = "<group>"; };
+		49D4A43F296EFBE500A39124 /* UserCellModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellModelFactory.swift; sourceTree = "<group>"; };
 		49D90B7227DA65BE0048866B /* VKApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49D90B7527DA65BE0048866B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49D90B7727DA65BE0048866B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -280,7 +282,7 @@
 		498F321A27F32B0100FE7EC9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				49D4A43A296EDFE300A39124 /* UserMock */,
+				49D4A43A296EDFE300A39124 /* CellItemsMock */,
 				49B4D3BD2822C7F400AA5801 /* Group.swift */,
 				492A94B828008DEE0059C9BE /* GrouppedFriends.swift */,
 				494F564928BD1B160026C80E /* News.swift */,
@@ -391,12 +393,13 @@
 			path = Adapters;
 			sourceTree = "<group>";
 		};
-		49D4A43A296EDFE300A39124 /* UserMock */ = {
+		49D4A43A296EDFE300A39124 /* CellItemsMock */ = {
 			isa = PBXGroup;
 			children = (
 				49D4A43B296EDFFC00A39124 /* UserMockModel.swift */,
+				49D4A43F296EFBE500A39124 /* UserCellModelFactory.swift */,
 			);
-			path = UserMock;
+			path = CellItemsMock;
 			sourceTree = "<group>";
 		};
 		49D90B6927DA65BE0048866B = {
@@ -625,6 +628,7 @@
 				4984269727F5F4B70078A50C /* SearchGroupTableViewController.swift in Sources */,
 				4984269927F5FAF30078A50C /* GroupTableViewCell.swift in Sources */,
 				491A1C9327F4CAF0009287E2 /* PreviewScaledImageView.swift in Sources */,
+				49D4A440296EFBE500A39124 /* UserCellModelFactory.swift in Sources */,
 				49BC8FF2280D76EB005469EA /* FullScreenUserPhoto.swift in Sources */,
 				4948481A291FACF000389A52 /* NewsDateFormatter.swift in Sources */,
 				499FE19628C87F36007667E6 /* AsyncFetchOperation.swift in Sources */,

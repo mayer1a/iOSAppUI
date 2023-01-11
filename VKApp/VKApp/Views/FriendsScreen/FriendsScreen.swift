@@ -9,12 +9,12 @@ import SwiftUI
 
 struct FriendsScreen: View {
 
-    @State private var cellModel: [CellViewModel] = {
+    @State private var cellModel: [GrouppedUserModel] = {
         let cellModelFactory = UserCellModelFactory()
 
-        return UserMockModel.shared.users.map {
-            cellModelFactory.construct(from: $0)
-        }
+        let users = UserMockModel.shared.users
+
+        return cellModelFactory.construct(from: users)
     }()
     
     // MARK: - Private properties
@@ -22,11 +22,20 @@ struct FriendsScreen: View {
     private let cellModelFactory = UserCellModelFactory()
 
     var body: some View {
-        List(cellModel) { friend in
-            Cell(model: friend)
+        List {
+            ForEach(cellModel) { section in
+                Section {
+                    ForEach(section.users) { user in
+                        Cell(model: user)
+                    }
+                } header: {
+                    Text(String(section.id))
+                }
+            }
         }
         .listStyle(.grouped)
         .navigationBarTitle("Друзья", displayMode: .inline)
+        .navigationBarBackButtonHidden()
     }
 }
 

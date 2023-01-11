@@ -11,12 +11,21 @@ import Combine
 // MARK: - LoginScreen
 
 struct LoginScreen: View {
+
+    // MARK: - State properties
+
     @State private var shouldShowMainView: Bool = false
+
+    // MARK: - Properties
 
     var body: some View {
         NavigationView {
             HStack {
                 ContainerView(isUserLoggedIn: $shouldShowMainView)
+
+                NavigationLink(destination: FriendsScreen(), isActive: $shouldShowMainView) {
+                    EmptyView()
+                }
             }
         }
     }
@@ -47,7 +56,7 @@ struct ContainerView: View {
                 }
 
                 LogoView()
-                InputView(isUserLoggedIn: $shouldShowLogo)
+                InputView(isUserLoggedIn: $isUserLoggedIn)
             }
             .onReceive(keyboardIsOnPublisher) { isKeyboardOn in
                 withAnimation(Animation.easeInOut(duration: 0.3)) {

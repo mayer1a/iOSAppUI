@@ -15,17 +15,44 @@ struct CellViewModel: Identifiable {
     let avatar: URL?
 }
 
+// MARK: - GrouppedUserModel
+
+struct GrouppedUserModel: Identifiable {
+    var id: Character
+    var users: [CellViewModel]
+}
+
 // MARK: - UserCellModelFactory
 
 final class UserCellModelFactory {
 
     // MARK: - Functions
     
-    func construct(from userModel: User) -> CellViewModel {
-        let fullName = "\(userModel.firstName) \(userModel.lastName)"
-        let avatarUrl = URL(string: userModel.avatar)
+    func construct(from usersModel: [User]) -> [GrouppedUserModel] {
+        var result: [GrouppedUserModel] = []
+        let usersModel = usersModel.sorted { $0.lastName < $1.lastName }
 
-        return CellViewModel(id: userModel.id,
+        usersModel.forEach { user in
+            guard let character: Character = user.lastName.first else { return }
+
+            if let currentCharacter = result.firstIndex(where: { $0.id == character }) {
+                result[currentCharacter].users.append(userToCellModel(user))
+            } else {
+                result.append(GrouppedUserModel(id: character,
+                                                users: [userToCellModel(user)]))
+            }
+        }
+
+        return result
+    }
+
+    // MARK: - Private Functions
+
+    private func userToCellModel(_ user: User) -> CellViewModel {
+        let fullName = "\(user.firstName) \(user.lastName)"
+        let avatarUrl = URL(string: user.avatar)
+
+        return CellViewModel(id: user.id,
                              fullName: fullName,
                              avatar: avatarUrl)
     }

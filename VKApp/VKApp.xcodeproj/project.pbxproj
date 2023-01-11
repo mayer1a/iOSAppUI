@@ -21,6 +21,9 @@
 		492C372A280345D400BEA637 /* DownloadIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 492C3728280345D400BEA637 /* DownloadIndicatorView.xib */; };
 		492C372C2803476400BEA637 /* DownloadIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C372B2803476400BEA637 /* DownloadIndicatorView.swift */; };
 		49437AC628F9644500978439 /* ImageCachingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49437AC528F9644500978439 /* ImageCachingService.swift */; };
+		49443159295DF46A00F98789 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49443158295DF46A00F98789 /* ViewModifiers.swift */; };
+		4944315C295E01F800F98789 /* ViewBuilders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944315B295E01F800F98789 /* ViewBuilders.swift */; };
+		49443162295E130800F98789 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49443161295E130800F98789 /* Cell.swift */; };
 		49443150295C6AFA00F98789 /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4944314F295C6AFA00F98789 /* LoginScreen.swift */; };
 		494692182829577F00C3F06D /* FriendsAlphabetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 494692162829577F00C3F06D /* FriendsAlphabetView.xib */; };
 		4946921C28295D8500C3F06D /* FriendsAlphabetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4946921B28295D8500C3F06D /* FriendsAlphabetView.swift */; };
@@ -101,6 +104,9 @@
 		492C3728280345D400BEA637 /* DownloadIndicatorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DownloadIndicatorView.xib; sourceTree = "<group>"; };
 		492C372B2803476400BEA637 /* DownloadIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadIndicatorView.swift; sourceTree = "<group>"; };
 		49437AC528F9644500978439 /* ImageCachingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCachingService.swift; sourceTree = "<group>"; };
+		49443158295DF46A00F98789 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
+		4944315B295E01F800F98789 /* ViewBuilders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBuilders.swift; sourceTree = "<group>"; };
+		49443161295E130800F98789 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		4944314F295C6AFA00F98789 /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
 		494692162829577F00C3F06D /* FriendsAlphabetView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendsAlphabetView.xib; sourceTree = "<group>"; };
 		4946921B28295D8500C3F06D /* FriendsAlphabetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsAlphabetView.swift; sourceTree = "<group>"; };
@@ -215,6 +221,28 @@
 			path = KeychainWrapper;
 			sourceTree = "<group>";
 		};
+		49443157295DF44D00F98789 /* ViewModifiers */ = {
+			isa = PBXGroup;
+			children = (
+				49443158295DF46A00F98789 /* ViewModifiers.swift */,
+			);
+			path = ViewModifiers;
+			sourceTree = "<group>";
+		};
+		4944315A295E01E400F98789 /* ViewBuilders */ = {
+			isa = PBXGroup;
+			children = (
+				4944315B295E01F800F98789 /* ViewBuilders.swift */,
+			);
+			path = ViewBuilders;
+			sourceTree = "<group>";
+		};
+		49443160295E12EA00F98789 /* UserGroupCell */ = {
+			isa = PBXGroup;
+			children = (
+				49443161295E130800F98789 /* Cell.swift */,
+			);
+			path = UserGroupCell;
 		4944314E295C6ACB00F98789 /* LoginScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -310,6 +338,9 @@
 		49981BCA28B66EBA00AECBAB /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				49443160295E12EA00F98789 /* UserGroupCell */,
+				4944315A295E01E400F98789 /* ViewBuilders */,
+				49443157295DF44D00F98789 /* ViewModifiers */,
 				498C292927F353970058EAE7 /* FriendPhotoCollectionViewCell.swift */,
 				498C292327F3358F0058EAE7 /* FriendsTableViewCell.swift */,
 				4984269827F5FAF30078A50C /* GroupTableViewCell.swift */,
@@ -570,6 +601,7 @@
 				49981BD428B670D700AECBAB /* NewsUsersInteractionCell.swift in Sources */,
 				4984269527F5F4700078A50C /* GroupsTableViewController.swift in Sources */,
 				492A94BB2801AE850059C9BE /* NewsAuthorDateTimeCell.swift in Sources */,
+				4944315C295E01F800F98789 /* ViewBuilders.swift in Sources */,
 				494F564A28BD1B160026C80E /* News.swift in Sources */,
 				491BE65928311B1E00AED18B /* RealmUser.swift in Sources */,
 				4972954B28C2787300720F75 /* UIImage+Extensions.swift in Sources */,
@@ -589,9 +621,11 @@
 				49E893712848B8F30027363E /* FirestoreCollections.swift in Sources */,
 				4974AABC2927D7A9009FC7EF /* ShowFullPhotoPresentAnimator.swift in Sources */,
 				49D90B7827DA65BE0048866B /* SceneDelegate.swift in Sources */,
+				49443162295E130800F98789 /* Cell.swift in Sources */,
 				491BE65D28311C4B00AED18B /* RealmPhoto.swift in Sources */,
 				49D9AAF8281A862600C6A4B7 /* Session.swift in Sources */,
 				49FF92272807263400ED648A /* CustomSearchBarView.swift in Sources */,
+				49443159295DF46A00F98789 /* ViewModifiers.swift in Sources */,
 				49C571D42852091100FAEC8F /* IndexHelper.swift in Sources */,
 				497A2CE7281822990009AA9A /* ShowUserPhotosTransitionAnimation.swift in Sources */,
 				499FE19A28C89557007667E6 /* AsyncParseDataOperation.swift in Sources */,

@@ -31,15 +31,9 @@ struct Cell: View {
                 .modifier(TitleLabel())
 
         }
-        .padding(.horizontal, 10.0)
+        .padding(.horizontal, 0.0)
     }
 }
-
-//struct UserCell_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Cell(model: model)
-//    }
-//}
 
 // MARK: - AvatarView
 

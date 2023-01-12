@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class GroupCellModelFactory {
+struct GroupCellModelFactory {
 
     // MARK: - Functions
 

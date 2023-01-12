@@ -76,6 +76,7 @@
 		49D4A446296FFEE600A39124 /* GroupsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A445296FFEE600A39124 /* GroupsScreen.swift */; };
 		49D4A4482970017000A39124 /* GroupMockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A4472970017000A39124 /* GroupMockModel.swift */; };
 		49D4A44A297003DC00A39124 /* GroupCellModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A449297003DC00A39124 /* GroupCellModelFactory.swift */; };
+		49D4A44C2970052800A39124 /* CellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A44B2970052800A39124 /* CellViewModel.swift */; };
 		49D90B7627DA65BE0048866B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7527DA65BE0048866B /* AppDelegate.swift */; };
 		49D90B7827DA65BE0048866B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7727DA65BE0048866B /* SceneDelegate.swift */; };
 		49D90B7A27DA65BE0048866B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7927DA65BE0048866B /* LoginViewController.swift */; };
@@ -165,6 +166,7 @@
 		49D4A445296FFEE600A39124 /* GroupsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsScreen.swift; sourceTree = "<group>"; };
 		49D4A4472970017000A39124 /* GroupMockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMockModel.swift; sourceTree = "<group>"; };
 		49D4A449297003DC00A39124 /* GroupCellModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCellModelFactory.swift; sourceTree = "<group>"; };
+		49D4A44B2970052800A39124 /* CellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellViewModel.swift; sourceTree = "<group>"; };
 		49D90B7227DA65BE0048866B /* VKApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49D90B7527DA65BE0048866B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49D90B7727DA65BE0048866B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -410,6 +412,7 @@
 				49D4A43F296EFBE500A39124 /* UserCellModelFactory.swift */,
 				49D4A4472970017000A39124 /* GroupMockModel.swift */,
 				49D4A449297003DC00A39124 /* GroupCellModelFactory.swift */,
+				49D4A44B2970052800A39124 /* CellViewModel.swift */,
 			);
 			path = CellItemsMock;
 			sourceTree = "<group>";
@@ -704,6 +707,7 @@
 				49981BCC28B66F5A00AECBAB /* NewsTextCell.swift in Sources */,
 				490AE8DB28218DF60062480F /* SessionHelper.swift in Sources */,
 				49CA60EB292F5D2900E0ED79 /* VideoPlayerView.swift in Sources */,
+				49D4A44C2970052800A39124 /* CellViewModel.swift in Sources */,
 				490F19D22957097300EB7951 /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

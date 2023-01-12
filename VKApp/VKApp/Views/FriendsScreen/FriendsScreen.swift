@@ -9,6 +9,8 @@ import SwiftUI
 
 struct FriendsScreen: View {
 
+    // MARK: - State properties
+    
     @State private var cellModel: [GrouppedUserModel] = {
         let cellModelFactory = UserCellModelFactory()
 
@@ -36,11 +38,5 @@ struct FriendsScreen: View {
         .listStyle(.grouped)
         .navigationBarTitle("Друзья", displayMode: .inline)
         .navigationBarBackButtonHidden()
-    }
-}
-
-struct FriendsScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        FriendsScreen()
     }
 }

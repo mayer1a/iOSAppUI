@@ -78,6 +78,8 @@
 		49D4A44A297003DC00A39124 /* GroupCellModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A449297003DC00A39124 /* GroupCellModelFactory.swift */; };
 		49D4A44C2970052800A39124 /* CellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A44B2970052800A39124 /* CellViewModel.swift */; };
 		49D4A44F29700C2A00A39124 /* NewsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A44E29700C2A00A39124 /* NewsScreen.swift */; };
+		49D4A452297024FF00A39124 /* FriendsPhotosScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A451297024FF00A39124 /* FriendsPhotosScreen.swift */; };
+		49D4A4552970412300A39124 /* UserPhotoMockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A4542970412300A39124 /* UserPhotoMockModel.swift */; };
 		49D90B7627DA65BE0048866B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7527DA65BE0048866B /* AppDelegate.swift */; };
 		49D90B7827DA65BE0048866B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7727DA65BE0048866B /* SceneDelegate.swift */; };
 		49D90B7A27DA65BE0048866B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7927DA65BE0048866B /* LoginViewController.swift */; };
@@ -169,6 +171,8 @@
 		49D4A449297003DC00A39124 /* GroupCellModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCellModelFactory.swift; sourceTree = "<group>"; };
 		49D4A44B2970052800A39124 /* CellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellViewModel.swift; sourceTree = "<group>"; };
 		49D4A44E29700C2A00A39124 /* NewsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsScreen.swift; sourceTree = "<group>"; };
+		49D4A451297024FF00A39124 /* FriendsPhotosScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsPhotosScreen.swift; sourceTree = "<group>"; };
+		49D4A4542970412300A39124 /* UserPhotoMockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhotoMockModel.swift; sourceTree = "<group>"; };
 		49D90B7227DA65BE0048866B /* VKApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49D90B7527DA65BE0048866B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49D90B7727DA65BE0048866B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -309,6 +313,7 @@
 		498F321B27F32B0E00FE7EC9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				49D4A450297024EA00A39124 /* FriendsPhotosScreen */,
 				49D4A44D29700C1E00A39124 /* NewsScreen */,
 				49D4A444296FFED500A39124 /* GroupsScreen */,
 				49D4A441296F005F00A39124 /* FriendsScreen */,
@@ -416,6 +421,7 @@
 				49D4A4472970017000A39124 /* GroupMockModel.swift */,
 				49D4A449297003DC00A39124 /* GroupCellModelFactory.swift */,
 				49D4A44B2970052800A39124 /* CellViewModel.swift */,
+				49D4A4542970412300A39124 /* UserPhotoMockModel.swift */,
 			);
 			path = CellItemsMock;
 			sourceTree = "<group>";
@@ -442,6 +448,14 @@
 				49D4A44E29700C2A00A39124 /* NewsScreen.swift */,
 			);
 			path = NewsScreen;
+			sourceTree = "<group>";
+		};
+		49D4A450297024EA00A39124 /* FriendsPhotosScreen */ = {
+			isa = PBXGroup;
+			children = (
+				49D4A451297024FF00A39124 /* FriendsPhotosScreen.swift */,
+			);
+			path = FriendsPhotosScreen;
 			sourceTree = "<group>";
 		};
 		49D90B6927DA65BE0048866B = {
@@ -686,6 +700,7 @@
 				49443162295E130800F98789 /* Cell.swift in Sources */,
 				491BE65D28311C4B00AED18B /* RealmPhoto.swift in Sources */,
 				49D9AAF8281A862600C6A4B7 /* Session.swift in Sources */,
+				49D4A452297024FF00A39124 /* FriendsPhotosScreen.swift in Sources */,
 				49FF92272807263400ED648A /* CustomSearchBarView.swift in Sources */,
 				49443159295DF46A00F98789 /* ViewModifiers.swift in Sources */,
 				49D4A43C296EDFFC00A39124 /* UserMockModel.swift in Sources */,
@@ -696,6 +711,7 @@
 				49B4D3BC2822BDB000AA5801 /* User.swift in Sources */,
 				49E474F92820476B009B519E /* LoginWebKitViewController.swift in Sources */,
 				49BE762D294E1BD300AE7E63 /* UIColor+Extensions.swift in Sources */,
+				49D4A4552970412300A39124 /* UserPhotoMockModel.swift in Sources */,
 				498C292627F34F130058EAE7 /* FriendPhotosCollectionViewController.swift in Sources */,
 				49BE762F294F143E00AE7E63 /* FriendsAdapter.swift in Sources */,
 				49981BD028B670A700AECBAB /* NewsVideoCell.swift in Sources */,

@@ -12,11 +12,13 @@ struct NewsScreen: View {
     // MARK: - Properties
 
     var body: some View {
-        List() {
-            Text("")
+        NavigationView {
+            List() {
+                Text("")
+            }
+            .listStyle(.plain)
+            .navigationBarTitle("Новости", displayMode: .inline)
+            .navigationBarBackButtonHidden()
         }
-        .listStyle(.plain)
-        .navigationBarTitle("Новости", displayMode: .inline)
-        .navigationBarBackButtonHidden()
     }
 }

@@ -23,9 +23,10 @@ struct LoginScreen: View {
             HStack {
                 ContainerView(isUserLoggedIn: $shouldShowMainView)
 
-                NavigationLink(destination: FriendsScreen(), isActive: $shouldShowMainView) {
-                    EmptyView()
-                }
+                NavigationLink(isActive: $shouldShowMainView) {
+                    FriendsScreen()
+                        .navigationBarBackButtonHidden(true)
+                } label: { }
             }
         }
     }
@@ -33,7 +34,7 @@ struct LoginScreen: View {
 
 // MARK: - ContainerView
 
-struct ContainerView: View {
+private struct ContainerView: View {
 
     // MARK: - State properties
 

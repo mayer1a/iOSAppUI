@@ -22,11 +22,13 @@ struct GroupsScreen: View {
     // MARK: - Properties
 
     var body: some View {
-        List(cellModel) { group in
-            Cell(model: group)
+        NavigationView {
+            List(cellModel) { group in
+                Cell(model: group)
+            }
+            .listStyle(.plain)
+            .navigationBarBackButtonHidden()
+            .navigationBarTitle("Группы", displayMode: .inline)
         }
-        .listStyle(.plain)
-        .navigationBarTitle("Группы", displayMode: .inline)
-        .navigationBarBackButtonHidden()
     }
 }

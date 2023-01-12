@@ -42,7 +42,7 @@ struct TitleLabel: ViewModifier {
     func body(content: Content) -> some View {
         content
             .lineLimit(2)
-            .background(.background)
+            .background(.clear)
             .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

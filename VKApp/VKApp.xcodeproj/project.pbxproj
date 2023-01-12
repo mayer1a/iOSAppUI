@@ -77,6 +77,7 @@
 		49D4A4482970017000A39124 /* GroupMockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A4472970017000A39124 /* GroupMockModel.swift */; };
 		49D4A44A297003DC00A39124 /* GroupCellModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A449297003DC00A39124 /* GroupCellModelFactory.swift */; };
 		49D4A44C2970052800A39124 /* CellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A44B2970052800A39124 /* CellViewModel.swift */; };
+		49D4A44F29700C2A00A39124 /* NewsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A44E29700C2A00A39124 /* NewsScreen.swift */; };
 		49D90B7627DA65BE0048866B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7527DA65BE0048866B /* AppDelegate.swift */; };
 		49D90B7827DA65BE0048866B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7727DA65BE0048866B /* SceneDelegate.swift */; };
 		49D90B7A27DA65BE0048866B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7927DA65BE0048866B /* LoginViewController.swift */; };
@@ -167,6 +168,7 @@
 		49D4A4472970017000A39124 /* GroupMockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMockModel.swift; sourceTree = "<group>"; };
 		49D4A449297003DC00A39124 /* GroupCellModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCellModelFactory.swift; sourceTree = "<group>"; };
 		49D4A44B2970052800A39124 /* CellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellViewModel.swift; sourceTree = "<group>"; };
+		49D4A44E29700C2A00A39124 /* NewsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsScreen.swift; sourceTree = "<group>"; };
 		49D90B7227DA65BE0048866B /* VKApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49D90B7527DA65BE0048866B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49D90B7727DA65BE0048866B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 		498F321B27F32B0E00FE7EC9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				49D4A44D29700C1E00A39124 /* NewsScreen */,
 				49D4A444296FFED500A39124 /* GroupsScreen */,
 				49D4A441296F005F00A39124 /* FriendsScreen */,
 				4944314E295C6ACB00F98789 /* LoginScreen */,
@@ -431,6 +434,14 @@
 				49D4A445296FFEE600A39124 /* GroupsScreen.swift */,
 			);
 			path = GroupsScreen;
+			sourceTree = "<group>";
+		};
+		49D4A44D29700C1E00A39124 /* NewsScreen */ = {
+			isa = PBXGroup;
+			children = (
+				49D4A44E29700C2A00A39124 /* NewsScreen.swift */,
+			);
+			path = NewsScreen;
 			sourceTree = "<group>";
 		};
 		49D90B6927DA65BE0048866B = {
@@ -688,6 +699,7 @@
 				498C292627F34F130058EAE7 /* FriendPhotosCollectionViewController.swift in Sources */,
 				49BE762F294F143E00AE7E63 /* FriendsAdapter.swift in Sources */,
 				49981BD028B670A700AECBAB /* NewsVideoCell.swift in Sources */,
+				49D4A44F29700C2A00A39124 /* NewsScreen.swift in Sources */,
 				499FE19C28C89731007667E6 /* SaveRealmOperation.swift in Sources */,
 				49BE7633294F2A4F00AE7E63 /* GroupsAdapter.swift in Sources */,
 				494CD6B828154CAF00250A56 /* CloudView.swift in Sources */,

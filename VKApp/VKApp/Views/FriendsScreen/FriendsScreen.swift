@@ -52,7 +52,7 @@ private struct ContentView: View {
                     Section {
                         ForEach(section.users) { user in
                             NavigationLink {
-                                
+                                FriendsPhotosScreen(photosCount: Int.random(in: 1..<7))
                             } label: {
                                 Cell(model: user)
                             }

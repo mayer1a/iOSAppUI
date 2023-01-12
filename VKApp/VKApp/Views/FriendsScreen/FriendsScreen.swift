@@ -9,8 +9,30 @@ import SwiftUI
 
 struct FriendsScreen: View {
 
+    var body: some View {
+        TabView {
+            ContentView()
+                .tabItem {
+                    Label("Друзья", image: .init("friendsIconsSet"))
+                }
+
+            GroupsScreen()
+                .tabItem {
+                    Label("Группы", image: .init("communityIconsSet"))
+                }
+
+            NewsScreen()
+                .tabItem {
+                    Label("Новости", image: .init("news"))
+                }
+        }
+    }
+}
+
+private struct ContentView: View {
+
     // MARK: - State properties
-    
+
     @State private var cellModel: [GrouppedUserModel] = {
         let cellModelFactory = UserCellModelFactory()
 
@@ -18,25 +40,32 @@ struct FriendsScreen: View {
 
         return cellModelFactory.construct(from: users)
     }()
-    
+
     // MARK: - Private properties
 
     private let cellModelFactory = UserCellModelFactory()
 
     var body: some View {
-        List {
-            ForEach(cellModel) { section in
-                Section {
-                    ForEach(section.users) { user in
-                        Cell(model: user)
+        NavigationView {
+            List {
+                ForEach(cellModel) { section in
+                    Section {
+                        ForEach(section.users) { user in
+                            NavigationLink {
+                                
+                            } label: {
+                                Cell(model: user)
+                            }
+                        }
+                    } header: {
+                        Text(String(section.id))
                     }
-                } header: {
-                    Text(String(section.id))
                 }
             }
+            .listStyle(.grouped)
+            .navigationTitle("Друзья")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
         }
-        .listStyle(.grouped)
-        .navigationBarTitle("Друзья", displayMode: .inline)
-        .navigationBarBackButtonHidden()
     }
 }

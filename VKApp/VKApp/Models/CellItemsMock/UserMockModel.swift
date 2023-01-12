@@ -8,6 +8,9 @@
 import Foundation
 
 struct UserMockModel {
+
+    // MARK: - Properties
+    
     static let shared = UserMockModel()
 
     let users: [User] = [

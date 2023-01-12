@@ -39,6 +39,8 @@ struct Cell: View {
 
 struct AvatarView: View {
 
+    // MARK: - Properties
+
     let url: URL?
 
     var body: some View {
@@ -64,7 +66,6 @@ struct AvatarView: View {
             @unknown default:
                 EmptyView()
             }
-
         }
     }
 }

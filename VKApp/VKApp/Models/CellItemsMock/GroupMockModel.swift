@@ -9,6 +9,8 @@ import Foundation
 
 struct GroupMockModel {
 
+    // MARK: - Properties
+
     static let shared = GroupMockModel()
 
     let groups: [Group] = [

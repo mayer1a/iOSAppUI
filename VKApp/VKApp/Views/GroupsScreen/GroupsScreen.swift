@@ -8,13 +8,25 @@
 import SwiftUI
 
 struct GroupsScreen: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
 
-struct GroupsScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        GroupsScreen()
+    // MARK: - State Properties
+
+    @State private var cellModel: [CellViewModel] = {
+        let cellModelFactory = GroupCellModelFactory()
+
+        let groups = GroupMockModel.shared.groups
+
+        return cellModelFactory.construct(from: groups)
+    }()
+
+    // MARK: - Properties
+
+    var body: some View {
+        List(cellModel) { group in
+            Cell(model: group)
+        }
+        .listStyle(.plain)
+        .navigationBarTitle("Группы", displayMode: .inline)
+        .navigationBarBackButtonHidden()
     }
 }

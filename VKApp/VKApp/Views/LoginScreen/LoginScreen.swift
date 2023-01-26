@@ -14,7 +14,32 @@ struct LoginScreen: View {
 
     // MARK: - State properties
 
+    @State private var shouldShowMainView: Bool = false
+
+    // MARK: - Properties
+
+    var body: some View {
+        NavigationView {
+            HStack {
+                ContainerView(isUserLoggedIn: $shouldShowMainView)
+
+                NavigationLink(isActive: $shouldShowMainView) {
+                    FriendsScreen()
+                        .navigationBarBackButtonHidden(true)
+                } label: { }
+            }
+        }
+    }
+}
+
+// MARK: - ContainerView
+
+private struct ContainerView: View {
+
+    // MARK: - State properties
+
     @State private var shouldShowLogo: Bool = true
+    @Binding var isUserLoggedIn: Bool
 
     // MARK: - Private properties
 
@@ -32,7 +57,7 @@ struct LoginScreen: View {
                 }
 
                 LogoView()
-                InputView()
+                InputView(isUserLoggedIn: $isUserLoggedIn)
             }
             .onReceive(keyboardIsOnPublisher) { isKeyboardOn in
                 withAnimation(Animation.easeInOut(duration: 0.3)) {
@@ -70,6 +95,8 @@ struct InputView: View {
 
     @State private var login = ""
     @State private var password = ""
+    @State private var showIncorrectLoginData = false
+    @Binding var isUserLoggedIn: Bool
 
     // MARK: - Private properties
 
@@ -115,7 +142,7 @@ struct InputView: View {
 
             Button {
                 UIApplication.shared.endEditing()
-                print("\(login) entered")
+                verifyInputData()
             } label: {
                 Text("Войти")
                     .frame(maxWidth: .infinity)
@@ -164,9 +191,28 @@ struct InputView: View {
         }
     }
 
+    private var incorrectLoginDataView: some View {
+        HStack {
+            Spacer(minLength: 20)
+
+            Text("Неверный логин или пароль")
+                .foregroundColor(.red)
+                .font(.callout)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            Spacer(minLength: 20)
+        }
+    }
+
     // MARK: - Properties
 
     var body: some View {
+
+        if showIncorrectLoginData {
+            incorrectLoginDataView
+            Spacer(minLength: 15)
+        }
+
         inputView
 
         Spacer(minLength: 15)
@@ -178,6 +224,18 @@ struct InputView: View {
         loginButton.disabled(login.isEmpty || password.count < 6)
     }
 
+    // MARK: - Private functions
+
+    private func verifyInputData() {
+        if login == "SwiftyTester" && password == "111111" {
+            isUserLoggedIn = true
+            showIncorrectLoginData = false
+        } else {
+            showIncorrectLoginData = true
+        }
+
+        password = ""
+    }
 }
 
 // MARK: - LogoView

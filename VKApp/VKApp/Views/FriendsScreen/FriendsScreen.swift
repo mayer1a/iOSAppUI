@@ -20,7 +20,7 @@ struct FriendsScreen: View {
                     Label("Друзья", image: .init("friendsIconsSet"))
                 }
 
-            GroupsScreen()
+            GroupsScreen(viewModel: GroupsViewModel(getGroupsPromise: GetUserGroups()))
                 .tabItem {
                     Label("Группы", image: .init("communityIconsSet"))
                 }
@@ -65,7 +65,6 @@ private struct ContentView: View {
                                 let viewModel = UserPhotoViewModel(id: user.id,
                                                                    networkService: NetworkService())
                                 FriendsPhotosScreen(by: user.id,
-                                                    networkService: NetworkService(),
                                                     viewModel: viewModel)
                             } label: {
                                 Cell(model: user)

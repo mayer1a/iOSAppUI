@@ -28,13 +28,11 @@ struct FriendsPhotosScreen: View {
     ]
     
     private let userId: Int
-    private let networkService: NetworkServiceInterface
 
     // MARK: - Construction
     
-    init(by userId: Int, networkService: NetworkService, viewModel: UserPhotoViewModel) {
+    init(by userId: Int, viewModel: UserPhotoViewModel) {
         self.userId = userId
-        self.networkService = networkService
         self.viewModel = viewModel
     }
 

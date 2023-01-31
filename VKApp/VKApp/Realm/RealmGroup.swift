@@ -40,11 +40,11 @@ final class RealmGroup: Object {
         }
 
         do {
-            let realm = try Realm()
+            let realm = try Realm(configuration: .deleteIfMigration)
 
             try realm.write {
                 realm.delete(realm.objects(RealmGroup.self))
-                realmGroups.forEach { realm.add($0) }
+                realmGroups.forEach { realm.add($0, update: .modified) }
             }
         } catch {
             print(error)
@@ -54,7 +54,7 @@ final class RealmGroup: Object {
     // MARK: - deleteOutdatedData
     static func deleteData(by id: Int) throws {
         guard
-            let realm = try? Realm(),
+            let realm = try? Realm(configuration: .deleteIfMigration),
             let objectForDelete = realm.objects(RealmGroup.self).first(where: { $0.id == id })
         else { return }
 
@@ -65,10 +65,19 @@ final class RealmGroup: Object {
 
     // MARK: - restoreData
     static func restoreData() throws -> [RealmGroup] {
-        let realm = try Realm()
+        let realm = try Realm(configuration: .deleteIfMigration)
         let objects = realm.objects(RealmGroup.self)
 
         return Array(objects)
+    }
+
+    // MARK: - getData
+
+    static func getData() throws -> Results<RealmGroup>? {
+        let realm = try Realm(configuration: .deleteIfMigration)
+        let objects = realm.objects(RealmGroup.self)
+
+        return objects
     }
 
     // MARK: - realmToGroup

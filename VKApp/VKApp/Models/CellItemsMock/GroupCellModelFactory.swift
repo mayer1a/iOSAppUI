@@ -11,17 +11,11 @@ struct GroupCellModelFactory {
 
     // MARK: - Functions
 
-    func construct(from groupsModel: [Group]) -> [CellViewModel] {
-        return groupsModel.map { userToCellModel($0) }
-    }
+    func construct(from groupModel: Group) -> CellViewModel {
+        let avatarUrl = URL(string: groupModel.avatar)
 
-    // MARK: - Private Functions
-
-    private func userToCellModel(_ group: Group) -> CellViewModel {
-        let avatarUrl = URL(string: group.avatar)
-
-        return CellViewModel(id: group.id,
-                             fullName: group.name,
+        return CellViewModel(id: groupModel.id,
+                             fullName: groupModel.name,
                              avatar: avatarUrl)
     }
 }

@@ -7,11 +7,17 @@
 
 import SwiftUI
 
+// MARK: - FriendsPhotosScreen
+
 struct FriendsPhotosScreen: View {
 
-    // MARK: - State private properties
+    // MARK: - State properties
 
     @State private var itemHeight: CGFloat = 72.0
+
+    // MARK: - Observed properties
+
+    @ObservedObject private var viewModel: UserPhotoViewModel
 
     // MARK: - Private Properties
 
@@ -20,15 +26,16 @@ struct FriendsPhotosScreen: View {
         GridItem(.adaptive(minimum: 72.0)),
         GridItem(.adaptive(minimum: 72.0))
     ]
-
-    private let photos: [UserPhotoMockModel]
-    private let photosCount: Int
+    
+    private let userId: Int
+    private let networkService: NetworkServiceInterface
 
     // MARK: - Construction
     
-    init(photosCount: Int) {
-        self.photosCount = photosCount
-        self.photos = Array(UserPhotosMock.shared.photos[0...self.photosCount])
+    init(by userId: Int, networkService: NetworkService, viewModel: UserPhotoViewModel) {
+        self.userId = userId
+        self.networkService = networkService
+        self.viewModel = viewModel
     }
 
     // MARK: - Properties
@@ -36,10 +43,10 @@ struct FriendsPhotosScreen: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: column, spacing: 10.0) {
-                ForEach(photos) { photo in
+                ForEach(viewModel.detachedPhotos, id: \.id) { photo in
                     GeometryReader { geometry in
-                        PreviewPhotoView(url: photo.id)
-                            .preference(key: HeightPreferenceKey.self, value: geometry.size.width)
+                            PreviewPhotoView(url: URL(string: photo.originalSizeUrl ?? ""))
+                                .preference(key: HeightPreferenceKey.self, value: geometry.size.width)
                     }
                     .clipped()
                     .frame(height: itemHeight)
@@ -52,22 +59,7 @@ struct FriendsPhotosScreen: View {
         }
         .navigationTitle("Фотографии")
         .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-// MARK: - Extension
-
-private extension FriendsPhotosScreen {
-
-    struct HeightPreferenceKey: PreferenceKey {
-        static let defaultValue: CGFloat = 0
-        
-        static func reduce(
-            value: inout CGFloat,
-            nextValue: () -> CGFloat
-        ) {
-            value = max(value, nextValue())
-        }
+        .onAppear(perform: viewModel.fetchPhotos)
     }
 }
 
@@ -104,6 +96,22 @@ struct PreviewPhotoView: View {
             @unknown default:
                 EmptyView()
             }
+        }
+    }
+}
+
+// MARK: - Extension
+
+private extension FriendsPhotosScreen {
+
+    struct HeightPreferenceKey: PreferenceKey {
+        static let defaultValue: CGFloat = 0
+
+        static func reduce(
+            value: inout CGFloat,
+            nextValue: () -> CGFloat
+        ) {
+            value = max(value, nextValue())
         }
     }
 }

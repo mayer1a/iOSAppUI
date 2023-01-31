@@ -11,6 +11,7 @@ import RealmSwift
 final class UserPhotoViewModel: ObservableObject {
 
     // MARK: - Properties
+    let id: Int
 
     let objectWillChange = ObjectWillChangePublisher()
 
@@ -22,8 +23,7 @@ final class UserPhotoViewModel: ObservableObject {
 
     // MARK: - Private properties
 
-    let id: Int
-    let networkService: NetworkServiceInterface
+    private let networkService: NetworkServiceInterface
 
     private var notificationToken: NotificationToken?
 

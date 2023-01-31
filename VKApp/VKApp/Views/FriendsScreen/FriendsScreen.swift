@@ -7,11 +7,15 @@
 
 import SwiftUI
 
+// MARK: - FriendsScreen
+
 struct FriendsScreen: View {
+
+    // MARK: - Properties
 
     var body: some View {
         TabView {
-            ContentView()
+            ContentView(viewModel: FriendsViewModel(networkService: NetworkService()))
                 .tabItem {
                     Label("Друзья", image: .init("friendsIconsSet"))
                 }
@@ -29,30 +33,40 @@ struct FriendsScreen: View {
     }
 }
 
+// MARK: - ContentView
+
 private struct ContentView: View {
 
-    // MARK: - State properties
+    // MARK: - Observed properties
 
-    @State private var cellModel: [GrouppedUserModel] = {
-        let cellModelFactory = UserCellModelFactory()
-
-        let users = UserMockModel.shared.users
-
-        return cellModelFactory.construct(from: users)
-    }()
+    @ObservedObject var viewModel: FriendsViewModel
 
     // MARK: - Private properties
 
-    private let cellModelFactory = UserCellModelFactory()
+    private let cellViewModelFactory = CellViewModelFactory()
+
+    // MARK: - Constructions
+
+    init(viewModel: FriendsViewModel) {
+        self.viewModel = viewModel
+    }
+
+    // MARK: - Properties
 
     var body: some View {
         NavigationView {
             List {
-                ForEach(cellModel) { section in
+                ForEach(viewModel.friends) { section in
+                    let usersViewModel = cellViewModelFactory.construct(section.users)
+
                     Section {
-                        ForEach(section.users) { user in
+                        ForEach(usersViewModel) { user in
                             NavigationLink {
-                                FriendsPhotosScreen(photosCount: Int.random(in: 1..<7))
+                                let viewModel = UserPhotoViewModel(id: user.id,
+                                                                   networkService: NetworkService())
+                                FriendsPhotosScreen(by: user.id,
+                                                    networkService: NetworkService(),
+                                                    viewModel: viewModel)
                             } label: {
                                 Cell(model: user)
                             }
@@ -66,6 +80,7 @@ private struct ContentView: View {
             .navigationTitle("Друзья")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
+            .onAppear(perform: viewModel.fetchFriends)
         }
     }
 }

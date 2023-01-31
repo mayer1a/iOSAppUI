@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-final class LoggingProxy: SessionHelperInterface {
+final class LoggingProxy: NetworkServiceInterface {
 
     // MARK: - Properties
 
@@ -16,13 +16,13 @@ final class LoggingProxy: SessionHelperInterface {
 
     // MARK: - Private properties
 
-    private let sessionHelper: SessionHelperInterface
+    private let sessionHelper: NetworkServiceInterface
     private let logger: Logger
 
     // MARK: - Construction
 
     private init() {
-        self.sessionHelper = SessionHelper()
+        self.sessionHelper = NetworkService()
         self.logger = Logger()
     }
 
@@ -54,4 +54,6 @@ final class LoggingProxy: SessionHelperInterface {
             completion(newsfeed)
         }
     }
+
+    func getPhotos(id: Int, _ completion: @escaping ([Photo]) -> Void) {}
 }

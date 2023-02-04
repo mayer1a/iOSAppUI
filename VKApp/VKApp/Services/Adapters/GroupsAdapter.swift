@@ -18,7 +18,7 @@ final class GroupsAdapter {
 
     // MARK: - Functions
 
-    func getGroups(_ completion: @escaping ([Group], ([Int], [Int], [Int])?) -> Void) {
+    func getGroups(_ completion: @escaping ([Community], ([Int], [Int], [Int])?) -> Void) {
         guard let realm = try? Realm() else { return }
 
         let realmGroups = realm.objects(RealmGroup.self)
@@ -30,7 +30,7 @@ final class GroupsAdapter {
 
             switch changes {
                 case .initial(let realmGroups):
-                var groups: [Group] = []
+                var groups: [Community] = []
 
                 for realmGroup in realmGroups {
                     groups.append(self.realmGroupsToGroups(realmGroup))
@@ -38,7 +38,7 @@ final class GroupsAdapter {
 
                 completion(groups, nil)
                 case .update(let realmGroups, let deletions, let insertions, let modifications):
-                    var groups: [Group] = []
+                    var groups: [Community] = []
 
                     for realmGroup in realmGroups {
                         groups.append(self.realmGroupsToGroups(realmGroup))
@@ -74,7 +74,7 @@ final class GroupsAdapter {
                     print(error)
                 }
             } else {
-                var groups: [Group] = []
+                var groups: [Community] = []
 
                 for realmGroup in realmGroups {
                     groups.append(self.realmGroupsToGroups(realmGroup))
@@ -87,9 +87,9 @@ final class GroupsAdapter {
         }
     }
 
-    func getSearchedGroups(with searchText: String, completion: @escaping ([Group], ([Int], [Int], [Int])?) -> Void) {
+    func getSearchedGroups(with searchText: String, completion: @escaping ([Community], ([Int], [Int], [Int])?) -> Void) {
         if searchText.isEmpty, let realmGroups = try? RealmGroup.restoreData() {
-            var groups: [Group] = []
+            var groups: [Community] = []
 
             for realmGroup in realmGroups {
                 groups.append(self.realmGroupsToGroups(realmGroup))
@@ -115,8 +115,8 @@ final class GroupsAdapter {
 
     // MARK: - Private functionsg
 
-    private func realmGroupsToGroups(_ realmGroup: RealmGroup) -> Group {
-        return Group(id: realmGroup.id,
+    private func realmGroupsToGroups(_ realmGroup: RealmGroup) -> Community {
+        return Community(id: realmGroup.id,
                      name: realmGroup.name,
                      isMember: realmGroup.isMember,
                      avatar: realmGroup.avatar,

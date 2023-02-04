@@ -14,4 +14,5 @@ extension UIColor {
     static let newsTableViewBackgroundColor = UIColor(named: "newsTableViewBackgroundColor")
     static let navigationBarButtonTintColor = UIColor(named: "navigationBarButtonTintColor")
     static let photoLikesForegroundColor = UIColor(named: "photoLikesForegroundColor")
+    static let buttonsBackgroundColor = UIColor(named: "interactionButtonsBackgroundColor")
 }

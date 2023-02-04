@@ -26,13 +26,10 @@ struct FriendsPhotosScreen: View {
         GridItem(.adaptive(minimum: 72.0)),
         GridItem(.adaptive(minimum: 72.0))
     ]
-    
-    private let userId: Int
 
     // MARK: - Construction
     
-    init(by userId: Int, viewModel: UserPhotoViewModel) {
-        self.userId = userId
+    init(viewModel: UserPhotoViewModel) {
         self.viewModel = viewModel
     }
 
@@ -42,12 +39,11 @@ struct FriendsPhotosScreen: View {
         ScrollView {
             LazyVGrid(columns: column, spacing: 10.0) {
                 ForEach(viewModel.detachedPhotos, id: \.id) { photo in
-                    GeometryReader { geometry in
-                            PreviewPhotoView(url: URL(string: photo.originalSizeUrl ?? ""))
-                                .preference(key: HeightPreferenceKey.self, value: geometry.size.width)
+                    ZStack {
+                        getGeometryView(for: photo)
+
+                        LikeView(likesCount: photo.likesCounter ?? 0, isLiked: photo.isLiked ?? false)
                     }
-                    .clipped()
-                    .frame(height: itemHeight)
                 }
             }
             .onPreferenceChange(HeightPreferenceKey.self) {
@@ -59,42 +55,84 @@ struct FriendsPhotosScreen: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: viewModel.fetchPhotos)
     }
+
+    // MARK: - Private functions
+
+    private func getGeometryView(for photo: Photo) -> some View {
+        return GeometryReader { geometry in
+            let photoURL = URL(string: photo.originalSizeUrl ?? "")
+            PreviewPhotoView(url: photoURL)
+                .preference(key: HeightPreferenceKey.self, value: geometry.size.width)
+        }
+        .clipped()
+        .frame(height: itemHeight)
+    }
 }
 
 // MARK: - PreviewPhotoView
 
 struct PreviewPhotoView: View {
 
+    // MARK: - State properties
+
+    @State var isClosed = false
+
     // MARK: - Properties
 
     let url: URL?
 
     var body: some View {
-        AsyncImage(url: url) { phase in
-            switch phase {
-            case .empty:
-                ZStack {
+        ZStack {
+            AsyncImage(url: url) { phase in
+                switch phase {
+                case .empty, .failure:
                     Image("NonAvatar")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
 
-                    ProgressView()
-                        .frame(width: 72, height: 72)
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+
+                @unknown default:
+                    EmptyView()
                 }
-            case .success(let image):
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-
-            case .failure:
-                Image("NonAvatar")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-
-            @unknown default:
-                EmptyView()
+            }
+            .onAppear {
+                isClosed = true
+            }
+            
+            if !isClosed {
+                TimerProgressView(isClosed: $isClosed)
             }
         }
+
+    }
+
+}
+
+struct LikeView: View {
+
+    // MARK: - State propertires
+
+    @State var likesCount: Int
+    @State var isLiked: Bool
+
+    // MARK: - Properties
+
+    var body: some View {
+        VStack {
+            Spacer(minLength: 5)
+
+            HStack {
+                Spacer(minLength: 5)
+                
+                AnimatableLikeView(likesCount: $likesCount, isLiked: $isLiked)
+                    .padding([.bottom, .trailing], 5)
+            }
+        }
+
     }
 }
 

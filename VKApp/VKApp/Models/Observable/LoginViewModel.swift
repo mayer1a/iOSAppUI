@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+final class LoginViewModel: ObservableObject {
+
+    // MARK: - Publisher properties
+    
+    @Published var isAuthorized = false
+}

@@ -76,7 +76,6 @@ private struct ContentView: View {
                 }
             }
             .listStyle(.grouped)
-            .navigationBarBackButtonHidden()
             .navigationBarTitle("Друзья", displayMode: .inline)
             .onAppear(perform: viewModel.fetchFriends)
         }

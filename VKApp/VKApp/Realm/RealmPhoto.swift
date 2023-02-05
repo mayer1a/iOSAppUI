@@ -76,10 +76,10 @@ final class RealmPhoto: Object {
         }
         
         do {
-            let realm = try Realm()
+            let realm = try Realm(configuration: .deleteIfMigration)
             
             try realm.write {
-                realmPhotos.forEach { realm.add($0) }
+                realmPhotos.forEach { realm.add($0, update: .modified) }
             }
         } catch {
             print(error)
@@ -88,7 +88,7 @@ final class RealmPhoto: Object {
     
     // MARK: - deleteData
     static func deleteData(by ownerId: Int) throws {
-        guard let realm = try? Realm() else { return }
+        guard let realm = try? Realm(configuration: .deleteIfMigration) else { return }
         
         let objectForDelete = realm.objects(RealmPhoto.self).filter { $0.ownerId == ownerId }
         
@@ -99,12 +99,24 @@ final class RealmPhoto: Object {
     
     // MARK: - restoreData
     static func restoreData(ownerId: Int) throws -> [RealmPhoto] {
-        let realm = try Realm()
+        let realm = try Realm(configuration: .deleteIfMigration)
         let objects = realm
             .objects(RealmPhoto.self)
             .filter { $0.ownerId == ownerId }
         
         return Array(objects)
+    }
+
+    // MARK: - restoreData
+    
+    static func getData(ownerId: Int) throws -> Results<RealmPhoto>? {
+        let realm = try Realm(configuration: .deleteIfMigration)
+        let objects = realm
+            .objects(RealmPhoto.self)
+            .filter("ownerId == %@", ownerId)
+            
+
+        return objects
     }
     
     // MARK: - realmToPhoto

@@ -122,12 +122,13 @@ extension LoginWebKitViewController: WKNavigationDelegate {
             let token = parameters["access_token"],
             let userIdString = parameters["user_id"],
             let userId = Int(userIdString),
-            let expiresIn = parameters["expires_in"]
+            let expiresInString = parameters["expires_in"],
+            let expiresIn = Int(expiresInString)
         else { return }
 
         KeychainWrapper.standard[.token] = token
         KeychainWrapper.standard[.tokenReceiptTime] = Int(Date().timeIntervalSince1970)
-        KeychainWrapper.standard[.tokenExpiresIn] = Int(expiresIn)
+        KeychainWrapper.standard[.tokenExpiresIn] = expiresIn
         KeychainWrapper.standard[.userId] = userId
 
         Session.shared.token = token

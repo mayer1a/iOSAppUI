@@ -15,9 +15,20 @@ struct CellViewModel: Identifiable {
     let avatar: URL?
 }
 
-// MARK: - GrouppedUserModel
+// MARK: - CellViewModelFactory
 
-struct GrouppedUserModel: Identifiable {
-    var id: Character
-    var users: [CellViewModel]
+struct CellViewModelFactory {
+
+    // MARK: - Functions
+
+    func construct(_ users: [User]) -> [CellViewModel] {
+        let viewModel: [CellViewModel] = users.compactMap { user in
+            let fullName = "\(user.firstName) \(user.lastName)"
+            let avatarUrl = URL(string: user.avatar)
+
+            return CellViewModel(id: user.id, fullName: fullName, avatar: avatarUrl)
+        }
+
+        return viewModel
+    }
 }

@@ -16,13 +16,19 @@ struct LoginScreen: View {
 
     @State private var shouldShowMainView: Bool = false
 
+    // MARK: - Private properties
+
+    private let publisher = NotificationCenter.default.publisher(for: NSNotification.Name("vkTokenSaved"))
+
     // MARK: - Properties
 
     var body: some View {
         NavigationView {
             HStack {
-                ContainerView(isUserLoggedIn: $shouldShowMainView)
-
+                LoginScreenWebKit()
+                    .onReceive(publisher) { _ in
+                        shouldShowMainView = true
+                    }
                 NavigationLink(isActive: $shouldShowMainView) {
                     FriendsScreen()
                         .navigationBarBackButtonHidden(true)

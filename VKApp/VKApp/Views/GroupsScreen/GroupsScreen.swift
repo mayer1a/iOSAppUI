@@ -9,26 +9,33 @@ import SwiftUI
 
 struct GroupsScreen: View {
 
-    // MARK: - State Properties
+    // MARK: - Observed properties
 
-    @State private var cellModel: [CellViewModel] = {
-        let cellModelFactory = GroupCellModelFactory()
+    @ObservedObject private var viewModel: GroupsViewModel
 
-        let groups = GroupMockModel.shared.groups
+    // MARK: - Private properties
 
-        return cellModelFactory.construct(from: groups)
-    }()
+    private let groupCellViewModelFactory = GroupCellModelFactory()
+
+    // MARK: - Constructions
+    
+    init(viewModel: GroupsViewModel) {
+        self.viewModel = viewModel
+    }
 
     // MARK: - Properties
 
     var body: some View {
         NavigationView {
-            List(cellModel) { group in
-                Cell(model: group)
+            List(viewModel.detachedGroups, id: \.id) { group in
+                let groupViewModel = groupCellViewModelFactory.construct(from: group)
+                
+                Cell(model: groupViewModel)
             }
             .listStyle(.plain)
             .navigationBarBackButtonHidden()
             .navigationBarTitle("Группы", displayMode: .inline)
+            .onAppear(perform: viewModel.fetchGroups)
         }
     }
 }

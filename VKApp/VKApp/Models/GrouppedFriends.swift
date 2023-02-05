@@ -8,7 +8,14 @@
 import Foundation
 
 // MARK: - GrouppedFriends
-struct GrouppedFriends {
+
+struct GrouppedFriends: Identifiable {
+    typealias ID = Character
+
+    var id: Character {
+        return character
+    }
+
     var character: Character
     var users: [User]
 }

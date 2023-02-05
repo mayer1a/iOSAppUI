@@ -8,17 +8,18 @@
 import Foundation
 import Alamofire
 
-protocol SessionHelperInterface: AnyObject {
+protocol NetworkServiceInterface: AnyObject {
     var getFriendsRequest: DataRequest? { get }
 
     func getFriends(_ completion: @escaping ([User]) -> Void)
     func getPhotosRequest(id: Int) -> DataRequest?
     func fetchNewsfeed(from specificTime: TimeInterval?, for nextFrom: String?, completion: @escaping ([News]) -> Void)
+    func getPhotos(id: Int, _ completion: @escaping ([Photo]) -> Void)
 }
 
 // MARK: - SessionManager
 
-class SessionHelper: SessionHelperInterface {
+final class NetworkService: NetworkServiceInterface {
     private let currentApiVersion = "5.131"
     private let friendFields = "first_name,photo_100,is_friend,blacklisted"
     
@@ -78,6 +79,34 @@ class SessionHelper: SessionHelperInterface {
         ]
         
         return AF.request(urlComponents)
+    }
+
+    // MARK: - getPhotos
+
+    func getPhotos(id: Int, _ completion: @escaping ([Photo]) -> Void) {
+        let baseUrl = "https://api.vk.com/method/photos.getAll"
+
+        guard var urlComponents = URLComponents(string: baseUrl) else { return }
+
+        urlComponents.queryItems = [
+            URLQueryItem(name: "owner_id", value: "\(id)"),
+            URLQueryItem(name: "extended", value: "1"),
+            URLQueryItem(name: "photo_sizes", value: "1"),
+            URLQueryItem(name: "access_token", value: Session.shared.token),
+            URLQueryItem(name: "v", value: currentApiVersion)
+        ]
+
+        AF.request(urlComponents).response { response in
+            guard let data = response.data else { return }
+
+            do {
+                let photos = try JSONDecoder().decode(PhotoResponse.self, from: data).items
+                completion(photos)
+            } catch {
+                print(error)
+            }
+        }
+
     }
     
     // MARK: - getNewsfeed

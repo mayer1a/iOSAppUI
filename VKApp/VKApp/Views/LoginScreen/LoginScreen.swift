@@ -25,7 +25,7 @@ struct LoginScreen: View {
     var body: some View {
         NavigationView {
             HStack {
-                LoginScreenWebKit()
+                LoginScreenWebKit(isAuthorized: $shouldShowMainView)
                     .onReceive(publisher) { _ in
                         shouldShowMainView = true
                     }

@@ -13,9 +13,12 @@ import SwiftKeychainWrapper
 
 struct LoginScreenWebKit: UIViewRepresentable {
 
+    // MARK: - Binding properties
+
+    @Binding var isAuthorized: Bool
+
     // MARK: - Private properties
-    
-    private let navigationDelegate = WebViewNavigationDelegate()
+
     private let isInfinityTokenDebug = true
 
     private var isTokenValid: Bool {
@@ -36,7 +39,8 @@ struct LoginScreenWebKit: UIViewRepresentable {
 
     // MARK: - Constructions
 
-    init() {
+    init(isAuthorized: Binding<Bool>) {
+        self._isAuthorized = isAuthorized
         checkAuthorization()
     }
 
@@ -44,7 +48,7 @@ struct LoginScreenWebKit: UIViewRepresentable {
 
     func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
-        webView.navigationDelegate = navigationDelegate
+        webView.navigationDelegate = context.coordinator
 
         return webView
     }
@@ -53,6 +57,10 @@ struct LoginScreenWebKit: UIViewRepresentable {
         if let request = buildAuthRequest() {
             uiView.load(request)
         }
+    }
+
+    func makeCoordinator() -> WebViewNavigationDelegate {
+        return WebViewNavigationDelegate(vkLoginWebView: self)
     }
 
     // MARK: - Private functions
@@ -88,20 +96,24 @@ struct LoginScreenWebKit: UIViewRepresentable {
             Session.shared.token = token
             Session.shared.userID = userId
 
-            NotificationCenter.default.post(name: NSNotification.Name("vkTokenSaved"), object: self)
+            isAuthorized = true
         }
-    }
-}
-
-struct LoginScreenWebKit_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginScreenWebKit()
     }
 }
 
 // MARK: - WKNavigationDelegate
 
 final class WebViewNavigationDelegate: NSObject, WKNavigationDelegate {
+
+    // MARK: - Properties
+
+    let vkLoginWebView: LoginScreenWebKit
+
+    // MARK: - Constructions
+
+    init(vkLoginWebView: LoginScreenWebKit) {
+        self.vkLoginWebView = vkLoginWebView
+    }
 
     // MARK: - Functions
 
@@ -149,7 +161,7 @@ final class WebViewNavigationDelegate: NSObject, WKNavigationDelegate {
         Session.shared.token = token
         Session.shared.userID = userId
 
-        NotificationCenter.default.post(name: NSNotification.Name("vkTokenSaved"), object: self)
+        vkLoginWebView.isAuthorized = true
 
         decisionHandler(.cancel)
     }

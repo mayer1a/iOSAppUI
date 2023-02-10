@@ -141,12 +141,18 @@ struct LikeView: View {
 
 struct ItemView: View {
 
+    // MARK: - Binding properties
+
     @Binding var itemHeight: CGFloat
     @Binding var selectionIndex: Int?
+
+    // MARK: - Private properties
 
     private let photo: Photo
     private let cellIndex: Int
     private let itemAtRow: Int = 3
+
+    // MARK: - Constructions
 
     init(itemHeight: Binding<CGFloat>, selectionIndex: Binding<Int?>, photo: Photo, cellIndex: Int) {
         self._itemHeight = itemHeight
@@ -154,6 +160,8 @@ struct ItemView: View {
         self.photo = photo
         self.cellIndex = cellIndex
     }
+
+    // MARK: - Properties
 
     var body: some View {
         ZStack {
@@ -212,7 +220,12 @@ struct SelectionRectangleGeometryEffect: View {
 // MARK: - SelectionPreferenceKey
 
 struct SelectionPreferenceKey: PreferenceKey {
+
+    // MARK: - Properties
+
     static var defaultValue: Anchor<CGRect>? = nil
+
+    // MARK: - Functions
 
     static func reduce(value: inout Anchor<CGRect>?, nextValue: () -> Anchor<CGRect>?) {
         value = value ?? nextValue()
@@ -222,7 +235,12 @@ struct SelectionPreferenceKey: PreferenceKey {
 // MARK: - HeightPreferenceKey
 
 struct HeightPreferenceKey: PreferenceKey {
+
+    // MARK: - Properties
+
     static let defaultValue: CGFloat = 0
+
+    // MARK: - Functions
 
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
         value = max(value, nextValue())

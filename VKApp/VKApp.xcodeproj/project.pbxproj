@@ -20,6 +20,8 @@
 		492A94BD2801AEB40059C9BE /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492A94BC2801AEB40059C9BE /* NewsTableViewController.swift */; };
 		492C372A280345D400BEA637 /* DownloadIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 492C3728280345D400BEA637 /* DownloadIndicatorView.xib */; };
 		492C372C2803476400BEA637 /* DownloadIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C372B2803476400BEA637 /* DownloadIndicatorView.swift */; };
+		493662BB29961D5500B461A0 /* Gradient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493662BA29961D5500B461A0 /* Gradient+Extensions.swift */; };
+		493662BD29961DDF00B461A0 /* LinearGradient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493662BC29961DDF00B461A0 /* LinearGradient+Extensions.swift */; };
 		4942DAF4298FCA9000BC4FB3 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4942DAF3298FCA9000BC4FB3 /* MainCoordinator.swift */; };
 		4942DAF6298FCB2200BC4FB3 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4942DAF5298FCB2200BC4FB3 /* LoginViewModel.swift */; };
 		49437AC628F9644500978439 /* ImageCachingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49437AC528F9644500978439 /* ImageCachingService.swift */; };
@@ -119,6 +121,8 @@
 		492A94BC2801AEB40059C9BE /* NewsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
 		492C3728280345D400BEA637 /* DownloadIndicatorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DownloadIndicatorView.xib; sourceTree = "<group>"; };
 		492C372B2803476400BEA637 /* DownloadIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadIndicatorView.swift; sourceTree = "<group>"; };
+		493662BA29961D5500B461A0 /* Gradient+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Gradient+Extensions.swift"; sourceTree = "<group>"; };
+		493662BC29961DDF00B461A0 /* LinearGradient+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LinearGradient+Extensions.swift"; sourceTree = "<group>"; };
 		4942DAF3298FCA9000BC4FB3 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		4942DAF5298FCB2200BC4FB3 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		49437AC528F9644500978439 /* ImageCachingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCachingService.swift; sourceTree = "<group>"; };
@@ -435,6 +439,8 @@
 				4948481B292123E800389A52 /* UILabel+Extension.swift */,
 				49BE762C294E1BD300AE7E63 /* UIColor+Extensions.swift */,
 				49A77EB929891B3A00E261F1 /* RealmSwift+Extensions.swift */,
+				493662BA29961D5500B461A0 /* Gradient+Extensions.swift */,
+				493662BC29961DDF00B461A0 /* LinearGradient+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -740,6 +746,7 @@
 				49D90B7627DA65BE0048866B /* AppDelegate.swift in Sources */,
 				497A2CEB28195D0C0009AA9A /* AnimationNavigationController.swift in Sources */,
 				490F19D02957043A00EB7951 /* LoggingProxy.swift in Sources */,
+				493662BD29961DDF00B461A0 /* LinearGradient+Extensions.swift in Sources */,
 				49E893712848B8F30027363E /* FirestoreCollections.swift in Sources */,
 				4974AABC2927D7A9009FC7EF /* ShowFullPhotoPresentAnimator.swift in Sources */,
 				49A77EBA29891B3A00E261F1 /* RealmSwift+Extensions.swift in Sources */,
@@ -775,6 +782,7 @@
 				49443150295C6AFA00F98789 /* LoginScreen.swift in Sources */,
 				49A77EB829891A1E00E261F1 /* DetachableObject.swift in Sources */,
 				49E3C50927FB0968001CFED4 /* ShadowView.swift in Sources */,
+				493662BB29961D5500B461A0 /* Gradient+Extensions.swift in Sources */,
 				49E3C50B27FB27B3001CFED4 /* LikeControl.swift in Sources */,
 				491BE65B28311BEA00AED18B /* RealmGroup.swift in Sources */,
 				49793EB227FAFCBB0091478A /* PhotoView.swift in Sources */,

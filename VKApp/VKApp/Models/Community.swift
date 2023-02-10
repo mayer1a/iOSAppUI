@@ -9,7 +9,7 @@ import Foundation
 import PromiseKit
 
 // MARK: - Group
-final class Group: Decodable {
+final class Community: Decodable {
     enum CodingKeys: String, CodingKey {
         case id
         case name
@@ -65,13 +65,13 @@ final class GroupResponse: Decodable {
     }
     
     var count: Int
-    var items: [Group]
+    var items: [Community]
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let responseValue = try container.nestedContainer(keyedBy: RequestKeys.self, forKey: .response)
         
         self.count = try responseValue.decode(Int.self, forKey: .count)
-        self.items = try responseValue.decode([Group].self, forKey: .items)
+        self.items = try responseValue.decode([Community].self, forKey: .items)
     }
 }

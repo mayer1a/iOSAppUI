@@ -11,6 +11,10 @@ import SwiftUI
 
 struct CircleImage: View {
 
+    // MARK: - State properties
+
+    @State var isScaled = false
+
     // MARK: - Private properties
 
     private var content: Image
@@ -30,6 +34,18 @@ struct CircleImage: View {
             .frame(width: 72, height: 72)
             .clipShape(Circle())
             .modifier(CircleShadow())
+            .scaleEffect(isScaled ? 0.75 : 1)
+            .onTapGesture {
+                let animation = Animation
+                    .interpolatingSpring(mass: 1, stiffness: 50, damping: 5, initialVelocity: 10)
+
+                withAnimation(animation) {
+                    self.isScaled.toggle()
+                }
+                withAnimation(animation.delay(1.2)) {
+                    self.isScaled.toggle()
+                }
+            }
     }
 }
 

@@ -31,6 +31,7 @@
 		4948481C292123E800389A52 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4948481B292123E800389A52 /* UILabel+Extension.swift */; };
 		494CD6B828154CAF00250A56 /* CloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494CD6B728154CAF00250A56 /* CloudView.swift */; };
 		494F564A28BD1B160026C80E /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F564928BD1B160026C80E /* News.swift */; };
+		4950115E298E5854008FA4C6 /* AnimatableLikeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4950115D298E5854008FA4C6 /* AnimatableLikeView.swift */; };
 		49625E5428E1DBFD00D81712 /* NewsInteractionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49625E5328E1DBFD00D81712 /* NewsInteractionProtocol.swift */; };
 		4972954B28C2787300720F75 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4972954A28C2787300720F75 /* UIImage+Extensions.swift */; };
 		4974AABA2925493B009FC7EF /* ViewPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4974AAB92925493B009FC7EF /* ViewPresentable.swift */; };
@@ -65,7 +66,7 @@
 		49AD24682843CD21001D4564 /* RealmObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AD24672843CD21001D4564 /* RealmObserver.swift */; };
 		49B4237927F1C2EB0038EABE /* CircularPreviewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4237827F1C2EB0038EABE /* CircularPreviewImageView.swift */; };
 		49B4D3BC2822BDB000AA5801 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4D3BB2822BDB000AA5801 /* User.swift */; };
-		49B4D3BE2822C7F400AA5801 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4D3BD2822C7F400AA5801 /* Group.swift */; };
+		49B4D3BE2822C7F400AA5801 /* Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4D3BD2822C7F400AA5801 /* Community.swift */; };
 		49B4D3C02822CA4B00AA5801 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4D3BF2822CA4B00AA5801 /* Photo.swift */; };
 		49BC8FF2280D76EB005469EA /* FullScreenUserPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC8FF1280D76EB005469EA /* FullScreenUserPhoto.swift */; };
 		49BE762D294E1BD300AE7E63 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BE762C294E1BD300AE7E63 /* UIColor+Extensions.swift */; };
@@ -78,12 +79,10 @@
 		49D4A440296EFBE500A39124 /* GrouppedUsersModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A43F296EFBE500A39124 /* GrouppedUsersModelFactory.swift */; };
 		49D4A443296F008500A39124 /* FriendsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A442296F008500A39124 /* FriendsScreen.swift */; };
 		49D4A446296FFEE600A39124 /* GroupsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A445296FFEE600A39124 /* GroupsScreen.swift */; };
-		49D4A4482970017000A39124 /* GroupMockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A4472970017000A39124 /* GroupMockModel.swift */; };
 		49D4A44A297003DC00A39124 /* GroupCellModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A449297003DC00A39124 /* GroupCellModelFactory.swift */; };
 		49D4A44C2970052800A39124 /* CellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A44B2970052800A39124 /* CellViewModel.swift */; };
 		49D4A44F29700C2A00A39124 /* NewsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A44E29700C2A00A39124 /* NewsScreen.swift */; };
 		49D4A452297024FF00A39124 /* FriendsPhotosScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A451297024FF00A39124 /* FriendsPhotosScreen.swift */; };
-		49D4A4552970412300A39124 /* UserPhotoMockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4A4542970412300A39124 /* UserPhotoMockModel.swift */; };
 		49D90B7627DA65BE0048866B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7527DA65BE0048866B /* AppDelegate.swift */; };
 		49D90B7827DA65BE0048866B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7727DA65BE0048866B /* SceneDelegate.swift */; };
 		49D90B7A27DA65BE0048866B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D90B7927DA65BE0048866B /* LoginViewController.swift */; };
@@ -129,6 +128,7 @@
 		4948481B292123E800389A52 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		494CD6B728154CAF00250A56 /* CloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudView.swift; sourceTree = "<group>"; };
 		494F564928BD1B160026C80E /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
+		4950115D298E5854008FA4C6 /* AnimatableLikeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatableLikeView.swift; sourceTree = "<group>"; };
 		49625E5328E1DBFD00D81712 /* NewsInteractionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsInteractionProtocol.swift; sourceTree = "<group>"; };
 		4972954A28C2787300720F75 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		4974AAB92925493B009FC7EF /* ViewPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPresentable.swift; sourceTree = "<group>"; };
@@ -163,7 +163,7 @@
 		49AD24672843CD21001D4564 /* RealmObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmObserver.swift; sourceTree = "<group>"; };
 		49B4237827F1C2EB0038EABE /* CircularPreviewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularPreviewImageView.swift; sourceTree = "<group>"; };
 		49B4D3BB2822BDB000AA5801 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		49B4D3BD2822C7F400AA5801 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		49B4D3BD2822C7F400AA5801 /* Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Community.swift; sourceTree = "<group>"; };
 		49B4D3BF2822CA4B00AA5801 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		49BC8FF1280D76EB005469EA /* FullScreenUserPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenUserPhoto.swift; sourceTree = "<group>"; };
 		49BE762C294E1BD300AE7E63 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
@@ -176,12 +176,10 @@
 		49D4A43F296EFBE500A39124 /* GrouppedUsersModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrouppedUsersModelFactory.swift; sourceTree = "<group>"; };
 		49D4A442296F008500A39124 /* FriendsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsScreen.swift; sourceTree = "<group>"; };
 		49D4A445296FFEE600A39124 /* GroupsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsScreen.swift; sourceTree = "<group>"; };
-		49D4A4472970017000A39124 /* GroupMockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMockModel.swift; sourceTree = "<group>"; };
 		49D4A449297003DC00A39124 /* GroupCellModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCellModelFactory.swift; sourceTree = "<group>"; };
 		49D4A44B2970052800A39124 /* CellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellViewModel.swift; sourceTree = "<group>"; };
 		49D4A44E29700C2A00A39124 /* NewsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsScreen.swift; sourceTree = "<group>"; };
 		49D4A451297024FF00A39124 /* FriendsPhotosScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsPhotosScreen.swift; sourceTree = "<group>"; };
-		49D4A4542970412300A39124 /* UserPhotoMockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhotoMockModel.swift; sourceTree = "<group>"; };
 		49D90B7227DA65BE0048866B /* VKApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49D90B7527DA65BE0048866B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49D90B7727DA65BE0048866B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -311,7 +309,7 @@
 			children = (
 				49A77EAE2988DD8900E261F1 /* Observable */,
 				49D4A43A296EDFE300A39124 /* CellItemsMock */,
-				49B4D3BD2822C7F400AA5801 /* Group.swift */,
+				49B4D3BD2822C7F400AA5801 /* Community.swift */,
 				492A94B828008DEE0059C9BE /* GrouppedFriends.swift */,
 				494F564928BD1B160026C80E /* News.swift */,
 				49B4D3BF2822CA4B00AA5801 /* Photo.swift */,
@@ -441,10 +439,8 @@
 			isa = PBXGroup;
 			children = (
 				49D4A43F296EFBE500A39124 /* GrouppedUsersModelFactory.swift */,
-				49D4A4472970017000A39124 /* GroupMockModel.swift */,
 				49D4A449297003DC00A39124 /* GroupCellModelFactory.swift */,
 				49D4A44B2970052800A39124 /* CellViewModel.swift */,
-				49D4A4542970412300A39124 /* UserPhotoMockModel.swift */,
 			);
 			path = CellItemsMock;
 			sourceTree = "<group>";
@@ -477,6 +473,7 @@
 			isa = PBXGroup;
 			children = (
 				49D4A451297024FF00A39124 /* FriendsPhotosScreen.swift */,
+				4950115D298E5854008FA4C6 /* AnimatableLikeView.swift */,
 			);
 			path = FriendsPhotosScreen;
 			sourceTree = "<group>";
@@ -702,6 +699,7 @@
 				4948481C292123E800389A52 /* UILabel+Extension.swift in Sources */,
 				49BE7631294F215000AE7E63 /* FriendsPhotoAdapter.swift in Sources */,
 				49625E5428E1DBFD00D81712 /* NewsInteractionProtocol.swift in Sources */,
+				4950115E298E5854008FA4C6 /* AnimatableLikeView.swift in Sources */,
 				492A94B928008DEE0059C9BE /* GrouppedFriends.swift in Sources */,
 				49A77EBC2989380700E261F1 /* GroupsViewModel.swift in Sources */,
 				4984269B27F5FC070078A50C /* SearchGroupTableViewCell.swift in Sources */,
@@ -714,7 +712,6 @@
 				4972954B28C2787300720F75 /* UIImage+Extensions.swift in Sources */,
 				49A77EB6298917F400E261F1 /* UserPhotoViewModel.swift in Sources */,
 				499FE19828C88E97007667E6 /* FetchDataOperation.swift in Sources */,
-				49D4A4482970017000A39124 /* GroupMockModel.swift in Sources */,
 				497A2CED28195DBF0009AA9A /* InteractiveTransitionDriven.swift in Sources */,
 				49B4D3C02822CA4B00AA5801 /* Photo.swift in Sources */,
 				49981BCE28B6708500AECBAB /* NewsImageCell.swift in Sources */,
@@ -746,7 +743,6 @@
 				49B4D3BC2822BDB000AA5801 /* User.swift in Sources */,
 				49E474F92820476B009B519E /* LoginWebKitViewController.swift in Sources */,
 				49BE762D294E1BD300AE7E63 /* UIColor+Extensions.swift in Sources */,
-				49D4A4552970412300A39124 /* UserPhotoMockModel.swift in Sources */,
 				498C292627F34F130058EAE7 /* FriendPhotosCollectionViewController.swift in Sources */,
 				49BE762F294F143E00AE7E63 /* FriendsAdapter.swift in Sources */,
 				49981BD028B670A700AECBAB /* NewsVideoCell.swift in Sources */,
@@ -755,7 +751,7 @@
 				49BE7633294F2A4F00AE7E63 /* GroupsAdapter.swift in Sources */,
 				494CD6B828154CAF00250A56 /* CloudView.swift in Sources */,
 				49437AC628F9644500978439 /* ImageCachingService.swift in Sources */,
-				49B4D3BE2822C7F400AA5801 /* Group.swift in Sources */,
+				49B4D3BE2822C7F400AA5801 /* Community.swift in Sources */,
 				49EE3B5528CCAC0100142FF1 /* GetUserGroups.swift in Sources */,
 				498F321F27F32E1400FE7EC9 /* FriendsTableViewController.swift in Sources */,
 				492C372C2803476400BEA637 /* DownloadIndicatorView.swift in Sources */,

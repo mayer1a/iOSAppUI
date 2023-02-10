@@ -20,8 +20,8 @@ final class SaveRealmOperation<T: Decodable>: Operation {
         case is User.Type:
             guard let users = inputData as? [User] else { return }
             RealmUser.saveData(data: users)
-        case is Group.Type:
-            guard let groups = inputData as? [Group] else { return }
+        case is Community.Type:
+            guard let groups = inputData as? [Community] else { return }
             RealmGroup.saveData(data: groups)
         case is Photo.Type:
             guard let photos = inputData as? [Photo], let ownerId = photos.first?.ownerId else { return }

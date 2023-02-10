@@ -26,7 +26,7 @@ final class RealmGroup: Object {
     var isClosed: Int
 
     // MARK: - saveData
-    static func saveData(data groups: [Group]) {
+    static func saveData(data groups: [Community]) {
         let realmGroups: [RealmGroup] = groups.map { group in
             let realmGroup = RealmGroup()
 
@@ -81,9 +81,9 @@ final class RealmGroup: Object {
     }
 
     // MARK: - realmToGroup
-    static func realmToGroup(from objects: [RealmGroup]) -> [Group] {
+    static func realmToGroup(from objects: [RealmGroup]) -> [Community] {
         let group = objects.map {
-            Group(id: $0.id,
+            Community(id: $0.id,
                   name: $0.name,
                   isMember: $0.isMember,
                   avatar: $0.avatar,

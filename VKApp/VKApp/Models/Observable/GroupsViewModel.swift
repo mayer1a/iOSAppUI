@@ -23,7 +23,7 @@ final class GroupsViewModel: ObservableObject {
 
     let objectWillChange = ObjectWillChangePublisher()
 
-    var detachedGroups: [Group] {
+    var detachedGroups: [Community] {
         let detached = (groups?.map { $0.detached() }) ?? []
 
         return RealmGroup.realmToGroup(from: detached)

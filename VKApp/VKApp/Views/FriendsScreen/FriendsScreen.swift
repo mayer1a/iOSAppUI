@@ -64,8 +64,8 @@ private struct ContentView: View {
                             NavigationLink {
                                 let viewModel = UserPhotoViewModel(id: user.id,
                                                                    networkService: NetworkService())
-                                FriendsPhotosScreen(by: user.id,
-                                                    viewModel: viewModel)
+                                
+                                FriendsPhotosScreen(viewModel: viewModel)
                             } label: {
                                 Cell(model: user)
                             }
@@ -76,9 +76,8 @@ private struct ContentView: View {
                 }
             }
             .listStyle(.grouped)
-            .navigationTitle("Друзья")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
+            .navigationBarBackButtonHidden()
+            .navigationBarTitle("Друзья", displayMode: .inline)
             .onAppear(perform: viewModel.fetchFriends)
         }
     }

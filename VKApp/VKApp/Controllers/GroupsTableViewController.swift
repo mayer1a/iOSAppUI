@@ -15,8 +15,8 @@ final class GroupsTableViewController: UITableViewController {
     private let customSearchView = CustomSearchBarView().loadView()
     private let groupsAdapter = GroupsAdapter()
     private var imageCachingService: ImageCachingService?
-    var myGroups: [Group]?
-    var displayedGroups: [Group]?
+    var myGroups: [Community]?
+    var displayedGroups: [Community]?
 
     // MARK: - viewDidLoad
     override func viewDidLoad() {
@@ -152,7 +152,7 @@ final class GroupsTableViewController: UITableViewController {
     }
 
     // MARK: - setupData
-    private func setupData(from groups: [Group], with changes: ([Int], [Int], [Int])? = nil) {
+    private func setupData(from groups: [Community], with changes: ([Int], [Int], [Int])? = nil) {
         self.myGroups = groups
         self.displayedGroups = groups
 
@@ -189,7 +189,7 @@ final class GroupsTableViewController: UITableViewController {
     }
 
     // MARK: - writeFirebaseData
-    private func writeFirebase(data: [Group]?) {
+    private func writeFirebase(data: [Community]?) {
         guard let usersGroups = data, let userId = Session.shared.userID else { return }
 
         let firebaseFirestore = Firestore.firestore()

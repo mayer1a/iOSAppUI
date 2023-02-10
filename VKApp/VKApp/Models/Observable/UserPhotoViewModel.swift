@@ -11,6 +11,7 @@ import RealmSwift
 final class UserPhotoViewModel: ObservableObject {
 
     // MARK: - Properties
+
     let id: Int
 
     let objectWillChange = ObjectWillChangePublisher()

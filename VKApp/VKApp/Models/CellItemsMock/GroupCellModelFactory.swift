@@ -11,7 +11,7 @@ struct GroupCellModelFactory {
 
     // MARK: - Functions
 
-    func construct(from groupModel: Group) -> CellViewModel {
+    func construct(from groupModel: Community) -> CellViewModel {
         let avatarUrl = URL(string: groupModel.avatar)
 
         return CellViewModel(id: groupModel.id,

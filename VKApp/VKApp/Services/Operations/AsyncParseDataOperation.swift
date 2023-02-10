@@ -21,7 +21,7 @@ final class AsyncParseDataOperation<T: Decodable>: Operation {
             switch T.self {
             case is User.Type:
                 outputData = (try JSONDecoder().decode(UserResponse.self, from: data).items) as? [T]
-            case is Group.Type:
+            case is Community.Type:
                 outputData = (try JSONDecoder().decode(GroupResponse.self, from: data).items) as? [T]
             case is Photo.Type:
                 outputData = (try JSONDecoder().decode(PhotoResponse.self, from: data).items) as? [T]

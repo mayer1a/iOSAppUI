@@ -112,6 +112,8 @@ struct PreviewPhotoView: View {
 
 }
 
+// MARK: - LikeView
+
 struct LikeView: View {
 
     // MARK: - State propertires
@@ -140,13 +142,12 @@ struct LikeView: View {
 
 private extension FriendsPhotosScreen {
 
+    // MARK: - HeightPreferenceKey
+
     struct HeightPreferenceKey: PreferenceKey {
         static let defaultValue: CGFloat = 0
 
-        static func reduce(
-            value: inout CGFloat,
-            nextValue: () -> CGFloat
-        ) {
+        static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
             value = max(value, nextValue())
         }
     }

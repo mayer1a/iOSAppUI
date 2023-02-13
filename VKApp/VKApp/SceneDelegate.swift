@@ -32,6 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = mainCoordinator?.navigationController
+        window.tintColor = .systemBlue
 
         self.window = window
         self.window?.makeKeyAndVisible()

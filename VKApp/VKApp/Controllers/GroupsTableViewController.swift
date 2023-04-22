@@ -13,11 +13,10 @@ import PromiseKit
 // MARK: UITableViewController
 final class GroupsTableViewController: UITableViewController {
     private let customSearchView = CustomSearchBarView().loadView()
-    private let getGroupsPromise = GetUserGroups()
+    private let groupsAdapter = GroupsAdapter()
     private var imageCachingService: ImageCachingService?
-    private var realmNotification: NotificationToken?
-    var myGroups: [Group]?
-    var displayedGroups: [Group]?
+    var myGroups: [Community]?
+    var displayedGroups: [Community]?
 
     // MARK: - viewDidLoad
     override func viewDidLoad() {
@@ -25,7 +24,6 @@ final class GroupsTableViewController: UITableViewController {
 
         imageCachingService = ImageCachingService(from: self.tableView)
         customSearchViewConfiguration()
-        makeObserver()
         dataValidityCheck()
     }
 
@@ -146,54 +144,17 @@ final class GroupsTableViewController: UITableViewController {
         updateDisplayedGroups(searchText: inputText)
     }
 
-    // MARK: - makeObserver
-    private func makeObserver() {
-        self.realmNotification = RealmObserver.shared.makeObserver { (groups: [RealmGroup], changes) in
-            DispatchQueue.main.async { [weak self] in
-                self?.setupData(from: groups, with: changes)
-//                self?.writeFirebase(data: self?.myGroups)
-            }
-        }
-    }
-
     // MARK: - dataValidityCheck
     private func dataValidityCheck() {
-        var groups = [RealmGroup]()
-        let userDefaults = UserDefaults.standard
-        let currentTime = Int(Date().timeIntervalSince1970)
-
-        do {
-            groups = try RealmGroup.restoreData()
-        } catch {
-            print(error)
-        }
-
-        guard
-            currentTime - userDefaults.integer(forKey: "groupsLastLoad") > 0 || groups.isEmpty
-        else {
-            self.setupData(from: groups)
-            return
-        }
-
-        firstly {
-            self.getGroupsPromise.fetchUserGroups()
-        }.compactMap(on: DispatchQueue.global()) { [weak self] data in
-            self!.getGroupsPromise.parseGroups(data: data)
-        }.compactMap(on: DispatchQueue.global()) { groupResponse in
-            groupResponse.value?.items
-        }.done(on: DispatchQueue.global()) { groups in
-            userDefaults.set(currentTime, forKey: "groupsLastLoad")
-            RealmGroup.saveData(data: groups)
-        }.catch { error in
-            print(error)
+        groupsAdapter.getGroups { [weak self] (groups, changes) in
+            self?.setupData(from: groups, with: changes)
         }
     }
 
     // MARK: - setupData
-    private func setupData(from groups: [RealmGroup], with changes: ([Int], [Int], [Int])? = nil) {
-        let myGroups = RealmGroup.realmToGroup(from: groups)
-        self.myGroups = myGroups
-        self.displayedGroups = myGroups
+    private func setupData(from groups: [Community], with changes: ([Int], [Int], [Int])? = nil) {
+        self.myGroups = groups
+        self.displayedGroups = groups
 
         guard
             let changes = changes
@@ -228,7 +189,7 @@ final class GroupsTableViewController: UITableViewController {
     }
 
     // MARK: - writeFirebaseData
-    private func writeFirebase(data: [Group]?) {
+    private func writeFirebase(data: [Community]?) {
         guard let usersGroups = data, let userId = Session.shared.userID else { return }
 
         let firebaseFirestore = Firestore.firestore()
@@ -288,23 +249,8 @@ final class GroupsTableViewController: UITableViewController {
 
     // MARK: - updateDisplayedGroups
     private func updateDisplayedGroups(searchText: String) {
-        if searchText.isEmpty, let myGroups = try? RealmGroup.restoreData() {
-            setupData(from: myGroups)
-        } else {
-            firstly {
-                getGroupsPromise.fetchSearchedGroups(by: searchText)
-            }.compactMap(on: DispatchQueue.global()) { [weak self] data in
-                self?.getGroupsPromise.parseGroups(data: data)
-            }.compactMap(on: DispatchQueue.global()) { groupsResponse in
-                groupsResponse.value?.items
-            }.compactMap(on: DispatchQueue.global()) { groups in
-                groups.filter { $0.name.lowercased().contains(searchText.lowercased()) }
-            }.done(on: DispatchQueue.main) { [weak self] groups in
-                self?.displayedGroups = groups
-                self?.tableView.reloadData()
-            }.catch { error in
-                print(error)
-            }
+        groupsAdapter.getSearchedGroups(with: searchText) { [weak self] (groups, changes) in
+            self?.setupData(from: groups)
         }
     }
 }

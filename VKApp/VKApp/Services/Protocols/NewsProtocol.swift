@@ -15,6 +15,6 @@ protocol NewsProtocol {
 // MARK: - NewsCellTypeDataProtocol
 protocol NewsCellTypeDataProtocol {
     var userOwner: User? { get }
-    var groupOwner: Group? { get }
+    var groupOwner: Community? { get }
     var newsBody: NewsBody { get }
 }

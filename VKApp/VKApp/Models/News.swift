@@ -233,7 +233,7 @@ final class NewsResponse: Decodable {
     func parseData(data: Data, completion: @escaping ([News]) -> Void) {
         DispatchQueue.global().async {
             var newsBodies = [NewsBody]()
-            var newsGroups = [Group]()
+            var newsGroups = [Community]()
             var newsUsers = [User]()
             
             let dispatchGroup = DispatchGroup()
@@ -269,7 +269,7 @@ final class NewsResponse: Decodable {
                 dispatchGroup.leave()
             }
             
-            self.asyncParse(data: groupsData) { (model: [Group]) in
+            self.asyncParse(data: groupsData) { (model: [Community]) in
                 newsGroups = model
                 dispatchGroup.leave()
             }
@@ -361,7 +361,7 @@ final class News {
     }
     
     let userOwner: User?
-    let groupOwner: Group?
+    let groupOwner: Community?
     var newsBody: NewsBody
     
     var postType: Kind? {
@@ -398,7 +398,7 @@ final class News {
         self.groupOwner = nil
     }
     
-    init(_ group: Group?, newsBody: NewsBody) {
+    init(_ group: Community?, newsBody: NewsBody) {
         self.groupOwner = group
         self.newsBody = newsBody
         self.userOwner = nil
